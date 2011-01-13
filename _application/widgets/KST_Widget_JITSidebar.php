@@ -1,5 +1,10 @@
 <?php
 /**
+ * Parent class
+ */
+require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget.php';
+
+/**
  * WordPress Widget Class to trigger JIT (just-in-time) floating sidebar
  * 
  * @author		zoe somebody
@@ -10,15 +15,14 @@
  * @subpackage  KitchenSinkWidgetClasses
  * @version     0.1 
  */
- 
-class KSTWidgetJITSidebar extends WP_Widget {
+class KST_Widget_JITSidebar extends KST_Widget {
     /**
      * Widget constructor
      * 
      * @since 0.1
      * @uses WP_Widget()
      */
-    function KSTWidgetJITSidebar() {
+    function KST_Widget_JITSidebar() {
         $widget_ops = array('classname' => 'widget_jit_sidebar', 'description' => __( "Any widget BELOW this widget will magically float down the page as you scroll when it reaches the top of the window.") );
         parent::WP_Widget(false, $name = 'Theme: JIT Sidebar Start', $widget_ops);	
     }
@@ -65,10 +69,10 @@ class KSTWidgetJITSidebar extends WP_Widget {
         <?php 
     }
 
-} // class KSTWidgetNavPost
+} // class KST_Widget_NavPost
 
-// register KSTWidgetNavPost widget
-add_action('widgets_init', create_function('', 'return register_widget("KSTWidgetJITSidebar");'));
+// register KST_Widget_NavPost widget
+add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_JITSidebar");'));
 
 /**
  * Print styles and scripts only if we need them

@@ -1,5 +1,10 @@
 <?php
 /**
+ * Parent class
+ */
+require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget.php';
+
+/**
  * WordPress Widget Class to show next/previous post buttons in dynamic sidebar
  * 
  * @author		zoe somebody
@@ -10,15 +15,14 @@
  * @subpackage  KitchenSinkWidgetClasses
  * @version 0.1 
  */
-
-class KSTWidgetNavPost extends WP_Widget {
+class KST_Widget_NavPost extends KST_Widget {
     /**
      * Widget constructor
      * 
      * @since 0.1
      * @uses WP_Widget()
      */
-    function KSTWidgetNavPost() {
+    function KST_Widget_NavPost() {
         $widget_ops = array('classname' => 'widget_theme_nav_post clearfix', 'description' => __( "Displays Next/Previous post buttons for post to post navigation. Will only show if a single post is being displayed and there is a next or previous post to go to.") );
         //$control_ops = array('width' => 300, 'height' => 300);
         parent::WP_Widget(false, $name = 'Theme: Next/Previous buttons', $widget_ops);	
@@ -100,8 +104,8 @@ class KSTWidgetNavPost extends WP_Widget {
         <?php 
     }
 
-} // class KSTWidgetNavPost
+} // class KST_Widget_NavPost
 
-// register KSTWidgetNavPost widget
-add_action('widgets_init', create_function('', 'return register_widget("KSTWidgetNavPost");'));
+// register KST_Widget_NavPost widget
+add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_NavPost");'));
 ?>

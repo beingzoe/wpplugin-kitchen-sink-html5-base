@@ -1,5 +1,10 @@
 <?php
 /**
+ * Parent class
+ */
+require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget.php';
+
+/**
  * WordPress Widget Class to show older/newer paged posts buttons in dynamic sidebar
  * 
  * @package WordPress
@@ -8,14 +13,14 @@
  * @since kitchenSink theme Version 0.3
  * @author zoe somebody http://beingzoe.com/zui/
  */
-class KSTWidgetNavPosts extends WP_Widget {
+class KST_Widget_NavPosts extends KST_Widget {
     /**
      * Widget constructor
      * 
      * @since 0.1
      * @uses WP_Widget()
      */
-    function KSTWidgetNavPosts() {
+    function KST_Widget_NavPosts() {
         $widget_ops = array('classname' => 'widget_theme_nav_posts clearfix', 'description' => __( "Displays Older/Newer buttons for paged posts navigation. Will only show on blog index or archive with &gt; 1 page of results. ") );
         //$control_ops = array('width' => 300, 'height' => 300);
         parent::WP_Widget(false, $name = 'Theme: Older/Newer buttons', $widget_ops);	
@@ -103,8 +108,8 @@ class KSTWidgetNavPosts extends WP_Widget {
         <?php 
     }
 
-} // class KSTWidgetNavPosts
+} // class KST_Widget_NavPosts
 
-// register KSTWidgetNavPosts widget
-add_action('widgets_init', create_function('', 'return register_widget("KSTWidgetNavPosts");'));
+// register KST_Widget_NavPosts widget
+add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_NavPosts");'));
 ?>
