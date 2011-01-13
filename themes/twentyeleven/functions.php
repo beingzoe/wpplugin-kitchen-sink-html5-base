@@ -37,7 +37,7 @@
     ));
     
     
-    /* Only needed if you are using the built-in KST_OPTIONS CLASS (make whatever options you like */
+    /* Only needed if you are using the built-in KST_Options CLASS (make whatever options you like */
     $theme_options = array (
             // Layout options
             array(  "name"      => __('Layout'),
@@ -83,11 +83,11 @@
     /* KST_OPTIONs
      * Uses your $theme_options array(s) to create admin menus/pages 
      */ 
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/KST_OPTIONS.php';
+    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/KST_Options.php';
     /* Add your menus/pages */ 
-    $kst_options = new KST_OPTIONS(THEME_ID, THEME_NAME, 'theme_options', 'top', 'Theme Options');
-    $more_options = new KST_OPTIONS(THEME_ID, THEME_NAME, 'theme_options2', $kst_options, 'More Options', 'My CUSTOM page TITLE');
-    $more_options2 = new KST_OPTIONS(THEME_ID, THEME_NAME, 'theme_options2', $kst_options, 'More Options2', 'Important Settings');
+    $kst_options = new KST_Options(THEME_ID, THEME_NAME, 'theme_options', 'top', 'Theme Options');
+    $more_options = new KST_Options(THEME_ID, THEME_NAME, 'theme_options2', $kst_options, 'More Options', 'My CUSTOM page TITLE');
+    $more_options2 = new KST_Options(THEME_ID, THEME_NAME, 'theme_options2', $kst_options, 'More Options2', 'Important Settings');
     
     /* KST SEO and META DATA */
     require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_theme_meta_data.php'; // SEO and other meta data built-in; Dependent on theme_options;
@@ -126,13 +126,13 @@
     
     /**
      * @uses    TEMPLATEPATH
-     * @uses    KST_ASIDE_ASIDES class
-     * @uses    KST_OPTIONS class
+     * @uses    KST_Asides class
+     * @uses    KST_Options class
      */
     if ( !is_admin() ) {
-        /* Load and use KST_ASIDE_ASIDES class to manage asides side blog */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/KST_ASIDE_ASIDES.php'; // Class to save aside post for clean delayed output
-        $loop_asides = new KST_ASIDE_ASIDES( $kst_options->get_option('layout_category_aside') );
+        /* Load and use KST_Asides class to manage asides side blog */
+        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/KST_Asides.php'; // Class to save aside post for clean delayed output
+        $loop_asides = new KST_Asides( $kst_options->get_option('layout_category_aside') );
     }
 
     
