@@ -42,7 +42,7 @@ add_action('wp', 'kst_jit_init');
  * @uses        WPAlchemy_MetaBox
  */
 global $kst_mb_jit_message;
-require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/METABOX.php'; // WP admin meta boxes
+require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/WPAlchemy_MetaBox.php'; // WP admin meta boxes
 $kst_mb_jit_message = new WPAlchemy_MetaBox( array (
     'id' => '_kst_jit_message',
     'title' => 'JIT (Just-in-Time) Message Box',

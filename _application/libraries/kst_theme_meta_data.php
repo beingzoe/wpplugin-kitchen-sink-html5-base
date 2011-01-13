@@ -24,7 +24,7 @@
  * @version     0.3
  * @since       0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
- * @uses        KST_OPTIONS class
+ * @uses        KST_Options class
  * @uses        $
  * @todo        convert to class
  * @todo        protect merging our options with the theme options if $theme_options is not an array
@@ -34,7 +34,7 @@
  */
 
 /* Requires kst_options; Don't do anything if the options don't exist */
-if ( !class_exists('KST_OPTIONS') ) return;
+if ( !class_exists('KST_Options') ) return;
 
 /**
  * Instantiate WPAlchemy_MetaBox class
@@ -44,7 +44,7 @@ if ( !class_exists('KST_OPTIONS') ) return;
  * @uses        WPAlchemy_MetaBox
  */
 global $theme_options, $kst_mb_meta_data, $kst_options;
-require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/METABOX.php'; // WP admin meta boxes
+require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/WPAlchemy_MetaBox.php'; // WP admin meta boxes
 $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
     'id' => '_kst_wp_meta_data',
     'title' => 'SEO &amp; Meta Data',
