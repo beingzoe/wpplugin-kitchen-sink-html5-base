@@ -16,38 +16,59 @@ License:        MIT
  * @subpackage  KitchenSinkPlugin
  */
  
-class KST_HTML5_BASE {
-    
-    public function __construct() {
-        
-        global $theme_name, $theme_id, $theme_developer, $theme_developer_url;
-        
-        /* CONSTANTS 
-         *       THEME_NAME
-         *       THEME_ID
-         *       THEME_DEVELOPER
-         *       THEME_DEVELOPER_URL
-         *       THEME_HELP_URL
-         *       THEME_OPTIONS_URL 
-         */
-        define( 'THEME_NAME_CURRENT',    get_current_theme() );
-        define( 'THEME_NAME',            ( !isset($theme_name) )                 ? 'Kitchen Sink'        : $theme_name );
-        define( 'THEME_ID',              ( !isset($theme_id) )                   ? 'kst_0_2'             : $theme_id );
-        define( 'THEME_DEVELOPER',       ( !isset($theme_developer) )            ? 'zoe somebody'        : $theme_developer );
-        define( 'THEME_DEVELOPER_URL',   ( !isset($theme_developer_url) )        ? 'kst_0_2'             : $theme_developer_url );
-        define( 'THEME_HELP_URL',        "themes.php?page=" . THEME_ID . "_help" ); // path to theme help file
-        define( 'THEME_OPTIONS_URL',     "themes.php?page=" . THEME_ID . "_options" ); // path to theme options
-        
-        if ( !isset($content_width) )           $content_width          = 500; // WP width used to protect layout by limiting content width; WP best practice
-        if ( !isset($theme_excerpt_length) )    $theme_excerpt_length   = 100; // Override default WP excerpt length; Used by kst_excerpt_length() filter
-    }
-    
-    public function load() {
-        
-    }
+/**
+ * kst_theme_init
+ * Define contstants used throughout KST
+ *
+ * @param $options array
+ * @see THEME_NAME_CURRENT
+ * @see THEME_ID
+ * @see THEME_DEVELOPER
+ * @see THEME_DEVELOPER_URL
+ * @see THEME_HELP_URL path to theme help file
+ * @see THEME_OPTIONS_URL
+ * @see CONTENT_WIDTH
+ * @see THEME_EXCERPT_LENGTH
+ * @global $content_width WP width used to protect layout by limiting content width; WP best practice
+ * @global $theme_excerpt_length Override default WP excerpt length; Used by kst_excerpt_length() filter
+ */
+function kst_theme_init($options) {
+    global $content_width, $theme_excerpt_length;
 
+    $default_options = array(
+        'theme_name' => 'Kitchen Sink',
+        'theme_id' => 'kst_0_2',
+        'theme_developer' => 'zoe somebody',
+        'theme_developer_url' => 'kst_0_2',
+        'content_width' => 500,
+        'theme_excerpt_length' => 100
+    );
+    $options = array_merge( $default_options, $options );
+
+    /**#@+
+     * KST theme settings constant
+     */
+    define( 'THEME_NAME_CURRENT',    get_current_theme() );
+    define( 'THEME_NAME',            $options['theme_name'] );
+    define( 'THEME_ID',              $options['theme_id'] );
+    define( 'THEME_DEVELOPER',       $options['theme_developer'] );
+    define( 'THEME_DEVELOPER_URL',   $options['theme_developer_url'] );
+    define( 'THEME_HELP_URL',        "themes.php?page=" . THEME_ID . "_help" ); // path to theme help file
+    define( 'THEME_OPTIONS_URL',     "themes.php?page=" . THEME_ID . "_options" ); // path to theme options
+    /**
+     * WP width used to protect layout by limiting content width; WP best practice
+     */
+    define( 'CONTENT_WIDTH',          $options['content_width'] );
+    /**
+     * Override default WP excerpt length; Used by kst_excerpt_length() filter
+     * @see kst_excerpt_length()
+     */
+    define( 'THEME_EXCERPT_LENGTH',   $options['theme_excerpt_length'] );
+    /**#@-*/
+
+    $content_width = CONTENT_WIDTH;
+    $theme_excerpt_length = THEME_EXCERPT_LENGTH;
 }
-
         
 
 /**
