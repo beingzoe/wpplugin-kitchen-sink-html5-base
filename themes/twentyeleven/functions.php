@@ -27,17 +27,14 @@
 /* SETTINGS
  * Various required data for KST 
  */
-    $theme_name             = "Kitchen Sink Demo";      //required; friendly name used by all widgets, libraries, and classes
-    $theme_id               = "ksd_0_1";                //required; Prefix for namespacing libraries, classes, widgets
-    $theme_developer        = "zoe somebody";           //required; friendly name of current developer; only used for admin display;
-    $theme_developer_url    = "http://beingzoe.com/";   //required; full URI to developer website;
-    
-    /* WP required */
-    $content_width          = 600; // required; maximum width of images in posts; For theme design compliance and WP best practice
-    
-    /* Things that need put into the plugin */
-    $kst_meta_title_sep_default       = "&laquo;";
-    $theme_excerpt_length   = 100; //
+    kst_theme_init(array(
+        'theme_name'            => "Kitchen Sink Demo",      //required; friendly name used by all widgets, libraries, and classes
+        'theme_id'              => "ksd_0_1",                //required; Prefix for namespacing libraries, classes, widgets
+        'theme_developer'       => "zoe somebody",           //required; friendly name of current developer; only used for admin display;
+        'theme_developer_url'   => "http://beingzoe.com/",   //required; full URI to developer website;
+        'content_width'         => 600, // required; maximum width of images in posts; For theme design compliance and WP best practice
+        'theme_excerpt_length'  => 100
+    ));
     
     
     /* Only needed if you are using the built-in KST_OPTIONS CLASS (make whatever options you like */
