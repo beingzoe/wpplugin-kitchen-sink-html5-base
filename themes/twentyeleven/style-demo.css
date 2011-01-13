@@ -1,0 +1,140 @@
+
+/* DELETE BEFORE USING kitchenSink theme demo */
+    /**
+     * RESET
+     */
+        body {
+            font-family: 'TeX Gyre Adventor';
+            text-rendering: optimizeLegibility;
+        }
+        html > body { font-size: 14px !important; }
+        /* block */
+        /* text */
+        /* tables */
+        /* forms */
+        
+    #doc {
+        position: relative;
+        width: 980px;
+        margin: 0 auto;
+    }
+    #hd {
+        margin: 0 0 36px;
+        padding: 18px;
+        background: #ccc none 0 0 repeat;
+        z-index: 99;
+    }
+    #bd {
+        float: left;
+        width: 680px;
+        margin: 0 0 36px;
+        padding: 0 18px 18px;
+    }
+    #sb {
+        float: right;
+        position: relative;
+        width: 208px;
+        margin: 0 0 36px;
+        padding: 18px;
+        background: #ccc none 0 0 repeat;
+        font-size: 11px; 
+        line-height: 18px;
+    }
+    #ft {
+        clear: both;
+        height: 100px;
+        left: 0;
+        bottom: 0;
+        margin: 0;
+        padding: 18px;
+        background: #ccc none 0 0 repeat;
+    }
+    
+    /* hd layout */
+    #hd_logo { 
+        
+    }
+    #hd_menu {
+        
+    }
+    
+    /* ft layout */
+    #ft_menu {
+        text-align: center;
+    }
+    #ft_menu ul {
+        margin: 0 auto;
+        padding: 0;
+        font-size: 10px;
+        list-style-type: none;
+    }
+    #ft_menu ul li {
+        display: inline;
+        margin-right: 20px;
+    }
+    #ft_legal {
+        margin: 18px 18px 36px;
+        text-align: center;
+        font-size: 10px;
+    }
+    
+    /* custom layouts/templates */
+    .attachment #bd {
+        width: 944px;
+    }
+    
+    /**
+     * WordPress
+     */
+    h1.wp_loop_date { 
+        margin-bottom: 36px;
+        margin-left: -18px;
+        padding-left: 18px;
+        background: #ccc none 0 0 no-repeat;
+    }
+    div.post + h1.wp_loop_date { margin-top: 72px; }
+    #hd h1 { /*text-shadow: 0 0 5px #ddd;*/ }
+    #sb h3 {
+        /*text-shadow: 0 0 3px #ddd;*/
+    }
+    .hentry  h1, .hentry   h2 {
+        /*text-shadow: 0 0 3px #ccc;*/
+    }
+    
+    /* WP Gallery: special layout for posts in 'gallery' category in loop */
+    .category-gallery {
+        margin-bottom: 48px;
+    }
+    .category-gallery h2 {
+        margin-top: 10px;
+    }
+    .category-gallery .entry-meta {
+    }
+    .category-gallery .size-thumbnail img {
+        border: 10px solid #f1f1f1;
+        margin-bottom: 0;
+    }
+    .category-gallery .gallery-thumb {
+        float: left;
+        margin-right:20px;
+        margin-top: -4px;
+    }
+    .home #content .category-gallery .entry-content p {
+        display: inline;
+    }
+    .home #content .category-gallery .entry-utility {
+        padding-top:4px;
+    }
+    
+    @font-face {
+        font-family: 'TeX Gyre Adventor';
+        src: url('_assets/fonts/tex-gyre-adventor-regular.eot');
+        src: local('://'), url('_assets/fonts/tex-gyre-adventor-regular.svg#texgyreadventor-regular') format('svg'), url('_assets/fonts/tex-gyre-adventor-regular.woff') format('woff'),  url('_assets/fonts/tex-gyre-adventor-regular.otf') format('opentype');
+    }
+    @font-face {
+        font-family: 'TeX Gyre Adventor';
+        font-weight: bold;	
+        src: url('_assets/fonts/tex-gyre-adventor-bold.eot');
+        src: local('://'), url('_assets/fonts/tex-gyre-adventor-bold.svg#texgyreadventor-bold') format('svg'), url('_assets/fonts/tex-gyre-adventor-bold.woff') format('woff'),  url('_assets/fonts/tex-gyre-adventor-bold.otf') format('opentype');
+    }
+    

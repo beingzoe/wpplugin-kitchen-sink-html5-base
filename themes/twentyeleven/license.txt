@@ -1,0 +1,6 @@
+This theme is a "base" theme used to create new custom themes.
+The base theme is called "Kitchen Sink".
+
+The Kitchen Sink theme is GPL licensed as indicated in the style.css header.
+
+Any theme built using the Kitchen Sink theme should use the same license unless it is a custom client theme not intended for distribution.

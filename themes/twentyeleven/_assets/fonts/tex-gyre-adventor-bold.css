@@ -1,0 +1,22 @@
+/* KERNEST.COM WEB FONT CSS GENERATED FOR tex-gyre-adventor-bold */
+
+/* 
+TeX Gyre Adventor Bold 
+ 
+Foundry: Gust E Foundry, http://www.gust.org.pl/projects-1/e-foundry 
+Contributors: J.M. Nowacki, Valek Filippov, and Han The Thanh 
+License: GUST Font License, http://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt 
+*/
+
+@font-face {
+	font-family: 'TeX Gyre Adventor';
+	font-weight: bold;	
+	src: url('fonts/tex-gyre-adventor-bold.eot');
+	src: local('://'), url('fonts/tex-gyre-adventor-bold.svg#texgyreadventor-bold') format('svg'), url('fonts/tex-gyre-adventor-bold.woff') format('woff'),  url('fonts/tex-gyre-adventor-bold.otf') format('opentype');
+ }
+.tex-gyre-adventor-bold {
+ font-family: 'TeX Gyre Adventor';
+font-weight: bold;
+line-height: 140%;
+text-rendering: optimizeLegibility;}
+
