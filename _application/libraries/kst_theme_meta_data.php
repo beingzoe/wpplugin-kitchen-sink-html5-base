@@ -406,17 +406,17 @@ function kst_filter_body_class($classes, $class) {
 add_filter('body_class','kst_filter_body_class', 10, 2);
 
 
-    /**
-     * kst_theme_help entry
-     *
-     * See kst_theme_help
-     * Help content for zui based theme_help.php
-     */
-    function kst_theme_help_meta_data($part) {
-        if ( $part == 'toc' )
-            $output = "<li><a href='#seo'>SEO, meta tags, and Analytics</a></li>";
-        else 
-            $output = 
+/**
+ * kst_theme_help entry
+ *
+ * See kst_theme_help
+ * Help content for zui based theme_help.php
+ */
+function kst_theme_help_meta_data($part) {
+    if ( $part == 'toc' )
+        $output = "<li><a href='#seo'>SEO, meta tags, and Analytics</a></li>";
+    else 
+        $output = 
 <<< EOD
 <h2 id="seo">SEO, meta tags, and Analytics</h2>
 
@@ -488,7 +488,6 @@ How to use these are explained in detail on the "Appearance &gt; Theme Options" 
 <br /><br /><br />
 EOD;
     
-        return $output;
-    }
+    return $output;
+}
 
-?>

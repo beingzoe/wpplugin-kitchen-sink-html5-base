@@ -71,4 +71,4 @@ function kst_theme_help_page() {
 
     echo "</div>"; //.wrap
 }
-?>
+

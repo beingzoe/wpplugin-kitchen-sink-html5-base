@@ -63,9 +63,9 @@ add_filter( 'attachment_link', 'kst_fullsize_attachment_link', 10, 2 );
  */                                    
 /*
 function add_lighbox_rel( $attachment_link ) {
-	if( strpos( $attachment_link , 'href') != false && strpos( $attachment_link , '<img') != false )
-		$attachment_link = str_replace( 'href' , 'rel="attachment_link" href' , $attachment_link );
-	return $attachment_link;
+    if( strpos( $attachment_link , 'href') != false && strpos( $attachment_link , '<img') != false )
+        $attachment_link = str_replace( 'href' , 'rel="attachment_link" href' , $attachment_link );
+    return $attachment_link;
 }
 add_filter( 'wp_get_attachment_link' , 'add_lighbox_rel' );
 */
@@ -106,4 +106,3 @@ EOD;
     return $output;
 }
 
-?>

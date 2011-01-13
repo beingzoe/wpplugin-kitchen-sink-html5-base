@@ -92,4 +92,3 @@ function print_jit_message_scripts() {
         echo '<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_sidebar) { $(this).jit_sidebar(); }; });</script>';
 }
 
-?>

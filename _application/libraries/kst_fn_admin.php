@@ -122,5 +122,4 @@ if ( !function_exists('kst_admin_dashboard_theme_support') ) {
         echo "<p>Need more help?<br />Contact the developer, <a href='" . THEME_DEVELOPER_URL . "'>" . THEME_DEVELOPER . "</a>.";
     }
 }
- 
-?>
+

@@ -846,3 +846,4 @@ class KST_Options {
     }
     
 }
+

@@ -111,9 +111,9 @@ add_filter('the_content', 'kst_shortcode_cyclabes_output', 11);
  * This also has to globalize it's own variables until it is converted to a class
  */
 function kst_shortcode_cycle_class($atts, $content = null) {
-	
-	if ( !$content )
-	    return false; //nothing to do
+    
+    if ( !$content )
+        return false; //nothing to do
     
     global $post;
     
@@ -122,12 +122,12 @@ function kst_shortcode_cycle_class($atts, $content = null) {
     global ${"$this_set"};
     
     if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["class"][] = $content;
-	    add_action('wp_footer', 'print_cycle_scripts');
-	    return "cyclable_placeholder";
-	}
-	
-	${"$this_set"}["class"][] = $content;
+        ${"$this_set"}["class"][] = $content;
+        add_action('wp_footer', 'print_cycle_scripts');
+        return "cyclable_placeholder";
+    }
+    
+    ${"$this_set"}["class"][] = $content;
 }
 
 /**
@@ -145,9 +145,9 @@ function kst_shortcode_cycle_class($atts, $content = null) {
  * This also has to globalize it's own variables until it is converted to a class
  */
 function kst_shortcode_cycle_header($atts, $content = null) {
-	
-	if ( !$content )
-	    return false; //nothing to do
+    
+    if ( !$content )
+        return false; //nothing to do
     
     global $post;
     
@@ -156,12 +156,12 @@ function kst_shortcode_cycle_header($atts, $content = null) {
     global ${"$this_set"};
     
     if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["header"][] = $content;
-	    add_action('wp_footer', 'print_cycle_scripts');
-	    return "cyclable_placeholder";
-	}
-	
-	${"$this_set"}["header"][] = $content;
+        ${"$this_set"}["header"][] = $content;
+        add_action('wp_footer', 'print_cycle_scripts');
+        return "cyclable_placeholder";
+    }
+    
+    ${"$this_set"}["header"][] = $content;
 }
 
 /**
@@ -179,9 +179,9 @@ function kst_shortcode_cycle_header($atts, $content = null) {
  * This also has to globalize it's own variables until it is converted to a class
  */
 function kst_shortcode_cycle_footer($atts, $content = null) {
-	
-	if ( !$content )
-	    return false; //nothing to do
+    
+    if ( !$content )
+        return false; //nothing to do
     
     global $post;
     
@@ -190,12 +190,12 @@ function kst_shortcode_cycle_footer($atts, $content = null) {
     global ${"$this_set"};
     
     if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["footer"][] = $content;
-	    add_action('wp_footer', 'print_cycle_scripts');
-	    return "cyclable_placeholder";
-	}
-	
-	${"$this_set"}["footer"][] = $content;
+        ${"$this_set"}["footer"][] = $content;
+        add_action('wp_footer', 'print_cycle_scripts');
+        return "cyclable_placeholder";
+    }
+    
+    ${"$this_set"}["footer"][] = $content;
 }
 
 /**
@@ -221,12 +221,12 @@ function kst_shortcode_cycle_pager($atts, $content = null) {
     global ${"$this_set"};
     
     if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["pager"][] = true;
-	    add_action('wp_footer', 'print_cycle_scripts');
-	    return "cyclable_placeholder";
-	}
-	
-	${"$this_set"}["pager"][] = true;
+        ${"$this_set"}["pager"][] = true;
+        add_action('wp_footer', 'print_cycle_scripts');
+        return "cyclable_placeholder";
+    }
+    
+    ${"$this_set"}["pager"][] = true;
 }
 
 /**
@@ -245,24 +245,24 @@ function kst_shortcode_cycle_pager($atts, $content = null) {
  */
 function kst_shortcode_cycle_slide($atts, $content = null) {
 
-	if ( !$content )
-	    return false; //nothing to do
+    if ( !$content )
+        return false; //nothing to do
 
     global $post;
     
     $this_set = "cyclable_data_{$post->ID}"; //set this dynamic variable to stay sane; ${"$this_set"}
     
     global ${"$this_set"};
-	
-	if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["slides"][] = $content; //add the content to the end of the array
-	    add_action('wp_footer', 'print_cycle_scripts');
-	    return "cyclable_placeholder";
-	}
-	
-	${"$this_set"}["slides"][]  = $content; //add the content to the end of the array
-	
-	/* Repeat for each slide which will be output hooking onto "wp" */
+    
+    if ( !isset(${"$this_set"}) ) {
+        ${"$this_set"}["slides"][] = $content; //add the content to the end of the array
+        add_action('wp_footer', 'print_cycle_scripts');
+        return "cyclable_placeholder";
+    }
+    
+    ${"$this_set"}["slides"][]  = $content; //add the content to the end of the array
+    
+    /* Repeat for each slide which will be output hooking onto "wp" */
 }
 
 
@@ -471,4 +471,3 @@ EOD;
     return $output;
 }
 
-?>

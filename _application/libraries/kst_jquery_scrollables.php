@@ -102,9 +102,9 @@ add_filter('the_content', 'kst_shortcode_scrollables_output', 11);
  * This also has to globalize it's own variables until it is converted to a class
  */
 function kst_shortcode_scrollable_class($atts, $content = null) {
-	
-	if ( !$content )
-	    return false; //nothing to do
+    
+    if ( !$content )
+        return false; //nothing to do
     
     global $post;
     
@@ -113,12 +113,12 @@ function kst_shortcode_scrollable_class($atts, $content = null) {
     global ${"$this_set"};
     
     if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["class"][] = $content;
-	    add_action('wp_footer', 'print_scrollable_scripts');
-	    return "scrollable_placeholder";
-	}
-	
-	${"$this_set"}["class"][] = $content;
+        ${"$this_set"}["class"][] = $content;
+        add_action('wp_footer', 'print_scrollable_scripts');
+        return "scrollable_placeholder";
+    }
+    
+    ${"$this_set"}["class"][] = $content;
 }
 
 /**
@@ -136,9 +136,9 @@ function kst_shortcode_scrollable_class($atts, $content = null) {
  * This also has to globalize it's own variables until it is converted to a class
  */
 function kst_shortcode_scrollable_header($atts, $content = null) {
-	
-	if ( !$content )
-	    return false; //nothing to do
+    
+    if ( !$content )
+        return false; //nothing to do
     
     global $post;
     
@@ -147,12 +147,12 @@ function kst_shortcode_scrollable_header($atts, $content = null) {
     global ${"$this_set"};
     
     if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["header"][] = $content;
-	    add_action('wp_footer', 'print_scrollable_scripts');
-	    return "scrollable_placeholder";
-	}
-	
-	${"$this_set"}["header"][] = $content;
+        ${"$this_set"}["header"][] = $content;
+        add_action('wp_footer', 'print_scrollable_scripts');
+        return "scrollable_placeholder";
+    }
+    
+    ${"$this_set"}["header"][] = $content;
 }
 
 /**
@@ -170,9 +170,9 @@ function kst_shortcode_scrollable_header($atts, $content = null) {
  * This also has to globalize it's own variables until it is converted to a class
  */
 function kst_shortcode_scrollable_footer($atts, $content = null) {
-	
-	if ( !$content )
-	    return false; //nothing to do
+    
+    if ( !$content )
+        return false; //nothing to do
     
     global $post;
     
@@ -181,12 +181,12 @@ function kst_shortcode_scrollable_footer($atts, $content = null) {
     global ${"$this_set"};
     
     if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["footer"][] = $content;
-	    add_action('wp_footer', 'print_scrollable_scripts');
-	    return "scrollable_placeholder";
-	}
-	
-	${"$this_set"}["footer"][] = $content;
+        ${"$this_set"}["footer"][] = $content;
+        add_action('wp_footer', 'print_scrollable_scripts');
+        return "scrollable_placeholder";
+    }
+    
+    ${"$this_set"}["footer"][] = $content;
 }
 
 /**
@@ -212,12 +212,12 @@ function kst_shortcode_scrollable_nav($atts, $content = null) {
     global ${"$this_set"};
     
     if ( !isset(${"$this_set"}) ) {
-	    ${"$this_set"}["nav"][] = true;
-	    add_action('wp_footer', 'print_scrollable_scripts');
-	    return "scrollable_placeholder";
-	}
-	
-	${"$this_set"}["nav"][] = true;
+        ${"$this_set"}["nav"][] = true;
+        add_action('wp_footer', 'print_scrollable_scripts');
+        return "scrollable_placeholder";
+    }
+    
+    ${"$this_set"}["nav"][] = true;
 }
 
 /**
@@ -237,29 +237,29 @@ function kst_shortcode_scrollable_nav($atts, $content = null) {
 function kst_shortcode_scrollable_slide($atts, $content = null) {
     /*
     extract(shortcode_atts(array(
-		'class'     => 'scrollable_default'
-	), $atts));
-	*/
-	if ( !$content )
-	    return false; //nothing to do
+        'class'     => 'scrollable_default'
+    ), $atts));
+    */
+    if ( !$content )
+        return false; //nothing to do
 
     global $post;
     
     $this_set = "scrollable_data_{$post->ID}"; //set this dynamic variable to stay sane; ${"$this_set"}
     
     global ${"$this_set"};
-	
-	if ( !isset(${"$this_set"}) ) {
-	    //${"$this_set"} = array(); //array to store the content as it comes and trigger the output if exists
-	    //${"$this_set"}["class"][] = $class;
-	    ${"$this_set"}["slides"][] = $content; //add the content to the end of the array
-	    add_action('wp_footer', 'print_scrollable_scripts');
-	    return "scrollable_placeholder";
-	}
-	
-	${"$this_set"}["slides"][]  = $content; //add the content to the end of the array
-	
-	/* Repeat for each slide which will be output hooking onto "wp" */
+    
+    if ( !isset(${"$this_set"}) ) {
+        //${"$this_set"} = array(); //array to store the content as it comes and trigger the output if exists
+        //${"$this_set"}["class"][] = $class;
+        ${"$this_set"}["slides"][] = $content; //add the content to the end of the array
+        add_action('wp_footer', 'print_scrollable_scripts');
+        return "scrollable_placeholder";
+    }
+    
+    ${"$this_set"}["slides"][]  = $content; //add the content to the end of the array
+    
+    /* Repeat for each slide which will be output hooking onto "wp" */
 }
 
 
@@ -470,4 +470,4 @@ EOD;
     return $output;
 }
 
-?>
+

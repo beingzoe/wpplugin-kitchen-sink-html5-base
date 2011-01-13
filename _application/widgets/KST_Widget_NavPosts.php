@@ -112,4 +112,4 @@ class KST_Widget_NavPosts extends KST_Widget {
 
 // register KST_Widget_NavPosts widget
 add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_NavPosts");'));
-?>
+

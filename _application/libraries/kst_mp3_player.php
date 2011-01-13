@@ -36,17 +36,17 @@ add_shortcode('mp3player', 'kst_shortcode_mp3_player');
 function kst_shortcode_mp3_player($atts, $content = NULL) {
     extract(shortcode_atts(array(
         'mp3'    => '',
-		'class'	 => 'mp3_player',
-		'width'  => '300',
-		'height' => '20'
-	), $atts));
+        'class'	 => 'mp3_player',
+        'width'  => '300',
+        'height' => '20'
+    ), $atts));
 
-	if ( empty($mp3) )
-	    return false; //nothing to do
-	
-	$player_uri = get_template_directory_uri() . '/_assets/swf/player_mp3_maxi.swf';
-	
-	$output = 
+    if ( empty($mp3) )
+        return false; //nothing to do
+    
+    $player_uri = get_template_directory_uri() . '/_assets/swf/player_mp3_maxi.swf';
+    
+    $output = 
 <<< EOD
     <object type="application/x-shockwave-flash" data="{$player_uri}" width="{$width}" height="{$height}" class="{$class}">
     <param name="movie" value="{$player_uri}" />
@@ -58,4 +58,3 @@ EOD;
     return $output;
 }
 
-?>

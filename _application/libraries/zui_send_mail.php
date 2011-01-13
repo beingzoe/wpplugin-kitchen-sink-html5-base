@@ -83,4 +83,4 @@ if ( !function_exists('kst_clean_user_input') ) {
         return $string;
     }
 }
-?>
+
