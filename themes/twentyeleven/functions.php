@@ -116,13 +116,13 @@
     /* WIDGETS
      */
         /* KST next/previous post buttons for sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KSTWidgetNavPost.php'; // Post to post next/previous buttons (only on single blog posts)
+        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_NavPost.php'; // Post to post next/previous buttons (only on single blog posts)
         
         /* KST older/PREVIOUS post buttons for sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KSTWidgetNavPosts.php'; // Page to page posts older/newer (only on indexes i.e. blog home, archives)
+        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_NavPosts.php'; // Page to page posts older/newer (only on indexes i.e. blog home, archives)
         
         /* KST JIT (Just-in-Time Sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KSTWidgetJITSidebar.php'; // Magic floating sidebars
+        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_JITSidebar.php'; // Magic floating sidebars
     
     /**
      * @uses    TEMPLATEPATH
