@@ -1,4 +1,4 @@
-# Kitchen Sink HTML5 Base #
+=== Kitchen Sink HTML5 Base ===
 
 Contributors: beingzoe
 Tags: html5, boilerplate, zui, theme, framework, development, tools, libraries, classes
@@ -6,12 +6,12 @@ Requires at least: 3.0
 Tested up to: 3.0.1
 Stable tag: 0.1
 
-WordPress Theme Framework Plugin/Library of optimized sementic HTML5 awesomeness 
+Theme Framework Plugin/Library of optimized sementic HTML5 awesomeness 
 and a sensible starting point for developing WordPress themes (and possibly other plugins)
 
 
 
-## Description ##
+== Description ==
 
 General highlights and features coming
 
@@ -22,8 +22,8 @@ Download, clone, or fork at https://github.com/organizations/kitchen-sink
 
 
 
-## Installation ##
-
+== Installation ==
+                                                                          
 1) Download, install, and activate the "Kitchen Sink HTML5 Base" plugin
    
 It doesn't do anything until you ask it to in your theme ;)
@@ -32,8 +32,8 @@ You can also clone the repo on github and include it directly, up to you.
 $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
     
 1b) OR download/clone and include in your theme directly
-http://beingzoe.com/zui/wordpress/kitchen_sink_theme
-$ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
+    http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+    $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
 
 2) Invoke the plugin, include the parts you want/need, make your theme
 
@@ -41,7 +41,7 @@ $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
 
 See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage reference and checklist
     
-# Optionally #    
+=== Optionally ===    
 
 Download, install, and activate one of the "Kitchen Sink HTML5 Base" starter themes 
 to have all the awesomeness you need really actually ready-to-go
@@ -49,7 +49,6 @@ to have all the awesomeness you need really actually ready-to-go
 * kitchen-sink-html5-base-starter       ( Sensible defaults only )
     
 Coming soon:    
-
 * kitchen-sink-html5-base-stripped      ( Just the shell to build from )
 * kitchen-sink-html5-base-documented    ( heavily commented like a walkthrough )
     
@@ -67,7 +66,7 @@ See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage refe
 
 
 
-## Screenshots ##
+== Screenshots ==
 
 1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
 the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
@@ -75,9 +74,9 @@ the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1
 
 
 
-## Frequently Asked Questions ##
+== Frequently Asked Questions ==
 
-*Are you for real?*
+= Are you for real? =
 
 Decline to respond.
 
@@ -85,9 +84,9 @@ None. See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usag
 
 
 
-## Changelog ##
+== Changelog ==
 
-# 0.1 #
+= 0.1 =
 
 * Provenance
 
