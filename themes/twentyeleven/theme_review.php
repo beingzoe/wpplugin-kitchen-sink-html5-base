@@ -1,5 +1,10 @@
 <?php
 /* 
+ * NOTE: This scheme needs revisited so that if /libs/functions/wp_sensible_defaults/ 
+         isn't loaded this stuff doesn't count towards the theme check.
+         Perhaps we need to talk to the theme review folks for advice on how we 
+         can help them to help people make better more compliant themes.
+         
  * Dummy stuff to pass WP theme check plugin for theme review
  * This is not an attempt to bamboozle anyone I just didn't want to 
  * have any red flags on themes made with KST to cause reviewers headaches.
