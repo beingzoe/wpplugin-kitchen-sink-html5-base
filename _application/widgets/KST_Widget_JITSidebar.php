@@ -11,7 +11,7 @@ require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkWidgetClasses
  * @version     0.1 
  */
@@ -19,7 +19,7 @@ class KST_Widget_JITSidebar extends KST_Widget {
     /**
      * Widget constructor
      * 
-     * @since 0.1
+     * @since       0.1
      * @uses WP_Widget()
      */
     function KST_Widget_JITSidebar() {
@@ -30,6 +30,7 @@ class KST_Widget_JITSidebar extends KST_Widget {
     /**
      * Filter widget content for output
      * 
+     * @since       0.1
      * @see         WP_Widget::widget
      * @param       required array $args
      * @param       required array $instance
@@ -46,6 +47,7 @@ class KST_Widget_JITSidebar extends KST_Widget {
     /**
      * Save widget sidebar settings (from form)
      * 
+     * @since 0.1
      * @see WP_Widget::update
      * @param       required array $new_instance
      * @param       required array $old_instance
@@ -60,6 +62,7 @@ class KST_Widget_JITSidebar extends KST_Widget {
     /**
      * Widget edit form
      * 
+     * @since       0.1
      * @see WP_Widget::form
      */
     function form($instance) {				
@@ -80,7 +83,7 @@ add_action('widgets_init', create_function('', 'return register_widget("KST_Widg
  * We must register and print them ourselves because we can't enqueue by the time shortcodes are executing
  * Use add_action('wp_footer', 'print_scrollable_scripts'); to safely load javascript 
  * 
- * @since       0.4
+ * @since       0.1
  * @uses        wp_register_script() WP function
  * @uses        get_template_directory_uri() WP function
  * @uses        wp_print_scripts() WP function

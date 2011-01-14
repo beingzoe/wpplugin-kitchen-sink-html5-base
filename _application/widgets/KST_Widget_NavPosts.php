@@ -7,17 +7,17 @@ require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_
 /**
  * WordPress Widget Class to show older/newer paged posts buttons in dynamic sidebar
  * 
- * @package WordPress
- * @subpackage KitchenSinkWidgetClasses
- * @version 0.1 
- * @since kitchenSink theme Version 0.3
- * @author zoe somebody http://beingzoe.com/zui/
+ * @package     KitchenSinkHTML5Base
+ * @subpackage  KitchenSinkWidgetClasses
+ * @version     0.1 
+ * @since       0.1
+ * @author      zoe somebody http://beingzoe.com/zui/
  */
 class KST_Widget_NavPosts extends KST_Widget {
     /**
      * Widget constructor
      * 
-     * @since 0.1
+     * @since       0.1
      * @uses WP_Widget()
      */
     function KST_Widget_NavPosts() {
@@ -29,16 +29,17 @@ class KST_Widget_NavPosts extends KST_Widget {
     /**
      * Filter widget content for output
      * 
-     * @see WP_Widget::widget
-     * @param global $wp_query
-     * @uses widget()
-     * @uses is_home()
-     * @uses is_archive()
-     * @uses apply_filters()
-     * @uses next_posts_link()
-     * @uses get_next_posts_link()
-     * @uses previous_posts_link()
-     * @uses get_previous_posts_link()
+     * @since       0.1
+     * @see         WP_Widget::widget
+     * @global      $wp_query
+     * @uses        widget()
+     * @uses        is_home()
+     * @uses        is_archive()
+     * @uses        apply_filters()
+     * @uses        next_posts_link()
+     * @uses        get_next_posts_link()
+     * @uses        previous_posts_link()
+     * @uses        get_previous_posts_link()
      */
     function widget($args, $instance) {	
         global $wp_query;
@@ -74,7 +75,8 @@ class KST_Widget_NavPosts extends KST_Widget {
     /**
      * Save widget sidebar settings (from form)
      * 
-     * @see WP_Widget::update
+     * @since       0.1
+     * @see         WP_Widget::update
      * @param       required array $new_instance
      * @param       required array $old_instance
      * @return      array
@@ -90,12 +92,13 @@ class KST_Widget_NavPosts extends KST_Widget {
     /**
      * Widget edit form
      * 
-     * @see WP_Widget::form
-     * @uses form()
-     * @uses get_field_id()
-     * @uses get_field_name()
-     * @uses esc_attr()
-     * @uses _e()
+     * @since       0.1
+     * @see         WP_Widget::form
+     * @uses        form()
+     * @uses        get_field_id()
+     * @uses        get_field_name()
+     * @uses        esc_attr()
+     * @uses        _e()
      */
     function form($instance) {				
         $title = esc_attr($instance['title']);

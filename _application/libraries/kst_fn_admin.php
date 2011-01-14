@@ -8,10 +8,10 @@
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkThemeLibraries
  * @version     0.1
- * @since       0.4
+ * @since       0.1
  */
  
 /**
@@ -20,7 +20,7 @@
  * Add new links to the quick links $array 
  * or unset existing links
  * 
- * @since       0.3
+ * @since       0.1
  * @param       array $actions
  * @return      array
  * @link        http://webdesignfan.com/customizing-the-wordpress-admin-area/ by Pippin Williamson
@@ -40,7 +40,7 @@ if ( !function_exists('kst_admin_favorite_actions') ) {
  * Unclutter 
  * Remove meta boxes from post/page not used/needed by this WP theme
  * 
- * @since       0.3
+ * @since       0.1
  * @uses        remove_meta_box() WP function
  * @link        http://webdesignfan.com/customizing-the-wordpress-admin-area/ by Pippin Williamson
  * @link        http://sixrevisions.com/wordpress/how-to-customize-the-wordpress-admin-area/ 
@@ -58,7 +58,7 @@ if ( !function_exists('kst_admin_remove_meta_boxes') ) {
  * TinyMCE "Format" dropdown - reorder/add block level elements
  * Disable advanced elements
  * 
- * @since       0.3
+ * @since       0.1
  * @return      array
  */
 if ( !function_exists('kst_admin_edit_tinymce') ) {
@@ -76,7 +76,7 @@ if ( !function_exists('kst_admin_edit_tinymce') ) {
  * 
  * Add and remove WP admin dashboard widgets using $wp_meta_boxes WP global array
  *
- * @since       0.3
+ * @since       0.1
  * @global      $wp_meta_boxes
  * @uses        wp_add_dashboard_widget() WP function 
  * @uses        kst_cb_admin_dashboard_theme_support() callback to echo content for dashboard widget
@@ -114,7 +114,7 @@ if ( !function_exists('kst_admin_dashboard_customize') ) {
  * Adds Theme Help and Support Dashboard widget with links to help options and help pages 
  * Echoes output to be displayed in our dashboard widget
  * 
- * @since 0.3       
+ * @since       0.1       
  */
 if ( !function_exists('kst_admin_dashboard_theme_support') ) {
     function kst_cb_admin_dashboard_theme_support() {

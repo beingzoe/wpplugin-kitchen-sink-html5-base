@@ -13,10 +13,10 @@
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkThemeLibrary
  * @version     0.1
- * @since       0.2
+ * @since       0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @todo        convert to class
  * @todo        make use our new KST_Options class
@@ -28,11 +28,11 @@ if ( is_admin() )
 /** 
  * Add menu page for theme help
  * 
- * @since   0.2
- * @uses    THEME_ID
- * @uses    THEME_NAME
- * @uses    add_submenu_page() WP function
- * @uses    kst_theme_help_page()
+ * @since       0.1
+ * @uses        THEME_ID
+ * @uses        THEME_NAME
+ * @uses        add_submenu_page() WP function
+ * @uses        kst_theme_help_page()
  */
 function kst_theme_help_menu() {
     /* add new menu under Appearance */
@@ -42,14 +42,14 @@ function kst_theme_help_menu() {
 /** 
  * Build the page to display at our new menu item
  * 
- * @since   0.2
- * @uses    THEME_ID
- * @uses    THEME_NAME
- * @uses    TEMPLATEPATH
- * @uses    current_user_can() WP function
- * @uses    wp_die() WP function
- * @uses    screen_icon() WP function
- * @uses    theme_help.php
+ * @since       0.1
+ * @uses        THEME_ID
+ * @uses        THEME_NAME
+ * @uses        TEMPLATEPATH
+ * @uses        current_user_can() WP function
+ * @uses        wp_die() WP function
+ * @uses        screen_icon() WP function
+ * @uses        theme_help.php
  */
 function kst_theme_help_page() {
     

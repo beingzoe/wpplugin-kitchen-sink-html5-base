@@ -10,10 +10,10 @@
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkThemeLibrary
  * @version     0.1
- * @since       0.2
+ * @since       0.1
  */
 
 /**
@@ -26,7 +26,7 @@ add_shortcode('mp3player', 'kst_shortcode_mp3_player');
  * 
  * Uses player_mp3_maxi.swf 
  * 
- * @since   0.2
+ * @since   0.1
  * @param   string mp3 required path/url/to/file.mp3
  * @param   string class optional custom class
  * @return  string  

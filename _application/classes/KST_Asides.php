@@ -9,10 +9,10 @@
  * @author		zoe somebody
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkClasses
  * @version     0.1
- * @since       0.4
+ * @since       0.1
  * @todo        figure out how to get/pass the "asides" category unobtrusively
  * @todo        add options page (probably the solution to above)
  * @todo        research whatever other coolness needs to happen to pluginify this
@@ -35,7 +35,7 @@ class KST_Asides {
     private $category;          // The category the asides belong to; $name, $slug, OR $id
     
     /**#@+
-     * @access private
+     * @access private     
      * @var array
      */
     private $asides;            // Array of asides content

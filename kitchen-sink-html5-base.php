@@ -12,7 +12,7 @@ License:        MIT
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress 
+ * @package     KitchenSinkHTML5Base 
  * @subpackage  KitchenSinkPlugin
  */
  

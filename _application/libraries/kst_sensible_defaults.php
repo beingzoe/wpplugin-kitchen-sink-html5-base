@@ -130,7 +130,7 @@ if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
  *
  * NOT ADMIN ONLY because wp-login is not treated as part of admin
  *
- * @since       0.3
+ * @since       0.1
  * @uses        get_stylesheet_directory_uri() WP function
  */
 if ( !function_exists('kst_admin_login_css') ) {
@@ -145,7 +145,7 @@ if ( !function_exists('kst_admin_login_css') ) {
  * Load built-in WP comment-reply javascript 
  * Javascript that creates comment form at reply link
  * 
- * @since 0.3 
+ * @since       0.1 
  * @uses        is_singular() WP function
  * @uses        comments_open() WP function
  * @uses        get_option() WP function
@@ -167,7 +167,7 @@ if ( !function_exists('kst_threaded_comment_reply') ) {
  * Useful for floated column widget areas that share characteristics
  * Creates "named" sidebars with 
  * 
- * @since 0.4
+ * @since       0.1
  * @param       required array $array   The  
  * @uses        dynamic_sidebar() WP function
  */
@@ -201,7 +201,7 @@ function kst_widget_create_multiple_areas($how_many, $name, $id, $description, $
  * Useful for floated column widget areas that share characteristics
  * Creates "named" sidebars with 
  * 
- * @since 0.4
+ * @since       0.1
  * @param       required array $array   The  
  * @uses        dynamic_sidebar() WP function
  */
@@ -220,7 +220,7 @@ function kst_widget_output_multiple_areas($array) {
 /**
  * Set the WP automatic excerpt length
  * 
- * @since       0.3
+ * @since       0.1
  * @param       constant THEME_EXCERPT_LENGTH  set by KST during KST init
  * @return      string 
  */
@@ -234,7 +234,7 @@ if ( !function_exists('kst_excerpt_length') ) {
  * Remove inline styles printed when the gallery shortcode is used.
  * From twentyten
  * 
- * @since       0.3
+ * @since       0.1
  * @param       required string $css
  * @return      string
  */
@@ -247,7 +247,7 @@ if ( !function_exists('kst_remove_gallery_css') ) {
 /**
  * Filter the_title to include the page number if article is paged
  * 
- * @since       0.4
+ * @since       0.1
  * @global      $multipage
  * @global      $page
  * @global      $post
@@ -345,7 +345,7 @@ if ( !function_exists('kst_format_wp_list_comments') ) {
         <div class="wp_caption">
     </div>
  * 
- * @since 0.2
+ * @since       0.1
  * @param       required array $attr
  * @param       optional string $content
  * @uses        apply_filters() WP function

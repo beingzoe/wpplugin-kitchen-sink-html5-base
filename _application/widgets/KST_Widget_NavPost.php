@@ -11,16 +11,16 @@ require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkWidgetClasses
- * @version 0.1 
+ * @version     0.1 
  */
 class KST_Widget_NavPost extends KST_Widget {
     /**
      * Widget constructor
      * 
-     * @since 0.1
-     * @uses WP_Widget()
+     * @since   0.1
+     * @uses    WP_Widget()
      */
     function KST_Widget_NavPost() {
         $widget_ops = array('classname' => 'widget_theme_nav_post clearfix', 'description' => __( "Displays Next/Previous post buttons for post to post navigation. Will only show if a single post is being displayed and there is a next or previous post to go to.") );

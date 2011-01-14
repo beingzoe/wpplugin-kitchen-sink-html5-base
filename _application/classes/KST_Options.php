@@ -8,7 +8,7 @@
  * @author		zoe somebody
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkClasses
  * @version     0.4
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
@@ -121,7 +121,7 @@ class KST_Options {
      *
      * get_option("meta_keywords_home", $default)
      * 
-     * @since 0.2
+     * @since 0.1
      * @param       required string option 
      * @param       optional string default ANY  optional, defaults to NULL
      * @uses        KST_Options::format_option_id
@@ -149,7 +149,7 @@ class KST_Options {
      * N.B.: First request is an entire query and obviously a speed hit so use wisely
      *       Multiple tests for the same option are saved and won't affect load time as much
      * 
-     * @since       0.2
+     * @since       0.1
      * @global      $wpdb
      * @param       required string $option 
      * @uses        KST_Options::format_option_id()

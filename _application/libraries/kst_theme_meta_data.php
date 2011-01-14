@@ -19,9 +19,9 @@
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkThemeLibrary
- * @version     0.3
+ * @version     0.1
  * @since       0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @uses        KST_Options class
@@ -40,7 +40,7 @@ if ( !class_exists('KST_Options') ) return;
  * Instantiate WPAlchemy_MetaBox class
  * Replaces get_post_meta
  *
- * @since       0.3 
+ * @since       0.1 
  * @uses        WPAlchemy_MetaBox
  */
 global $theme_options, $kst_mb_meta_data, $kst_options;
@@ -57,7 +57,7 @@ $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
 /**
  * Create the necessary theme options
  * 
- * @since 0.1
+ * @since       0.1
  */
 
     if ( $kst_options->get_option( 'meta_title_sep' ) )
@@ -192,7 +192,7 @@ $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
  * If not looks up global default option
  * If none exists it uses "Tagline" (Settings > General) 
  * 
- * @since 0.1
+ * @since       0.1
  * @uses get_the_value() from metabox class in place of get_post_meta() get 'meta_page_description' if exists
  * @uses get_bloginfo()
  * @uses $kst_options->get_option()
@@ -392,7 +392,7 @@ add_filter( 'wp_title', 'kst_filter_wp_title', 10, 2 ); // filter and improve pa
  * Under consideration for deprecation
  * Has not been updated to use metabox (TODO?)
  *  
- * @since       0.2
+ * @since       0.1
  * @param       required string $part   toc|entry which part do you want?
  * @return      string
  */

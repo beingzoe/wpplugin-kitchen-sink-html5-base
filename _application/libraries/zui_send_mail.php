@@ -13,7 +13,7 @@
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkThemeLibraries
  * @uses        kst_clean_user_input($str) to protect from XSS attack (in functions.php_
  * @todo        everything!!!!!

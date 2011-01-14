@@ -8,10 +8,10 @@
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     WordPress
+ * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkThemeLibraries
- * @version     0.2
- * @since       0.2
+ * @version     0.1
+ * @since       0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @link        http://fancybox.net/
  * @link        http://www.viper007bond.com/wordpress-plugins/jquery-lightbox-for-native-galleries/ (thank you for making sense of the attachment link)
@@ -76,7 +76,7 @@ add_filter( 'wp_get_attachment_link' , 'add_lighbox_rel' );
  * See kst_theme_help
  * Help content for zui based theme_help.php
  * 
- * @since       0.2
+ * @since       0.1
  * @param       required string $part   toc|entry which part do you want?
  * @return      string
  */

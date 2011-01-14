@@ -2,10 +2,10 @@
 /**
  * Parent class for KST_Widgets
  * 
- * @package WordPress
- * @subpackage KitchenSinkWidgetClasses
- * @version 0.1 
- * @since kitchenSink theme Version 0.3
+ * @package     KitchenSinkHTML5Base
+ * @subpackage  KitchenSinkWidgetClasses
+ * @version     0.1 
+ * @since       0.1
  * @author zoe somebody http://beingzoe.com/zui/
  */
 class KST_Widget extends WP_Widget {
