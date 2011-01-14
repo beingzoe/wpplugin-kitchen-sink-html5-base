@@ -44,7 +44,7 @@ function kst_shortcode_mp3_player($atts, $content = NULL) {
     if ( empty($mp3) )
         return false; //nothing to do
     
-    $player_uri = get_template_directory_uri() . '/_assets/swf/player_mp3_maxi.swf';
+    $player_uri = get_template_directory_uri() . '/assets/swf/player_mp3_maxi.swf';
     
     $output = 
 <<< EOD

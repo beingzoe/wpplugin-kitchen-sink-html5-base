@@ -42,11 +42,11 @@ add_action('wp', 'kst_jit_init');
  * @uses        WPAlchemy_MetaBox
  */
 global $kst_mb_jit_message;
-require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/WPAlchemy_MetaBox.php'; // WP admin meta boxes
+require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/vendor/WPAlchemy/MetaBox.php'; // WP admin meta boxes
 $kst_mb_jit_message = new WPAlchemy_MetaBox( array (
     'id' => '_kst_jit_message',
     'title' => 'JIT (Just-in-Time) Message Box',
-    'template' => TEMPLATEPATH . '/_application/meta_boxes/kst_jquery_jit_message.php',
+    'template' => TEMPLATEPATH . '/templates/meta_boxes/kst_jquery_jit_message.php',
     'context' => 'normal',
     'priority' => 'high',
     'view' => WPALCHEMY_VIEW_START_CLOSED
@@ -82,8 +82,8 @@ function kst_jit_init() {
         
         /* if we have a jit_message then set it up and do stuff */
         if ( $jit_message ) {
-            wp_enqueue_style('jit_message', get_template_directory_uri() . '/_assets/stylesheets/jit_message.css');
-            wp_enqueue_script('jit_message', get_template_directory_uri() . '/_assets/javascripts/jquery/jquery.kst_jit_message.js' , array('jquery') , '0.1', true);
+            wp_enqueue_style('jit_message', get_template_directory_uri() . '/assets/stylesheets/jit_message.css');
+            wp_enqueue_script('jit_message', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.kst_jit_message.js' , array('jquery') , '0.1', true);
             add_action('wp_footer', 'kst_jit_output');
         }
         

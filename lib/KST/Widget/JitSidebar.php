@@ -2,7 +2,7 @@
 /**
  * Parent class
  */
-require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget.php';
+require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/lib/KST/Widget.php';
 
 /**
  * WordPress Widget Class to trigger JIT (just-in-time) floating sidebar
@@ -15,14 +15,14 @@ require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_
  * @subpackage  KitchenSinkWidgetClasses
  * @version     0.1 
  */
-class KST_Widget_JITSidebar extends KST_Widget {
+class KST_Widget_JitSidebar extends KST_Widget {
     /**
      * Widget constructor
      * 
      * @since 0.1
      * @uses WP_Widget()
      */
-    function KST_Widget_JITSidebar() {
+    function KST_Widget_JitSidebar() {
         $widget_ops = array('classname' => 'widget_jit_sidebar', 'description' => __( "Any widget BELOW this widget will magically float down the page as you scroll when it reaches the top of the window.") );
         parent::WP_Widget(false, $name = 'Theme: JIT Sidebar Start', $widget_ops);	
     }
@@ -86,7 +86,7 @@ add_action('widgets_init', create_function('', 'return register_widget("KST_Widg
  * @uses        wp_print_scripts() WP function
  */
 function print_jit_message_scripts() {
-        wp_register_script('jit_sidebar', get_template_directory_uri() . '/_assets/javascripts/jquery/jquery.kst_jit_sidebar.js' , array('jquery') , '0.1', true);
+        wp_register_script('jit_sidebar', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.kst_jit_sidebar.js' , array('jquery') , '0.1', true);
         /* just print the script directly to the page with wp_footer */
         wp_print_scripts('jit_sidebar');
         echo '<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_sidebar) { $(this).jit_sidebar(); }; });</script>';

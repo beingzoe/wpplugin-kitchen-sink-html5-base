@@ -45,21 +45,23 @@ function kst_theme_init($settings) {
     );
     $settings = array_merge( $default_settings, $settings );
 
-    /**
+    /**#@+
      * KST theme/plugin settings
+     * @since 0.1
      */
-    define( 'KST_DIR',               dirname(__FILE__) ); // Current path of KST plugin; Since 0.4
-    define( 'KST_DIR_CLASSES',       KST_DIR . '/_application/classes/' );  // Since 0.4
-    define( 'KST_DIR_LIBRARIES',     KST_DIR . '/_application/libraries/' ); // Since 0.4
-    define( 'KST_DIR_METABOXES',     KST_DIR . '/_application/meta_boxes/' ); // Since 0.4
-    define( 'KST_DIR_WIDGETS',       KST_DIR . '/_application/widgets/' ); // Since 0.4
-    define( 'KST_DIR_SHORTCODES',    KST_DIR . '/_application/shortcodes/' ); // Since 0.4
-    define( 'KST_DIR_IMAGES',        KST_DIR . '/_assets/images/' ); // Since 0.4
-    define( 'KST_DIR_STYLESHEETS',   KST_DIR . '/_assets/stylesheets/' ); // Since 0.4
-    define( 'KST_DIR_JAVASCRIPTS',   KST_DIR . '/_assets/javascripts/' ); // Since 0.4
-    define( 'KST_DIR_SWF',           KST_DIR . '/_assets/swf/' ); // Flash files; Since 0.4
-    define( 'THEME_NAME_CURRENT',    get_current_theme() ); // 
-    define( 'THEME_NAME',            $settings['theme_name'] ); // Set by developer for the theme
+    /**
+     * Current path of KST plugin
+     */
+    define( 'KST_DIR',               dirname(__FILE__) );
+    define( 'KST_DIR_LIB',     KST_DIR . '/lib' );
+    define( 'KST_DIR_VENDOR',     KST_DIR . '/vendor' );
+    define( 'KST_DIR_TEMPLATES',     KST_DIR . '/templates' );
+    define( 'KST_DIR_ASSETS',        KST_DIR . '/assets' );
+    define( 'THEME_NAME_CURRENT',    get_current_theme() );
+    /**
+     * Set by developer for the theme
+     */
+    define( 'THEME_NAME',            $settings['theme_name'] );
     define( 'THEME_ID',              $settings['theme_id'] );
     define( 'THEME_DEVELOPER',       $settings['theme_developer'] );
     define( 'THEME_DEVELOPER_URL',   $settings['theme_developer_url'] );
@@ -70,6 +72,7 @@ function kst_theme_init($settings) {
      * @see kst_excerpt_length()
      */
     define( 'THEME_EXCERPT_LENGTH',   $settings['theme_excerpt_length'] );
+    /**#@-*/
     
 }
         

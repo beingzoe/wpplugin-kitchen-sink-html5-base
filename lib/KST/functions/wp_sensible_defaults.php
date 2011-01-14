@@ -98,19 +98,19 @@ if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
     /* Load JAVASCRIPT */
 
     /* Load Modernizr */
-    wp_register_script( 'modernizr', get_template_directory_uri() . '/_assets/javascripts/libraries/modernizr-1.6.min.js', false, '1.6', false);
+    wp_register_script( 'modernizr', get_template_directory_uri() . '/assets/javascripts/libraries/modernizr-1.6.min.js', false, '1.6', false);
     wp_enqueue_script( 'modernizr' );
 
     /* Load jQuery: Register jQuery as hack but load in footer.php using HTML5Boilerplate with fallback; TODO: FIND A BETTER WAY */
     wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', get_template_directory_uri() . '/_assets/javascripts/empty.js', false, 'x', true);
+    wp_register_script( 'jquery', get_template_directory_uri() . '/assets/javascripts/empty.js', false, 'x', true);
     wp_enqueue_script( 'jquery' );
 
     /* Theme-wide Plugins and Application JS */
-    wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/_assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true);
-    wp_enqueue_script('application', get_stylesheet_directory_uri() . '/_assets/javascripts/application.js' , array( 'jquery' ) , '0.1', true);
+    wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true);
+    wp_enqueue_script('application', get_stylesheet_directory_uri() . '/assets/javascripts/application.js' , array( 'jquery' ) , '0.1', true);
 } else {
-    wp_enqueue_script('application_admin', get_stylesheet_directory_uri() . '/_assets/javascripts/application_admin.js' , array( 'jquery' ) , '0.1', true);
+    wp_enqueue_script('application_admin', get_stylesheet_directory_uri() . '/assets/javascripts/application_admin.js' , array( 'jquery' ) , '0.1', true);
 }
 
 
@@ -393,7 +393,7 @@ if ( !function_exists('kst_caption_shortcode_filtered') ) {
 /* FUNCTIONS: Admin ONLY
  */
 if ( is_admin() ) {
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_fn_admin.php';
+    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/lib/KST/functions/wp_admin.php';
 }
     
 
