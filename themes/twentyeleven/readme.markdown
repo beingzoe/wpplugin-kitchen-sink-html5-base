@@ -1,67 +1,86 @@
-=== Kitchen Sink ===
-Contributors: zoe somebody 
-Tags: parent theme, framework
+=== Twenty Eleven (Kitchen Sink HTML5 demo) ===
+Contributors: beingzoe
+Tags: twentyten, twentyeleven, kitchen sink, framework, html5, boilerplate, zui
 Requires at least: 3.0
-Tested up to: 3.04
-Stable tag: trunk
+Tested up to: 3.0.4
+Stable tag: 0.1
 
-Base theme for developing client themes.
+Demo theme showing off some of the awesomeness of the Kitchen Sink HTML5 Base 
+framework plugin (and homage to TwentyTen).
+
+
 
 == Description ==
 
-This is a PARENT THEME and does NOTHING MEANINGFUL without a child theme.
-This is a developers theme for developers or people who really want to 
-write and edit some CSS, Javascript, and PHP.
+Looks like Twenty Ten but grooves with the awesomeness of HTML5 Boilerplate 
+and the zui Kitchen Sink HTML5 Base development framework plugin for WordPress.
 
-Not only is Kitchen Sink NOT a ready-to-go theme, 
-it needs a child theme to work it's magic.
+Feature highlights to look for in this theme will be added to the README soon.
+In the meantime be aware that this demo theme is unstable for production use.
 
-The purpose of Kitchen Sink is to provide a meaningful base 
-for rapid development of awesome custom themes as child themes.
+See http://beingzoe.com/zui/wordpress/kitchen_sink_theme 
+for more info about KST Kitchen Sink HTML5 
 
-It is called Kitchen Sink because it comes with a little bit of everything 
-and you'll be doing as much deleting as creating when you start your child theme.
+Download, clone, or fork at https://github.com/organizations/kitchen-sink
 
-Note that while this is a theme development base intended for developers or serious 
-web design enthusiasts the parent theme and child base themes have been commented 
-heavily to aid the beginner in it's usage and customization.
 
-See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage reference and checklist
-
-Once the theme is activated there is also an indepth help and tips file in the WP Admin under "Appearance > Theme Help"
 
 == Installation ==
 
-* Download "Kitchen Sink" parent theme
-* Download "Kitchen Sink CHILD BASE" child theme (or one of our ready-to-use themes or demos)
-* Extract zip files
-* Copy both to /wp-content/themes/
-* Rename "Kitchen Sink CHILD BASE" directory to whatever for your new theme
-* Style and edit your new child theme
-* Upload
-* Enjoy and become internet famous
+1) Download, install, and activate the "Kitchen Sink HTML5 Base" plugin
+   
+    It doesn't do anything until you ask it to in your theme ;)
+    
+    You can also clone the repo on github and include it directly, up to you.
+    $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
+    
+   
+2) Download, install, and activate one of the "Kitchen Sink HTML5 Base" starter themes
+    
+    * kitchen-sink-html5-base-starter       ( Sensible defaults only )
+    
+    Coming soon:    
+    * kitchen-sink-html5-base-stripped      ( Just the shell to build from )
+    * kitchen-sink-html5-base-documented    ( heavily commented like a walkthrough )
+    
+    You can also clone the repos on github each time you start a new theme
+    $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git your_new_theme_name
+    
+    
+3) Make your theme with optimized HTML5 awesomeness and a clean functions.php
+
+    Once you have invoked the plugin in your theme you can include and use as much 
+    as little of the libraries and functionality as you like. 
+    
+    
+4) Enjoy and become internet famous
+
 
 See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage reference and checklist
- 
+
+
+
+== Screenshots ==
+
+1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
+the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
+2. This is the second screen shot
+
+
+
 == Frequently Asked Questions ==
+
+= Are you for real? =
+
+Decline to respond.
 
 None. See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage reference and checklist
 
+
+
 == Changelog ==
-
-= 0.3 =
-
-* Converted to Parent Theme
-* Created version 0.1 of Kitchen Sink CHILD BASE theme
-
-= 0.2 =
-
-* Minor improvements and feature additions such as slideshow shortcodes and more
 
 = 0.1 =
 
-* Created
+* Provenance
 
-==Readme Generator== 
-
-This Readme file was generated using <a href = 'http://sudarmuthu.com/wordpress/wp-readme'>wp-readme</a>, which generates readme files for WordPress Plugins.
