@@ -86,8 +86,22 @@
  */ 
     //require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/kitchen-sink-html5-base.php'; // Uncomment and edit path if you want to use KST without it showing up in plugin list
     //$test = new KST_HTML5_BASE(); // Make it go
-     kst_theme_init($kst_settings); // Initialize KST with your seetings
+    //NOTE: This is a temporary hack until we decide on how we can protect the theme if somehow KST isn't loaded (ala turning off the plugin)
+    if ( function_exists( 'kst_theme_init' ) ) {
+        kst_theme_init($kst_settings);
+    } else {
+        // Having a FUN and useful help message would be cool.
+        echo "<h1>Pretty cool!<br />You are using a Kitchen Sink based WordPress theme<br />HOWEVER...</h1><p>...you have not activated the KST Plugin in WordPress OR you haven't included it as library in your theme.<br />See the <a href='http://beingzoe.com/zui/wordpress/kitchen_sink_theme'>documentation</a> if you need assistance.</p><p><a href='#'>Sign in</a> to WordPress.";
+        // Needs to check if it is in the admin section OR in the login page (login is not in the admin)
+        if ( is_admin() ) {
+            return;
+        } else {
+            exit;
+        }
+        
+    }
 
+        
 /* INCLUDE THEME-WIDE LIBRARIES/FUNCTIONALITY
  * This is why you are using KST...
  */
@@ -95,61 +109,61 @@
     /* KST sensible defaults (no hassle html5 and and core stuff) 
      * Don't include if you want to do it ALL yourself and just want access to the classes/libraries/functionality
      */ 
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_sensible_defaults.php';
+    require_once KST_DIR_LIB . '/KST/functions/wp_sensible_defaults.php';
     
-    /* KST_OPTIONs
+    /* KST_Options
      * Uses your $theme_options array(s) to create admin menus/pages 
      */ 
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/KST_OPTIONS.php';
+    require_once KST_DIR_LIB . '/KST/Options.php';
     /* Add your menus/pages */ 
-    $kst_options = new KST_OPTIONS(THEME_ID, THEME_NAME, 'theme_options', 'top', 'Theme Options');
-    $more_options = new KST_OPTIONS(THEME_ID, THEME_NAME, 'theme_options2', $kst_options, 'More Options', 'My CUSTOM page TITLE');
-    $more_options2 = new KST_OPTIONS(THEME_ID, THEME_NAME, 'theme_options2', $kst_options, 'More Options2', 'Important Settings');
+    $kst_options = new KST_Options(THEME_ID, THEME_NAME, 'theme_options', 'top', 'Theme Options');
+    $more_options = new KST_Options(THEME_ID, THEME_NAME, 'theme_options2', $kst_options, 'More Options', 'My CUSTOM page TITLE');
+    $more_options2 = new KST_Options(THEME_ID, THEME_NAME, 'theme_options2', $kst_options, 'More Options2', 'Important Settings');
     
     /* KST SEO and META DATA */
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_theme_meta_data.php'; // SEO and other meta data built-in; Dependent on theme_options;
+    require_once KST_DIR_LIB . '/KST/functions/theme_meta_data.php'; // SEO and other meta data built-in; Dependent on theme_options;
     
     /* KST THEME HELP */
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_theme_help.php'; // Activates and includes admin help file theme_help.php 
+    require_once KST_DIR_LIB . '/KST/functions/theme_help.php'; // Activates and includes admin help file theme_help.php 
     
     /* KST mp3 player with shortcode */
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_mp3_player.php'; // mp3 player shortcode - used in attachment.php if exists
+    require_once KST_DIR_LIB . '/KST/functions/mp3_player.php'; // mp3 player shortcode - used in attachment.php if exists
     
     /* KST/jQuery: lightbox library using fancybox */
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_jquery_lightbox.php'; // javascript lightbox; includes hacks for [gallery] shortcode
+    require_once KST_DIR_LIB . '/KST/functions/jquery/lightbox.php'; // javascript lightbox; includes hacks for [gallery] shortcode
     
     /* KST/jQuery: Content slideshow - CHOOSE either scrollables or cycle */
         /* KST/jQuery: tools: scrollable */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_jquery_scrollables.php'; // javascript content slideshow; create scrollable and shortcode to use it
+        require_once KST_DIR_LIB . '/KST/functions/jquery/scrollables.php'; // javascript content slideshow; create scrollable and shortcode to use it
         /* KST/jQuery: malsup cycle content */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_jquery_cycle.php'; // javascript content slideshow; create scrollable and shortcode to use it
+        require_once KST_DIR_LIB . '/KST/functions/jquery/cycle.php'; // javascript content slideshow; create scrollable and shortcode to use it
         
     /* KST/jQuery: KST JIT message */
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_jquery_jit_message.php'; // javascript JIT (just in time) message box and metabox custom fields to use it
+    require_once KST_DIR_LIB . '/KST/functions/jquery/jit_message.php'; // javascript JIT (just in time) message box and metabox custom fields to use it
     
     /* KST SEND MAIL - ??? */
-    //require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/zui_send_mail.php'; // send email abstraction functions    
+    //require_once KST_DIR_LIB . '/KST/functions/zui_send_mail.php'; // send email abstraction functions    
     
     /* WIDGETS
      */
         /* KST next/previous post buttons for sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_NavPost.php'; // Post to post next/previous buttons (only on single blog posts)
+        require_once KST_DIR_LIB . '/KST/Widget/NavPost.php'; // Post to post next/previous buttons (only on single blog posts)
         
         /* KST older/PREVIOUS post buttons for sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_NavPosts.php'; // Page to page posts older/newer (only on indexes i.e. blog home, archives)
+        require_once KST_DIR_LIB . '/KST/Widget/NavPosts.php'; // Page to page posts older/newer (only on indexes i.e. blog home, archives)
         
         /* KST JIT (Just-in-Time Sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_JITSidebar.php'; // Magic floating sidebars
+        require_once KST_DIR_LIB . '/KST/Widget/JITSidebar.php'; // Magic floating sidebars
     
     /**
      * @uses    -the plugin path
      * @uses    KST_ASIDE_ASIDES class
-     * @uses    KST_OPTIONS::get_option() 
+     * @uses    KST_Options::get_option() 
      * @uses    is_admin() WP function
      */
     if ( !is_admin() ) {
         /* Load and use KST_Asides class to manage asides side blog */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/KST_Asides.php'; // Class to save aside post for clean delayed output
+        require_once KST_DIR_LIB . '/KST/Asides.php'; // Class to save aside post for clean delayed output
         $loop_asides = new KST_Asides( $kst_options->get_option('layout_category_aside') );
     }
 
@@ -421,4 +435,4 @@
                                 )
                 
             );
-?>
+
