@@ -44,11 +44,11 @@ if ( !class_exists('KST_Options') ) return;
  * @uses        WPAlchemy_MetaBox
  */
 global $theme_options, $kst_mb_meta_data, $kst_options;
-require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/WPAlchemy_MetaBox.php'; // WP admin meta boxes
+require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/vendor/WPAlchemy/MetaBox.php'; // WP admin meta boxe
 $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
     'id' => '_kst_wp_meta_data',
     'title' => 'SEO &amp; Meta Data',
-    'template' => TEMPLATEPATH . '/_application/meta_boxes/kst_theme_meta_data.php',
+    'template' => TEMPLATEPATH . '/templates/meta_boxes/kst_theme_meta_data.php',
     'context' => 'normal',
     'priority' => 'high',
 ));

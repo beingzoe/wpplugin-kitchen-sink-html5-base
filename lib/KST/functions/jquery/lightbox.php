@@ -31,8 +31,8 @@
 /*
  * Load Fancybox via wphead();
  */
-wp_enqueue_style('fancybox', get_stylesheet_directory_uri() . '/_assets/stylesheets/fancybox.css');
-wp_enqueue_script('fancybox', get_template_directory_uri() . '/_assets/javascripts/jquery/jquery.fancybox-1.3.4.js' , array('jquery','application') , '1.3.4', true);
+wp_enqueue_style('fancybox', get_stylesheet_directory_uri() . '/assets/stylesheets/fancybox.css');
+wp_enqueue_script('fancybox', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.fancybox-1.3.4.js' , array('jquery','application') , '1.3.4', true);
 
 /**
  * Force gallery thumbnails to link to the fullsize image

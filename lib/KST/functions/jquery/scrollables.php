@@ -74,7 +74,7 @@
 //N.B.:shortcodes usage inject stylesheet with javascript since we don't know if it is needed until it is too late it enqueue it
 
 //ACTUALY N.B.THIS: the injected stylesheet doesn't work correctly so we are just loading the styles all the time for now
-//wp_register_style('scrollables', get_stylesheet_directory_uri() . '/_assets/stylesheets/scrollables.css'); //
+//wp_register_style('scrollables', get_stylesheet_directory_uri() . '/assets/stylesheets/scrollables.css'); //
 //wp_enqueue_style('scrollables');
 //ACTUALLY ACTUALLY since we are loading it all the time anyway I just put it in the main stylesheet
 
@@ -391,12 +391,12 @@ function print_scrollable_scripts() {
                     rel: 'stylesheet',
                     type: 'text/css',
                     media: 'screen',
-                    href: '<?php echo get_template_directory_uri() . '/_assets/stylesheets/scrollables.css' ?>'
+                    href: '<?php echo get_template_directory_uri() . '/assets/stylesheets/scrollables.css' ?>'
                 }));
             });
         */
         
-        //wp_register_script('jquery-tools', get_template_directory_uri() . '/_assets/javascripts/jquery/jquery.tools.min.js' , array('jquery') , '1.2.3', true);
+        //wp_register_script('jquery-tools', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.tools.min.js' , array('jquery') , '1.2.3', true);
         //http://cdn.jquerytools.org/1.2.3/all/jquery.tools.min.js
         //http://cdn.jquerytools.org/1.2.5/all/jquery.tools.min.js
         //http://cdn.jquerytools.org/1.2.5/tiny/jquery.tools.min.js

@@ -79,13 +79,13 @@
 //N.B.:shortcodes usage inject stylesheet with javascript since we don't know if it is needed until it is too late it enqueue it
 
 //ACTUALY N.B.THIS: the injected stylesheet doesn't work correctly so we are just loading the styles all the time for now
-//wp_register_style('cyclables', get_stylesheet_directory_uri() . '/_assets/stylesheets/cyclables.css'); //
+//wp_register_style('cyclables', get_stylesheet_directory_uri() . '/assets/stylesheets/cyclables.css'); //
 //wp_enqueue_style('cyclables');
 //ACTUALLY ACTUALLY since we are loading it all the time anyway I just put it in the main stylesheet
 
 
-//wp_register_script('jquery-tools', get_template_directory_uri() . '/_assets/javascripts/jquery/jquery.tools.min.js' , array('jquery') , '1.2.3', true);
-wp_register_script('jquery-cycle', get_template_directory_uri() . '/_assets/javascripts/jquery/jquery.cycle.all.min.js' , array('jquery','application') , '1.2.3', true);
+//wp_register_script('jquery-tools', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.tools.min.js' , array('jquery') , '1.2.3', true);
+wp_register_script('jquery-cycle', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.cycle.all.min.js' , array('jquery','application') , '1.2.3', true);
 /* Register shortcodes */
 add_shortcode('cycle_class', 'kst_shortcode_cycle_class'); //Add shortcode handler
 add_shortcode('cycle_header', 'kst_shortcode_cycle_header'); //Add shortcode handler
@@ -398,7 +398,7 @@ function print_cycle_scripts() {
                     rel: 'stylesheet',
                     type: 'text/css',
                     media: 'screen',
-                    href: '<?php echo get_template_directory_uri() . '/_assets/stylesheets/cyclables.css' ?>'
+                    href: '<?php echo get_template_directory_uri() . '/assets/stylesheets/cyclables.css' ?>'
                 }));
             });
         */
