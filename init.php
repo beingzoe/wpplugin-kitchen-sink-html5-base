@@ -52,21 +52,21 @@ function kst_theme_init($settings) {
     /**
      * Current path of KST plugin
      */
-    define( 'KST_DIR',               dirname(__FILE__) );
-    define( 'KST_DIR_LIB',     KST_DIR . '/lib' );
-    define( 'KST_DIR_VENDOR',     KST_DIR . '/vendor' );
-    define( 'KST_DIR_TEMPLATES',     KST_DIR . '/templates' );
-    define( 'KST_DIR_ASSETS',        KST_DIR . '/assets' );
-    define( 'THEME_NAME_CURRENT',    get_current_theme() );
+    define( 'KST_DIR',              dirname(__FILE__) );
+    define( 'KST_DIR_LIB',          KST_DIR . '/lib' );
+    define( 'KST_DIR_VENDOR',       KST_DIR . '/vendor' );
+    define( 'KST_DIR_TEMPLATES',    KST_DIR . '/templates' );
+    define( 'KST_DIR_ASSETS',       KST_DIR . '/assets' );
+    define( 'THEME_NAME_CURRENT',   get_current_theme() );
     /**
      * Set by developer for the theme
      */
-    define( 'THEME_NAME',            $settings['theme_name'] );
-    define( 'THEME_ID',              $settings['theme_id'] );
-    define( 'THEME_DEVELOPER',       $settings['theme_developer'] );
-    define( 'THEME_DEVELOPER_URL',   $settings['theme_developer_url'] );
-    define( 'THEME_HELP_URL',        "themes.php?page=" . THEME_ID . "_help" ); // path to theme help file
-    define( 'CONTENT_WIDTH',         $settings['content_width'] ); // We use this to minimize global scope variables and for sensible defaults
+    define( 'THEME_NAME',           $settings['theme_name'] );
+    define( 'THEME_ID',             $settings['theme_id'] );
+    define( 'THEME_DEVELOPER',      $settings['theme_developer'] );
+    define( 'THEME_DEVELOPER_URL',  $settings['theme_developer_url'] );
+    define( 'THEME_HELP_URL',       "themes.php?page=" . THEME_ID . "_help" ); // path to theme help file
+    define( 'CONTENT_WIDTH',        $settings['content_width'] ); // We use this to minimize global scope variables and for sensible defaults
     /**
      * Override default WP excerpt length; Used by kst_excerpt_length() filter
      * @see kst_excerpt_length()
