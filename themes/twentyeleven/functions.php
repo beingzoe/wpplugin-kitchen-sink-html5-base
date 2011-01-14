@@ -25,19 +25,33 @@
  */
 
 /* SETTINGS
- * Various required data for KST 
  */
-    $theme_name             = "Kitchen Sink Demo";      //required; friendly name used by all widgets, libraries, and classes
-    $theme_id               = "ksd_0_1";                //required; Prefix for namespacing libraries, classes, widgets
-    $theme_developer        = "zoe somebody";           //required; friendly name of current developer; only used for admin display;
-    $theme_developer_url    = "http://beingzoe.com/";   //required; full URI to developer website;
+     
+    /**
+     * Various required KST settings
+     */
+    $kst_settings = array(
+        'theme_name'                => 'Twenty Eleven',                 //required; friendly name used by all widgets, libraries, and classes
+        'theme_id'                  => 'ksd_0_1',                       //required; Prefix for namespacing libraries, classes, widgets
+        'theme_developer'           => 'Joe',                           //required; friendly name of current developer; only used for admin display;
+        'theme_developer_url'       => 'http://google.com/',            //required; full URI to developer website;
+        'content_width'             => 500,                             //required; as a global variable mainly used by WP but will bear in mind in KST as a constant; maximum width of images in posts
+        'theme_excerpt_length'      => 100
+    );
+ 
+     /*
+    $theme_name             = "Kitchen Sink Demo";      
+    $theme_id               = "ksd_0_1";                
+    $theme_developer        = "zoe somebody";           
+    $theme_developer_url    = "http://beingzoe.com/";   
+    */
     
     /* WP required */
-    $content_width          = 600; // required; maximum width of images in posts; For theme design compliance and WP best practice
+    
     
     /* Things that need put into the plugin */
     $kst_meta_title_sep_default       = "&laquo;";
-    $theme_excerpt_length   = 100; //
+    $theme_excerpt_length             = 100; //
     
     
     /* Only needed if you are using the built-in KST_OPTIONS CLASS (make whatever options you like */
@@ -71,8 +85,8 @@
  * Presets a few necessary things and will be used later to enhance functionality
  */ 
     //require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/kitchen-sink-html5-base.php'; // Uncomment and edit path if you want to use KST without it showing up in plugin list
-    $test = new KST_HTML5_BASE(); // Make it go
-     
+    //$test = new KST_HTML5_BASE(); // Make it go
+     kst_theme_init($kst_settings); // Initialize KST with your seetings
 
 /* INCLUDE THEME-WIDE LIBRARIES/FUNCTIONALITY
  * This is why you are using KST...
@@ -81,7 +95,7 @@
     /* KST sensible defaults (no hassle html5 and and core stuff) 
      * Don't include if you want to do it ALL yourself and just want access to the classes/libraries/functionality
      */ 
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/sensible_defaults.php';
+    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/libraries/kst_sensible_defaults.php';
     
     /* KST_OPTIONs
      * Uses your $theme_options array(s) to create admin menus/pages 
@@ -119,23 +133,24 @@
     /* WIDGETS
      */
         /* KST next/previous post buttons for sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KSTWidgetNavPost.php'; // Post to post next/previous buttons (only on single blog posts)
+        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_NavPost.php'; // Post to post next/previous buttons (only on single blog posts)
         
         /* KST older/PREVIOUS post buttons for sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KSTWidgetNavPosts.php'; // Page to page posts older/newer (only on indexes i.e. blog home, archives)
+        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_NavPosts.php'; // Page to page posts older/newer (only on indexes i.e. blog home, archives)
         
         /* KST JIT (Just-in-Time Sidebar */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KSTWidgetJITSidebar.php'; // Magic floating sidebars
+        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/widgets/KST_Widget_JITSidebar.php'; // Magic floating sidebars
     
     /**
-     * @uses    TEMPLATEPATH
+     * @uses    -the plugin path
      * @uses    KST_ASIDE_ASIDES class
-     * @uses    KST_OPTIONS class
+     * @uses    KST_OPTIONS::get_option() 
+     * @uses    is_admin() WP function
      */
     if ( !is_admin() ) {
-        /* Load and use KST_ASIDE_ASIDES class to manage asides side blog */
-        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/KST_ASIDE_ASIDES.php'; // Class to save aside post for clean delayed output
-        $loop_asides = new KST_ASIDE_ASIDES( $kst_options->get_option('layout_category_aside') );
+        /* Load and use KST_Asides class to manage asides side blog */
+        require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/_application/classes/KST_Asides.php'; // Class to save aside post for clean delayed output
+        $loop_asides = new KST_Asides( $kst_options->get_option('layout_category_aside') );
     }
 
     

@@ -16,4 +16,5 @@ wp_enqueue_script( 'comment-reply' );
 add_theme_support( 'automatic-feed-links' ); 
 add_theme_support( 'post-thumbnails' ); 
 add_editor_style(); 
+$content_width = 500; // required; For theme design compliance and WP best practice
 ?>
