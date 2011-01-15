@@ -2,7 +2,7 @@
 /**
  * Kitchen Sink Parent Theme (KST) based on HTML5 Boilerplate and ZUI
  * 
- * 
+ * Awesomeness description
  * 
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
@@ -16,43 +16,40 @@
  * 1) Set your settings
  * 2) INSTANTIATE Kitchen Sink HTML5 Base 
  * 3) Load whatever KST you want/need
- * 4) Use it
- * 
- *  1) Initialize Parent Theme (happens after Child Theme functions.php has loaded)
- *  2) Activate Theme
- *  3) Execute Theme (Error check child theme or load stand-alone theme stuff)
- *  4) Theme Functions
+ * 4) Make Theme
  */
 
 /* SETTINGS
  */
      
     /**
-     * Various required KST settings
+     * Various Kitchen Sink HTML5 Base settings
      */
     $kst_settings = array(
-        'theme_name'                => 'Twenty Eleven',                 //required; friendly name used by all widgets, libraries, and classes
-        'theme_id'                  => 'ksd_0_1',                       //required; Prefix for namespacing libraries, classes, widgets
-        'theme_developer'           => 'Joe',                           //required; friendly name of current developer; only used for admin display;
-        'theme_developer_url'       => 'http://google.com/',            //required; full URI to developer website;
-        'content_width'             => 500,                             //required; as a global variable mainly used by WP but will bear in mind in KST as a constant; maximum width of images in posts
-        'theme_excerpt_length'      => 100
+        /* REQUIRED */
+        'theme_name'                => 'Twenty Eleven',                 // Required; friendly name used by all widgets, libraries, and classes
+        'theme_id'                  => 'ksd_0_1',                       // Required; Prefix for namespacing libraries, classes, widgets
+        'theme_developer'           => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
+        'theme_developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
+        'content_width'             => 500,                             // Required; as a global variable mainly used by WP but will bear in mind in KST as a constant; maximum width of images in posts
+        'theme_excerpt_length'      => 100,
+        /* OPTIONAL */
+        'theme_seo_title_sep'       => '&laquo;',                       // Optional; Separator between title bar title segments
+        /* OPTIONAL: Load preset configuration */
+        'load_preset'               => FALSE,                           // NOT IMPLEMENTED
+        /* OPTIONAL: Load individual functionality - Autoloading classes? (have that just in case but also allow loading through here?) */
+        'sensible_defaults'         => TRUE,                            // TRUE | theme | plugin | admin 
+        'help'                      => TRUE,                            // TRUE 
+        'seo'                       => TRUE,                            // TRUE
+        'contact'                   => TRUE,                            // TRUE
+        'widget_nav_posts'          => TRUE,                            // TRUE | post | posts (default TRUE = all)
+        'widget_jit_sidebar'        => TRUE,                            // TRUE
+        /* OPTIONAL: Should become separate plugin(s) package(s) */
+        'jquery_lightbox'           => TRUE,                            // TRUE
+        'jquery_cycle'              => TRUE,                            // TRUE
+        'jquery_tools'              => TRUE,                            // TRUE | scrollable | tabs | tooltip | overlay | form
+        'jquery_jit_message'        => TRUE                             // TRUE 
     );
- 
-     /*
-    $theme_name             = "Kitchen Sink Demo";      
-    $theme_id               = "ksd_0_1";                
-    $theme_developer        = "zoe somebody";           
-    $theme_developer_url    = "http://beingzoe.com/";   
-    */
-    
-    /* WP required */
-    
-    
-    /* Things that need put into the plugin */
-    $kst_meta_title_sep_default       = "&laquo;";
-    $theme_excerpt_length             = 100; //
-    
     
     /* Only needed if you are using the built-in KST_OPTIONS CLASS (make whatever options you like */
     $theme_options = array (
@@ -84,11 +81,14 @@
 /* INSTANTIATE KITCHEN SINK HTML5 BASE 
  * Presets a few necessary things and will be used later to enhance functionality
  */ 
+ 
     //require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/kitchen-sink-html5-base.php'; // Uncomment and edit path if you want to use KST without it showing up in plugin list
     //$test = new KST_HTML5_BASE(); // Make it go
-    //NOTE: This is a temporary hack until we decide on how we can protect the theme if somehow KST isn't loaded (ala turning off the plugin)
-    if ( function_exists( 'kst_theme_init' ) ) {
-        kst_theme_init($kst_settings);
+    
+    
+    //NOTE: This is a temporary hack until we decide on how we can protect the theme if somehow KST isn't loaded (ala turning off the plugin) but this is the criteria
+    if ( function_exists( 'kst_init' ) ) {
+        kst_init($kst_settings);
     } else {
         // Having a FUN and useful help message would be cool.
         echo "<h1>Pretty cool!<br />You are using a Kitchen Sink based WordPress theme<br />HOWEVER...</h1><p>...you have not activated the KST Plugin in WordPress OR you haven't included it as library in your theme.<br />See the <a href='http://beingzoe.com/zui/wordpress/kitchen_sink_theme'>documentation</a> if you need assistance.</p><p><a href='#'>Sign in</a> to WordPress.";
@@ -204,7 +204,7 @@
                                                                                               * Sets theme-wide widgetized area formatting arguments
                                                                                               */
                                                                                              $kst_widget_area_format_args = array( /* Common sidebar */
-                                                                                                                           'before_widget' => '<aside id="%1$s" class="sb_widget %2$s">',
+                                                                                                                           'before_widget' => '<aside id="%1$s" class="widget %2$s">',
                                                                                                                            'after_widget'  => '</aside>',
                                                                                                                            'before_title'  => '<h2 class="widget_title">',
                                                                                                                            'after_title'   => '</h2>'

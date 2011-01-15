@@ -991,13 +991,20 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
      * JIT (just-in-time) message box
      * 
      * Only loaded as needed
-     * /_assets/stylesheets/jit_message.css
+     * KST.../assets/stylesheets/jit_message.css
+     */
+    
+    /**
+     * JIT (just-in-time) sidebar
+     * 
+     * Only loaded as needed
+     * 
      */
      
     /**
      * Cycle (slideshow) plugin
      * 
-     * Sample css: /_assets/stylesheets/sample_cyclables.css
+     * Sample css: KST.../assets/stylesheets/sample_cyclables.css
      */
     /* Container .cyclables */
         .cyclable_default {

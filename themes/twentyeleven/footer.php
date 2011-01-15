@@ -30,7 +30,6 @@ global $kst_options, $kst_sidebars_footer; // This (and all template globals nee
                 'sort_column'       => 'menu_order',
                 'depth'             => '1'
                 ) );
-    echo "this is here";
     kst_widget_output_multiple_areas($kst_sidebars_footer);
     ?>
     <div id="ft_logo">
@@ -55,32 +54,7 @@ global $kst_options, $kst_sidebars_footer; // This (and all template globals nee
     </span>
 </address>
 
-<!--[if lt IE 7 ]>
-<script src="<?php echo get_template_directory_uri(); ?>/_assets/javascripts/libraries/dd_belatedpng.js"></script>
-<script> DD_belatedPNG.fix('img, .png_bg'); </script>
-<![endif]-->
-
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
-<script>!window.jQuery && document.write(unescape('%3Cscript src="<?php echo get_template_directory_uri(); ?>/_assets/javascripts/jquery/jquery-1.4.4.min.js"%3E%3C/script%3E'))</script>
-  
-<?php 
-    wp_footer();
-    
-    /* KST built-in google analytics output with HTML5 Boilerplate script */
-    
-    if ( isset($kst_options) && $kst_options->get_option("ga_tracking_id") ) {
-?>
-        <script type="text/javascript">
-            var _gaq = [['_setAccount', '<?php echo $kst_options->get_option("ga_tracking_id"); ?>'], ['_trackPageview']];
-            (function(d, t) {
-            var g = d.createElement(t),
-                s = d.getElementsByTagName(t)[0];
-            g.async = true;
-            g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g, s);
-            })(document, 'script');
-        </script>
-    <?php } ?>
+<?php wp_footer(); ?>
 
 </body>
 </html>
