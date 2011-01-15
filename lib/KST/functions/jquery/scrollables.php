@@ -391,12 +391,12 @@ function print_scrollable_scripts() {
                     rel: 'stylesheet',
                     type: 'text/css',
                     media: 'screen',
-                    href: '<?php echo get_template_directory_uri() . '/assets/stylesheets/scrollables.css' ?>'
+                    href: '<?php echo KST_URI_ASSETS . '/stylesheets/scrollables.css' ?>'
                 }));
             });
         */
         
-        //wp_register_script('jquery-tools', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.tools.min.js' , array('jquery') , '1.2.3', true);
+        //wp_register_script('jquery-tools', KST_URI_ASSETS . '/javascripts/jquery/jquery.tools.min.js' , array('jquery') , '1.2.3', true);
         //http://cdn.jquerytools.org/1.2.3/all/jquery.tools.min.js
         //http://cdn.jquerytools.org/1.2.5/all/jquery.tools.min.js
         //http://cdn.jquerytools.org/1.2.5/tiny/jquery.tools.min.js
@@ -459,7 +459,7 @@ The minimum setup is at least one [scrollable_slide /]
 </p>
 
 <p>
-    <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/application.js
+    <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
 </p>
 
 <br /><br />

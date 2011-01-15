@@ -44,11 +44,11 @@ if ( !class_exists('KST_Options') ) return;
  * @uses        WPAlchemy_MetaBox
  */
 global $theme_options, $kst_mb_meta_data, $kst_options;
-require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/vendor/WPAlchemy/MetaBox.php'; // WP admin meta boxe
+require_once KST_DIR_VENDOR . '/WPAlchemy/MetaBox.php'; // WP admin meta boxe
 $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
     'id' => '_kst_wp_meta_data',
     'title' => 'SEO &amp; Meta Data',
-    'template' => TEMPLATEPATH . '/templates/meta_boxes/kst_theme_meta_data.php',
+    'template' => KST_DIR_TEMPLATES . '/meta_boxes/kst_theme_meta_data.php',
     'context' => 'normal',
     'priority' => 'high',
 ));
@@ -63,7 +63,7 @@ $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
     if ( $kst_options->get_option( 'meta_title_sep' ) )
         $meta_title_sep = $kst_options->get_option( 'meta_title_sep' );
     else
-        $meta_title_sep = $kst_meta_title_sep_default; //@todo actually create/update the value if form field is blank on save
+        $meta_title_sep = KST_SEO_TITLE_SEPARATOR_DEFAULT; //@todo actually create/update the value if form field is blank on save
         
     $options_page = THEME_HELP_URL;
     $meta_theme_options = array (
@@ -89,9 +89,9 @@ $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
                                         "type"    => "checkbox"),
                                   
                                 array(  "name"  => __('Separator'),
-                                        "desc"  => __("Defaults to {$kst_meta_title_sep_default}<br />Character or symbol used to separate title parts e.g. My groovy post {$meta_title_sep} Page 2 {$meta_title_sep} MyBlog.com"),
+                                        "desc"  => __("Defaults to" . KST_SEO_TITLE_SEPARATOR_DEFAULT . "<br />Character or symbol used to separate title parts e.g. My groovy post {$meta_title_sep} Page 2 {$meta_title_sep} MyBlog.com"),
                                         "id"    => "meta_title_sep",
-                                        "default"   => $kst_meta_title_sep_default,
+                                        "default"   => KST_SEO_TITLE_SEPARATOR_DEFAULT,
                                         "type"  => "text",
                                         "size"  => "8"),
                                 
@@ -280,6 +280,30 @@ add_action('wp_head', 'kst_meta_keywords');
 
 
 /**
+ * KST built-in google analytics output with HTML5 Boilerplate script
+ */
+function KST_google_analytics_boilerplate() {
+?>
+    <script type="text/javascript">
+        var _gaq = [['_setAccount', '<?php echo $kst_options->get_option("ga_tracking_id"); ?>'], ['_trackPageview']];
+        (function(d, t) {
+        var g = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        g.async = true;
+        g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        s.parentNode.insertBefore(g, s);
+        })(document, 'script');
+    </script>
+<?php
+ }
+ /*
+if ( isset($kst_options) && $kst_options->get_option("ga_tracking_id") ) {
+    add_action('wp_footer', 'KST_google_analytics_boilerplate');
+}
+*/
+
+
+/**
  * Makes some changes to the <title> tag, by filtering the output of wp_title().
  * Based on twentyten_filter_wp_title() Twenty Ten 1.0
  * Tweaked to accomodate existing SEO in scope for theme
@@ -308,12 +332,12 @@ function kst_filter_wp_title( $title, $separator, $is_single_title_as_wp_title =
     // $paged global variable contains the page number of a listing of posts.
     // $page global variable contains the page number of a single post that is paged.
     // Display whichever one applies, if we're not looking at the first page.
-    global $paged, $page, $post, $kst_mb_meta_data, $kst_options, $kst_meta_title_sep_default;
+    global $paged, $page, $post, $kst_mb_meta_data, $kst_options;
     
     if ( isset($kst_options) ) 
-        $separator = $kst_options->get_option("meta_title_sep", $kst_meta_title_sep_default); // override wp_title($separator)
+        $separator = $kst_options->get_option("meta_title_sep", KST_SEO_TITLE_SEPARATOR_DEFAULT); // override wp_title($separator)
     else
-        $separator = $kst_meta_title_sep_default; //default
+        $separator = KST_SEO_TITLE_SEPARATOR_DEFAULT; //default
     
     /* Feeds  */ 
     if ( is_feed() ) 

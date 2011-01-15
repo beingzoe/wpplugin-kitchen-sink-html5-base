@@ -2,7 +2,7 @@
 /**
  * Parent class
  */
-require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/lib/KST/Widget.php';
+require_once KST_DIR_LIB . '/KST/Widget.php';
 
 /**
  * WordPress Widget Class to show older/newer paged posts buttons in dynamic sidebar

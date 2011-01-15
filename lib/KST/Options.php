@@ -10,7 +10,7 @@
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkClasses
- * @version     0.4
+ * @version     0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @todo        finish adding size option to control input sizes (do it better)
  * 

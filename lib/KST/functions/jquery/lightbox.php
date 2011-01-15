@@ -31,8 +31,8 @@
 /*
  * Load Fancybox via wphead();
  */
-wp_enqueue_style('fancybox', get_stylesheet_directory_uri() . '/assets/stylesheets/fancybox.css');
-wp_enqueue_script('fancybox', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.fancybox-1.3.4.js' , array('jquery','application') , '1.3.4', true);
+wp_enqueue_style('fancybox', get_stylesheet_directory_uri() . '/_assets/stylesheets/fancybox.css');
+wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancybox-1.3.4.js' , array('jquery','application') , '1.3.4', true);
 
 /**
  * Force gallery thumbnails to link to the fullsize image
@@ -95,7 +95,7 @@ function kst_theme_help_lightbox($part) {
     You may also lightbox content by adding the class ".lightbox" to any anchor.<br />
 </p>
 <p>
-    <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/application.js
+    <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
 </p>
 
 <br /><br />

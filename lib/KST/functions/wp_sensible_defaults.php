@@ -88,7 +88,7 @@ add_filter( 'excerpt_length', 'kst_excerpt_length');
 
 
 /* INITIALIZE HTML
- * Parent Theme loads style.css, modernizr, jQuery (from Google CDN), and application.js for the Child Theme
+ * Parent Theme loads style.css, modernizr, jQuery (from Google CDN), and script.js for the Child Theme
  * TODO: Apparently we need to load this stuff (and what else?) via add_action('init', 'kst_init_this_shit')
  */
 if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
@@ -97,21 +97,42 @@ if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
 
     /* Load JAVASCRIPT */
 
-    /* Load Modernizr */
-    wp_register_script( 'modernizr', get_template_directory_uri() . '/assets/javascripts/libraries/modernizr-1.6.min.js', false, '1.6', false);
+    /* HTML5 BOILERPLATE: Load Modernizr */
+    wp_register_script( 'modernizr', KST_URI_ASSETS . '/javascripts/libraries/modernizr-1.6.min.js', false, '1.6', false);
     wp_enqueue_script( 'modernizr' );
-
-    /* Load jQuery: Register jQuery as hack but load in footer.php using HTML5Boilerplate with fallback; TODO: FIND A BETTER WAY */
+    
+    /* HTML5 BOILERPLATE: Load dd_belatedpng.js */
+    add_action('get_footer', 'dd_belatedpng_js_hack');
+    function dd_belatedpng_js_hack() {
+        $output = "<!--[if lt IE 7 ]>"; 
+        $output .= "<script src='" . get_template_directory_uri() . "/_assets/javascripts/libraries/dd_belatedpng.js'></script>";
+        $output .= "<script> DD_belatedPNG.fix('img, .png_bg'); </script>";
+        $output .= "<![endif]-->";
+        echo $output;
+    }
+    
+    
+    /* HTML5 BOILERPLATE: Load jQuery: Register jQuery as hack but load via action hook ('get_footer') using HTML5Boilerplate with fallback; TODO: FIND A BETTER WAY */
     wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', get_template_directory_uri() . '/assets/javascripts/empty.js', false, 'x', true);
+    wp_register_script( 'jquery', KST_URI_ASSETS . '/javascripts/empty.js', false, 'x', true);
     wp_enqueue_script( 'jquery' );
+    
+    /* HTML5 BOILERPLATE: This actually loads jquery - what to do about wp_enqueue_script and jquery dependencies to this RIGHT? */
+    add_action('get_footer', 'html5_boiler_plate_jquery_hack');
+    function html5_boiler_plate_jquery_hack() {
+        $output = "<script src='//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js'></script>"; 
+        $output .= "<script>!window.jQuery && document.write(unescape('%3Cscript src=\"" . KST_URI_ASSETS . "/javascripts/jquery/jquery-1.4.4.min.js\"%3E%3C/script%3E'))</script>";
+        echo $output;
+    }
 
     /* Theme-wide Plugins and Application JS */
-    wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true);
-    wp_enqueue_script('application', get_stylesheet_directory_uri() . '/assets/javascripts/application.js' , array( 'jquery' ) , '0.1', true);
+    wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/_assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true);
+    wp_enqueue_script('application', get_stylesheet_directory_uri() . '/_assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true);
 } else {
-    wp_enqueue_script('application_admin', get_stylesheet_directory_uri() . '/assets/javascripts/application_admin.js' , array( 'jquery' ) , '0.1', true);
+    // I don't think this is happening AND WHY is this also a hook callback to echo the link directly to the page if it is? login?
+    wp_enqueue_script('application_admin', get_stylesheet_directory_uri() . '/_assets/javascripts/script_admin.js' , array( 'jquery' ) , '0.1', true);
 }
+
 
 
 /**
@@ -393,6 +414,6 @@ if ( !function_exists('kst_caption_shortcode_filtered') ) {
 /* FUNCTIONS: Admin ONLY
  */
 if ( is_admin() ) {
-    require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/lib/KST/functions/wp_admin.php';
+    require_once KST_DIR_LIB . '/KST/functions/wp_admin.php';
 }
 
