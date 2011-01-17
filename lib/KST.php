@@ -29,44 +29,127 @@ class KST {
      * 
      * @since 0.1
      */
-    public function __construct( $settings ) {
-        KST::init_core();
-        /* Make sure they set a 'prefix' in their setting array or give help */
-        if ( isset($settings['prefix']) ) { // Need an id to proceed
-            
-            /* Define a variable variable constant for each doodad so they can reference their own object */
-            define($settings['prefix'], $settings['prefix']); // constant named by prefix with a value of it's own name
-        } else { // Help them
-            exit('<h1>No "prefix" has been given in your settings array</h1><p>Make sure you have created a settings array with the required settings included</p>');
-        }
+    public function __construct() {
+        
+    }
+    
+    public function echo_this() {
+        echo "Yup we can do that with " . $this->get_friendly_name() . " " . $this->get_prefix() . " " . $this->get_developer() . " " . $this->get_developer_url();
     }
     
     /**
-     * Set is_plugins_loaded
-     * Flag to know whether we are initializing a plugin or the active theme
-     * Hook set in init.php
-     * 
-     * @since       0.1
-     
+     * COMMON THEME/PLUGIN PROTECTED MEMBER VARIABLES
+     * Acessors and Mutators
      */
-     public static function plugins_are_loaded() {
-         self::$_plugins_are_loaded = true;
-     }
-     
-    /**
-     * Get is_plugins_loaded
-     * Flag to know whether we are initializing a plugin or the active theme
-     * 
-     * @since       0.1
-     */
-     public static function are_plugins_loaded() {
-         return self::$_plugins_are_loaded;
-     }
-     
     
     /**
+     * Get this friendly_name
+     * 
+     * @since       0.1
+     * @access      public
+     */
+    public function get_friendly_name() {
+        return $this->friendly_name;
+    }
+    
+    /**
+     * Set this friendly_name
+     * 
+     * @since       0.1
+     * @access      protected
+     */
+    protected function set_friendly_name($value) {
+        $this->friendly_name = $value;
+    }
+    
+    /**
+     * Get this prefix
+     * 
+     * @since       0.1
+     * @access      public
+     */
+    public function get_prefix() {
+        return $this->prefix;
+    }
+    
+    /**
+     * Set this prefix
+     * 
+     * @since       0.1
+     * @access      protected
+     */
+    protected function set_prefix($value) {
+        $this->prefix = $value;
+    }
+    
+    /**
+     * Get this developer
+     * 
+     * @since       0.1
+     * @access      public
+     */
+    public function get_developer() {
+        return $this->developer;
+    }
+    
+    /**
+     * Set this developer
+     * 
+     * @since       0.1
+     * @access      protected
+     */
+    protected function set_developer($value) {
+        $this->developer = $value;
+    }
+    
+    /**
+     * Get this developer_url
+     * 
+     * @since       0.1
+     * @access      public
+     */
+    public function get_developer_url() {
+        return $this->developer_url;
+    }
+    
+    /**
+     * Set this developer_url
+     * 
+     * @since       0.1
+     * @access      protected
+     */
+    protected function set_developer_url($value) {
+        $this->developer_url = $value;
+    }
+   
+    
+    /*
      * PUBLIC STATIC INIT FEATURE METHODS
      */
+     
+    /**
+     * Init theme or plugin first
+     * Determine if we are loading a theme or plugin
+     * Instantiate an object for it to interface with
+     * 
+     * @since       0.1
+     */
+    public static function new_doodad( $settings ) {
+        /* Make sure they set a 'prefix' in their setting array or give help */
+        if ( isset($settings['prefix']) ) { // Need an id to proceed
+            if ( KST::are_plugins_loaded() ) { // We are defining a theme
+                require_once KST_DIR_LIB . '/KST/Theme.php'; // Make sure we have the KST_Doodad class loaded (probably should be loaded with KST_Options
+                return new KST_Theme( $settings );
+        } else { // We are defining a plugin
+                require_once KST_DIR_LIB . '/KST/Plugin.php'; // Make sure we have the KST_Doodad class loaded (probably should be loaded with KST_Options
+                return new KST_Plugin( $settings );
+        }
+        } else { // Help them
+            exit('<h1>No "prefix" has been given in your settings array</h1><p>Make sure you have created a settings array with the required settings included</p>');
+        }
+       
+    }
+    
      
     /**
      * KST presets
@@ -74,7 +157,7 @@ class KST {
      * @since       0.1
      */
     public static function new_with_preset_configuration( $settings, $preset = 'default') {
-        $new = self.new($settings);
+        $new = self::new_doodad($settings);
         switch ($preset) {
             case 'minimum':
                 self::init_sensible_defaults();
@@ -252,5 +335,30 @@ class KST {
     public static function init_kst_jquery_tools_scrollable() {
         require_once KST_DIR_LIB . '/functions/jquery/scrollables.php';
     }
+    
+    /**
+     * PUBLIC STATIC HELPER METHODS
+     */
+     
+    /**
+     * Set is_plugins_loaded
+     * Flag to know whether we are initializing a plugin or the active theme
+     * Hook set in init.php
+     * 
+     * @since       0.1
+     */
+     public static function plugins_are_loaded() {
+         self::$_plugins_are_loaded = true;
+     }
+     
+    /**
+     * Get is_plugins_loaded
+     * Flag to know whether we are initializing a plugin or the active theme
+     * 
+     * @since       0.1
+     */
+     public static function are_plugins_loaded() {
+         return self::$_plugins_are_loaded;
+     }
 
 }
