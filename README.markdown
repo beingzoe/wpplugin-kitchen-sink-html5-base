@@ -1,11 +1,5 @@
 # Kitchen Sink HTML5 Base #
 
-Contributors: beingzoe
-Tags: html5, boilerplate, zui, theme, framework, development, tools, libraries, classes
-Requires at least: 3.0
-Tested up to: 3.0.1
-Stable tag: 0.1
-
 WordPress Theme Framework Plugin/Library of optimized sementic HTML5 awesomeness 
 and a sensible starting point for developing WordPress themes (and possibly other plugins)
 

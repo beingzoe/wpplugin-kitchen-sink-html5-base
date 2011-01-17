@@ -2,7 +2,7 @@
 /**
  * Parent class
  */
-require_once WP_PLUGIN_DIR . '/kitchen-sink-html5-base/lib/KST/Widget.php';
+require_once KST_DIR_LIB . '/KST/Widget.php';
 
 /**
  * WordPress Widget Class to trigger JIT (just-in-time) floating sidebar
@@ -89,7 +89,7 @@ add_action('widgets_init', create_function('', 'return register_widget("KST_Widg
  * @uses        wp_print_scripts() WP function
  */
 function print_jit_message_scripts() {
-    wp_register_script('jit_sidebar', get_template_directory_uri() . '/assets/javascripts/jquery/jquery.kst_jit_sidebar.js' , array('jquery') , '0.1', true);
+    wp_register_script('jit_sidebar', KST_URI_ASSETS . '/javascripts/jquery/jquery.kst_jit_sidebar.js' , array('jquery') , '0.1', true);
     /* just print the script directly to the page with wp_footer */
     wp_print_scripts('jit_sidebar');
     echo '<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_sidebar) { $(this).jit_sidebar(); }; });</script>';
