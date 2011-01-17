@@ -85,16 +85,17 @@
 
         
         /* Invoke the plugin to use it */
-        KST::init($kst_settings);
+        $theme = new KST_Doodad($kst_settings);
+        /* OPTIONAL: Load preset configuration  
+         * default, minimum, and_the_kitchen_sink */
+        //$theme = KST_Doodad::new_with_preset_configuration($kst_settings, 'and_the_kitchen_sink');
         
         
         //echo KST::{ksd_0_1}->testme;
         
         
         
-        /* OPTIONAL: Load preset configuration  
-         * default, minimum, and_the_kitchen_sink */
-        //$KST::init_preset_configuration('and_the_kitchen_sink');
+        
         
         /* OPTIONAL: Load individual functionality - Autoloading classes? (have that just in case but also allow loading through here?) */
         
