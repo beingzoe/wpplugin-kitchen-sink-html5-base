@@ -12,6 +12,9 @@
  * @subpackage  KitchenSinkClasses
  * @version     0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @todo        Create a single object for all menus? so they can talk to each other
+ * @todo        serialize options for each menu and store in one option
+ * @todo        once serialized make update get_option 
  * @todo        finish adding size option to control input sizes (do it better)
  * 
  * http://codex.wordpress.org/Adding_Administration_Menus
@@ -19,13 +22,27 @@
  * Using code and concepts from the Biblioteca framework theme (http://wpshout.com/)
  */
 
+/**
+ * Classes to encapsulate access to admin menu global arrays $menu and $submenu
+ * Likely to be included in future WP core (version 3.2 ???)
+ * 
+ * @since       0.1
+ * @see         WP_AdminMenuSection
+ * @see         WP_AdminMenuItem
+ * @uses        WP_AdminMenu
+ */
+if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSection') ) {
+    require_once KST_DIR_VENDOR . '/WP/AdminMenu.php';
+}
+
+ 
 class KST_Options {
     
     /**#@+
      * @access private
      * @var string
      */
-    private $prefix;                    // id/prefix to namespace the options; For consistency I use the same theme_id or plugin_id on all option pages in said theme/plugin; "_" appended by default e.g. 'prefix' = 'prefix_'
+    private $prefix;                    // id/prefix to namespace the options; For consistency I use the same doodad_id on all option pages in said theme/plugin; "_" appended by default e.g. 'prefix' = 'prefix_'
     private $doodad_name;               // Friendly theme/plugin name
     private $settings_options_group;    // String name of options group name used by WordPress
     private $options_array_name;        // NAME of the Array containing the options to use for page e.g. 'my_array' NOT '$my_array';
@@ -54,7 +71,7 @@ class KST_Options {
      * Initialize the class
      * 
      * @since       0.1
-     * @param       string prefix                   // id/prefix to namespace the options; For consistency I use the same theme_id or plugin_id on all option pages in said theme/plugin; "_" appended by default e.g. 'prefix' = 'prefix_'
+     * @param       string prefix                   // id/prefix to namespace the options; For consistency I use the same 'prefix' on all option pages in said theme/plugin; "_" appended by default e.g. 'prefix' = 'prefix_'
      * @param       string doodad_name              // Friendly theme/plugin name
      * @param       string options_array_name       // NAME of the Array containing the options to use for page e.g. 'my_array' NOT '$my_array';
      * @param       array options_array             // Your array used globally by reference (via option_array_name; Options/content for options page;
@@ -66,10 +83,10 @@ class KST_Options {
      * @uses        is_admin() WP function
      * @uses        add_action() WP function
      */
-    public function __construct($prefix, $doodad_name, $options_array_name, $parent_menu, $menu_title, $page_title = FALSE) {
+    public function __construct($options_array_name, $parent_menu, $menu_title, $page_title = FALSE) {
         
-        $this->prefix = $prefix . "_"; // Cause it looks better in the address bar
-        $this->doodad_name = $doodad_name;
+        $this->prefix = THEME_ID . "__"; // Cause it looks better in the address bar and helps unsure a unique namespace
+        $this->doodad_name = THEME_NAME;
         $this->settings_options_group = $this->prefix . "_options_group";
         $this->options_array_name = $options_array_name;
         
@@ -538,7 +555,7 @@ class KST_Options {
         $output .= "</form>";
         
         /* Reset options form */
-        if ( isset($can_save) ) {
+        if ( $can_save ) {
             $output .= "<form method='post'>";
                 $output .= "<p class='submit'>";
                     $output .= "<input type='submit' class='button-secondary' value='Reset' title='Delete current settings and reset to defaults' />";
@@ -566,6 +583,7 @@ class KST_Options {
      * @uses        KST_Options::manage_page()
      * @uses        add_theme_page() WP function
      * @uses        add_action() WP function
+     * @uses        WP_AdminMenu
      */
     public function add_page() {
         /* Get their options array now (hopefully late enough to catch any stragglers) */
@@ -576,7 +594,15 @@ class KST_Options {
         
         /* Are we adding a top level menu? */
         if ( 'top' == $this->parent_menu ) {
-            add_menu_page( $this->page_title, $this->menu_title, 'manage_options', $this->menu_slug, array(&$this, 'manage_page') ); //, $icon_url, $position
+            //add_menu_page( 'placeholder', 'placeholder', 'manage_options', 'placeholder', 'placeholder'); //, $icon_url, $position
+            add_admin_menu_separator(58); // WP_AdminMenu function
+            add_menu_page( $this->page_title, $this->menu_title, 'manage_options', $this->menu_slug, array(&$this, 'manage_page'), '', 59); //, $icon_url, $position
+            
+            //global $menu;
+            //array_splice($menu, 3, count($menu), array_merge(array(0=>'frak'), array_slice($menu, 3))); 
+            //
+            //Appearance = 60
+            //print_r( get_admin_menu_section('activate_plugins') );
         }
         
         /* Always add a submenu (if parent the menu_title is used for both parent and submenu per WP best practice) */

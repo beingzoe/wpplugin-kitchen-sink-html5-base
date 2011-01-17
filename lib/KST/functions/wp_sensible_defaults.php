@@ -26,9 +26,6 @@ add_shortcode( 'caption', 'kst_caption_shortcode_filtered' );
  *      kst_admin_remove_meta_boxes();      Remove built-in WP custom field meta boxes from post/page not needed for theme
  *      kst_remove_gallery_css();           Remove invalid inline style block added by WP [gallery] shortcode
  */
-if ( is_admin() ) { // remove admin specific junk
-    add_action( 'admin_menu' , 'kst_admin_remove_meta_boxes' ); // Removes meta boxes from post/page not needed for theme
-}
 add_filter( 'gallery_style', 'kst_remove_gallery_css' ); //Remove invalid gallery inline css
 
 
