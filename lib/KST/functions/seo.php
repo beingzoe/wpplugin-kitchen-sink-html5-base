@@ -5,7 +5,7 @@
  * Otherwise don't include the library and use a plugin.
  * No changes need made to templates if this library is not used.
  * 
- * This library is dependent on the kst_theme_options library.
+ * This library is dependent on the KST_Options class
  * 
  * kst_meta_description() and kst_meta_keywords() echo the entire meta tag 
  * as part of the wp_head().
@@ -27,23 +27,22 @@
  * @uses        KST_Options class
  * @uses        $
  * @todo        convert to class
- * @todo        protect merging our options with the theme options if $theme_options is not an array
  * @todo        implement user friendly always present post custom fields form like this great tutorial http://sltaylor.co.uk/blog/control-your-own-wordpress-custom-fields/
- * @todo        have this create it's own options page like a plugin to eliminate the dependency on kst_theme_options.php
  * @todo        attempt to build keyword list from post/page tags
  */
 
-/* Requires kst_options; Don't do anything if the options don't exist */
-if ( !class_exists('KST_Options') ) return;
+global $kst_mb_meta_data, $kst_options_seo, $kst_options_seo_settings;
+ 
 
 /**
  * Instantiate WPAlchemy_MetaBox class
  * Replaces get_post_meta
+ * Only required in admin
  *
  * @since       0.1 
  * @uses        WPAlchemy_MetaBox
  */
-global $theme_options, $kst_mb_meta_data, $kst_options;
+
 require_once KST_DIR_VENDOR . '/WPAlchemy/MetaBox.php'; // WP admin meta boxe
 $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
     'id' => '_kst_wp_meta_data',
@@ -59,131 +58,140 @@ $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
  * 
  * @since       0.1
  */
+$options_page = THEME_HELP_URL;
+$kst_options_seo_settings = array (
+                            /* Page title settings */
+                            array(  "name"    => __('SEO'),
+                                    "desc"    => __("
+                                                    <p>
+                                                        Your theme has basic control over page meta data built-in for SEO purposes.<br />
+                                                        Set default title settings and default description/keywords below for general site control.
+                                                    </p>
+                                                    <p>
+                                                    See <a href=\"{$options_page}#seo_post_page_custom_fields\">Post/Page SEO & Meta Data</a>  
+                                                        for specifics on how to further customize your SEO for ANY individual post/page.
+                                                    </p>    
+                                                    <h4>SEO: Meta Title defaults</h4>
+                                                "),
+                                    "type"    => "section"),
+                            
+                            array(  "name"    => __('Always add "Blog Name" to end of title'),
+                                    "desc"    => __("Helps add consistency and usability to browser title bar / tab and for SEO purposes."),
+                                    "id"      => "meta_title_do_add_blog_name",
+                                    "default"     => TRUE,
+                                    "type"    => "checkbox"),
+                              
+                            array(  "name"  => __('Separator'),
+                                    "desc"  => __("Defaults to" . KST_SEO_TITLE_SEPARATOR_DEFAULT . "<br />Character or symbol used to separate title parts e.g. My groovy post {$meta_title_sep} Page 2 {$meta_title_sep} MyBlog.com"),
+                                    "id"    => "meta_title_sep",
+                                    "default"   => KST_SEO_TITLE_SEPARATOR_DEFAULT,
+                                    "type"  => "text",
+                                    "size"  => "8"),
+                            
+                            /* Meta tag defaults */
+                            array(  "name"    => __('SEO: Meta tag defaults'),
+                                    "desc"  => __("
+                                                
+                                                "),
+                                    "type"  => "subsection"),
+                            
+                            /* Meta tag defaults: General */
+                            array(  "name"  => __('Global meta keywords'),
+                                    "desc"  => __('Default keywords for meta name="keywords".<br />Used for all WP "Posts/Pages" where custom field "meta_page_keywords" is not set and defaults below are blank (where applicable).'),
+                                    "id"    => "meta_keywords_global",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "80"),
+                            
+                            array(  "name"  => __('Global meta description'),
+                                    "desc"  => __('Default description for meta name="description".<br />Used for all WP "Posts/Pages" where custom field "meta_page_description" is not set, description cannot be dynamically created, and/or defaults below are blank (where applicable).'),
+                                    "id"    => "meta_description_global",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "80"),
+                            
+                            /* Meta tag defaults: Home (if home is not blog index) */
+                            array(  "name"  => __('Home meta keywords'),
+                                    "desc"  => __('Default keywords for meta name="keywords" on home page<br />Used if custom field "meta_page_keywords" is not set on the home/front page if not the blog index.<br />If blank defaults to "General Meta Keywords" above.'),
+                                    "id"    => "meta_keywords_home",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "80"),
+                            
+                            array(  "name"  => __('Home meta description'),
+                                    "desc"  => __('Default description for meta name="description" on home page<br />Used if custom field "meta_page_description" is not set on the home/front page if not the blog index and cannot be dynamically created.<br />If blank defaults to "General Meta Description" above.'),
+                                    "id"    => "meta_description_home",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "80"),
+                            
+                            /* Meta tag defaults: Single post */
+                            array(  "name"  => __('Post meta keywords'),
+                                    "desc"  => __('Default keywords for meta name="keywords" on single posts view<br />Used if custom field "meta_page_keywords" is not set for that Post.<br />If blank defaults to "General Meta Keywords" above.'),
+                                    "id"    => "meta_keywords_single",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "80"),
+                            
+                            array(  "name"  => __('Post meta description'),
+                                    "desc"  => __('Default description for meta name="description" on single post view<br />Used if custom field "meta_page_description" is not set for that Post and cannot be dynamically created or if Add Global Keywords is selected for that post.<br />If blank defaults to "General Meta Description" above.'),
+                                    "id"    => "meta_description_single",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "80"),
+                            
+                            /* Meta tag defaults: Page */
+                            array(  "name"  => __('Page meta keywords'),
+                                    "desc"  => __('Default keywords for meta name="keywords" on pages<br />Used if custom field "meta_page_keywords" is not set for that Page.<br />If blank defaults to "General Meta Keywords" above.'),
+                                    "id"    => "meta_keywords_page",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "80"),
+                            
+                            array(  "name"  => __('Page meta description'),
+                                    "desc"  => __('Default description for meta name="description" on pages<br />Used if custom field "meta_page_description" is not set for that Page and cannot be dynamically created or if Add Global Keywords is selected for that page.<br />If blank defaults to "General Meta Description" above.'),
+                                    "id"    => "meta_description_page",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "80"),
+                            
+                            array(  "name"    => __('Analytics'),
+                                    "desc"  => __("
+                                                
+                                                "),
+                                    "type"  => "subsection"),
+                            
+                            array(  "name"  => __('Google Analytics Tracking ID'),
+                                    "desc"  => __('Just the tracking number e.g. UA-XXXXXXX-X;<br />If entered Google Analytics tracking code is added automatically<br />Leave blank if not used or using a Google Analytics plugin'),
+                                    "id"    => "ga_tracking_id",
+                                    "default"   => "",
+                                    "type"  => "text",
+                                    "size"  => "15")
+                            
+                            );
+                                
+/**
+ * Create options page
+ */
+require_once KST_DIR_LIB . '/KST/Options.php';
+/* Add seo menus/pages */ 
+$kst_options_seo = new KST_Options('kst_options_seo_settings', 'appearance', 'SEO and Meta');
 
-    if ( $kst_options->get_option( 'meta_title_sep' ) )
-        $meta_title_sep = $kst_options->get_option( 'meta_title_sep' );
-    else
-        $meta_title_sep = KST_SEO_TITLE_SEPARATOR_DEFAULT; //@todo actually create/update the value if form field is blank on save
-        
-    $options_page = THEME_HELP_URL;
-    $meta_theme_options = array (
-                                /* Page title settings */
-                                array(  "name"    => __('SEO'),
-                                        "desc"    => __("
-                                                        <p>
-                                                            Your theme has basic control over page meta data built-in for SEO purposes.<br />
-                                                            Set default title settings and default description/keywords below for general site control.
-                                                        </p>
-                                                        <p>
-                                                        See <a href=\"{$options_page}#seo_post_page_custom_fields\">Post/Page SEO & Meta Data</a>  
-                                                            for specifics on how to further customize your SEO for ANY individual post/page.
-                                                        </p>    
-                                                        <h4>SEO: Meta Title defaults</h4>
-                                                    "),
-                                        "type"    => "section"),
-                                
-                                array(  "name"    => __('Always add "Blog Name" to end of title'),
-                                        "desc"    => __("Helps add consistency and usability to browser title bar / tab and for SEO purposes."),
-                                        "id"      => "meta_title_do_add_blog_name",
-                                        "default"     => TRUE,
-                                        "type"    => "checkbox"),
-                                  
-                                array(  "name"  => __('Separator'),
-                                        "desc"  => __("Defaults to" . KST_SEO_TITLE_SEPARATOR_DEFAULT . "<br />Character or symbol used to separate title parts e.g. My groovy post {$meta_title_sep} Page 2 {$meta_title_sep} MyBlog.com"),
-                                        "id"    => "meta_title_sep",
-                                        "default"   => KST_SEO_TITLE_SEPARATOR_DEFAULT,
-                                        "type"  => "text",
-                                        "size"  => "8"),
-                                
-                                /* Meta tag defaults */
-                                array(  "name"    => __('SEO: Meta tag defaults'),
-                                        "desc"  => __("
-                                                    
-                                                    "),
-                                        "type"  => "subsection"),
-                                
-                                /* Meta tag defaults: General */
-                                array(  "name"  => __('Global meta keywords'),
-                                        "desc"  => __('Default keywords for meta name="keywords".<br />Used for all WP "Posts/Pages" where custom field "meta_page_keywords" is not set and defaults below are blank (where applicable).'),
-                                        "id"    => "meta_keywords_global",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "80"),
-                                
-                                array(  "name"  => __('Global meta description'),
-                                        "desc"  => __('Default description for meta name="description".<br />Used for all WP "Posts/Pages" where custom field "meta_page_description" is not set, description cannot be dynamically created, and/or defaults below are blank (where applicable).'),
-                                        "id"    => "meta_description_global",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "80"),
-                                
-                                /* Meta tag defaults: Home (if home is not blog index) */
-                                array(  "name"  => __('Home meta keywords'),
-                                        "desc"  => __('Default keywords for meta name="keywords" on home page<br />Used if custom field "meta_page_keywords" is not set on the home/front page if not the blog index.<br />If blank defaults to "General Meta Keywords" above.'),
-                                        "id"    => "meta_keywords_home",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "80"),
-                                
-                                array(  "name"  => __('Home meta description'),
-                                        "desc"  => __('Default description for meta name="description" on home page<br />Used if custom field "meta_page_description" is not set on the home/front page if not the blog index and cannot be dynamically created.<br />If blank defaults to "General Meta Description" above.'),
-                                        "id"    => "meta_description_home",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "80"),
-                                
-                                /* Meta tag defaults: Single post */
-                                array(  "name"  => __('Post meta keywords'),
-                                        "desc"  => __('Default keywords for meta name="keywords" on single posts view<br />Used if custom field "meta_page_keywords" is not set for that Post.<br />If blank defaults to "General Meta Keywords" above.'),
-                                        "id"    => "meta_keywords_single",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "80"),
-                                
-                                array(  "name"  => __('Post meta description'),
-                                        "desc"  => __('Default description for meta name="description" on single post view<br />Used if custom field "meta_page_description" is not set for that Post and cannot be dynamically created or if Add Global Keywords is selected for that post.<br />If blank defaults to "General Meta Description" above.'),
-                                        "id"    => "meta_description_single",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "80"),
-                                
-                                /* Meta tag defaults: Page */
-                                array(  "name"  => __('Page meta keywords'),
-                                        "desc"  => __('Default keywords for meta name="keywords" on pages<br />Used if custom field "meta_page_keywords" is not set for that Page.<br />If blank defaults to "General Meta Keywords" above.'),
-                                        "id"    => "meta_keywords_page",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "80"),
-                                
-                                array(  "name"  => __('Page meta description'),
-                                        "desc"  => __('Default description for meta name="description" on pages<br />Used if custom field "meta_page_description" is not set for that Page and cannot be dynamically created or if Add Global Keywords is selected for that page.<br />If blank defaults to "General Meta Description" above.'),
-                                        "id"    => "meta_description_page",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "80"),
-                                
-                                array(  "name"    => __('Analytics'),
-                                        "desc"  => __("
-                                                    
-                                                    "),
-                                        "type"  => "subsection"),
-                                
-                                array(  "name"  => __('Google Analytics Tracking ID'),
-                                        "desc"  => __('Just the tracking number e.g. UA-XXXXXXX-X;<br />If entered Google Analytics tracking code is added automatically<br />Leave blank if not used or using a Google Analytics plugin'),
-                                        "id"    => "ga_tracking_id",
-                                        "default"   => "",
-                                        "type"  => "text",
-                                        "size"  => "15")
-                                
-                                );
-                                
-    if ( !isset( $theme_options ) ) {
-        $theme_options = $meta_theme_options;
-    } else {
-        $theme_options = array_merge($theme_options, $meta_theme_options); // Put explicit Child Theme Options first
-    }
- 
- 
+
+add_action('admin_menu', 'kst_load_settings_core');
+function test_menus() {
+print_r( get_admin_menu_section('Dashboard') );
+}
+
+
+/**
+ * Set meta page title separator character 
+ */
+if ( $kst_options_seo->get_option( 'meta_title_sep' ) )
+    $meta_title_sep = $kst_options_seo->get_option( 'meta_title_sep' );
+else
+    $meta_title_sep = KST_SEO_TITLE_SEPARATOR_DEFAULT; //@todo actually create/update the value if form field is blank on save
+
 /**
  * Gets meta description for head
  * 
@@ -195,24 +203,24 @@ $kst_mb_meta_data = new WPAlchemy_MetaBox( array (
  * @since       0.1
  * @uses get_the_value() from metabox class in place of get_post_meta() get 'meta_page_description' if exists
  * @uses get_bloginfo()
- * @uses $kst_options->get_option()
+ * @uses $kst_options_seo->get_option()
  */
 function kst_meta_description() {
     
-    global $post, $kst_mb_meta_data, $kst_options;
+    global $post, $kst_mb_meta_data, $kst_options_seo;
     
     $post_custom_field = $kst_mb_meta_data->get_the_value('meta_page_description'); //get custom field via metabox class
 
     if ( $post_custom_field ) { /* Use post_custom_field custom field if exists */
         $content = $post_custom_field;
-    } else if ( is_front_page() && isset($kst_options) && $kst_options->get_option("meta_description_home") ) { /* home page is set to custom page */
-        $content = $kst_options->get_option("meta_description_home"); // default set in theme options
-    } else if ( is_single() && isset($kst_options) && $kst_options->get_option("single_post_description") ) { /* single article */
-        $content = $kst_options->get_option("single_post_description"); // default set in theme options
-    } else if ( is_page() && isset($kst_options) && $kst_options->get_option("meta_description_page") ) { /* page */
-        $content = $kst_options->get_option("meta_description_page"); // default set in theme options
-    } else if ( isset($kst_options) && $kst_options->get_option("meta_description_global") ) { /* global default description in theme options */
-        $content = $kst_options->get_option("meta_description_global");
+    } else if ( is_front_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_description_home") ) { /* home page is set to custom page */
+        $content = $kst_options_seo->get_option("meta_description_home"); // default set in theme options
+    } else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->get_option("single_post_description") ) { /* single article */
+        $content = $kst_options_seo->get_option("single_post_description"); // default set in theme options
+    } else if ( is_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_description_page") ) { /* page */
+        $content = $kst_options_seo->get_option("meta_description_page"); // default set in theme options
+    } else if ( isset($kst_options_seo) && $kst_options_seo->get_option("meta_description_global") ) { /* global default description in theme options */
+        $content = $kst_options_seo->get_option("meta_description_global");
     } else { /* As a last resort use blog description/tagline in SETTINGS > GENERAL */
         $content = get_bloginfo( 'description' );
     }
@@ -231,11 +239,11 @@ add_action('wp_head', 'kst_meta_description');
  * 
  * @uses get_the_value() from metabox class in place of get_post_meta() get 'meta_page_keywords' if exists
  * @uses get_bloginfo()
- * @uses $kst_options->get_option()
+ * @uses $kst_options_seo->get_option()
  */
 function kst_meta_keywords() {
     
-    global $post, $kst_mb_meta_data, $kst_options;
+    global $post, $kst_mb_meta_data, $kst_options_seo;
     
     $post_custom_field = $kst_mb_meta_data->get_the_value('meta_page_keywords'); //get custom field via metabox class
     
@@ -253,21 +261,21 @@ function kst_meta_keywords() {
         }
         /* Should we add global post keywords to metabox keywords */
         if ( $kst_mb_meta_data->get_the_value('meta_page_keywords_use_global') ) {
-            if ( is_page() && isset($kst_options) && $kst_options->get_option("meta_keywords_page") ) /* page */
-                $keywords .= ', ' . $kst_options->get_option("meta_keywords_page"); // default set in theme options
-            else if ( is_single() && isset($kst_options) && $kst_options->get_option("meta_keywords_single") ) /* single article */
-                $keywords .= ', ' . $kst_options->get_option("meta_keywords_single"); // default set in theme options
-            else if ( isset($kst_options) && $kst_options->get_option("meta_keywords_global") ) /* fallback on global */
-                $keywords .= ', ' . $kst_options->get_option("meta_keywords_global");
+            if ( is_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_page") ) /* page */
+                $keywords .= ', ' . $kst_options_seo->get_option("meta_keywords_page"); // default set in theme options
+            else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_single") ) /* single article */
+                $keywords .= ', ' . $kst_options_seo->get_option("meta_keywords_single"); // default set in theme options
+            else if ( isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_global") ) /* fallback on global */
+                $keywords .= ', ' . $kst_options_seo->get_option("meta_keywords_global");
         }
-    } else if ( is_front_page() && isset($kst_options) && $kst_options->get_option("meta_keywords_home") ) { /* home page is set to custom page */
-        $keywords = $kst_options->get_option("meta_keywords_home"); // default set in theme options
-    } else if ( is_single() && isset($kst_options) && $kst_options->get_option("meta_keywords_single") ) { /* single article */
-        $keywords = $kst_options->get_option("meta_keywords_single"); // default set in theme options
-    } else if ( is_page() && isset($kst_options) && $kst_options->get_option("meta_keywords_page") ) { /* page */
-        $keywords = $kst_options->get_option("meta_keywords_page"); // default set in theme options
-    } else if ( isset($kst_options) && $kst_options->get_option("meta_keywords_global") ) { /* global default description in theme options */
-        $keywords = $kst_options->get_option("meta_keywords_global");
+    } else if ( is_front_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_home") ) { /* home page is set to custom page */
+        $keywords = $kst_options_seo->get_option("meta_keywords_home"); // default set in theme options
+    } else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_single") ) { /* single article */
+        $keywords = $kst_options_seo->get_option("meta_keywords_single"); // default set in theme options
+    } else if ( is_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_page") ) { /* page */
+        $keywords = $kst_options_seo->get_option("meta_keywords_page"); // default set in theme options
+    } else if ( isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_global") ) { /* global default description in theme options */
+        $keywords = $kst_options_seo->get_option("meta_keywords_global");
     } else {
         $keywords = '';
     }
@@ -285,7 +293,7 @@ add_action('wp_head', 'kst_meta_keywords');
 function KST_google_analytics_boilerplate() {
 ?>
     <script type="text/javascript">
-        var _gaq = [['_setAccount', '<?php echo $kst_options->get_option("ga_tracking_id"); ?>'], ['_trackPageview']];
+        var _gaq = [['_setAccount', '<?php echo $kst_options_seo->get_option("ga_tracking_id"); ?>'], ['_trackPageview']];
         (function(d, t) {
         var g = d.createElement(t),
             s = d.getElementsByTagName(t)[0];
@@ -297,7 +305,7 @@ function KST_google_analytics_boilerplate() {
 <?php
  }
  /*
-if ( isset($kst_options) && $kst_options->get_option("ga_tracking_id") ) {
+if ( isset($kst_options_seo) && $kst_options_seo->get_option("ga_tracking_id") ) {
     add_action('wp_footer', 'KST_google_analytics_boilerplate');
 }
 */
@@ -332,10 +340,10 @@ function kst_filter_wp_title( $title, $separator, $is_single_title_as_wp_title =
     // $paged global variable contains the page number of a listing of posts.
     // $page global variable contains the page number of a single post that is paged.
     // Display whichever one applies, if we're not looking at the first page.
-    global $paged, $page, $post, $kst_mb_meta_data, $kst_options;
+    global $paged, $page, $post, $kst_mb_meta_data, $kst_options_seo;
     
-    if ( isset($kst_options) ) 
-        $separator = $kst_options->get_option("meta_title_sep", KST_SEO_TITLE_SEPARATOR_DEFAULT); // override wp_title($separator)
+    if ( isset($kst_options_seo) ) 
+        $separator = $kst_options_seo->get_option("meta_title_sep", KST_SEO_TITLE_SEPARATOR_DEFAULT); // override wp_title($separator)
     else
         $separator = KST_SEO_TITLE_SEPARATOR_DEFAULT; //default
     
@@ -366,7 +374,7 @@ function kst_filter_wp_title( $title, $separator, $is_single_title_as_wp_title =
         if ( $paged >= 2 || $page >= 2 ) 
             $title .= " $separator " . sprintf( __( ' Page %s ', 'twentyten' ), max( $paged, $page ) );
         
-        if ( $kst_options->get_option("meta_title_do_add_blog_name", 1) )
+        if ( $kst_options_seo->get_option("meta_title_do_add_blog_name", 1) )
             $title .= " $separator " . get_bloginfo('name'); // if do_add_blog_name EQ true
         
         return $title;
@@ -401,7 +409,7 @@ function kst_filter_wp_title( $title, $separator, $is_single_title_as_wp_title =
         
     
     //add the site name to the end:
-    if ( $kst_options->get_option("meta_title_do_add_blog_name", 1) )
+    if ( $kst_options_seo->get_option("meta_title_do_add_blog_name", 1) )
         $title .= " $separator " . get_bloginfo('name'); // if do_add_blog_name EQ true
 
     // Return the new title to wp_title():

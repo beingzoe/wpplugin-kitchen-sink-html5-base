@@ -13,6 +13,19 @@
  * @version     0.1
  * @since       0.1
  */
+
+ 
+ 
+/* REMOVE WP JUNK
+ * remove_action, remove_theme_support, etc...
+ *
+ *
+ * All Kitchen Sink "REMOVE WP JUNK" functions that can be "plugged":
+ *      kst_admin_remove_meta_boxes();      Remove built-in WP custom field meta boxes from post/page not needed for theme
+ */
+if ( is_admin() ) { // remove admin specific junk
+    add_action( 'admin_menu' , 'kst_admin_remove_meta_boxes' ); // Removes meta boxes from post/page not needed for theme
+}
  
 /**
  * ADMIN: Add quick links (favorites) to WP quick link dropdown
