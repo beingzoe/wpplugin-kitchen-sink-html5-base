@@ -16,7 +16,7 @@
  * Based on kitchenSink theme Version 0.3 and ZUI by zoe somebody http://beingzoe.com/zui/
  */
  
-global $kst_options, $kst_sidebars_footer; // This (and all template globals needs resolved and removed to put these templates in the core as defaults)
+global $twenty_eleven_options, $kst_sidebars_footer; // This (and all template globals needs resolved and removed to put these templates in the core as defaults)
  
 ?>
 </div><!-- close #pg -->

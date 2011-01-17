@@ -23,13 +23,14 @@
  * @since       0.2
  */
 
-global $kst_options;
+global $twenty_eleven_options;
 
 //query_posts( "posts_per_page=10&paged={$paged}&cat=" . $cat );
 
  
 /* If no posts, i.e. an empty archive page */ 
 if ( ! have_posts() ) { ?>
+     echo $cool;
 	<section id="page-other" class="page no_results">
 		<header class="wp_entry_header">
 		    <h1><?php _e( 'No posts or pages found', 'twentyten' ); ?></h1>
@@ -43,8 +44,8 @@ if ( ! have_posts() ) { ?>
 } //end if !have_posts
 
 /* Don't ask for this stuff every loop */
-$asides_gallery = $kst_options->get_option("layout_category_gallery_slug");
-$asides_aside   = $kst_options->get_option("layout_category_aside_slug");
+$asides_gallery = $twenty_eleven_options->get_option("layout_category_gallery_slug");
+$asides_aside   = $twenty_eleven_options->get_option("layout_category_aside_slug");
 
 /* Start the Loop */ 
 while ( have_posts() ) {  
