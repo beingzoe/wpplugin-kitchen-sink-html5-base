@@ -13,7 +13,7 @@ require_once KST_DIR_LIB . '/KST.php';
  * @since       0.1
  * @author zoe somebody http://beingzoe.com/zui/
  */
-class KST_Doodad extends KST {
+class KST_Plugin extends KST {
     
     public $testme;
     //const THEME_ID  = 'ksd_0_1';
