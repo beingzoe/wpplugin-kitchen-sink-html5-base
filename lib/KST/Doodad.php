@@ -2,7 +2,7 @@
 /**
  * Parent class
  */
-require_once KST_DIR_LIB . '/KST/KST.php';
+require_once KST_DIR_LIB . '/KST.php';
 
 /**
  * Class for theme/plugin
@@ -13,7 +13,7 @@ require_once KST_DIR_LIB . '/KST/KST.php';
  * @since       0.1
  * @author zoe somebody http://beingzoe.com/zui/
  */
-class KST_Doodad extends KST_KST {
+class KST_Doodad extends KST {
     
     public $testme;
     //const THEME_ID  = 'ksd_0_1';
@@ -43,7 +43,7 @@ class KST_Doodad extends KST_KST {
         /**
          * Setup and define a theme OR plugin(s)
          */
-        if ( $kst->get_is_plugins_loaded() ) { // We are defining a theme
+        if ( KST::are_plugins_loaded() ) { // We are defining a theme
              
             /**#@+
              * KST theme/plugin settings

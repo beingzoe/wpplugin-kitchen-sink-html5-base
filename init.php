@@ -45,16 +45,16 @@ License:        MIT
 add_action("activated_plugin", "this_plugin_first");
 function this_plugin_first() {
     global $active_plugins;
-	// ensure path to this file is via main wp plugin path
-	$wp_path_to_this_file = preg_replace('/(.*)plugins\/(.*)$/', WP_PLUGIN_DIR."/$2", __FILE__);
-	$this_plugin = plugin_basename(trim($wp_path_to_this_file));
-	$active_plugins = get_option('active_plugins');
-	$this_plugin_key = array_search($this_plugin, $active_plugins);
-	if ($this_plugin_key) { // if it's 0 it's the first plugin already, no need to continue
-		array_splice($active_plugins, $this_plugin_key, 1);
-		array_unshift($active_plugins, $this_plugin);
-		update_option('active_plugins', $active_plugins);
-	}
+    // ensure path to this file is via main wp plugin path
+    $wp_path_to_this_file = preg_replace('/(.*)plugins\/(.*)$/', WP_PLUGIN_DIR."/$2", __FILE__);
+    $this_plugin = plugin_basename(trim($wp_path_to_this_file));
+    $active_plugins = get_option('active_plugins');
+    $this_plugin_key = array_search($this_plugin, $active_plugins);
+    if ($this_plugin_key) { // if it's 0 it's the first plugin already, no need to continue
+        array_splice($active_plugins, $this_plugin_key, 1);
+        array_unshift($active_plugins, $this_plugin);
+        update_option('active_plugins', $active_plugins);
+    }
 }
 
  
@@ -81,18 +81,18 @@ define( 'THEME_NAME_CURRENT',   get_current_theme() );
 /* KST core settings editable from WP admin irrespective of theme
  * This creates ...
  */ 
-require_once KST_DIR_LIB . '/KST/functions/settings_core.php';
+require_once KST_DIR_LIB . '/functions/settings_core.php';
 
 /**
  * Parent class for Kitchen Sink HTML5 Base
  * 
  * @since       0.1  
  */
-require_once dirname(__FILE__) . '/lib/KST/KST.php';
-$kst = new KST_KST();
+require_once dirname(__FILE__) . '/lib/KST.php';
+$kst = new KST();
 
 /**
  * Set whether the plugins are loaded so we can treat plugins and the active theme differently
  */
-add_action('plugins_loaded', array(&$kst, 'set_is_plugins_loaded'));
+add_action('plugins_loaded', array(KST, 'plugins_are_loaded'));
 

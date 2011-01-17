@@ -411,6 +411,6 @@ if ( !function_exists('kst_caption_shortcode_filtered') ) {
 /* FUNCTIONS: Admin ONLY
  */
 if ( is_admin() ) {
-    require_once KST_DIR_LIB . '/KST/functions/wp_admin.php';
+    require_once KST_DIR_LIB . '/functions/wp_admin.php';
 }
 

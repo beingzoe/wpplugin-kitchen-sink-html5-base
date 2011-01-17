@@ -15,33 +15,13 @@
  * @version     0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  */
-class KST_KST {
-    
-    /**#@+
-     * @since       0.1
-     * @access      private
-     */
-    private $is_plugins_loaded;
-    /**#@-*/
-    
+class KST {
     /**
-     * Set the bare minium for KST to function until theme/plugin inits
-     * 
-     * @since       0.1
+     * Set is_plugins_loaded to false until WP tells us that the plugins are loaded
+     * Hook set in init.php
+     * @see     KST::plugins_are_loaded()
      */
-    public function __construct() {
-        /**
-         * KST itself needs options so just require the class for everyone
-         * @see     settings_core.php
-         */
-        require_once KST_DIR_LIB . '/KST/Options.php';
-        /**
-         * Set is_plugins_loaded to FALSE until WP tells us that the plugins are loaded
-         * Hook set in init.php
-         * @see     KST_KST::set_is_plugins_loaded()
-         */
-        $this->is_plugins_loaded = FALSE; // Flag to know whether we are initializing a plugin or the active theme
-    }
+    private static $_plugins_are_loaded = false;
     
     /**
      * Theme/Plugin "activates" the plugin 
@@ -49,23 +29,27 @@ class KST_KST {
      * 
      * @since 0.1
      */
-    public function init( $settings ) {
+    public static function init( $settings ) {
+        /**
+         * KST itself needs options so just require the class for everyone
+         * @see     settings_core.php
+         */
+        require_once KST_DIR_LIB . '/KST/Options.php';
+        require_once KST_DIR_LIB . '/KST/Doodad.php';
         
         /* Make sure they set a 'prefix' in their setting array or give help */
         if ( isset($settings['prefix']) ) { // Need an id to proceed
             
             /* Define a variable variable constant for each doodad so they can reference their own object */
             define($settings['prefix'], $settings['prefix']); // constant named by prefix with a value of it's own name
-            require_once KST_DIR_LIB . '/KST/Doodad.php'; // Make sure we have the KST_Doodad class loaded (probably should be loaded with KST_Options
+            
             
             /* Create an object for each doodad (theme/plugin(s) to work with */
-            $this->{$settings['prefix']} = new KST_Doodad( $settings );
+            return new KST_Doodad( $settings );
             
         } else { // Help them
             exit('<h1>No "prefix" has been given in your settings array</h1><p>Make sure you have created a settings array with the required settings included</p>');
         }
-        
-        
     }
     
     /**
@@ -76,8 +60,8 @@ class KST_KST {
      * @since       0.1
      
      */
-     public function set_is_plugins_loaded() {
-         $this->is_plugins_loaded = TRUE;
+     public static function plugins_are_loaded() {
+         self::$_plugins_are_loaded = true;
      }
      
     /**
@@ -86,8 +70,8 @@ class KST_KST {
      * 
      * @since       0.1
      */
-     public function get_is_plugins_loaded() {
-         return $this->is_plugins_loaded;
+     public static function are_plugins_loaded() {
+         return self::$_plugins_are_loaded;
      }
      
     
@@ -136,8 +120,8 @@ class KST_KST {
      * @since       0.1
      */
     public static function init_sensible_defaults() {
-        require_once KST_DIR_LIB . '/KST/functions/wp_sensible_defaults.php';
-        require_once KST_DIR_LIB . '/KST/functions/wp_admin.php';
+        require_once KST_DIR_LIB . '/functions/wp_sensible_defaults.php';
+        require_once KST_DIR_LIB . '/functions/wp_admin.php';
     }
     
     /**
@@ -146,7 +130,7 @@ class KST_KST {
      * @since       0.1
      */
     public static function init_help() {
-        require_once KST_DIR_LIB . '/KST/functions/theme_help.php';  
+        require_once KST_DIR_LIB . '/functions/theme_help.php';  
     }
     
     /**
@@ -158,7 +142,7 @@ class KST_KST {
      * @since       0.1
      */
     public static function init_seo() {
-        require_once KST_DIR_LIB . '/KST/functions/seo.php';  
+        require_once KST_DIR_LIB . '/functions/seo.php';  
     }
     
     /**
@@ -209,7 +193,7 @@ class KST_KST {
      * @since       0.1
      */
     public static function init_kst_jquery_lightbox() {
-        require_once KST_DIR_LIB . '/KST/functions/jquery/lightbox.php'; // javascript lightbox; 
+        require_once KST_DIR_LIB . '/functions/jquery/lightbox.php'; // javascript lightbox; 
     }
     
     /**
@@ -220,7 +204,7 @@ class KST_KST {
      * @since       0.1
      */
     public static function init_kst_mp3_player() {
-         require_once KST_DIR_LIB . '/KST/functions/mp3_player.php'; // mp3 player shortcode - 
+         require_once KST_DIR_LIB . '/functions/mp3_player.php'; // mp3 player shortcode - 
     }
     
     
@@ -232,7 +216,7 @@ class KST_KST {
      * @since       0.1
      */
     public static function init_kst_jquery_jit_message() {
-        require_once KST_DIR_LIB . '/KST/functions/jquery/jit_message.php'; 
+        require_once KST_DIR_LIB . '/functions/jquery/jit_message.php'; 
     }
     
     /**
@@ -252,7 +236,7 @@ class KST_KST {
      * @since       0.1
      */
     public static function init_widget_kst_jquery_cycle() {
-        require_once KST_DIR_LIB . '/KST/functions/jquery/cycle.php'; 
+        require_once KST_DIR_LIB . '/functions/jquery/cycle.php'; 
     }
     
     /**
@@ -262,7 +246,7 @@ class KST_KST {
      * @since       0.1
      */
     public static function init_kst_jquery_tools_scrollable() {
-        require_once KST_DIR_LIB . '/KST/functions/jquery/scrollables.php';
+        require_once KST_DIR_LIB . '/functions/jquery/scrollables.php';
     }
 
 }
