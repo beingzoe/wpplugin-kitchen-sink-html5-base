@@ -81,14 +81,14 @@
      * @since       0.1
      */
     //NOTE: This is a temporary hack until we decide on how we can protect the theme if somehow KST isn't loaded (ala turning off the plugin) but this is the criteria
-    if ( class_exists('KST_KST') ) {
+    if ( class_exists('KST') ) {
 
         
         /* Invoke the plugin to use it */
-        $kst->init($kst_settings);
+        KST::init($kst_settings);
         
         
-        //echo $kst->{ksd_0_1}->testme;
+        //echo KST::{ksd_0_1}->testme;
         
         
         
@@ -111,45 +111,45 @@
         $more_options2 = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other2', 'Important Settings');
         
         /* HTML5 Boilerplate, WP normalization, and smart stuff */
-        $kst::init_sensible_defaults();
+        KST::init_sensible_defaults();
         /* KST THEME HELP */
-        $kst::init_help();
+        KST::init_help();
         
         
         
         /* KST SEO and META DATA */
-        $kst::init_seo();
+        KST::init_seo();
         /* KST easy flexible email and contact forms */
-        $kst::init_contact();
+        KST::init_contact();
         
         /* Load and use KST_Asides class to manage asides side blog */
         require_once KST_DIR_LIB . '/KST/Asides.php'; // Class to save aside post for clean delayed output
         $loop_asides = new KST_Asides( $twenty_eleven_options->get_option('layout_category_aside') );
         
         /* WP WIDGET: KST post to post next/previous post buttons for sidebar (only on single blog posts) */
-        $kst::init_widget_nav_post();
+        KST::init_widget_nav_post();
         /* WP WIDGET: KST Page to page older/newer browse posts buttons for sidebar (only on single blog posts) */
-        $kst::init_widget_nav_posts();
+        KST::init_widget_nav_posts();
         
         /* WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc... */
-        $kst::init_wp_media_normalize();
+        KST::init_wp_media_normalize();
         //$KST::init_kst_jquery_lightbox();
         //$KST::init_kst_mp3_player();
         
         /* OPTIONAL: Should become separate plugin(s) package(s) */
         
         /* KST/jQuery: KST JIT (Just-in-Time) message (sliding out a panel on a trigger) */
-        $kst::init_kst_jquery_jit_message();
+        KST::init_kst_jquery_jit_message();
         /* WP WIDGET: KST JIT (Just-in-Time) Sidebar (Magic relative/fixed sidebars)  */
-        $kst::init_widget_jit_sidebar();
+        KST::init_widget_jit_sidebar();
         /* KST/jQuery: tools: scrollable content (content slideshow with shortcodes)  */
-        $kst::init_kst_jquery_tools_scrollable();
+        KST::init_kst_jquery_tools_scrollable();
         /* KST/jQuery: malsup cycle content (content slideshow with shortcodes) */
-        $kst::init_widget_kst_jquery_cycle();
+        KST::init_widget_kst_jquery_cycle();
         
         /**#@-*/
 
-        //echo $kst->{THEME_ID}->testme;
+        //echo KST::{THEME_ID}->testme;
         
         
     } else {
