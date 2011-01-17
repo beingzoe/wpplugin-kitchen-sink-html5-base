@@ -322,7 +322,7 @@ class KST {
      * 
      * @since       0.1
      */
-    public static function init_widget_kst_jquery_cycle() {
+    public static function init_kst_jquery_cycle() {
         require_once KST_DIR_LIB . '/functions/jquery/cycle.php'; 
     }
     
