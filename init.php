@@ -89,7 +89,6 @@ require_once KST_DIR_LIB . '/functions/settings_core.php';
  * @since       0.1  
  */
 require_once dirname(__FILE__) . '/lib/KST.php';
-$kst = new KST();
 
 /**
  * Set whether the plugins are loaded so we can treat plugins and the active theme differently

@@ -21,7 +21,7 @@ class KST_Doodad extends KST {
      * @since       0.1
      */
     public function __construct($settings) {
-        global $kst; 
+        parent::__construct($settings);
         
         /**#@+
          * KST default settings

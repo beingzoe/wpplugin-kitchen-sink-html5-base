@@ -29,24 +29,13 @@ class KST {
      * 
      * @since 0.1
      */
-    public static function init( $settings ) {
-        /**
-         * KST itself needs options so just require the class for everyone
-         * @see     settings_core.php
-         */
-        require_once KST_DIR_LIB . '/KST/Options.php';
-        require_once KST_DIR_LIB . '/KST/Doodad.php';
-        
+    public function __construct( $settings ) {
+        KST::init_core();
         /* Make sure they set a 'prefix' in their setting array or give help */
         if ( isset($settings['prefix']) ) { // Need an id to proceed
             
             /* Define a variable variable constant for each doodad so they can reference their own object */
             define($settings['prefix'], $settings['prefix']); // constant named by prefix with a value of it's own name
-            
-            
-            /* Create an object for each doodad (theme/plugin(s) to work with */
-            return new KST_Doodad( $settings );
-            
         } else { // Help them
             exit('<h1>No "prefix" has been given in your settings array</h1><p>Make sure you have created a settings array with the required settings included</p>');
         }
@@ -84,7 +73,8 @@ class KST {
      * 
      * @since       0.1
      */
-    public static function init_preset_configuration( $preset = 'default') {
+    public static function new_with_preset_configuration( $settings, $preset = 'default') {
+        $new = self.new($settings);
         switch ($preset) {
             case 'minimum':
                 self::init_sensible_defaults();
@@ -110,7 +100,21 @@ class KST {
                 self::init_contact();
             break;
         }
-        
+        return $new;
+    }
+    
+    /**
+     * Load KST Base classes
+     * 
+     * @since       0.1
+     */
+    public static function init_base() {
+        /**
+         * KST itself needs options so just require the class for everyone
+         * @see     settings_core.php
+         */
+        require_once KST_DIR_LIB . '/KST/Options.php';
+        require_once KST_DIR_LIB . '/KST/Doodad.php';
     }
      
      
