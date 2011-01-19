@@ -173,7 +173,6 @@ $kst_options_seo_settings = array (
 /**
  * Create options page
  */
-require_once KST_DIR_LIB . '/KST/Options.php';
 /* Add seo menus/pages */ 
 $kst_options_seo = new KST_Options('kst_options_seo_settings', 'appearance', 'SEO and Meta');
 
@@ -188,7 +187,7 @@ print_r( get_admin_menu_section('Dashboard') );
  * Set meta page title separator character 
  */
 if ( $kst_options_seo->get_option( 'meta_title_sep' ) )
-    $meta_title_sep = $kst_options_seo->get_option( 'meta_title_sep' );
+    $meta_title_sep = $kst_options_seo->getOption( 'meta_title_sep' );
 else
     $meta_title_sep = KST_SEO_TITLE_SEPARATOR_DEFAULT; //@todo actually create/update the value if form field is blank on save
 
@@ -203,7 +202,7 @@ else
  * @since       0.1
  * @uses get_the_value() from metabox class in place of get_post_meta() get 'meta_page_description' if exists
  * @uses get_bloginfo()
- * @uses $kst_options_seo->get_option()
+ * @uses $kst_options_seo->getOption()
  */
 function kst_meta_description() {
     
@@ -213,14 +212,14 @@ function kst_meta_description() {
 
     if ( $post_custom_field ) { /* Use post_custom_field custom field if exists */
         $content = $post_custom_field;
-    } else if ( is_front_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_description_home") ) { /* home page is set to custom page */
-        $content = $kst_options_seo->get_option("meta_description_home"); // default set in theme options
-    } else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->get_option("single_post_description") ) { /* single article */
-        $content = $kst_options_seo->get_option("single_post_description"); // default set in theme options
-    } else if ( is_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_description_page") ) { /* page */
-        $content = $kst_options_seo->get_option("meta_description_page"); // default set in theme options
-    } else if ( isset($kst_options_seo) && $kst_options_seo->get_option("meta_description_global") ) { /* global default description in theme options */
-        $content = $kst_options_seo->get_option("meta_description_global");
+    } else if ( is_front_page() && isset($kst_options_seo) && $kst_options_seo->getOption("meta_description_home") ) { /* home page is set to custom page */
+        $content = $kst_options_seo->getOption("meta_description_home"); // default set in theme options
+    } else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->getOption("single_post_description") ) { /* single article */
+        $content = $kst_options_seo->getOption("single_post_description"); // default set in theme options
+    } else if ( is_page() && isset($kst_options_seo) && $kst_options_seo->getOption("meta_description_page") ) { /* page */
+        $content = $kst_options_seo->getOption("meta_description_page"); // default set in theme options
+    } else if ( isset($kst_options_seo) && $kst_options_seo->getOption("meta_description_global") ) { /* global default description in theme options */
+        $content = $kst_options_seo->getOption("meta_description_global");
     } else { /* As a last resort use blog description/tagline in SETTINGS > GENERAL */
         $content = get_bloginfo( 'description' );
     }
@@ -239,7 +238,7 @@ add_action('wp_head', 'kst_meta_description');
  * 
  * @uses get_the_value() from metabox class in place of get_post_meta() get 'meta_page_keywords' if exists
  * @uses get_bloginfo()
- * @uses $kst_options_seo->get_option()
+ * @uses $kst_options_seo->getOption()
  */
 function kst_meta_keywords() {
     
@@ -261,21 +260,21 @@ function kst_meta_keywords() {
         }
         /* Should we add global post keywords to metabox keywords */
         if ( $kst_mb_meta_data->get_the_value('meta_page_keywords_use_global') ) {
-            if ( is_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_page") ) /* page */
-                $keywords .= ', ' . $kst_options_seo->get_option("meta_keywords_page"); // default set in theme options
-            else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_single") ) /* single article */
-                $keywords .= ', ' . $kst_options_seo->get_option("meta_keywords_single"); // default set in theme options
-            else if ( isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_global") ) /* fallback on global */
-                $keywords .= ', ' . $kst_options_seo->get_option("meta_keywords_global");
+            if ( is_page() && isset($kst_options_seo) && $kst_options_seo->getOption("meta_keywords_page") ) /* page */
+                $keywords .= ', ' . $kst_options_seo->getOption("meta_keywords_page"); // default set in theme options
+            else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->getOption("meta_keywords_single") ) /* single article */
+                $keywords .= ', ' . $kst_options_seo->getOption("meta_keywords_single"); // default set in theme options
+            else if ( isset($kst_options_seo) && $kst_options_seo->getOption("meta_keywords_global") ) /* fallback on global */
+                $keywords .= ', ' . $kst_options_seo->getOption("meta_keywords_global");
         }
-    } else if ( is_front_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_home") ) { /* home page is set to custom page */
-        $keywords = $kst_options_seo->get_option("meta_keywords_home"); // default set in theme options
-    } else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_single") ) { /* single article */
-        $keywords = $kst_options_seo->get_option("meta_keywords_single"); // default set in theme options
-    } else if ( is_page() && isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_page") ) { /* page */
-        $keywords = $kst_options_seo->get_option("meta_keywords_page"); // default set in theme options
-    } else if ( isset($kst_options_seo) && $kst_options_seo->get_option("meta_keywords_global") ) { /* global default description in theme options */
-        $keywords = $kst_options_seo->get_option("meta_keywords_global");
+    } else if ( is_front_page() && isset($kst_options_seo) && $kst_options_seo->getOption("meta_keywords_home") ) { /* home page is set to custom page */
+        $keywords = $kst_options_seo->getOption("meta_keywords_home"); // default set in theme options
+    } else if ( is_single() && isset($kst_options_seo) && $kst_options_seo->getOption("meta_keywords_single") ) { /* single article */
+        $keywords = $kst_options_seo->getOption("meta_keywords_single"); // default set in theme options
+    } else if ( is_page() && isset($kst_options_seo) && $kst_options_seo->getOption("meta_keywords_page") ) { /* page */
+        $keywords = $kst_options_seo->getOption("meta_keywords_page"); // default set in theme options
+    } else if ( isset($kst_options_seo) && $kst_options_seo->getOption("meta_keywords_global") ) { /* global default description in theme options */
+        $keywords = $kst_options_seo->getOption("meta_keywords_global");
     } else {
         $keywords = '';
     }
@@ -293,7 +292,7 @@ add_action('wp_head', 'kst_meta_keywords');
 function KST_google_analytics_boilerplate() {
 ?>
     <script type="text/javascript">
-        var _gaq = [['_setAccount', '<?php echo $kst_options_seo->get_option("ga_tracking_id"); ?>'], ['_trackPageview']];
+        var _gaq = [['_setAccount', '<?php echo $kst_options_seo->getOption("ga_tracking_id"); ?>'], ['_trackPageview']];
         (function(d, t) {
         var g = d.createElement(t),
             s = d.getElementsByTagName(t)[0];
@@ -305,7 +304,7 @@ function KST_google_analytics_boilerplate() {
 <?php
  }
  /*
-if ( isset($kst_options_seo) && $kst_options_seo->get_option("ga_tracking_id") ) {
+if ( isset($kst_options_seo) && $kst_options_seo->getOption("ga_tracking_id") ) {
     add_action('wp_footer', 'KST_google_analytics_boilerplate');
 }
 */
@@ -343,7 +342,7 @@ function kst_filter_wp_title( $title, $separator, $is_single_title_as_wp_title =
     global $paged, $page, $post, $kst_mb_meta_data, $kst_options_seo;
     
     if ( isset($kst_options_seo) ) 
-        $separator = $kst_options_seo->get_option("meta_title_sep", KST_SEO_TITLE_SEPARATOR_DEFAULT); // override wp_title($separator)
+        $separator = $kst_options_seo->getOption("meta_title_sep", KST_SEO_TITLE_SEPARATOR_DEFAULT); // override wp_title($separator)
     else
         $separator = KST_SEO_TITLE_SEPARATOR_DEFAULT; //default
     
@@ -374,7 +373,7 @@ function kst_filter_wp_title( $title, $separator, $is_single_title_as_wp_title =
         if ( $paged >= 2 || $page >= 2 ) 
             $title .= " $separator " . sprintf( __( ' Page %s ', 'twentyten' ), max( $paged, $page ) );
         
-        if ( $kst_options_seo->get_option("meta_title_do_add_blog_name", 1) )
+        if ( $kst_options_seo->getOption("meta_title_do_add_blog_name", 1) )
             $title .= " $separator " . get_bloginfo('name'); // if do_add_blog_name EQ true
         
         return $title;
@@ -409,7 +408,7 @@ function kst_filter_wp_title( $title, $separator, $is_single_title_as_wp_title =
         
     
     //add the site name to the end:
-    if ( $kst_options_seo->get_option("meta_title_do_add_blog_name", 1) )
+    if ( $kst_options_seo->getOption("meta_title_do_add_blog_name", 1) )
         $title .= " $separator " . get_bloginfo('name'); // if do_add_blog_name EQ true
 
     // Return the new title to wp_title():

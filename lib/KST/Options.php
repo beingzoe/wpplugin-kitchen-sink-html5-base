@@ -5,8 +5,10 @@
  * Methods to rapidly create and use WordPress options (and just admin content pages)
  * Creates menu item and builds options/content page using options array you create
  * 
- * @author		zoe somebody
- * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
+ * @author      zoe somebody 
+ * @link        http://beingzoe.com/
+ * @author      Scragz 
+ * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkClasses
@@ -20,7 +22,7 @@
  * http://codex.wordpress.org/Adding_Administration_Menus
  * http://codex.wordpress.org/Creating_Options_Pages
  * Using code and concepts from the Biblioteca framework theme (http://wpshout.com/)
- */
+*/
 
 /**
  * Classes to encapsulate access to admin menu global arrays $menu and $submenu
@@ -30,7 +32,7 @@
  * @see         WP_AdminMenuSection
  * @see         WP_AdminMenuItem
  * @uses        WP_AdminMenu
- */
+*/
 if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSection') ) {
     require_once KST_DIR_VENDOR . '/WP/AdminMenu.php';
 }
@@ -41,9 +43,8 @@ class KST_Options {
     /**#@+
      * @access private
      * @var string
-     */
+    */
     private $prefix;                    // id/prefix to namespace the options; For consistency I use the same doodad_id on all option pages in said theme/plugin; "_" appended by default e.g. 'prefix' = 'prefix_'
-    private $doodad_name;               // Friendly theme/plugin name
     private $settings_options_group;    // String name of options group name used by WordPress
     private $options_array_name;        // NAME of the Array containing the options to use for page e.g. 'my_array' NOT '$my_array';
     private $parent_menu;               
@@ -52,52 +53,48 @@ class KST_Options {
     private $menu_title;                // Title of your pages menu as it appears in the sidebar
     private $menu_slug;                 // WP page name for this menu/page; appended as query string to parent_slug as virtual page
     private $page_title;
+    /**#@-*/
     
     /**#@+
      * @access private
      * @var array
-     */
+    */
     private $extant_options;            // Array of options that exist IF they were checked with $this->option_exists();
     private $options_array;             // Your array used globally by reference (via option_array_name; Options/content for options page;
     private $option_type_of_section;    // Array of form output blocks "of type section" (not a form element); Used for conditionally formatting output;
+    /**#@-*/
     
     /**#@+
      * @access private
      * @var object
-     */
+    */
     private $parent_menu_object;        // The whole darn parent menu object if this is a submenu of custom top level menu
+    /**#@-*/
     
     /**
      * Initialize the class
      * 
      * @since       0.1
      * @param       string prefix                   // id/prefix to namespace the options; For consistency I use the same 'prefix' on all option pages in said theme/plugin; "_" appended by default e.g. 'prefix' = 'prefix_'
-     * @param       string doodad_name              // Friendly theme/plugin name
      * @param       string options_array_name       // NAME of the Array containing the options to use for page e.g. 'my_array' NOT '$my_array';
      * @param       array options_array             // Your array used globally by reference (via option_array_name; Options/content for options page;
      * @param       object|string parent_menu       //'top' if top-level OR 'friendly name' of menu to put your new menu under OR object of custom top level parent; Any WP built-in sidebar title e.g. posts, appearance, Settings; Case Insenstive; Used to find correct slug to add menu;
      * @param       string menu_title               // Title of your pages menu as it appears in the sidebar
      * @param       string optional page_title      // A custom header title to show at the top of the page; Defaults to ...
      * @uses        KST_Options::get_parent_slug()  
-     * @uses        KST_Options::set_page_title()
      * @uses        is_admin() WP function
      * @uses        add_action() WP function
-     */
-    public function __construct($options_array_name, $parent_menu, $menu_title, $page_title = FALSE) {
+    */
+    public function __construct($options_array_name, $prefix, $parent_menu, $menu_title, $page_title = FALSE) {
         
-        $this->prefix = THEME_ID . "__"; // Cause it looks better in the address bar and helps unsure a unique namespace
-        $this->doodad_name = THEME_NAME;
+        $this->prefix = $prefix;
         $this->settings_options_group = $this->prefix . "_options_group";
         $this->options_array_name = $options_array_name;
         
         /* Check the $parent_menu parameter to determine parent/sub menu relationship */
         if ( is_object( $parent_menu ) ) { // You passed an object so this is a submenu
-            $this->parent_menu = 'custom'; // Parent menu must be a known string value
-            $this->parent_menu_object = $parent_menu; // So put the object in it's own variable
-            /* Get the parent_slug so we can use it */            
-            //$this->parent_slug = $this->get_parent_menu_slug(); // Public accessor to private variable from parent menu
-            //if ( empty( $this->get_parent_menu_slug() ) ) // We can't find what we need in the object you passed
-                //exit("<h2>Woah, wrong object buddy!</h2><p>I don't recognize that object. Make sure you are passing <code><strong>\$my_parent_menu_object</strong></code> <em>(not in quotes, with the '$', y'know THE object ;)</em> .</p><p>If you aren't in the middle of setting up your custom admin menus using the 'Kitchen Sink KST_Options class' then something is terribly wrong with the world.</p>");
+            $this->parent_menu = 'custom'; // Parent menu must be a known string value; in this case new menu in a custom top level
+            $this->parent_menu_object = $parent_menu; // So put the object they passed in it's own member variable
         } else {
             $this->parent_menu = strtolower( $parent_menu ); // 'top' or friendly WP menu name
         }
@@ -106,7 +103,7 @@ class KST_Options {
         $this->menu_slug = $this->prefix . str_replace( " ", "_", $this->menu_title );
         $this->parent_slug = $this->get_parent_slug();
         
-        $this->page_title = $this->set_page_title( $page_title );
+        $this->page_title = $page_title;
         $this->extant_options = array();
         $this->option_type_of_section = array('section', 'subsection');
         
@@ -124,9 +121,9 @@ class KST_Options {
      * @param       required string $option    unprefixed option name
      * @uses        KST_Options::prefix
      * @return      string
-     */
-    public function format_option_id( $option ) {
-        return $this->prefix . "_" . $option;
+    */
+    public static function do_namespace_option_id( $option, $prefix ) {
+        return "kst_" . $prefix . "_" . $option;
     }
     
     /**
@@ -141,15 +138,37 @@ class KST_Options {
      * @since 0.1
      * @param       required string option 
      * @param       optional string default ANY  optional, defaults to NULL
-     * @uses        KST_Options::format_option_id
+     * @uses        KST_Options::do_namespace_option_id
      * @uses        get_option() WP function
      * @return      string
-     */
+    */
     public function get_option($option, $default = NULL) {
         
-        $_option = $this->format_option_id( $option );
+        $_option = self::do_namespace_option_id( $option, $this->prefix );
+        //echo "object option asked for = " . $_option . "<br />";
         $_option_value = get_option( $_option, $default); // Ask WP
+        //echo "object request returned = " . $_option_value . "<br />";
+        return $_option_value;
+    }
+    
+    /**
+     * Get KST WP theme option
+     * 
+     * Replaces native get_option for convenience
+     * 
+     * @since 0.1
+     * @param       required string option 
+     * @param       optional string default ANY  optional, defaults to NULL
+     * @uses        KST_Options::do_namespace_option_id
+     * @uses        get_option() WP function
+     * @return      string
+    */
+    public function get_static_option($option, $prefix, $default = NULL) {
         
+        $_option = self::do_namespace_option_id( $option, $prefix );
+        //echo "real option asked for = " . $_option . "<br />";
+        $_option_value = get_option( $_option, $default); // Ask WP
+        //echo "static request returned = " . $_option_value . "<br />";
         return $_option_value;
     }
     
@@ -169,15 +188,15 @@ class KST_Options {
      * @since       0.1
      * @global      $wpdb
      * @param       required string $option 
-     * @uses        KST_Options::format_option_id()
+     * @uses        KST_Options::do_namespace_option_id()
      * @uses        KST_Options::extant_options
      * @return      boolean
-     */ 
+    */ 
     public function option_exists( $option ) {
         
         global $wpdb; // This IS WordPress ;)
         
-        $_option = $this->format_option_id( $option );
+        $_option = self::do_namespace_option_id( $option, $this->prefix );
         $skip_it = FALSE; // Flag used to help skip the query if we've checked it before
         
         /* Check to see if the current key exists */
@@ -207,8 +226,7 @@ class KST_Options {
      * Optionally you may also filter the output before it goes to the screen
      * 
      * @since       0.1
-     * @uses        KST_Options::doodad_name
-     * @uses        KST_Options::format_option_id()
+     * @uses        KST_Options::do_namespace_option_id()
      * @uses        KST_Options::get_option()
      * @uses        KST_Options::option_exists
      * @uses        KST_Options::print_table_row_open()
@@ -231,7 +249,7 @@ class KST_Options {
      * @uses        wp_dropdown_categories() WP function
      * @uses        wp_dropdown_pages() WP function
      * @uses        apply_filters() WP function
-     */
+    */
     public function kst_options() {
         
         $output = "";
@@ -250,9 +268,9 @@ class KST_Options {
         
         /* Give response on action */
         if ( isset($_REQUEST['updated']) ) 
-            $output .= "<div id='message' class='updated fade'><p><strong>" . $this->doodad_name . " settings saved.</strong></p></div>";
+            $output .= "<div id='message' class='updated fade'><p><strong>Settings saved.</strong></p></div>";
         if ( isset($_REQUEST['reset']) ) 
-            $output .= "<div id='message' class='updated fade'><p><strong>" . $this->doodad_name . " settings reset.</strong></p></div>";
+            $output .= "<div id='message' class='updated fade'><p><strong>Settings reset.</strong></p></div>";
         
         $output .= "<form method='post' id='poststuff' class='metabox-holder'>";
             $output .= '<div class="meta-box-sortables" id="normal-sortables">'; // Attempting to utilize as much WP style/formatting as possible
@@ -266,7 +284,7 @@ class KST_Options {
             /* loop and output options to build page/form */
             foreach ($this->options_array as $block) {
                 
-                $this_option        = $this->format_option_id( $block['id'] ); // Prefixed option name as stored in database
+                $this_option        = $this->do_namespace_option_id( $block['id'], $this->prefix ); // Prefixed option name as stored in database
                 $this_value         = $this->get_option( $block['id'] ); // Value of prefixed option name in database
                 $this_exists        = $this->option_exists( $block['id'] ); // Boolean existence of the current option
                 $this_attr_name_id  = " name='{$this_option}' id='{$this_option}'"; // Used on every element
@@ -579,18 +597,18 @@ class KST_Options {
      * 
      * @since       0.1
      * @param       KST_Options::options_array
-     * @uses        KST_Options::register_settings()
+     * @uses        KST_Options::registerSettings()
      * @uses        KST_Options::manage_page()
      * @uses        add_theme_page() WP function
      * @uses        add_action() WP function
      * @uses        WP_AdminMenu
-     */
+    */
     public function add_page() {
         /* Get their options array now (hopefully late enough to catch any stragglers) */
         $this->options_array =& $GLOBALS[$this->options_array_name]; 
         
         /* register settings for options */
-        add_action( 'admin_init', array(&$this, 'register_settings' )); 
+        add_action( 'admin_init', array(&$this, 'registerSettings' )); 
         
         /* Are we adding a top level menu? */
         if ( 'top' == $this->parent_menu ) {
@@ -614,14 +632,14 @@ class KST_Options {
      * Register the options with WP
      * 
      * @since 0.1
-     * @uses KST_Options::format_option_id()
+     * @uses KST_Options::do_namespace_option_id()
      * @uses KST_Options::options_array 
      * @uses register_setting() WP function
      * 
      * NOTE: Creates option with prefix prepended
      *       "option_1" is saved to the db as "prefix_option_1"
-     */
-    public function register_settings() {
+    */
+    public function registerSettings() {
         
         /* Make sure $this->options_array exists and give help */
         if ( !$this->options_array )
@@ -651,7 +669,7 @@ class KST_Options {
          */
         foreach ($this->options_array as $value) {
             if ( isset($value['id']) )
-                register_setting( $this->settings_options_group, $this->format_option_id( $value['id'] ) );
+                register_setting( $this->settings_options_group, $this->do_namespace_option_id( $value['id'], $this->prefix ) );
         }
     }
     
@@ -660,13 +678,13 @@ class KST_Options {
      * 
      * @since       0.1
      * @uses        KST_Options::kst_options()
-     * @uses        KST_Options::format_option_id
+     * @uses        KST_Options::do_namespace_option_id
      * @uses        KST_Options::parent_menu
      * @uses        KST_Options::parent_slug
      * @uses        KST_Options::menu_slug
      * @uses        update_option() WP Function
      * @uses        delete_option() WP function
-     */
+    */
     public function manage_page() { 
         
         if ( isset( $_REQUEST['action'] ) ) { // If we have an action to take
@@ -684,7 +702,7 @@ class KST_Options {
                 if ( 'save' == $kst_option_save_action ) {  
                     foreach ($this->options_array as $value) {  
                         if ( $value['type'] != 'section' ) {
-                            $option_name = $this->format_option_id( $value['id'] ); // Name of option to insert
+                            $option_name = $this->do_namespace_option_id( $value['id'], $this->prefix ); // Name of option to insert
                             $option_value = $_REQUEST[ $option_name ]; // Value of option being inserted
                             $result = update_option( $option_name , $option_value ); // oh-oh-oh it's magic
                         }
@@ -693,7 +711,7 @@ class KST_Options {
                     exit;  
                 } else if( 'reset' == $kst_option_save_action ) {  
                     foreach ($this->options_array as $value) {  
-                        delete_option( $this->format_option_id( $value['id'] ) ); // bye-bye
+                        delete_option( $this->do_namespace_option_id( $value['id'], $this->prefix ) ); // bye-bye
                     }  
                     header("Location: " . $base_page . $this->menu_slug . "&reset=true");  
                     exit;  
@@ -715,7 +733,7 @@ class KST_Options {
      * @uses        KST_Options::parent_menu
      * @return      string
      * @link        http://codex.wordpress.org/Adding_Administration_Menus
-     */
+    */
     private function get_parent_slug() {
         switch ( $this->parent_menu ) {
             case 'dashboard':
@@ -745,7 +763,7 @@ class KST_Options {
             case 'custom':
                 return $this->get_parent_menu_slug();
             default:
-                exit("<h2>Where should we put this fancy menu you are making?</h2><p>We can't find the parent_menu you specified (" . $this->parent_menu . ").</p><p>Do one of the following:</p><ul><li>Pass a known WP menu name (e.g. 'appearance', 'settings')</li><li>Pass 'top' (i.e. a new top level menu)</li><li>Or pass the entire object of a custom parent menu you already created</li></ul><p>If the parent menu was created like...</p><p><code>\$my_parent_object = new KST_Options(...);</code></p><p>Then you would pass the object like...</p><p><code>\$my_submenu_object = new KST_Options('...', '...', '...', <strong>\$my_parent_object</strong>, '...' );</code></p><p>If you aren't in the middle of setting up your custom admin menus using the 'Kitchen Sink KST_Options class' then something is terribly wrong with the world.</p>");
+                exit("<h2>Where should we put this fancy menu you are making?</h2><p>We can't find the parent_menu you specified (" . $this->parent_menu . ").</p><p>Do one of the following:</p><ul><li>Pass a known WP menu name (e.g. 'appearance', 'settings')</li><li>Pass 'top' (i.e. a new top level menu)</li><li>Or pass the entire object of a custom parent menu you already created</li></ul><p>If you aren't in the middle of setting up your custom admin menus using the 'Kitchen Sink KST_Options class' then something is terribly wrong with the world.</p>");
         }
         
     } // END get_parent_slug()
@@ -760,7 +778,7 @@ class KST_Options {
      * @uses        KST_Options::parent_menu_object
      * @uses        KST_Options::menu_slug
      * return       string
-     */
+    */
     public function get_parent_menu_slug() {
         if ( is_object($this->parent_menu_object) ) {
             $slug = $this->parent_menu_object->menu_slug;
@@ -774,31 +792,16 @@ class KST_Options {
     
     /**
      * In kct_options() page/form output:
-     * Long page title to display as header on page 
-     * 
-     * @since       0.1
-     * @param       required string $title the title you passed off to us because you don't like my formatting ;) 
-     * @uses        KST_Options::doodad_name
-     * @uses        KST_Options::menu_title
-     * @return      string
-     */
-    private function set_page_title( $title ) {
-        return ( $title )   ?  $title
-                            : $this->doodad_name . " " . $this->menu_title;
-    }
-    
-    /**
-     * In kct_options() page/form output:
      * output form element labels
      * 
      * @since       0.1
      * @param       required string $id the actual id we are using on the form element
      * @param       required string $text the text for the label
-     * @uses        KST_Options::format_option_id()
+     * @uses        KST_Options::do_namespace_option_id()
      * @return      string
-     */
+    */
     private function print_form_labels( $id, $text ) {
-        return '<label for="' . $this->format_option_id( $id ) . '">' . __($text) . '</label>';
+        return '<label for="' . $this->do_namespace_option_id( $id , $this->prefix) . '">' . __($text) . '</label>';
     }
     
     /**
@@ -808,7 +811,7 @@ class KST_Options {
      * @since       0.1
      * @param       required string $text the description being output
      * @return      string
-     */
+    */
     private function print_form_descriptions( $text ) {
         return '<span class="description">' . __($text) . '</span>';
     }
@@ -819,7 +822,7 @@ class KST_Options {
      * 
      * @since       0.1
      * @return      string
-     */
+    */
     private function print_table_row_open( $text ) {
         return "<dt>{$text}</dt><dd>";
     }
@@ -830,7 +833,7 @@ class KST_Options {
      * 
      * @since       0.1
      * @return      string
-     */
+    */
     private function print_table_row_close() {
         return "</dd>";
     }
@@ -844,7 +847,7 @@ class KST_Options {
      * @param       required string $block_previous_type 
      * @uses        KST_Options::might_close_table()
      * @return      string
-     */
+    */
     private function might_close_section( $kst_do_end_section, $block_previous_type ) {
         $output = "";
         if ( $kst_do_end_section ) {
@@ -862,7 +865,7 @@ class KST_Options {
      * @since       0.1
      * @param       required string $block_previous_type 
      * @return      string
-     */
+    */
     private function might_close_table( $block_previous_type ) {
         $output = "";
         if ( $block_previous_type && ( $block_previous_type != 'section' &&  $block_previous_type != 'subsection' ) ) {

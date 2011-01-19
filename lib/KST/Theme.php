@@ -1,7 +1,7 @@
 <?php
 /**
  * Parent class
- */
+*/
 require_once KST_DIR_LIB . '/KST.php';
 
 /**
@@ -11,20 +11,18 @@ require_once KST_DIR_LIB . '/KST.php';
  * @subpackage  KitchenSinkWidgetClasses
  * @version     0.1 
  * @since       0.1
- * @author zoe somebody http://beingzoe.com/zui/
- */
+ * @author      zoe somebody 
+ * @link        http://beingzoe.com/
+ * @author      Scragz 
+ * @link        http://scragz.com/
+ * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
+*/
 class KST_Theme extends KST {
-    
-   public  $testme;
     
     /**#@+
      * @since       0.1
      * @access      protected
-     */
-    protected $friendly_name;
-    protected $prefix;
-    protected $developer;
-    protected $developer_url;
+    */
     protected $theme_content_width;
     protected $theme_excerpt_length;
     protected $theme_seo_title_sep;
@@ -32,7 +30,7 @@ class KST_Theme extends KST {
     
     /**
      * @since       0.1
-     */
+    */
     public function __construct($settings) {
         //parent::__construct($settings);
         
@@ -56,15 +54,28 @@ class KST_Theme extends KST {
          * KST theme/plugin settings
          * 
          * @since 0.1
-         */
-        $this->set_friendly_name( $settings['friendly_name'] );
-        $this->set_prefix( $settings['prefix'] );
-        $this->set_developer( $settings['developer'] );
-        $this->set_developer_url( $settings['developer_url'] );
+        */
+        $this->_init( $settings ); // common theme/plugin member properties and such in KST
         $this->set_theme_content_width( $settings['content_width'] );
         $this->set_theme_excerpt_length( $settings['theme_excerpt_length'] );
         $this->set_theme_seo_title_sep( $settings['theme_seo_title_sep'] );
-        
+       
+        /**
+         * kst_theme_init
+         * Define contstants used throughout KST
+         *
+         * @param $options array
+         * @see THEME_NAME_CURRENT
+         * @see THEME_ID
+         * @see THEME_DEVELOPER
+         * @see THEME_DEVELOPER_URL
+         * @see THEME_HELP_URL path to theme help file
+         * @see THEME_OPTIONS_URL
+         * @see CONTENT_WIDTH
+         * @see THEME_EXCERPT_LENGTH
+         * @global $content_width WP width used to protect layout by limiting content width; WP best practice
+         * @global $theme_excerpt_length Override default WP excerpt length; Used by kst_excerpt_length() filter
+        */
         /* These need removed - SEARCH AND REPLACE AFTER Options and Help have been updated*/
         define( 'THEME_NAME',           $settings['friendly_name'] );
         define( 'THEME_ID',             $settings['prefix'] );
@@ -83,24 +94,22 @@ class KST_Theme extends KST {
          * 
          * @see     kst_excerpt_length()
          * @since       0.1
-         */
+        */
         define( 'THEME_EXCERPT_LENGTH',   $settings['theme_excerpt_length'] );
-        
-        $this->testme = "Hell Yeah! THEME BABY!";
         
     }
     
     /**
      * THEME ONLY PROTECTED MEMBER VARIABLES
      * Acessors and Mutators
-     */
+    */
     
     /**
      * Get this theme_content_width
      * 
      * @since       0.1
      * @access      public
-     */
+    */
     public function get_theme_content_width() {
         return $this->theme_content_width;
     }
@@ -110,7 +119,7 @@ class KST_Theme extends KST {
      * 
      * @since       0.1
      * @access      protected
-     */
+    */
     protected function set_theme_content_width($value) {
         $this->theme_content_width = $value;
     }
@@ -120,7 +129,7 @@ class KST_Theme extends KST {
      * 
      * @since       0.1
      * @access      public
-     */
+    */
     public function get_theme_excerpt_length() {
         return $this->theme_excerpt_length;
     }
@@ -130,7 +139,7 @@ class KST_Theme extends KST {
      * 
      * @since       0.1
      * @access      protected
-     */
+    */
     protected function set_theme_excerpt_length($value) {
         $this->theme_excerpt_length = $value;
     }
@@ -140,7 +149,7 @@ class KST_Theme extends KST {
      * 
      * @since       0.1
      * @access      public
-     */
+    */
     public function get_theme_seo_title_sep() {
         return $this->theme_seo_title_sep;
     }
@@ -150,7 +159,7 @@ class KST_Theme extends KST {
      * 
      * @since       0.1
      * @access      protected
-     */
+    */
     protected function set_theme_seo_title_sep($value) {
         $this->theme_seo_title_sep = $value;
     }

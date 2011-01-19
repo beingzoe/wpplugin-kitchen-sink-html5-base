@@ -66,6 +66,8 @@ Designed for hopeful inclusion within WordPress v3.1
 /**
  * Code by the creator but not yet part of the classes/functions
  * Added by zoe to a forked version of the code
+ * @package     WP
+ * @subpackage  Helpers
  * @see     http://wordpress.stackexchange.com/questions/2666/add-a-separator-to-the-wordpress-admin-menu
  * @see     https://gist.github.com/792b7aa5b695d1092520
  */
