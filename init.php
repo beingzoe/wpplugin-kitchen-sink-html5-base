@@ -68,14 +68,12 @@ define( 'KST_DIR_VENDOR',       KST_DIR . '/vendor' );
 define( 'KST_DIR_TEMPLATES',    KST_DIR . '/templates' );
 define( 'KST_DIR_ASSETS',       KST_DIR . '/assets' );
 define( 'WP_URI_SITE',          get_site_url() );                           // Current WP site uri
-define( 'KST_URI',              WP_PLUGIN_URL . '/' .  basename(KST_DIR) ); // Current uri to KST
-define( 'KST_URI_LIB',          KST_URI . '/lib' );
+define( 'KST_URI',              WP_PLUGIN_URL . '/' . basename(KST_DIR) ); // Current uri to KST
 define( 'KST_URI_VENDOR',       KST_URI . '/vendor' );
 define( 'KST_URI_TEMPLATES',    KST_URI . '/templates' );
 define( 'KST_URI_ASSETS',       KST_URI . '/assets' );
 define( 'THEME_NAME_CURRENT',   get_current_theme() );
 /**#@-*/
-
 
 
 /* KST core settings editable from WP admin irrespective of theme
