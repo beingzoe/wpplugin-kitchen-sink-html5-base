@@ -6,8 +6,8 @@
  * Hassle free "sideblog" using a designated category for "aside" posts
  * Pass it your "aside" category and style the output however you like
  *
- * @author		zoe somebody
- * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
+ * @author      zoe somebody 
+ * @link        http://beingzoe.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  KitchenSinkClasses
@@ -19,7 +19,7 @@
  * @todo        rename to KSP (kitchen sink plugins) building a brand you know
  * @todo        check to see if this class has been loaded already (plugin or class in theme)
  * @todo        create some kind of method of passing a template in to output fully custom markup
- */
+*/
 
 /* Code reminder to make sure the class doesn't already exist when we distribute */
 if ( !class_exists('KST_Asides') ) { /* */ }
@@ -29,7 +29,7 @@ class KST_Asides {
     /**#@+
      * @access private
      * @var string
-     */
+    */
     private $current_day;       // Custom date string (dmY) of current post
     private $previous_day;      // Custom date string of  post
     private $category;          // The category the asides belong to; $name, $slug, OR $id
@@ -37,7 +37,7 @@ class KST_Asides {
     /**#@+
      * @access private     
      * @var array
-     */
+    */
     private $asides;            // Array of asides content
     
     
@@ -49,7 +49,7 @@ class KST_Asides {
      * @uses        KST_Asides::asides
      * @uses        KST_Asides::should_we_do_this()
      * @uses        add_action() WP function
-     */
+    */
     public function __construct( $category ) {
         if ( !is_object( get_term_by( 'id', $category, 'category' ) ) )
             return; // No category so nothing to do
@@ -65,7 +65,7 @@ class KST_Asides {
      * @since       0.1
      * @param       string $date any date string
      * @return      string date      
-     */
+    */
     private function set_date($date) {
         return date( "mdY", strtotime($date) );
     }
@@ -80,7 +80,7 @@ class KST_Asides {
      * @uses        KST_Asides::do_in_loop()
      * @uses        KST_Asides::output()
      * @uses        add_action() WP function
-     */
+    */
     public function should_we_do_this() {
         /* Figure out if we are in the "main" loop */
         /* Add WP actions */ 
@@ -101,7 +101,7 @@ class KST_Asides {
      * @uses        KST_Asides::current_day
      * @uses        in_category() WP function
      * @uses        the_post() WP function
-     */
+    */
     public function do_in_loop( $post_object ) {
         global $wp_query;
         
@@ -130,7 +130,7 @@ class KST_Asides {
      * @since         0.1
      * @param         required object $post_object    The $post object to be deferred in the loop and output later
      * @uses          KST_Asides::asides
-     */
+    */
     public function add( $post_object ) {
         $this->asides[] = $post_object;
     }
@@ -141,7 +141,7 @@ class KST_Asides {
      * @version       0.1
      * @since         0.1
      * @uses          KST_Asides::asides
-     */
+    */
     public function reset() {
         $this->asides = array();
     }
@@ -158,7 +158,7 @@ class KST_Asides {
      * @uses        KST_Asides::reset()
      * @uses        KST_Asides::asides
      * @uses        get_permalink() WP function
-     */
+    */
     public function output( $post_object, $is_new_day = 1, $reverse = 1 ) {
         if ( !empty( $this->asides ) && $is_new_day ) {
             
