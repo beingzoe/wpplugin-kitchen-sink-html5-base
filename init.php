@@ -76,6 +76,21 @@ define( 'THEME_NAME_CURRENT',   get_current_theme() );
 /**#@-*/
 
 
+/**
+ * Registers the themes directory as the theme_root
+ * for developing the bundled themes.
+ *
+ * Usage:
+ * in wp-config.php
+ * // use KST plugin themes directory as theme_root
+ * define('KST_BUNDLED_THEME_DEV', true);
+ *
+ */
+if (defined('KST_BUNDLED_THEME_DEV') && KST_BUNDLED_THEME_DEV) {
+    register_theme_directory( WP_PLUGIN_DIR . '/' . basename(KST_DIR) . '/themes' );
+}
+
+
 /* KST core settings editable from WP admin irrespective of theme
  * This creates ...
  */ 
