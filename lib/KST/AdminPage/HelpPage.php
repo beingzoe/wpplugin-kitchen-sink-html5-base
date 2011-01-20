@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for creating and inserting help into pages created by KST_AdminPages
+ * Class for creating and inserting help into pages created by KST_AdminPage
  * Parent class included on KST load so KST can have core options without theme or plugin
  * 
  * @package     KitchenSinkHTML5Base
@@ -12,16 +12,9 @@
  * @author      Scragz 
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @uses        KST_AdminPages
+ * @uses        KST_AdminPage
 */
-class KST_AdminPage_HelpPages extends KST_AdminPages {
-       
-    /**#@+
-     * @since       0.1
-     * @access      protected
-    */
-
-    /**#@-*/
+class KST_AdminPage_HelpPage extends KST_AdminPage {
     
     /**
      * @since       0.1

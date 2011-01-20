@@ -25,7 +25,7 @@ if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSe
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  */
-class KST_AdminPages {
+class KST_AdminPage {
        
     /**#@+
      * @since       0.1
@@ -43,64 +43,11 @@ class KST_AdminPages {
     }
     
     /**
-     
-     * 
-     * @since       0.1
-    */
-   
-    
-    /**
-     * Register new admin "options" page with KST
-     * We will save them up and output them all at once.
-     *
-     * All new pages are added to WP Admin here
-     * This is called after the WP global $menu is set
-     * and we have already acted on it if necessary 
-     * to prevent overwriting existing menus and 
-     * all KST created menus go where they need to be.
-     * 
-     * @since       0.1
-     * @access      public
-     * @param       required array $options_array passed by reference; Contains options block types and their parameters
-     * @param       required string $menu_title actual text to display in menu
-     * @param       optional string $parent_menu 
-     * @param       optional string $page_title Explicit title to use on page, defaults to "friendly_name menu_title"
-    */
-    public static function create_admin_pages() {
-        
-         // If you can't manage your options then you can't have any menus - speed things up a bit
-        if (!current_user_can('manage_options'))
-            return;
-        
-        // Logic to reorganize menus would go here
-        
-        //print_r(KST::getKSTAdminPages());
-        
-        // Tell WP we want these pages
-        foreach ( KST::getKSTAdminPages() as $page ) {
-            
-            /* Are we adding a top level menu? */
-            if ( 'top' == $page->parent_menu ) {
-                add_admin_menu_separator(58); // WP_AdminMenu function
-                add_menu_page( $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, 'KST_AdminPages::manage_page', '', 59); //, $icon_url, $position
-                
-            }
-            
-            //print_r($page);
-            //echo "parent_slug = " . $page->parent_slug . " pagetitle = " . $page->page_title . " menutitle = " . $page->menu_title . " function = " . 'manage_options' . " menu_slug = " . $page->menu_slug . "<br />";
-            
-            /* Always add a submenu (if parent the menu_title is used for both parent and submenu per WP best practice) */
-            add_submenu_page($page->parent_slug, $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, array($page, 'manage_page') );//'make_menu_shit'
-        }
-        
-    }
-    
-    /**
      * Register the options with WP
      * 
      * @since       0.1
-     * @uses        KST_AdminPage_OptionsPages::_formatInNamespace()
-     * @uses        KST_AdminPage_OptionsPages::options_array 
+     * @uses        KST_AdminPage_OptionsPage::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsPage::options_array 
      * @uses        current_user_can() WP function
      * @uses        wp_die() WP function
      * 
@@ -220,6 +167,52 @@ class KST_AdminPages {
         return $this->menu_slug;
     }
     
+    
+    /**
+     * Register new admin "options" page with KST
+     * We will save them up and output them all at once.
+     *
+     * All new pages are added to WP Admin here
+     * This is called after the WP global $menu is set
+     * and we have already acted on it if necessary 
+     * to prevent overwriting existing menus and 
+     * all KST created menus go where they need to be.
+     * 
+     * @since       0.1
+     * @access      public
+     * @param       required array $options_array passed by reference; Contains options block types and their parameters
+     * @param       required string $menu_title actual text to display in menu
+     * @param       optional string $parent_menu 
+     * @param       optional string $page_title Explicit title to use on page, defaults to "friendly_name menu_title"
+    */
+    public static function create_admin_pages() {
+        
+         // If you can't manage your options then you can't have any menus - speed things up a bit
+        if (!current_user_can('manage_options'))
+            return;
+        
+        // Logic to reorganize menus would go here
+        
+        //print_r(KST::getAdminPages());
+        
+        // Tell WP we want these pages
+        foreach ( KST::getAdminPages() as $page ) {
+            
+            /* Are we adding a top level menu? */
+            if ( 'top' == $page->parent_menu ) {
+                add_admin_menu_separator(58); // WP_AdminMenu function
+                add_menu_page( $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, 'KST_AdminPage::manage_page', '', 59); //, $icon_url, $position
+                
+            }
+            
+            //print_r($page);
+            //echo "parent_slug = " . $page->parent_slug . " pagetitle = " . $page->page_title . " menutitle = " . $page->menu_title . " function = " . 'manage_options' . " menu_slug = " . $page->menu_slug . "<br />";
+            
+            /* Always add a submenu (if parent the menu_title is used for both parent and submenu per WP best practice) */
+            add_submenu_page($page->parent_slug, $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, array($page, 'manage_page') );//'make_menu_shit'
+        }
+        
+    }
     
 }
 

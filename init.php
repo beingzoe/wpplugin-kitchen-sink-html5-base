@@ -76,7 +76,7 @@ require_once KST_DIR_LIB . '/functions/settings_core.php';
 /**
  * Add hooks for core functionality
 */
-add_action("activated_plugin", "kstLoadAsFirstPlugin");
-add_action('plugins_loaded', array(KST, 'pluginsAreLoaded')); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
+add_action('activated_plugin', 'loadAsFirstPlugin');
+add_action('plugins_loaded', 'KST::pluginsAreLoaded')); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
 
 // Now we wait for a plugin or theme to initialize...

@@ -1,6 +1,6 @@
 <?php
 /**
- * Class for managing options in pages created by KST_AdminPages
+ * Class for managing options in pages created by KST_AdminPage
  * Each instance represents the settings for one menu/page/option_group
  * Parent class included on KST load so KST can have core options without theme or plug
  * 
@@ -13,9 +13,9 @@
  * @author      Scragz 
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @uses        KST_AdminPages
+ * @uses        KST_AdminPage
  */
-class KST_AdminPage_OptionsPages extends KST_AdminPages {
+class KST_AdminPage_OptionsPage extends KST_AdminPage {
        
     /**#@+
      * @since       0.1
@@ -64,7 +64,7 @@ class KST_AdminPage_OptionsPages extends KST_AdminPages {
      * 
      * @since       0.1
      * @param       required string $item    unnamespaced option name
-     * @uses        KST_AdminPages_OptionsPages::namespace
+     * @uses        KST_AdminPage_OptionsPage::namespace
      * @return      string
     */
     protected function _formatInNamespace( $item ) {
@@ -81,11 +81,11 @@ class KST_AdminPage_OptionsPages extends KST_AdminPages {
      * @since 0.1
      * @param       required string namespace
      * @param       required string option 
-     * @param       optional string default ANY  optional, defaults to NULL
+     * @param       optional string default ANY  optional, defaults to null
      * @uses        get_option() WP function
      * @return      string
     */
-    public static function getOption($namespace, $option, $default = NULL) {
+    public static function getOption($namespace, $option, $default = null) {
         $option = $namespace . $option;
         $option_value = get_option( $option, $default); // Ask WP
         return $option_value;
@@ -135,8 +135,8 @@ class KST_AdminPage_OptionsPages extends KST_AdminPages {
      * Still try to be unique to avoid collisions with other KST developers
      * 
      * @since       0.1
-     * @uses        KST_AdminPages_OptionsPages::menu_title
-     * @uses        KST_AdminPages_OptionsPages::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsPage::menu_title
+     * @uses        KST_AdminPage_OptionsPage::_formatInNamespace()
      * @return      string
     */
     protected function _createMenuSlug() {
@@ -147,8 +147,8 @@ class KST_AdminPage_OptionsPages extends KST_AdminPages {
      * Register the options with WP
      * 
      * @since 0.1
-     * @uses KST_AdminPage_OptionsPages::_formatInNamespace()
-     * @uses KST_AdminPage_OptionsPages::options_array 
+     * @uses KST_AdminPage_OptionsPage::_formatInNamespace()
+     * @uses KST_AdminPage_OptionsPage::options_array 
      * @uses register_setting() WP function
      * 
      * NOTE: Creates option with namespace prepended
@@ -193,8 +193,8 @@ class KST_AdminPage_OptionsPages extends KST_AdminPages {
      * Register the options with WP
      * 
      * @since       0.1
-     * @uses        KST_AdminPage_OptionsPages::_formatInNamespace()
-     * @uses        KST_AdminPage_OptionsPages::options_array 
+     * @uses        KST_AdminPage_OptionsPage::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsPage::options_array 
      * @uses        current_user_can() WP function
      * @uses        wp_die() WP function
      * 
@@ -205,7 +205,7 @@ class KST_AdminPage_OptionsPages extends KST_AdminPages {
         
         require_once KST_DIR_VENDOR . '/ZUI/FormHelper.php';
         
-        //$current_page_object = KST::getKSTAdmin_Page();
+        //$current_page_object = KST::getAdminPage();
         $output = "";
         
         if (!current_user_can('manage_options'))  {
@@ -258,7 +258,7 @@ class KST_AdminPage_OptionsPages extends KST_AdminPages {
                         else if ( !$this_exists ) 
                             $value = $block['default'];
                         else
-                            $value = NULL;
+                            $value = null;
                             
                         // set size
                         $size = ( empty( $block['size'] ) ) ? "" 
@@ -299,7 +299,7 @@ class KST_AdminPage_OptionsPages extends KST_AdminPages {
                         else if ( !$this_exists ) 
                             $value = $block['default'];
                         else
-                            $value = NULL;
+                            $value = null;
                             
                         // Create form element
                         $element = ZUI_FormHelper::textarea($this_option, $value, $cols, $rows);

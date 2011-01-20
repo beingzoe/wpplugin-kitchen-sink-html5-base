@@ -181,104 +181,100 @@
 
     
 
-switch ( class_exists('KST') ) { // Is this the best way we can protect the theme from a missing plugin?
+if ( class_exists('KST') ) { // Is this the best way we can protect the theme from a missing plugin?
     // Your KST Dependent theme initialization code goes here
-    case TRUE:
-        /**#@+
-         * @since       0.1
-        */
-         
-        /* REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE 
-         * Two options below, both return an object for you to use
-        */ 
-         
-        /*
-         * Option #1
-         * Load preset configuration  
-         * Then init the features you want to use individually
-         * 
-         * default, minimum, and_the_kitchen_sink
-        */
-        //$my_theme = new KST_Theme($twenty_eleven_settings, 'and_the_kitchen_sink');
-        
-        /*
-         * Option #2
-         * Just register your theme with KST
-         * Then init the features you want to use individually
-        */
-        $my_theme = new KST_Theme($twenty_eleven_settings);
-        
-        
-        /* Load and use KST_Options
-         * Uses your $theme_options array(s) to create admin menus/pages 
-        */ 
-        
-        
-        $my_theme->newOptionsPage($theme_options, 'Theme Options', 'appearance');
-        $my_theme->newOptionsPage($theme_options2, 'Theme Options 2', 'appearance');
-        $my_theme->newOptionsPage($theme_options2, 'Theme Options 3', 'appearance');
-        
-        $theme_options2[] = array(  "name"    => __('ADDED FLOOP AFTER WE ALREADY PASSED IT'),
-                                    "desc"  => __("
-                                                <p><em>YEAH</em></p>
-                                                "),
-                                    "type"  => "section",
-                                    "is_shut"   => FALSE 
-                                );
+    /**#@+
+     * @since       0.1
+    */
+     
+    /* REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE 
+     * Two options below, both return an object for you to use
+    */ 
+     
+    /*
+     * Option #1
+     * Load preset configuration  
+     * Then init the features you want to use individually
+     * 
+     * default, minimum, and_the_kitchen_sink
+    */
+    //$my_theme = new KST_Theme($twenty_eleven_settings, 'and_the_kitchen_sink');
+    
+    /*
+     * Option #2
+     * Just register your theme with KST
+     * Then init the features you want to use individually
+    */
+    $my_theme = new KST_Theme($twenty_eleven_settings);
+    
+    
+    /* Load and use KST_Options
+     * Uses your $theme_options array(s) to create admin menus/pages 
+    */ 
+    
+    
+    $my_theme->newOptionsPage($theme_options, 'Theme Options', 'appearance');
+    $my_theme->newOptionsPage($theme_options2, 'Theme Options 2', 'appearance');
+    $my_theme->newOptionsPage($theme_options2, 'Theme Options 3', 'appearance');
+    
+    $theme_options2[] = array(  "name"    => __('ADDED FLOOP AFTER WE ALREADY PASSED IT'),
+                                "desc"  => __("
+                                            <p><em>YEAH</em></p>
+                                            "),
+                                "type"  => "section",
+                                "is_shut"   => FALSE 
+                            );
 
+        
+
+    
+    //print_r( KST::test_static_AdminPages() );
             
-
-        
-        //print_r( KST::test_static_AdminPages() );
-                
-        /* HTML5 Boilerplate, WP normalization, and smart stuff */
-        $my_theme->initSensibleDefaults();
-        $my_theme->initHelp(); // KST THEME HELP
-        //KST::initSEO(); // KST SEO and META DATA
-        $my_theme->initContact(); // KST easy flexible email and contact forms
-        
-        
-        
-        /* Add your menus/pages */ 
-        //$twenty_eleven_options = new KST_Options('theme_options', 'top', 'Theme Options');
-        //$more_options = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options', 'My CUSTOM page TITLE');
-        //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options2', 'Important Settings');
-        //$twenty_eleven_options2 = new KST_Options('theme_options', 'top', 'Other Options');
-        //$more_options = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other', 'My CUSTOM page TITLE');
-        //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other2', 'Important Settings');
-        
-        
-        /* Load and use KST_Asides class to manage asides side blog */
-        require_once KST_DIR_LIB . '/KST/Asides.php'; // Class to save aside post for clean delayed output
-        $loop_asides = new KST_Asides( $my_theme->getOption('layout_category_aside') );
-        
-        $my_theme->initWidgetNavPost(); // WP WIDGET: KST post to post next/previous post buttons for sidebar (only on single blog posts)
-        $my_theme->initWidgetNavPosts(); // WP WIDGET: KST Page to page older/newer browse posts buttons for sidebar (only on single blog posts)
-        
-        /* WP Media Normalization */
-        $my_theme->initWPMediaNormalize(); // WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc... 
-        //$KST::initKSTjqueryLightbox(); // WP Media Normalization: Just gallery and caption normalization with automatic lightboxing
-        //$KST::initKSTmp3Player(); // WP Media Normalization: mp3plaery shortcode and automatic player when an mp3 is directly linked
-        
-        /* OPTIONAL: Plugin-ish features */
-        $my_theme->initKSTjqueryJITmessage(); //KST/jQuery: KST JIT (Just-in-Time) message (sliding out a panel on a trigger)
-        $my_theme->initWidgetJITsidebar(); // WP WIDGET: KST JIT (Just-in-Time) Sidebar (Magic relative/fixed sidebars)
-        $my_theme->initKSTjqueryToolsScrollable(); // KST/jQuery: tools: scrollable content (content slideshow with shortcodes)
-        $my_theme->initKSTjqueryCycle(); // KST/jQuery: malsup cycle content (content slideshow with shortcodes)
-        
-        /**#@-*/
-    break;
-    // Your
-    default;
-        // Needs to check if it is in the admin section OR in the login page (login is not in the admin)
-        if ( is_admin() ) {
-            return;
-        } else {
-            // Having a FUN and useful help message would be cool.
-        echo "<h1>Pretty cool!<br />You are using a Kitchen Sink based WordPress theme<br />HOWEVER...</h1><p>...you have not activated the KST Plugin in WordPress OR you haven't included it as library in your theme.<br />See the <a href='http://beingzoe.com/zui/wordpress/kitchen_sink_theme'>documentation</a> if you need assistance.</p><p><a href='#'>Sign in</a> to WordPress.";
-            exit;
-        }
-    break;
+    /* HTML5 Boilerplate, WP normalization, and smart stuff */
+    $my_theme->initSensibleDefaults();
+    $my_theme->initHelp(); // KST THEME HELP
+    //KST::initSEO(); // KST SEO and META DATA
+    $my_theme->initContact(); // KST easy flexible email and contact forms
+    
+    
+    
+    /* Add your menus/pages */ 
+    //$twenty_eleven_options = new KST_Options('theme_options', 'top', 'Theme Options');
+    //$more_options = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options', 'My CUSTOM page TITLE');
+    //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options2', 'Important Settings');
+    //$twenty_eleven_options2 = new KST_Options('theme_options', 'top', 'Other Options');
+    //$more_options = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other', 'My CUSTOM page TITLE');
+    //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other2', 'Important Settings');
+    
+    
+    /* Load and use KST_Asides class to manage asides side blog */
+    require_once KST_DIR_LIB . '/KST/Asides.php'; // Class to save aside post for clean delayed output
+    $loop_asides = new KST_Asides( $my_theme->getOption('layout_category_aside') );
+    
+    $my_theme->initWidgetNavPost(); // WP WIDGET: KST post to post next/previous post buttons for sidebar (only on single blog posts)
+    $my_theme->initWidgetNavPosts(); // WP WIDGET: KST Page to page older/newer browse posts buttons for sidebar (only on single blog posts)
+    
+    /* WP Media Normalization */
+    $my_theme->initWPMediaNormalize(); // WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc... 
+    //$KST::initJqueryLightbox(); // WP Media Normalization: Just gallery and caption normalization with automatic lightboxing
+    //$KST::initMp3Player(); // WP Media Normalization: mp3plaery shortcode and automatic player when an mp3 is directly linked
+    
+    /* OPTIONAL: Plugin-ish features */
+    $my_theme->initJqueryJitMessage(); //KST/jQuery: KST JIT (Just-in-Time) message (sliding out a panel on a trigger)
+    $my_theme->initWidgetJitSidebar(); // WP WIDGET: KST JIT (Just-in-Time) Sidebar (Magic relative/fixed sidebars)
+    $my_theme->initJqueryToolsScrollable(); // KST/jQuery: tools: scrollable content (content slideshow with shortcodes)
+    $my_theme->initJqueryCycle(); // KST/jQuery: malsup cycle content (content slideshow with shortcodes)
+    
+    /**#@-*/
+} else {
+    // Needs to check if it is in the admin section OR in the login page (login is not in the admin)
+    if ( is_admin() ) {
+        return;
+    } else {
+        // Having a FUN and useful help message would be cool.
+    echo "<h1>Pretty cool!<br />You are using a Kitchen Sink based WordPress theme<br />HOWEVER...</h1><p>...you have not activated the KST Plugin in WordPress OR you haven't included it as library in your theme.<br />See the <a href='http://beingzoe.com/zui/wordpress/kitchen_sink_theme'>documentation</a> if you need assistance.</p><p><a href='#'>Sign in</a> to WordPress.";
+        exit;
+    }
 }
 
 
