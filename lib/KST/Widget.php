@@ -15,8 +15,7 @@
 class KST_Widget extends WP_Widget {
     /**
      * Registers a widget class with WP
-     * @param String $widget Name of the class
-     to register
+     * @param String $widget Name of the class to register
      *
     */
     public static function registerWidget($widget) {
