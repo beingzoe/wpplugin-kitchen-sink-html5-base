@@ -414,6 +414,3 @@ function kst_add_custom_image_header() {
 function kst_add_custom_image_header_admin() { 
     
 }
-//wp_list_pages( "depth=1" );
-$my_theme->wp_list_pages( "depth=3" );
-
