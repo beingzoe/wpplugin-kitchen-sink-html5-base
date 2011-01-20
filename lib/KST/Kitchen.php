@@ -8,7 +8,7 @@ require_once KST_DIR_LIB . '/KST.php';
  * Class for managing plugin through KST
  * 
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkKitchenClasses
+ * @subpackage  Core
  * @version     0.1 
  * @since       0.1
  * @author      zoe somebody 

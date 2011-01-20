@@ -10,7 +10,7 @@
  * @link        http://beingzoe.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkClasses
+ * @subpackage  Plugins:Blog
  * @version     0.1
  * @since       0.1
  * @todo        figure out how to get/pass the "asides" category unobtrusively

@@ -3,7 +3,7 @@
  * Parent class for KST_Widgets
  * 
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkWidgetClasses
+ * @subpackage  Widgets
  * @version     0.1 
  * @since       0.1
  * @author      zoe somebody 

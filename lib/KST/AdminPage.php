@@ -16,7 +16,7 @@ if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSe
  * Class for adding menus/pages to WP admin
  * 
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkWidgetClasses
+ * @subpackage  Core
  * @version     0.1 
  * @since       0.1
  * @author      zoe somebody 

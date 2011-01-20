@@ -8,7 +8,7 @@
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkThemeLibraries
+ * @subpackage  Plugins:Marketing
  * @version     0.1
  * @since       0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme

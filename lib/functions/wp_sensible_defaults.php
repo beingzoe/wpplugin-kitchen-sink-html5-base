@@ -1,5 +1,20 @@
 <?php
 /**
+ * KST SENSIBLE DEFAULTS FUNCTIONS
+ * 
+ * Functions only required if we are in the WP admin
+ *  
+ * @author		zoe somebody
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
+ * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
+ * @package     KitchenSinkHTML5Base
+ * @subpackage  Base
+ * @version     0.1
+ * @since       0.1
+ */
+ 
+/**
  * Initialize Theme with sensible defaults
  * and spare yourself needless junk in your functions.php
  * and get all of the HTML5 goodness ready to go

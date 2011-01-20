@@ -7,7 +7,7 @@
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkThemeLibrary
+ * @subpackage  Plugins:Media
  * @version     0.1
  * @todo        convert to class
  * @todo        just refigure the whole damn thing? Possibly choose between cycle and scrollables?

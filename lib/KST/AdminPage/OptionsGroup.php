@@ -5,7 +5,7 @@
  * Parent class included on KST load so KST can have core options without theme or plug
  * 
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkWidgetClasses
+ * @subpackage  Core
  * @version     0.1 
  * @since       0.1
  * @author      zoe somebody 

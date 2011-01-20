@@ -1,6 +1,6 @@
 <?php
 /**
- * KST ADMIN ONLY FUNCTIONS
+ * KST ADMIN ONLY SENSIBLE DEFAULTS FUNCTIONS
  * 
  * Functions only required if we are in the WP admin
  *  
@@ -9,12 +9,10 @@
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkThemeLibraries
+ * @subpackage  Base
  * @version     0.1
  * @since       0.1
  */
-
- 
  
 /* REMOVE WP JUNK
  * remove_action, remove_theme_support, etc...
