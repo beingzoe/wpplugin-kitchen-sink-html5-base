@@ -39,18 +39,7 @@ class KST {
      * @access      private
     */
     private static $_plugins_are_loaded = false;
-    
-    
-    /*TESTING TEMPORARY METHODS*/
-    public function echo_this() {
-        echo "Yup we can do that with " . $this->getFriendlyName() . " " . $this->getPrefix() . " " . $this->getDeveloper() . " " . $this->getDeveloper_url();
-    }
-    public function test_static_AdminPages() {
-        //return self::$all_admin_pages;
-        print_r( self::$all_admin_pages );
-    }
-    
-    
+
     /**
      * Register new admin "options" page with KST
      * We will save them up and output them all at once.

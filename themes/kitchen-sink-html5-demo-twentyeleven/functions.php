@@ -225,11 +225,6 @@ if ( class_exists('KST') ) { // Is this the best way we can protect the theme fr
                                 "is_shut"   => FALSE 
                             );
 
-        
-
-    
-    //print_r( KST::test_static_AdminPages() );
-            
     /* HTML5 Boilerplate, WP normalization, and smart stuff */
     $my_theme->initSensibleDefaults();
     $my_theme->initHelp(); // KST THEME HELP
@@ -419,5 +414,6 @@ function kst_add_custom_image_header() {
 function kst_add_custom_image_header_admin() { 
     
 }
-
+//wp_list_pages( "depth=1" );
+$my_theme->wp_list_pages( "depth=3" );
 
