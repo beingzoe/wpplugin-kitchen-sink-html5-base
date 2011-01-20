@@ -52,21 +52,6 @@ class KST {
     
     
     /**
-     * Init Theme/Plugin instance
-    */
-    protected function __construct( $settings, $preset=null ) {
-        $this->_setFriendlyName( $settings['friendly_name'] );
-        $this->_setPrefix( $settings['prefix'] );
-        $this->_setDeveloper( $settings['developer'] );
-        $this->_setDeveloper_url( $settings['developer_url'] );
-        $this->namespace = $this->_formatNamespace( $this->getPrefix() );
-        if ($preset) {
-            self::initPreset($preset);
-        }
-    }
-    
-    
-    /**
      * Register new admin "options" page with KST
      * We will save them up and output them all at once.
      * 

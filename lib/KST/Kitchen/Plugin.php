@@ -2,13 +2,13 @@
 /**
  * Parent class
 */
-require_once KST_DIR_LIB . '/KST.php';
+require_once KST_DIR_LIB . '/KST/Kitchen.php';
 
 /**
  * Class for managing plugin through KST
  * 
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkWidgetClasses
+ * @subpackage  KitchenSinkKitchenClasses
  * @version     0.1 
  * @since       0.1
  * @author      zoe somebody 
@@ -17,7 +17,7 @@ require_once KST_DIR_LIB . '/KST.php';
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
 */
-class KST_Plugin extends KST {
+class KST_Kitchen_Plugin extends KST_Kitchen {
     
     /**
      * @since       0.1
