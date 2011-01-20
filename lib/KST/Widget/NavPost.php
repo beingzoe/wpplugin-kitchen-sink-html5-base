@@ -104,8 +104,6 @@ class KST_Widget_NavPost extends KST_Widget {
         <?php 
     }
 
-} // class KST_Widget_NavPost
+}
 
-// register KST_Widget_NavPost widget
-add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_NavPost");'));
 

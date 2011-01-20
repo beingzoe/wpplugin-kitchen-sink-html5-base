@@ -347,7 +347,7 @@ class KST {
      * @since       0.1
     */
     public static function initWidgetNavPost() {
-          require_once KST_DIR_LIB . '/KST/Widget/NavPost.php'; 
+        KST_Widget::registerWidget('NavPost');
     }
     
     /**
@@ -356,7 +356,7 @@ class KST {
      * @since       0.1
     */
     public static function initWidgetNavPosts() {
-          require_once KST_DIR_LIB . '/KST/Widget/NavPosts.php'; // Page to page posts older/newer (only on indexes i.e. blog home, archives)
+        KST_Widget::registerWidget('NavPosts');
     }
     
     /**
@@ -409,7 +409,7 @@ class KST {
      * @since       0.1
     */
     public static function initWidgetJitSidebar() {
-        require_once KST_DIR_LIB . '/KST/Widget/JITSidebar.php';
+        KST_Widget::registerWidget('JitSidebar');
     }
     
     /**

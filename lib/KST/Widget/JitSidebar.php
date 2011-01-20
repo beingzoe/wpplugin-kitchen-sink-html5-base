@@ -39,7 +39,7 @@ class KST_Widget_JitSidebar extends KST_Widget {
     function widget($args, $instance) {	
         extract( $args );
         //no settings so no variables to get/set
-        add_action('wp_footer', 'print_jit_message_scripts');
+        add_action('wp_footer', 'KST_Widget_JitSidebar::print_jit_message_scripts');
         echo $before_widget;
         echo $after_widget; 
     }
@@ -71,27 +71,24 @@ class KST_Widget_JitSidebar extends KST_Widget {
             <p>Any widget added below this one will magically start floating when they are scrolled to the top of the page.</p>
         <?php 
     }
+    
+    /**
+     * Print styles and scripts only if we need them
+     * 
+     * We must register and print them ourselves because we can't enqueue by the time shortcodes are executing
+     * Use add_action('wp_footer', 'print_scrollable_scripts'); to safely load javascript 
+     * 
+     * @since       0.1
+     * @uses        wp_register_script() WP function
+     * @uses        get_template_directory_uri() WP function
+     * @uses        wp_print_scripts() WP function
+     */
+    public static function print_jit_message_scripts() {
+        wp_register_script('jit_sidebar', KST_URI_ASSETS . '/javascripts/jquery/jquery.kst_jit_sidebar.js' , array('jquery') , '0.1', true);
+        /* just print the script directly to the page with wp_footer */
+        wp_print_scripts('jit_sidebar');
+        echo '<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_sidebar) { $(this).jit_sidebar(); }; });</script>';
+    }
 
-} // class KST_Widget_NavPost
-
-// register KST_Widget_NavPost widget
-add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_JITSidebar");'));
-
-/**
- * Print styles and scripts only if we need them
- * 
- * We must register and print them ourselves because we can't enqueue by the time shortcodes are executing
- * Use add_action('wp_footer', 'print_scrollable_scripts'); to safely load javascript 
- * 
- * @since       0.1
- * @uses        wp_register_script() WP function
- * @uses        get_template_directory_uri() WP function
- * @uses        wp_print_scripts() WP function
- */
-function print_jit_message_scripts() {
-    wp_register_script('jit_sidebar', KST_URI_ASSETS . '/javascripts/jquery/jquery.kst_jit_sidebar.js' , array('jquery') , '0.1', true);
-    /* just print the script directly to the page with wp_footer */
-    wp_print_scripts('jit_sidebar');
-    echo '<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_sidebar) { $(this).jit_sidebar(); }; });</script>';
 }
 
