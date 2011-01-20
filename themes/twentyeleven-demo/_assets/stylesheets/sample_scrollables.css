@@ -7,31 +7,31 @@
  *
  * Version: 1.2.3
  * Requires: jQuery v1.4.2+
- * 
+ *
  * This CSS is for the WordPress kst_jquery_scrollables library implementation
  * Documentation http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  */
- 
+
  /**
      * WP shortcode: scrollable_slide instance (Tools.Scrollables)
      */
     .pickle {
-        width: 680px; 
+        width: 680px;
         /*height: 350px;*/
         margin: 18px auto 0 auto;
         background: #ccc none 0 0 repeat;
     }
-    .pickle .scrollables_scrollable { 
+    .pickle .scrollables_scrollable {
         height: 350px;
-    } 
-    .pickle .scrollables_header { 
-        /* optional */ 
+    }
+    .pickle .scrollables_header {
+        /* optional */
         margin: 0 0 10px;
         padding: 10px;
         background: #eee none 0 0 repeat;
     }
     .pickle .scrollables_footer {
-        /* optional */ 
+        /* optional */
         margin: 10px 0 0 ;
         padding: 10px;
         background: #eee none 0 0 repeat;
@@ -42,26 +42,26 @@
         text-align: center;
     }
     .pickle .scroll_item .active { }
-    
+
     .pickle .scrollables_next, .pickle .scrollables_previous {
         /*display: none;*/
     }
- 
+
 /**
  * scrollables scrollable_default instance (Tools.Scrollables)
  */
 .scrollable_default {
-    width: 680px; 
+    width: 680px;
     height: 350px;
     margin: 18px auto 0 auto;
     background: #ccc none 0 0 repeat;
 }
-.scrollable_default .scrollables_scrollable { 
+.scrollable_default .scrollables_scrollable {
     height: 350px;
-} 
+}
 .scrollable_default .scrollables_header { /* optional */ }
 .scrollable_default .scrollables_footer {
-    position: absolute; 
+    position: absolute;
     bottom: 0;
     left: 0;
     width: 660px;
@@ -84,14 +84,14 @@
  * scrollables core functionality DO NOT EDIT (Tools.Scrollables)
  */
 .scrollables { /* functionality */ position: relative; }
-.scrollables_scrollable { /* functionality */ position: relative; overflow: hidden; width: 100%; } 
-.scroll_items { /* functionality */ width: 20000em; position: absolute; } 
-.scroll_item { /* functionality */ float: left; } 
+.scrollables_scrollable { /* functionality */ position: relative; overflow: hidden; width: 100%; }
+.scroll_items { /* functionality */ width: 20000em; position: absolute; }
+.scroll_item { /* functionality */ float: left; }
 
-.scrollables_previous, .scrollables_next { 
-    position: absolute; 
+.scrollables_previous, .scrollables_next {
+    position: absolute;
     bottom: 20px;
-    font-size: 18px; 
+    font-size: 18px;
 }
 .scrollables_previous {
     right: 40px;
@@ -108,7 +108,7 @@
     z-index: 1;
 }
 .scrollables_nav {
-    position: absolute; 
+    position: absolute;
     bottom: 10px;
     right: 90px;
     text-align: center;
@@ -121,10 +121,10 @@
     height: 17px;
     margin-right: 5px;
     background: transparent url('../images/layouts/sprite.dot-3-states.png') 0 0 no-repeat;
-} 
+}
     /* mouseover state */
     .scrollables_previous:hover, div.scrollables_next:hover, div.prevPage:hover, div.nextPage:hover {
-        background-position:0px -25px;	
+        background-position:0px -25px;
         cursor: pointer;
     }
     /* disabled navigational button */
@@ -132,6 +132,6 @@
     /* mouseover state */
     div.scrollables_nav a:hover { background-position: -17px 0;  }
     /* active state (current page state) */
-    .scrollables_nav a.active { background-position: -34px 0;  } 	
-    
+    .scrollables_nav a.active { background-position: -34px 0;  }
+
 

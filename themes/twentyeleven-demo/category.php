@@ -13,7 +13,7 @@
  * Based on Twenty Ten category.php
  */
 
-get_header(); 
+get_header();
 
 ?>
 

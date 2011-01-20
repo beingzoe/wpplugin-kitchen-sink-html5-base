@@ -13,7 +13,7 @@
  * Based on Twenty Ten author.php
  */
 
-get_header(); 
+get_header();
 
 ?>
 
@@ -39,14 +39,14 @@ get_header();
                         <?php the_author_meta( 'description' ); ?>
                     </div><!-- #author-description	-->
                 </div><!-- #entry-author-info -->
-<?php 
+<?php
                 } /* END author description */
 ?>
         <h1 class="author"><?php printf( __( '<span class="smaller quiet">Content by:</span> %s', 'twentyten' ), "<span class='vcard'><a class='url fn n' href='" . get_author_posts_url( get_the_author_meta( 'ID' ) ) . "' title='" . esc_attr( get_the_author() ) . "' rel='me'>" . get_the_author() . "</a></span>" ); ?></h1>
         </header>
 <?php
         rewind_posts(); //
-        
+
             /* Run the loop for the author archive page to output the authors posts
              * If you want to overload this in a child theme then include a file
              * called loop-author.php and that will be used instead.

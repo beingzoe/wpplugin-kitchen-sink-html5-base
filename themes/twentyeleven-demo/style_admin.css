@@ -4,28 +4,28 @@
  * Custom wp-login styling
  */
 
- 
+
 
 /**
  * Custom admin styling
  */
- 
+
 .kst_options {
     /*width: 820px;*/
 }
 
 /* Insert clearing element
- * Just clearfix by name so we don't impose too much styling on designer/developers 
+ * Just clearfix by name so we don't impose too much styling on designer/developers
  */
-.kst_options:before, .kst_options:after,  
-form dl:before, form dl:after { 
-    content: "\0020"; display: block; height: 0; visibility: hidden; /* Insert clearing element */ 
-}  
-.kst_options:after, form dl:after { 
+.kst_options:before, .kst_options:after,
+form dl:before, form dl:after {
+    content: "\0020"; display: block; height: 0; visibility: hidden; /* Insert clearing element */
+}
+.kst_options:after, form dl:after {
     clear: both; /* Clear that */
 }
-.kst_options, form dl { 
-    zoom: 1; /* IE rocks my clear */ 
+.kst_options, form dl {
+    zoom: 1; /* IE rocks my clear */
 }
 
 /* content div - inheriting from WP post metaboxes i.e. .wrap #poststuff.metabox-holder #normal-sortables.meta-box-sortables .postbox  */
@@ -33,11 +33,11 @@ form dl:before, form dl:after {
 .hndle, .handlediv { margin-bottom: 36px; !important }
 .inside { clear: both; }
 
-form dl { 
+form dl {
     clear: both;
     margin: 20px;
 }
-form dt { 
+form dt {
     clear: both;
     float: left;
     width: 175px;
@@ -47,11 +47,11 @@ form dt {
     //background: #DFDFDF url("../images/gray-grad.png") repeat-x scroll left top ;
     text-align: right;
 }
-form dd { 
+form dd {
     float: left;
     margin: 0 0 20px 20px;
     padding: 5px;
-    
+
 }
 
 /* span.description after form elements (after radio "group" if radio) */

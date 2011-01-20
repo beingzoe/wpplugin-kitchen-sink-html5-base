@@ -11,16 +11,16 @@ License:        MIT
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     KitchenSinkHTML5Base 
+ * @package     KitchenSinkHTML5Base
  * @subpackage  Core
 */
- 
+
 /**#@+
  * Theme/Plugin settings common to any instance
  * @since 0.1
 */
 define( 'KST_DIR',              dirname(__FILE__) );                        // Absolute path to KST
-define( 'KST_DIR_LIB',          KST_DIR . '/lib' );                  
+define( 'KST_DIR_LIB',          KST_DIR . '/lib' );
 define( 'KST_DIR_VENDOR',       KST_DIR . '/vendor' );
 define( 'KST_DIR_TEMPLATES',    KST_DIR . '/templates' );
 define( 'KST_DIR_ASSETS',       KST_DIR . '/assets' );
@@ -48,8 +48,8 @@ if (defined('KST_BUNDLED_THEME_DEV') && KST_BUNDLED_THEME_DEV) {
 
 /**
  * Parent class for Kitchen Sink HTML5 Base
- * 
- * @since       0.1  
+ *
+ * @since       0.1
 */
 require_once KST_DIR_LIB . '/KST.php';
 require_once KST_DIR_LIB . '/KST/Kitchen.php';
@@ -58,9 +58,9 @@ require_once KST_DIR_LIB . '/KST/Kitchen/Theme.php';
 
 /**
  * Load remaining core class files
- * 
+ *
  * @since       0.1
-*/ 
+*/
 require_once KST_DIR_LIB . '/KST/AdminPage.php';
 require_once KST_DIR_LIB . '/KST/AdminPage/OptionsGroup.php';
 require_once KST_DIR_LIB . '/KST/AdminPage/Help.php';
@@ -69,9 +69,9 @@ require_once KST_DIR_LIB . '/KST/AdminPage/Help.php';
  * KST core settings editable from WP admin irrespective of theme
  * Instantiates Options for use by themes, plugins, and internals
  * And starts a common Admin Menu theme authors are encouraged to use
- * 
+ *
  * @since       0.1
-*/ 
+*/
 require_once KST_DIR_LIB . '/functions/settings_core.php';
 
 /**

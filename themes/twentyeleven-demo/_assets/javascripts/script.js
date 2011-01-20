@@ -7,34 +7,34 @@
 jQuery.noConflict();//WordPress compatibility best practice
 
 jQuery(document).ready(function($) { // noconflict wrapper to use shorthand $() for jQuery() inside of this function
-    
+
     /*
      * kst_jquery_lightbox
      * using http://fancybox.net/
-     * 
-     * #wp a[href$=.jpg] 
+     *
+     * #wp a[href$=.jpg]
      *      select all images in a wp post/page that link to an image
      *      is there a cleaner way to .png|.jpg|.gif ?
      * a.lightbox
      *      manually lightboxed image
-     * 
+     *
      * Any lightboxed image with the same "rel" will be grouped in a gallery
      */
     if(jQuery().fancybox) {
         $(" a.lightbox, .wp_entry a[href$=.jpg], .wp_entry a[href$=.png], .wp_entry a[href$=.gif] ")
-            .attr({ 
+            .attr({
               rel: "galleryize"
             })
             .fancybox({
                 titlePosition: 'over'
             })
-    };    
-    
+    };
+
     /*
      * Scrollable
      */
     if(jQuery().scrollable) {
-        
+
         $("div.scrollables")
             .scrollable({
                 speed: 500,
@@ -43,7 +43,7 @@ jQuery(document).ready(function($) { // noconflict wrapper to use shorthand $() 
                 next: '.scrollables_next',
                 prev: '.scrollables_previous'
                 })
-            .autoscroll({ 
+            .autoscroll({
                 autoplay: true,
                 interval: '4000'
             });
@@ -55,7 +55,7 @@ jQuery(document).ready(function($) { // noconflict wrapper to use shorthand $() 
             });
             */
     };
-        
+
     /*
      * Cyclable
      */
@@ -72,10 +72,10 @@ jQuery(document).ready(function($) { // noconflict wrapper to use shorthand $() 
               pager: '.cycle_pager'
         });
     }
-    
+
     /* experiments */
-    
-    /* corners 
+
+    /* corners
     $('#hd').corner("bottom 10px");
     $('#sb, .next_previous, #respond').corner("10px");
     $('#ft').corner("top 10px");

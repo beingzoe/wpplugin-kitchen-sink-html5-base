@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Display navigation to next/previous post when applicable
  * DRY include/partial
@@ -23,25 +23,25 @@
         $previous_post = get_adjacent_post(true,'',true);
         if ( $next_post && $previous_post )
             $exclude = $next_post->ID . "," . $previous_post->ID;
-        else if ( $next_post ) 
+        else if ( $next_post )
             $exclude = $next_post->ID;
-        else 
+        else
             $exclude = $previous_post->ID;
-        
+
         global $post, $id;
-        
+
         $tmp_post = $post; /* save the original loop */
         $tmp_id = $id; /* save the original loop */
-        
+
         $featured_posts = get_posts("numberposts=5&exclude=$exclude");
         foreach($featured_posts as $post) :
             setup_postdata($post);
         ?>
             <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
-        <?php 
+        <?php
             $post = $tmp_post; /* restore the original loop */
             $id = $tmp_id; /* restore the original loop */
-            endforeach; 
+            endforeach;
         ?>
     </ul>
     <p>&nbsp;</p>

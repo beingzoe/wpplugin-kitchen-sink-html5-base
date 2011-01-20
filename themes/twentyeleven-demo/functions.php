@@ -1,9 +1,9 @@
 <?php
 /**
  * Twenty Eleven Parent Theme based on Kitchen Sink HTML5 Base
- * 
+ *
  * Awesomeness description
- * 
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
@@ -11,16 +11,16 @@
  * @subpackage  Theme
  * @version     0.4
  * @since       0.1
- * 
+ *
  * 1) Set your settings
- * 2) Register your theme with Kitchen Sink HTML5 Base 
+ * 2) Register your theme with Kitchen Sink HTML5 Base
  * 3) Load whatever KST you want/need
  * 4) Create
 */
- 
+
 /* SET YOUR SETTINGS */
 
-     
+
 /*
  * KST Base theme settings array
  * Various Kitchen Sink HTML5 Base settings for your theme
@@ -55,14 +55,14 @@ $theme_options = array (
                             "),
                 "type"      => "section",
                 "is_shut"   => FALSE ),
-        
+
         array(  "name"      => __('Asides Category'),
                 "desc"      => __('Pick the category to use as your sideblog'),
                 "id"        => "layout_category_aside",
                 "type"      => "select_wp_categories",
                 "args"      => array( )
                 ),
-        
+
         array(  "name"      => __('Gallery Category SLUG'),
                 "desc"      => __('Pick the category to use for gallery posts'),
                 "id"        => "layout_category_gallery",
@@ -71,54 +71,54 @@ $theme_options = array (
                 )
     );
 /* Sample Bonus array to test extra menus and stuff */
-$theme_options2 = array ( 
+$theme_options2 = array (
     array(  "name"    => __('Some notes'),
             "desc"  => __("
                         <p><em>Just wanted to say hi and let you know in this demo this array appears as two different menu items.</em></p>
                         "),
             "type"  => "section",
             "is_shut"   => FALSE ),
-    
+
     array(  "name"  => __('Favorite color'),
             "desc"  => __('Red? Green? Blue?'),
             "id"    => "favorite_color",
             "default"   => "",
             "type"  => "text",
-            "size"  => "15"), 
-    
+            "size"  => "15"),
+
     array(  "name"  => __('Checkbox default on'),
             "desc"  => __('This is on by default usually'),
             "id"    => "checkbox_default_on",
             "default"   => "1",
-            "type"  => "checkbox"), 
-    
+            "type"  => "checkbox"),
+
     array(  "name"  => __('Checkbox default off'),
             "desc"  => __('This is on by default usually'),
             "id"    => "checkbox_default_off",
             "default"   => "0",
-            "type"  => "checkbox"), 
-    
+            "type"  => "checkbox"),
+
     array(  "name"    => __('TEST2'),
             "desc"  => __("
-                        
+
                         "),
             "type"  => "section"),
-    
+
     array(  "name"  => __('TEST RADIO BUTTON'),
             "desc"  => __('What choice will you make?'),
             "id"    => "TEST_RADIO_BUTTON",
             "default"   => "this radio 3",
             "type"  => "radio",
-            "options" => array(     "this radio 1", 
-                                    "this radio 2", 
-                                    "this radio 3", 
-                                    "this radio 4", 
+            "options" => array(     "this radio 1",
+                                    "this radio 2",
+                                    "this radio 3",
+                                    "this radio 4",
                                     "this radio 5"
                                         )
             ),
-    
-    
-    
+
+
+
     array(    "name"    => __('Textarea'),
                     "desc"    => __("What you type here will indicate the possibility of success."),
                     "id"      => "textarea_id",
@@ -127,38 +127,38 @@ $theme_options2 = array (
                     "rows" => "2",
                     "cols" => "55"
                     ),
-    
+
     array(    "name"    => __('Select'),
                     "desc"    => __("There are many choices awaiting"),
                     "id"      => "TEST_SELECT",
                     "default"     => "Select 4",
                     "type"    => "select",
-                    "options" => array(    "Select 1", 
+                    "options" => array(    "Select 1",
                                         "Select 2",
                                         "Select 3",
                                         "Select 4",
                                         "Select 5"
-                                        ) 
+                                        )
                     ),
-    
+
     array(  "name"  => __('Asides Category'),
             "desc"  => __('Pick the category to use as your sideblog'),
             "id"    => "TEST_ASIDES_CATEGORY_SELECTOR",
             "type"  => "select_wp_categories",
-            "args" => array(     
-                                
+            "args" => array(
+
                                         )
             ),
-    
+
     array(  "name"  => __('Featured Page'),
             "desc"  => __('Choose the page to feature'),
             "id"    => "TEST_PAGE_SELECTOR",
             "type"  => "select_wp_pages",
-            "args" => array(     
-                                
+            "args" => array(
+
                                         )
             ),
-    
+
     array(    "name"    => __('MultiSelect'),
                     "desc"    => __("There are many choices awaiting and you can have them all"),
                     "id"      => "TEST_MULTISELECT",
@@ -166,7 +166,7 @@ $theme_options2 = array (
                     "type"    => "select",
                     "multi"   => TRUE,
                     "size"   => "8",
-                    "options" => array(    "Select 1", 
+                    "options" => array(    "Select 1",
                                         "Select 2",
                                         "Select 3",
                                         "Select 4",
@@ -174,54 +174,54 @@ $theme_options2 = array (
                                         "Select 6",
                                         "Select 7",
                                         "Select 8"
-                                        ) 
+                                        )
                     )
-    
-);
-    
-    
 
-    
+);
+
+
+
+
 
 if ( class_exists('KST') ) { // Is this the best way we can protect the theme from a missing plugin?
     // Your KST Dependent theme initialization code goes here
-     
-    /* REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE 
+
+    /* REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE
      * Two options below, both return an object for you to use
-    */ 
-     
+    */
+
     /*
      * Option #1
-     * Load preset configuration  
+     * Load preset configuration
      * Then init the features you want to use individually
-     * 
+     *
      * default, minimum, and_the_kitchen_sink
     */
     //$my_theme = new KST_Kitchen_Theme($twenty_eleven_settings, 'and_the_kitchen_sink');
-    
+
     /*
      * Option #2
      * Just register your theme with KST
      * Then init the features you want to use individually
     */
     $my_theme = new KST_Kitchen_Theme($twenty_eleven_settings);
-    
-    
+
+
     /* Load and use KST_Options
-     * Uses your $theme_options array(s) to create admin menus/pages 
-    */ 
-    
-    
+     * Uses your $theme_options array(s) to create admin menus/pages
+    */
+
+
     $my_theme->newOptionsGroup($theme_options, 'Theme Options', 'appearance');
     $my_theme->newOptionsGroup($theme_options2, 'Theme Options 2', 'appearance');
     $my_theme->newOptionsGroup($theme_options2, 'Theme Options 3', 'appearance');
-    
+
     $theme_options2[] = array(  "name"    => __('ADDED FLOOP AFTER WE ALREADY PASSED IT'),
                                 "desc"  => __("
                                             <p><em>YEAH</em></p>
                                             "),
                                 "type"  => "section",
-                                "is_shut"   => FALSE 
+                                "is_shut"   => FALSE
                             );
 
     /* HTML5 Boilerplate, WP normalization, and smart stuff */
@@ -229,36 +229,36 @@ if ( class_exists('KST') ) { // Is this the best way we can protect the theme fr
     $my_theme->initHelp(); // KST THEME HELP
     //KST::initSEO(); // KST SEO and META DATA
     $my_theme->initContact(); // KST easy flexible email and contact forms
-    
-    
-    
-    /* Add your menus/pages */ 
+
+
+
+    /* Add your menus/pages */
     //$twenty_eleven_options = new KST_Options('theme_options', 'top', 'Theme Options');
     //$more_options = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options', 'My CUSTOM page TITLE');
     //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options2', 'Important Settings');
     //$twenty_eleven_options2 = new KST_Options('theme_options', 'top', 'Other Options');
     //$more_options = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other', 'My CUSTOM page TITLE');
     //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other2', 'Important Settings');
-    
-    
+
+
     /* Load and use KST_Asides class to manage asides side blog */
     require_once KST_DIR_LIB . '/KST/Asides.php'; // Class to save aside post for clean delayed output
     $loop_asides = new KST_Asides( $my_theme->getOption('layout_category_aside') );
-    
+
     $my_theme->initWidgetNavPost(); // WP WIDGET: KST post to post next/previous post buttons for sidebar (only on single blog posts)
     $my_theme->initWidgetNavPosts(); // WP WIDGET: KST Page to page older/newer browse posts buttons for sidebar (only on single blog posts)
-    
+
     /* WP Media Normalization */
-    $my_theme->initWPMediaNormalize(); // WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc... 
+    $my_theme->initWPMediaNormalize(); // WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc...
     //$KST::initJqueryLightbox(); // WP Media Normalization: Just gallery and caption normalization with automatic lightboxing
     //$KST::initMp3Player(); // WP Media Normalization: mp3plaery shortcode and automatic player when an mp3 is directly linked
-    
+
     /* OPTIONAL: Plugin-ish features */
     $my_theme->initJqueryJitMessage(); //KST/jQuery: KST JIT (Just-in-Time) message (sliding out a panel on a trigger)
     $my_theme->initWidgetJitSidebar(); // WP WIDGET: KST JIT (Just-in-Time) Sidebar (Magic relative/fixed sidebars)
     $my_theme->initJqueryToolsScrollable(); // KST/jQuery: tools: scrollable content (content slideshow with shortcodes)
     $my_theme->initJqueryCycle(); // KST/jQuery: malsup cycle content (content slideshow with shortcodes)
-    
+
 } else {
     // Needs to check if it is in the admin section OR in the login page (login is not in the admin)
     if ( is_admin() ) {
@@ -271,29 +271,29 @@ if ( class_exists('KST') ) { // Is this the best way we can protect the theme fr
 }
 
 
-    
-/* BELOW HERE will not be in the base as is 
- * but there will be some placeholder sections for this stuff with some examples maybe? 
- * 
- * Some of the stuff below was just to run the TwentyEleven theme 
+
+/* BELOW HERE will not be in the base as is
+ * but there will be some placeholder sections for this stuff with some examples maybe?
+ *
+ * Some of the stuff below was just to run the TwentyEleven theme
  * and will not be included at all is duly noted
 */
 
-/* ADD AND REMOVE JUNK - 
+/* ADD AND REMOVE JUNK -
  * See documentation (online or in plugin) for things that are added
  * and removed by default as sensible defaults
 */
 remove_action('wp_head', 'rsd_link');
 remove_action('wp_head', 'wp_generator');
 remove_action('wp_head', 'wlwmanifest_link');
-    
+
 /*
  * REGISTER THEME MENUS WITH BUILT-IN WP MENUS
  * Also set default fallback menu functions
 */
 register_nav_menu('hd_menu', 'Masthead Menu'); //primary site nav
 register_nav_menu('ft_menu', 'Footer Menu'); //footer nav
-    
+
 /*
  * REGISTER WIDGETIZED SIDEBAR/AREAS
 */
@@ -317,7 +317,7 @@ register_nav_menu('ft_menu', 'Footer Menu'); //footer nav
                             );
 
 
-    
+
     /* Blog only primary sidebar - all posts, archives, etc... */
     register_sidebar( array_merge( array(
         'name'          => 'Blog Sidebar',
@@ -336,28 +336,28 @@ register_nav_menu('ft_menu', 'Footer Menu'); //footer nav
         'id'            => 'widgets_home',
         'description'   => 'Sidebar content for home page',
     ), $kst_widget_area_format_args ) );
-    
+
     /* For the footer */
     $kst_sidebars_footer = kst_widget_create_multiple_areas( 3, 'Footer Area', 'widgets_ft', 'One of three widget areas in footer. Does not appear if no widgets added.', $kst_widget_area_format_args_footer ); // Create multiple consecutive named-numbered widget areas ("sidebars") e.g. wfooter_1, wfooter_2, wfooter_3; args = $how_many, $name, $id, $description
-    
 
-    
+
+
 
 
 /*
 * CLEAN UP
 * Anything to error check or add to child theme features?
-* Only really important if you are also developing a child theme 
+* Only really important if you are also developing a child theme
 * or distributing your parent theme expecting people to make child themes for it
-*/ 
+*/
 
 /* Hook to do stuff after child themes functions.php loads */
 add_action( 'after_setup_theme', 'kst_after_child_theme' ); // Delay final setup until both Parent and Child theme functions.php are loaded
 
 /* Do that hook you gotta do */
 function kst_after_child_theme() { // Fix/Undo/Check things that a child theme maybe forgot to do or did wrong */
-    
-    
+
+
 } // END kst_theme_execute()
 
 
@@ -402,14 +402,14 @@ register_default_headers( array(
  * Front-end callback function for add_custom_image_header();
  * Use to insert styles or whatever
 */
-function kst_add_custom_image_header() { 
-    
+function kst_add_custom_image_header() {
+
 }
 
 /*
  * Admin callback function for add_custom_image_header();
  * Use to insert styles or whatever; Required by WP;
 */
-function kst_add_custom_image_header_admin() { 
-    
+function kst_add_custom_image_header_admin() {
+
 }

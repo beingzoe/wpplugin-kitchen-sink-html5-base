@@ -6,14 +6,14 @@ require_once KST_DIR_LIB . '/KST.php';
 
 /**
  * Class for managing plugin through KST
- * 
+ *
  * @package     KitchenSinkHTML5Base
  * @subpackage  Core
- * @version     0.1 
+ * @version     0.1
  * @since       0.1
- * @author      zoe somebody 
+ * @author      zoe somebody
  * @link        http://beingzoe.com/
- * @author      Scragz 
+ * @author      Scragz
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
 */

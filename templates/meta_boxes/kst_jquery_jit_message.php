@@ -1,7 +1,7 @@
 <?php
 /**
- * Meta Box content for JIT Message 
- * 
+ * Meta Box content for JIT Message
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
@@ -25,7 +25,7 @@
     </p>
     <table class="form-table">
         <?php $mb->the_field('jit_message'); ?>
-        <tr valign="top"> 
+        <tr valign="top">
             <th scope="row">
                 <label for="<?php $mb->the_name(); ?>">Message</label>
             </th>

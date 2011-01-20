@@ -26,8 +26,8 @@ global $twenty_eleven_options;
 
 //query_posts( "posts_per_page=10&paged={$paged}&cat=" . $cat );
 
- 
-/* If no posts, i.e. an empty archive page */ 
+
+/* If no posts, i.e. an empty archive page */
 if ( ! have_posts() ) { ?>
      echo $cool;
     <section id="page-other" class="page no_results">
@@ -39,34 +39,34 @@ if ( ! have_posts() ) { ?>
             <?php get_search_form(); ?>
         </div><!-- .entry-content -->
     </section><!-- #post-0 -->
-<?php 
+<?php
 } //end if !have_posts
 
 /* Don't ask for this stuff every loop */
 //$asides_gallery = $twenty_eleven_options->getOption("layout_category_gallery_slug");
 //$asides_aside   = $twenty_eleven_options->getOption("layout_category_aside_slug");
 
-/* Start the Loop */ 
-while ( have_posts() ) {  
+/* Start the Loop */
+while ( have_posts() ) {
     the_post(); // Get them
-    
+
     if ( !is_sticky() )
-        the_date('', '<h1 class="wp_loop_date">', '</h1>'); 
-    
-    
+        the_date('', '<h1 class="wp_loop_date">', '</h1>');
+
+
     /* ASIDES */
-    /* Gallery Category Asides */  
+    /* Gallery Category Asides */
     if ( is_category( $asides_gallery ) && in_category( _x($asides_gallery, 'gallery category slug', 'twentyten') ) ) {
 ?>
         <article id="<?php echo get_post_type() . '-' . $post->ID; ?>" <?php post_class(); ?>>
-            
+
             <?php include( locate_template( array( '_entry_header.php' ) ) ); /* get_template_part('_entry_header.php'); Article Header */ ?>
-            
+
             <div class="wp_entry clearfix">
-<?php       
+<?php
             if ( post_password_required() ) {
                 the_content();
-            } else { 
+            } else {
                 $images = get_children( array( 'post_parent' => $post->ID, 'post_type' => 'attachment', 'post_mime_type' => 'image', 'orderby' => 'menu_order', 'order' => 'ASC', 'numberposts' => 999 ) );
                 $total_images = count( $images );
                 $image = array_shift( $images );
@@ -78,9 +78,9 @@ while ( have_posts() ) {
 <?php           printf( __( '<p><em>This gallery contains <a %1$s>%2$s photos</a>.</em></p>', 'twentyten' ),
                             'href="' . get_permalink() . '" title="' . sprintf( esc_attr__( 'Permalink to %s', 'twentyten' ), the_title_attribute( 'echo=0' ) ) . '" rel="bookmark"',
                             $total_images
-                        ); 
+                        );
                 the_excerpt();
-            } 
+            }
 ?>
             </div><!-- .wp_entry -->
             <footer class="wp_entry_footer">
@@ -90,18 +90,18 @@ while ( have_posts() ) {
                 <?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
             </footer><!-- .wp_entry_footer -->
         </article><!-- #post-## -->
-<?php 
-    /* Asides Category Asides */ 
+<?php
+    /* Asides Category Asides */
     /*
-    } else if ( in_category( _x($asides_aside, 'asides category slug', 'twentyten') ) ) {  
+    } else if ( in_category( _x($asides_aside, 'asides category slug', 'twentyten') ) ) {
         $loop_asides->add($post);
         $kst_temp_loop_asides .= '<div class="wp_entry"><a href="' . get_permalink() . '" style="float: left;"><span class="meta-nav">' . get_the_time() . '&raquo;</span></a>' . wptexturize($post->post_content) . '</div>';
         */
 ?>
-        
+
 <?php
-    /* ALL OTHER POSTS */ 
-    } else { 
+    /* ALL OTHER POSTS */
+    } else {
         /*
         if ( in_category( _x($asides_aside, 'asides category slug', 'twentyten') ) ) {
             continue;
@@ -114,13 +114,13 @@ while ( have_posts() ) {
             <?php
             /* show post thumbnail with container for more flexible formatting but not in asides (or whatever) */
             if ( has_post_thumbnail() ) {
-                echo "<div class='post-thumbnail'><a href='" . get_permalink() . "'>"; 
+                echo "<div class='post-thumbnail'><a href='" . get_permalink() . "'>";
                 the_post_thumbnail('thumbnail', array('class' => 'aligncenter post-thumbnail') );
                 echo "</a></div>";
             }
-            
+
             /* always show a forced excerpt when not on blog index or if an excerpt exists */
-            if ( is_archive() || is_search() || has_excerpt() ) { 
+            if ( is_archive() || is_search() || has_excerpt() ) {
                 the_excerpt();
                 echo '<a href="" class="more-link">Read the full post <span class="meta-nav">&#8230;</span></a>';
             } else {
@@ -134,11 +134,11 @@ while ( have_posts() ) {
 ?>
         </article><!-- #post-## -->
 
-<?php 
-        comments_template( '', true ); 
-    } // END main loop IF  
+<?php
+        comments_template( '', true );
+    } // END main loop IF
 }; // END the loop
 
-include( locate_template( array( '_nav_posts.php' ) ) ); // get_template_part('_nav_posts.php'); next/previous/recent/featured index to index  
+include( locate_template( array( '_nav_posts.php' ) ) ); // get_template_part('_nav_posts.php'); next/previous/recent/featured index to index
 
 ?>

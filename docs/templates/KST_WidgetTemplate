@@ -47,7 +47,7 @@ class KST_WidgetTemplate extends KST_Widget {
                 echo $before_title . $title . $after_title;
 
             // Widget output goes here
-            
+
             echo $after_widget;
         }
     }
@@ -63,9 +63,9 @@ class KST_WidgetTemplate extends KST_Widget {
      */
     function update($new_instance, $old_instance) {
         $instance = $old_instance;
-        
+
         $instance['title']      = strip_tags($new_instance['title']);
-        
+
         return $instance;
     }
 

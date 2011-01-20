@@ -7,7 +7,7 @@
     bottom: 50px;
     right: -1000px;
 }
-.jit_box_image { 
+.jit_box_image {
     position: relative;
     float: right;
     margin-right: 25px;
@@ -30,7 +30,7 @@
     -moz-box-shadow: 0px 0px 20px #000;
     -webkit-box-shadow: 0px 0px 20px #000;
 }
-#jit_box h1 { 
+#jit_box h1 {
     font-size: 14px;
     font-weight: bold;
     line-height: 18px;

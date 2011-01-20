@@ -3,7 +3,7 @@
  * Simple and fancy lightbox alternative
  *
  * Examples and documentation at: http://fancybox.net
- * 
+ *
  * Copyright (c) 2008 - 2010 Janis Skarnelis
  *
  * Version: 1.3.1 (05/03/2010)
@@ -24,12 +24,12 @@
 
 		loadingTimer, loadingFrame = 1,
 
-		start_pos, final_pos, busy = false, shadow = 20, fx = $.extend($('<div/>')[0], { prop: 0 }), titleh = 0, 
+		start_pos, final_pos, busy = false, shadow = 20, fx = $.extend($('<div/>')[0], { prop: 0 }), titleh = 0,
 
 		isIE6 = !$.support.opacity && !window.XMLHttpRequest,
 
 		/*
-		 * Private methods 
+		 * Private methods
 		 */
 
 		fancybox_abort = function() {
@@ -67,7 +67,7 @@
 				horizontal_space	= (shadow + margin) * 2,
 				vertical_space		= (shadow + margin) * 2,
 				double_padding		= (currentOpts.padding * 2),
-				
+
 				ratio;
 
 			if (currentOpts.width.toString().indexOf('%') > -1) {
@@ -132,7 +132,7 @@
 			var title	= currentOpts.title,
 				width	= final_pos.width - (currentOpts.padding * 2),
 				titlec	= 'fancybox-title-' + currentOpts.titlePosition;
-				
+
 			$('#fancybox-title').remove();
 
 			titleh = 0;
@@ -219,9 +219,9 @@
 		},
 
 		fancybox_preload_images = function() {
-			var href, 
+			var href,
 				objNext;
-				
+
 			if ((currentArray.length -1) > currentIndex) {
 				href = currentArray[ currentIndex + 1 ].href;
 
@@ -338,7 +338,7 @@
 					top		: (pos.top		- currentOpts.padding - shadow),
 					left	: (pos.left		- currentOpts.padding - shadow)
 				};
-				
+
 			} else {
 				view = fancybox_get_viewport();
 
@@ -410,7 +410,7 @@
 					var finish_resizing = function() {
 						inner.html( tmp.contents() ).fadeIn(currentOpts.changeFade, _finish);
 					};
-					
+
 					$.event.trigger('fancybox-change');
 
 					inner.empty().css('overflow', 'hidden');
@@ -422,7 +422,7 @@
 							width		: Math.max(final_pos.width	- (currentOpts.padding * 2), 1),
 							height		: Math.max(final_pos.height	- (currentOpts.padding * 2) - titleh, 1)
 						});
-						
+
 						finish_resizing();
 
 					} else {
@@ -432,7 +432,7 @@
 							width		: Math.max(start_pos.width	- (currentOpts.padding * 2), 1),
 							height		: Math.max(start_pos.height	- (currentOpts.padding * 2), 1)
 						});
-						
+
 						fx.prop = 0;
 
 						$(fx).animate({ prop: 1 }, {
@@ -501,7 +501,7 @@
 
 			fancybox_show();
 		},
-		
+
 		fancybox_process_image = function() {
 			busy = true;
 
@@ -521,8 +521,8 @@
 			fancybox_abort();
 
 			var obj	= selectedArray[ selectedIndex ],
-				href, 
-				type, 
+				href,
+				type,
 				title,
 				str,
 				emb,
@@ -531,7 +531,7 @@
 
 			selectedOpts = $.extend({}, $.fn.fancybox.defaults, (typeof $(obj).data('fancybox') == 'undefined' ? selectedOpts : $(obj).data('fancybox')));
 			title = obj.title || $(obj).title || selectedOpts.title || '';
-			
+
 			if (obj.nodeName && !selectedOpts.orig) {
 				selectedOpts.orig = $(obj).children("img:first").length ? $(obj).children("img:first") : $(obj);
 			}
@@ -552,7 +552,7 @@
 				if (!href) {
 					href = selectedOpts.content;
 				}
-				
+
 			} else if (selectedOpts.content) {
 				type	= 'html';
 
@@ -643,13 +643,13 @@
 					};
 
 					imgPreloader.src = href;
-		
+
 				break;
 
 				case 'swf':
 					str = '<object classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000" width="' + selectedOpts.width + '" height="' + selectedOpts.height + '"><param name="movie" value="' + href + '"></param>';
 					emb = '';
-					
+
 					$.each(selectedOpts.swf, function(name, val) {
 						str += '<param name="' + name + '" value="' + val + '"></param>';
 						emb += ' ' + name + '="' + val + '"';
@@ -762,7 +762,7 @@
 		};
 
 	/*
-	 * Public methods 
+	 * Public methods
 	 */
 
 	$.fn.fancybox = function(options) {
@@ -854,7 +854,7 @@
 	$.fancybox.next = function() {
 		return $.fancybox.pos( currentIndex + 1);
 	};
-	
+
 	$.fancybox.prev = function() {
 		return $.fancybox.pos( currentIndex - 1);
 	};
@@ -982,7 +982,7 @@
 
 	$.fancybox.resize = function() {
 		var c, h;
-		
+
 		if (busy || wrap.is(':hidden')) {
 			return;
 		}

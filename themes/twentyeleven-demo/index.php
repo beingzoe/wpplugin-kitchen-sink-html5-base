@@ -12,7 +12,7 @@
  * @since       0.1
  */
 
-get_header(); 
+get_header();
 
 ?>
 
@@ -22,7 +22,7 @@ get_header();
 
 </section><!-- #bd -->
 
-<?php 
+<?php
 get_sidebar();
 get_footer();
 ?>

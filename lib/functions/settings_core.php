@@ -1,9 +1,9 @@
 <?php
 /**
  * KST SENSIBLE DEFAULTS FUNCTIONS
- * 
+ *
  * Functions only required if we are in the WP admin
- *  
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
@@ -13,7 +13,7 @@
  * @version     0.1
  * @since       0.1
  */
- 
+
 /**
  * Add hook to load core settings menu once the menu is available to add
  */
@@ -30,7 +30,7 @@ $kst_settings_core = array (
                                 "),
                     "type"      => "section",
                     "is_shut"   => FALSE ),
-    
+
         );
 
 /**
@@ -43,5 +43,5 @@ function kst_load_settings_core() {
      * Create KST core options page
      */
     //$kst_options = new KST_Options('kst_settings_core', 'settings', 'KST Core', 'Kitchen Sink Core options');
-    
+
 }

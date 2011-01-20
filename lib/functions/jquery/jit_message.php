@@ -1,8 +1,8 @@
-<?php 
+<?php
 /**
  * jQuery jit_message (just-in-time message) box
  * using WordPress custom field for activation and content
- * 
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
@@ -15,8 +15,8 @@
  * @todo        turn the javascript into jQuery plugin
  * @todo        add options
  * @todo        add option for trigger_selector
- * 
- * 
+ *
+ *
  * Does nothing if not on a single post/page and custom field "jit_message" does not exist
  *
  * If viewing a post/page and custom field "jit_message" exists
@@ -26,18 +26,18 @@
  *      * finding a random post; jit_message = "random" or "?";
  *      * outputting explicit text/markup; jit_message = any other string
  *        May contain any markup if not then it is wrapped in h1
- * 
+ *
  */
 
 /**
  * Initialize
  */
-add_action('wp', 'kst_jit_init'); 
+add_action('wp', 'kst_jit_init');
 
 /**
  * Instantiate WPAlchemy_MetaBox class
  * Replaces get_post_meta
- * 
+ *
  * @since 0.1
  * @uses        WPAlchemy_MetaBox
  */
@@ -57,7 +57,7 @@ $kst_mb_jit_message = new WPAlchemy_MetaBox( array (
 /**
  * Check for jit_message in current post
  * Wait until "wp" function to be sure we have the global $post variable to use
- * 
+ *
  * @since       0.1
  * @global      $post
  * @global      $jit_message
@@ -71,36 +71,36 @@ $kst_mb_jit_message = new WPAlchemy_MetaBox( array (
  * @uses        add_action() WP function
  */
 function kst_jit_init() {
-    
+
     global $post;
-    
-    if ( is_single() || is_page() ) { 
-        
+
+    if ( is_single() || is_page() ) {
+
         global $jit_message, $kst_mb_jit_message;
-        
+
         //$jit_message = get_post_meta($post->ID, 'jit_message', true);
         $jit_message = $kst_mb_jit_message->get_the_value('jit_message'); //get custom field via metabox class
-        
+
         /* if we have a jit_message then set it up and do stuff */
         if ( $jit_message ) {
             wp_enqueue_style('jit_message', KST_URI_ASSETS . '/stylesheets/jit_message.css');
             wp_enqueue_script('jit_message', KST_URI_ASSETS . '/javascripts/jquery/jquery.kst_jit_message.js' , array('jquery') , '0.1', true);
             add_action('wp_footer', 'kst_jit_output');
         }
-        
+
     }
 }
 
 
 /**
  * Build and insert the jit box
- * 
+ *
  * Prints the box directly to the browser
- * 
+ *
  * Uses custom field "jit_message" to trigger:
  *      int = explicit post_id
  *      string = explicit message?
- * 
+ *
  * @since       0.1
  * @global      $jit_message
  * @uses        get_posts() WP function
@@ -111,11 +111,11 @@ function kst_jit_init() {
  */
 function kst_jit_output() {
     global $jit_message;
-    
+
     /* Test what type of message it is */
     if ( is_numeric( $jit_message ) ) {
         /* specific post (by id) */
-        $jit_posts = get_posts("numberposts=1&include={$jit_message}"); 
+        $jit_posts = get_posts("numberposts=1&include={$jit_message}");
         $jit_box_class = 'post';
     } else if ( strtolower($jit_message) == 'random' || $jit_message == '?' ) {
         /* a random post */
@@ -133,17 +133,17 @@ function kst_jit_output() {
         }
         $output_jit_box_info .= '</div>';
     }
-    
+
     /* Yay we found the post ($jit_posts) so format it */
     if ( isset( $jit_posts ) ) {
-        
-                $the_permalink = get_permalink($jit_posts[0]->ID); 
+
+                $the_permalink = get_permalink($jit_posts[0]->ID);
                 $the_title = $jit_posts[0]->post_title;
                 $output_jit_box_image = "";
                 if ( has_post_thumbnail($jit_posts[0]->ID) ) {
                     $the_post_thumbnail = get_the_post_thumbnail($jit_posts[0]->ID, 'thumbnail'); //get default size thumbnail
-                
-                $output_jit_box_image = 
+
+                $output_jit_box_image =
 <<<EOD
 <div class="jit_box_image">
     <a href="{$the_permalink}">{$the_post_thumbnail}</a>
@@ -160,7 +160,7 @@ EOD;
 </div>
 EOD;
     }
-    
+
 ?>
     <div id="jit_box" class="<?php echo $jit_box_class; ?>"><?php echo $output_jit_box_image; ?> <?php echo $output_jit_box_info; ?><div class="jit_box_close"><a>Close</a></div></div>
     <script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_message) { $(this).jit_message(); }; });</script>
@@ -173,7 +173,7 @@ EOD;
  *
  * See kst_theme_help
  * Help content for zui based theme_help.php
- * 
+ *
  * @since       0.1
  * @param       required string $part   toc|entry which part do you want?
  * @return      string
@@ -181,23 +181,23 @@ EOD;
 function kst_theme_help_jit_message($part) {
     if ( $part == 'toc' )
         $output = "<li><a href='#lib_jit_message'>JIT (Just in time) message box</a></li>";
-    else 
-        $output = 
+    else
+        $output =
 <<< EOD
 <h3 id="lib_jit_message">JIT (Just in time) message box</h3>
 
 <p>
-    Have another page or a message you would like to share with them as they finish 
-    reading a post or page? The JIT box will "slide out" from the right side of the 
+    Have another page or a message you would like to share with them as they finish
+    reading a post or page? The JIT box will "slide out" from the right side of the
     page when the visitor scrolls to the end of the article (where the comments would start).
 </p>
 <p>
-    You can include a specific post or page, a random post or page, 
+    You can include a specific post or page, a random post or page,
     or just a text message (html is allowed).
 </p>
 <p>
-    You can make this box appear on any post or page using the "JIT message box" custom field edit 
-    box beneath the post/page editor. The "JIT message box" edit box is close by default. You will 
+    You can make this box appear on any post or page using the "JIT message box" custom field edit
+    box beneath the post/page editor. The "JIT message box" edit box is close by default. You will
     need to click it to open it.
 </p>
 

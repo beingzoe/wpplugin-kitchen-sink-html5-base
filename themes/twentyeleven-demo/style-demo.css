@@ -12,7 +12,7 @@
         /* text */
         /* tables */
         /* forms */
-        
+
     #doc {
         position: relative;
         width: 980px;
@@ -37,7 +37,7 @@
         margin: 0 0 36px;
         padding: 18px;
         background: #ccc none 0 0 repeat;
-        font-size: 11px; 
+        font-size: 11px;
         line-height: 18px;
     }
     #ft {
@@ -49,15 +49,15 @@
         padding: 18px;
         background: #ccc none 0 0 repeat;
     }
-    
+
     /* hd layout */
-    #hd_logo { 
-        
+    #hd_logo {
+
     }
     #hd_menu {
-        
+
     }
-    
+
     /* ft layout */
     #ft_menu {
         text-align: center;
@@ -77,16 +77,16 @@
         text-align: center;
         font-size: 10px;
     }
-    
+
     /* custom layouts/templates */
     .attachment #bd {
         width: 944px;
     }
-    
+
     /**
      * WordPress
      */
-    h1.wp_loop_date { 
+    h1.wp_loop_date {
         margin-bottom: 36px;
         margin-left: -18px;
         padding-left: 18px;
@@ -100,7 +100,7 @@
     .hentry  h1, .hentry   h2 {
         /*text-shadow: 0 0 3px #ccc;*/
     }
-    
+
     /* WP Gallery: special layout for posts in 'gallery' category in loop */
     .category-gallery {
         margin-bottom: 48px;
@@ -125,7 +125,7 @@
     .home #content .category-gallery .entry-utility {
         padding-top:4px;
     }
-    
+
     @font-face {
         font-family: 'TeX Gyre Adventor';
         src: url('_assets/fonts/tex-gyre-adventor-regular.eot');
@@ -133,8 +133,8 @@
     }
     @font-face {
         font-family: 'TeX Gyre Adventor';
-        font-weight: bold;	
+        font-weight: bold;
         src: url('_assets/fonts/tex-gyre-adventor-bold.eot');
         src: local('://'), url('_assets/fonts/tex-gyre-adventor-bold.svg#texgyreadventor-bold') format('svg'), url('_assets/fonts/tex-gyre-adventor-bold.woff') format('woff'),  url('_assets/fonts/tex-gyre-adventor-bold.otf') format('opentype');
     }
-    
+

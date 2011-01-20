@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Display navigation to next/previous pages when applicable
  * DRY include/partial
@@ -23,11 +23,11 @@ if ( $wp_query->max_num_pages > 1 ) {
             $previous_post = get_adjacent_post(true,'',true);
             if ( $next_post && $previous_post )
                 $exclude = $next_post->ID . "," . $previous_post->ID;
-            else if ( $next_post ) 
+            else if ( $next_post )
                 $exclude = $next_post->ID;
-            else 
+            else
                 $exclude = $previous_post->ID;
-            
+
             $featured_posts = get_posts("numberposts=5&exclude=$exclude");
             foreach($featured_posts as $post) :
             setup_postdata($post);

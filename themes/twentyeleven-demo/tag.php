@@ -12,12 +12,12 @@
  * @since       0.1
  */
 
-get_header(); 
+get_header();
 
 ?>
 
 <section id="bd" class="clearfix hfeed">
-    
+
     <h1><?php
         printf( __( '<span class="smaller quiet">Content Tagged:</span> %s', 'twentyten' ), '<span>' . single_tag_title( '', false ) . '</span>' );
     ?></h1>
@@ -33,7 +33,7 @@ get_header();
 
 </section><!-- #bd -->
 
-<?php 
+<?php
 get_sidebar();
 get_footer();
 ?>

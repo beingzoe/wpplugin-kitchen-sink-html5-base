@@ -6,9 +6,9 @@
  * by zoe somebody (http://beingzoe.com/)
  */
 
-@media screen, handheld, projection, print  { 
+@media screen, handheld, projection, print  {
 
-input { 
+input {
     /*vertical-align: middle !important;*/
     overflow: visible;
 }
@@ -21,7 +21,7 @@ input {
 
 .clearfix, #hd, #hd_menu, #pg, #bd, #sb, #ft {
     zoom: 1;     /* triggers hasLayout */
-}  
+}
 
 #wp div.category-asides {
     margin-bottom: 54px !important; /* match margin for all post */

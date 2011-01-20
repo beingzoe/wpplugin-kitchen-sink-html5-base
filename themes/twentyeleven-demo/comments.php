@@ -17,7 +17,7 @@
 
 <section id="#comments">
 
-<?php 
+<?php
 if ( post_password_required() ) {
     echo '<section id="comments"><p class="nopassword">' . _e( 'This post is password protected. Enter the password to view any comments.', 'twentyten' ) . '</p></section><!-- #comments -->';
     return; // Stop the rest of comments.php
@@ -77,13 +77,13 @@ $fields =  array(
 ); ?>
 
 
-<?php 
+<?php
     function comment_form_fix($post_ID)  {
        echo "<div class='clear clearfix'>&nbsp;</div>";
     }
     add_action('comment_form', 'comment_form_fix');
     $comment_form_args = array('fields' => $fields);
-    comment_form( $comment_form_args ); 
+    comment_form( $comment_form_args );
 ?>
 
 </section><!-- #comments -->

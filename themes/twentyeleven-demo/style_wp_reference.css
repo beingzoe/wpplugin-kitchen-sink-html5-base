@@ -1,4 +1,4 @@
-/* 
+/*
  * Begin WP body_class() common
  * body_class() http://codex.wordpress.org/Template_Tags/body_class
  */
@@ -40,7 +40,7 @@
 .search-paged-(page number) */
 
 
-/* 
+/*
  * Begin WP post_class() common
  * post_class() http://codex.wordpress.org/Template_Tags/post_class
  */
@@ -57,7 +57,7 @@
 .tag-markup { }
 
 
-/* 
+/*
  * Begin WP post_class() common
  * post_class() http://codex.wordpress.org/Template_Tags/post_class
  */
@@ -94,7 +94,7 @@
 .linkcat{ }
 .post { margin-bottom: 36px; }
 .post-edit-link { font-size: 10px; }
-a.more-link { 
+a.more-link {
     display: block;
     margin-top: 18px;
 }

@@ -1,7 +1,7 @@
 <?php
 /**
  * Media Attachments template
- *  
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
@@ -10,8 +10,8 @@
  * @version     0.4
  * @since       1.0
  */
- 
-get_header(); 
+
+get_header();
 
 ?>
 
@@ -20,22 +20,22 @@ get_header();
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
     <article id="attachment-<?php the_ID(); ?>" <?php post_class(); ?>>
-    
+
         <h1 class="entry-title">
             <?php the_title(); ?>
         </h1>
 
         <header class="wp_entry_header">
             <?php echo __( 'Originally posted in ', 'twentyten' ); ?>
-            <a 
-                href="<?php echo get_permalink( $post->post_parent ); ?>" 
-                title="<?php esc_attr( printf( __( 'Go to %s', 'twentyten' ), get_the_title( $post->post_parent ) ) ); ?>" 
+            <a
+                href="<?php echo get_permalink( $post->post_parent ); ?>"
+                title="<?php esc_attr( printf( __( 'Go to %s', 'twentyten' ), get_the_title( $post->post_parent ) ) ); ?>"
                 rel="gallery">
                     <?php
                         /* translators: %s - title of parent post */
                         printf( __( '%s', 'twentyten' ), get_the_title( $post->post_parent ) );
                     ?></a>
-                    
+
             <?php
             /* Author by line */
             /* get extra hcard meta data */
@@ -50,9 +50,9 @@ get_header();
                         $author_website
                     )
                 );
-            
+
                 echo ' | ';
-            
+
                 /* date */
                 printf( __('<span class="wp_entry_meta wp_entry_meta_date">Published %1$s', 'twentyten'),
                     sprintf( '<abbr class="published" title="%1$s">%2$s</abbr></span>',
@@ -77,7 +77,7 @@ get_header();
         </header><!-- .wp_entry_header -->
 
         <div class="wp_entry entry-content clearfix">
-						
+
 <?php if ( wp_attachment_is_image() ) :
 	$attachments = array_values( get_children( array( 'post_parent' => $post->post_parent, 'post_status' => 'inherit', 'post_type' => 'attachment', 'post_mime_type' => 'image', 'order' => 'ASC', 'orderby' => 'menu_order ID' ) ) );
 	foreach ( $attachments as $k => $attachment ) {
@@ -99,9 +99,9 @@ get_header();
 	}
 ?>
             <div class="wp_attachment">
-                <a 
-                    href="<?php echo $next_attachment_url; ?>" 
-                    title="<?php echo esc_attr( get_the_title() ); ?>" 
+                <a
+                    href="<?php echo $next_attachment_url; ?>"
+                    title="<?php echo esc_attr( get_the_title() ); ?>"
                     rel="attachment"
                     ><?php
                         $attachment_size = apply_filters( 'twentyten_attachment_size', 900 );
@@ -111,9 +111,9 @@ get_header();
                     <div class="wp_caption entry-summary"><?php the_excerpt(); ?></div>
                 <?php } ?>
             </div>
-						
+
 <?php else : ?>
-            
+
             <?php
             if ( get_post_mime_type( $ID ) == 'audio/mpeg' ) {
                 $mp3_uri = wp_get_attachment_url();
@@ -123,20 +123,20 @@ get_header();
             ?>
             <p>Download: <a href="<?php echo wp_get_attachment_url(); ?>" title="<?php echo esc_attr( get_the_title() ); ?>" rel="attachment"><?php echo basename( get_permalink() ); ?></a></p>
 <?php endif; ?>
-						
-				
 
-<?php 
+
+
+<?php
     the_content( __( '<div class="wp_entry_more">Read the full post <span class="meta-nav">&#133;</span></div>', 'twentyten' ) );
     include( locate_template( array( '_wp_link_pages.php' ) ) ); // get_template_part('_wp_link_pages.php'); Paged articles <!--next-->
 ?>
 
 					</div><!-- .wp_entry -->
-					
+
 					<?php include( locate_template( array( '_entry_footer.php' ) ) ); /* get_template_part('_entry_footer.php'); */ ?>
-					
+
 				</article><!-- .attachment -->
-				
+
 				<?php if ( wp_attachment_is_image() ) { ?>
 				    <h3>More from this post</h3>
                     <?php echo do_shortcode( "[gallery id=\"{$post->post_parent}\" exclude=\"$post->ID\" columns=\"0\"]" ); ?>
@@ -145,7 +145,7 @@ get_header();
             <?php comments_template( '', true ); ?>
 
 <?php endwhile; ?>
-    
+
 </section><!-- close #bd -->
 
 <?php get_footer(); ?>

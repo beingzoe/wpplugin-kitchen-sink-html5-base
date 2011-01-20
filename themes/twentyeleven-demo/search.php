@@ -11,14 +11,14 @@
  * @since       0.1
  */
 
-get_header();  
+get_header();
 
 ?>
 
 <section id="bd" class="clearfix hfeed">
 <article id="page-other" class="page">
 <?php if ( have_posts() ) : ?>
-    
+
     <h1><?php printf( __( 'Search Results for: %s', 'twentyten' ), '<span>' . get_search_query() . '</span>' ); ?></h1>
     <?php
     /* Run the loop for the search to output the results.
@@ -28,7 +28,7 @@ get_header();
     include( locate_template( array( 'loop.php' ) ) ); /* get_template_part( 'loop' ); */
     //get_template_part( 'loop', 'search' );
     ?>
-    
+
 <?php else : ?>
     <h1>Search</h1>
     <p><?php _e( 'Huh, nothing matched your search criteria.<br />Please try again with some different keywords.', 'twentyten' ); ?></p>
@@ -38,7 +38,7 @@ get_header();
 </article><!-- #page-other -->
 </section><!-- #bd -->
 
-<?php 
+<?php
 get_sidebar();
 get_footer();
 ?>

@@ -1,8 +1,8 @@
-<?php 
+<?php
 /**
- * Display the search form 
+ * Display the search form
  * Default WP DRY include/partial
- * 
+ *
  * Typically appears in widgetized sidebar and the search page
  *
  * @author		zoe somebody

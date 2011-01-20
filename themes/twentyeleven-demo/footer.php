@@ -1,9 +1,9 @@
 <?php
 /**
  * Footer partial include
- * 
+ *
  * Closes <div id="pg"><div id="doc">, <body>, <html>
- * 
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
@@ -11,20 +11,20 @@
  * @subpackage  Theme
  * @version     0.4
  * @since       1.0
- * 
+ *
  * Based on kitchenSink theme Version 0.3 and ZUI by zoe somebody http://beingzoe.com/zui/
  */
- 
+
 global $twenty_eleven_options, $kst_sidebars_footer; // This (and all template globals needs resolved and removed to put these templates in the core as defaults)
- 
+
 ?>
 </div><!-- close #pg -->
 <footer id="ft" class="clearfix">
-    <?php 
-    wp_nav_menu( array( 
+    <?php
+    wp_nav_menu( array(
                 'theme_location'    => 'ft_menu',
-                'container'         => 'nav', 
-                'container_class'   => 'clearfix', 
+                'container'         => 'nav',
+                'container_class'   => 'clearfix',
                 'menu_id'           => 'ft_menu',
                 'sort_column'       => 'menu_order',
                 'depth'             => '1'

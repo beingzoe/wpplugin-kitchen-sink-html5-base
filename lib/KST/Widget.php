@@ -1,14 +1,14 @@
 <?php
 /**
  * Parent class for KST_Widgets
- * 
+ *
  * @package     KitchenSinkHTML5Base
  * @subpackage  Widgets
- * @version     0.1 
+ * @version     0.1
  * @since       0.1
- * @author      zoe somebody 
+ * @author      zoe somebody
  * @link        http://beingzoe.com/
- * @author      Scragz 
+ * @author      Scragz
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  */

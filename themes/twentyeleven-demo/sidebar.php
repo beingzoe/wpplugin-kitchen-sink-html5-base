@@ -12,7 +12,7 @@
  */
 
 global $kst_sidebar; // global variable problem that can't exist if these are templates in the core
- 
+
 ?>
 <section id="sb" class="wp_sidebar widgets clearfix">
 <?php
@@ -22,7 +22,7 @@ else if ( is_page()  )
     $kst_sidebar = 'widgets_pages';
 else
     $kst_sidebar = 'widgets_blog';
-    
+
 if ( ! dynamic_sidebar( $kst_sidebar ) ) { ?>
 <aside id="search" class="sb_widget widget_search">
     <?php get_search_form(); ?>
@@ -35,7 +35,7 @@ if ( ! dynamic_sidebar( $kst_sidebar ) ) { ?>
         <?php wp_meta(); ?>
     </ul>
 </aside>
-<?php 
+<?php
 }
 ?>
 </section><!-- #sb -->

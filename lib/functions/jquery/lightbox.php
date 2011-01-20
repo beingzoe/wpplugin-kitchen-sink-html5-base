@@ -1,9 +1,9 @@
 <?php
 /**
  * jquery Fancybox gallery stuff
- * 
- * Enqueues fancybox 1.3.4 and fixes [gallery] shortcode output 
- * 
+ *
+ * Enqueues fancybox 1.3.4 and fixes [gallery] shortcode output
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
@@ -19,15 +19,15 @@
  * @todo        This seems to be not working right in conjunction with lightbox on attachment.php template
  * @todo        The WP filters seem like a kluge is there a better way? Perhaps adding rel with post id or something?
  * @todo        Figure out a better way to deal with the stylesheet (merge all stylesheets into one and gzip on the fly?)
- * 
+ *
  * You still need to call it in your javascript:
- * 
+ *
  * $("dt.gallery-icon a").fancybox({
             titlePosition: 'over'
     });
  */
 
- 
+
 /*
  * Load Fancybox via wphead();
  */
@@ -36,7 +36,7 @@ wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancy
 
 /**
  * Force gallery thumbnails to link to the fullsize image
- * 
+ *
  * @since       0.1
  * @uses        is_feed() WP Function
  * @uses        is_admin() WP Function
@@ -60,7 +60,7 @@ add_filter( 'attachment_link', 'kst_fullsize_attachment_link', 10, 2 );
 /*
  * Add rel="" to image attachment links for lightbox galleries
  * Deprecated in place of javascript solution
- */                                    
+ */
 /*
 function add_lighbox_rel( $attachment_link ) {
     if( strpos( $attachment_link , 'href') != false && strpos( $attachment_link , '<img') != false )
@@ -75,7 +75,7 @@ add_filter( 'wp_get_attachment_link' , 'add_lighbox_rel' );
  *
  * See kst_theme_help
  * Help content for zui based theme_help.php
- * 
+ *
  * @since       0.1
  * @param       required string $part   toc|entry which part do you want?
  * @return      string
@@ -83,12 +83,12 @@ add_filter( 'wp_get_attachment_link' , 'add_lighbox_rel' );
 function kst_theme_help_lightbox($part) {
     if ( $part == 'toc' )
         $output = "<li><a href='#lib_lightbox'>Image lightbox / galleries</a></li>";
-    else 
-        $output = 
+    else
+        $output =
 <<< EOD
 <h3 id="lib_lightbox">Image lightbox / galleries</h3>
 <p>
-    By default all images you upload and insert in your posts/pages or show using the [gallery] shortcode 
+    By default all images you upload and insert in your posts/pages or show using the [gallery] shortcode
     will automatically lightbox.
 </p>
 <p>

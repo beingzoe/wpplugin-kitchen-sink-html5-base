@@ -1,8 +1,8 @@
-<?php 
+<?php
 /**
  * Display paged post/page pager bar/links
  * DRY include/partial
- * 
+ *
  * Rarely used but pretty cool feature
  * <!--nextpage-->
  *

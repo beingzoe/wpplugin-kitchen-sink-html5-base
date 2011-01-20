@@ -1,7 +1,7 @@
-<?php 
+<?php
 /**
  * Meta Box content for theme SEO and meta data
- * 
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
@@ -12,7 +12,7 @@
  * @since       0.1
  * @uses        WPAlchemy_MetaBox
  */
- 
+
     /**
      * @global object $kst_mb_meta_data
      */
@@ -27,17 +27,17 @@
     </p>
     <table class="form-table">
         <?php $mb->the_field('meta_page_title'); ?>
-        <tr valign="top"> 
+        <tr valign="top">
             <th scope="row">
                 <label for="<?php $mb->the_name(); ?>">Page Title</label>
-            </th>                    
+            </th>
             <td>
                 <input type="text" name="<?php $mb->the_name(); ?>" id="<?php $mb->the_name(); ?>" size="50" value="<?php $mb->the_value(); ?>"/>
                 <span><em>If empty defaults to entry title</em></span>
             </td>
         </tr>
         <?php $mb->the_field('meta_page_keywords'); ?>
-        <tr valign="top"> 
+        <tr valign="top">
             <th scope="row">
                 <label for="<?php $mb->the_name(); ?>">Meta Keywords</label>
             </th>
@@ -46,13 +46,13 @@
                 <span><em> If empty defaults to GLOBAL KEYWORDS</em></span>
             </td>
         </tr>
-        
-        <tr valign="top"> 
+
+        <tr valign="top">
             <th scope="row">
-                
+
             </th>
             <td>
-                <?php $mb->the_field('meta_page_keywords_use_tags'); ?> 
+                <?php $mb->the_field('meta_page_keywords_use_tags'); ?>
                 <input type="checkbox" name="<?php $mb->the_name(); ?>" id="<?php $mb->the_name(); ?>" value="1"<?php if ( $mb->is_value('1') ) echo ' checked="checked"'; ?> /> <label for="<?php $mb->the_name(); ?>">Add TAGS to Meta Keywords above<?php $mb->is_value(''); ?></label>
                 &nbsp;&nbsp;&nbsp;&nbsp;
                 <?php $mb->the_field('meta_page_keywords_use_global'); ?>
@@ -60,7 +60,7 @@
             </td>
         </tr>
         <?php $mb->the_field('meta_page_description'); ?>
-        <tr valign="top"> 
+        <tr valign="top">
             <th scope="row">
                 <label for="<?php $mb->the_name(); ?>">Meta Description</label>
             </th>
