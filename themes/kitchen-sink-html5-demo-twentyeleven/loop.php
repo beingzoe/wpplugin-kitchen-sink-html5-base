@@ -31,21 +31,21 @@ global $twenty_eleven_options;
 /* If no posts, i.e. an empty archive page */ 
 if ( ! have_posts() ) { ?>
      echo $cool;
-	<section id="page-other" class="page no_results">
-		<header class="wp_entry_header">
-		    <h1><?php _e( 'No posts or pages found', 'twentyten' ); ?></h1>
+    <section id="page-other" class="page no_results">
+        <header class="wp_entry_header">
+            <h1><?php _e( 'No posts or pages found', 'twentyten' ); ?></h1>
         </header>
-		<div class="wp_entry clearfix">
-			<p><?php _e( 'Try searching or check the menu!', 'twentyten' ); ?></p>
-			<?php get_search_form(); ?>
-		</div><!-- .entry-content -->
-	</section><!-- #post-0 -->
+        <div class="wp_entry clearfix">
+            <p><?php _e( 'Try searching or check the menu!', 'twentyten' ); ?></p>
+            <?php get_search_form(); ?>
+        </div><!-- .entry-content -->
+    </section><!-- #post-0 -->
 <?php 
 } //end if !have_posts
 
 /* Don't ask for this stuff every loop */
-$asides_gallery = $twenty_eleven_options->get_option("layout_category_gallery_slug");
-$asides_aside   = $twenty_eleven_options->get_option("layout_category_aside_slug");
+//$asides_gallery = $twenty_eleven_options->getOption("layout_category_gallery_slug");
+//$asides_aside   = $twenty_eleven_options->getOption("layout_category_aside_slug");
 
 /* Start the Loop */ 
 while ( have_posts() ) {  
@@ -59,11 +59,11 @@ while ( have_posts() ) {
     /* Gallery Category Asides */  
     if ( is_category( $asides_gallery ) && in_category( _x($asides_gallery, 'gallery category slug', 'twentyten') ) ) {
 ?>
-		<article id="<?php echo get_post_type() . '-' . $post->ID; ?>" <?php post_class(); ?>>
-		    
-		    <?php include( locate_template( array( '_entry_header.php' ) ) ); /* get_template_part('_entry_header.php'); Article Header */ ?>
-			
-		    <div class="wp_entry clearfix">
+        <article id="<?php echo get_post_type() . '-' . $post->ID; ?>" <?php post_class(); ?>>
+            
+            <?php include( locate_template( array( '_entry_header.php' ) ) ); /* get_template_part('_entry_header.php'); Article Header */ ?>
+            
+            <div class="wp_entry clearfix">
 <?php       
             if ( post_password_required() ) {
                 the_content();
@@ -83,14 +83,14 @@ while ( have_posts() ) {
                 the_excerpt();
             } 
 ?>
-			</div><!-- .wp_entry -->
-			<footer class="wp_entry_footer">
-				<a href="<?php echo get_term_link( _x($asides_gallery, 'gallery category slug', 'twentyten'), 'category' ); ?>" title="<?php esc_attr_e( 'View posts in the Gallery category', 'twentyten' ); ?>"><?php _e( 'More Galleries', 'twentyten' ); ?></a>
-				<span class="meta-sep">|</span>
-				<span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
-				<?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
-			</footer><!-- .wp_entry_footer -->
-		</article><!-- #post-## -->
+            </div><!-- .wp_entry -->
+            <footer class="wp_entry_footer">
+                <a href="<?php echo get_term_link( _x($asides_gallery, 'gallery category slug', 'twentyten'), 'category' ); ?>" title="<?php esc_attr_e( 'View posts in the Gallery category', 'twentyten' ); ?>"><?php _e( 'More Galleries', 'twentyten' ); ?></a>
+                <span class="meta-sep">|</span>
+                <span class="comments-link"><?php comments_popup_link( __( 'Leave a comment', 'twentyten' ), __( '1 Comment', 'twentyten' ), __( '% Comments', 'twentyten' ) ); ?></span>
+                <?php edit_post_link( __( 'Edit', 'twentyten' ), '<span class="meta-sep">|</span> <span class="edit-link">', '</span>' ); ?>
+            </footer><!-- .wp_entry_footer -->
+        </article><!-- #post-## -->
 <?php 
     /* Asides Category Asides */ 
     /*
@@ -109,7 +109,7 @@ while ( have_posts() ) {
         }
         */
 ?>
-		<article id="<?php echo get_post_type() . '-' . $post->ID; ?>" <?php post_class( 'entry' ); ?>>
+        <article id="<?php echo get_post_type() . '-' . $post->ID; ?>" <?php post_class( 'entry' ); ?>>
             <?php include( locate_template( array( '_entry_header.php' ) ) ); /* get_template_part('_entry_header.php'); Article Header */ ?>
             <div class="wp_entry clearfix">
             <?php
@@ -133,7 +133,7 @@ while ( have_posts() ) {
             include( locate_template( array( '_wp_link_pages.php' ) ) ); // get_template_part('_wp_link_pages.php'); Paged articles <!--next-->
             include( locate_template( array( '_entry_footer.php' ) ) ); // get_template_part('_entry_footer.php');
 ?>
-		</article><!-- #post-## -->
+        </article><!-- #post-## -->
 
 <?php 
         comments_template( '', true ); 

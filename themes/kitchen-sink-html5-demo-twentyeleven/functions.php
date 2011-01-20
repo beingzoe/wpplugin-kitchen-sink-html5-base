@@ -14,38 +14,36 @@
  * @since       0.1
  * 
  * 1) Set your settings
- * 2) INSTANTIATE Kitchen Sink HTML5 Base 
+ * 2) Register your theme with Kitchen Sink HTML5 Base 
  * 3) Load whatever KST you want/need
- * 4) Make Theme
- */
+ * 4) Create
+*/
  
- /* TESTING: Checking the menu for shit
- add_action('admin_footer', 'test3223');
- function test3223() {
-     print_r($GLOBALS['menu']);
- }
- */
-  
- 
-/* SETTINGS
- */
+/* SET YOUR SETTINGS
+*/
      
     /**
-     * Various Kitchen Sink HTML5 Base settings
-     */
-    $kst_settings = array(
+     * KST Base theme settings array
+     * Various Kitchen Sink HTML5 Base settings for your theme
+     * 
+     * @since       0.1
+    */
+    $twenty_eleven_settings = array(
         /* REQUIRED */
-        'theme_name'                => 'Twenty Eleven',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
-        'prefix'                 => 'ksd_0_1',                       // Required; Prefix for namespacing libraries, classes, widgets
-        'theme_developer'           => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
-        'theme_developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
+        'friendly_name'             => 'Twenty Eleven',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
+        'prefix'                    => 'ksd_0_1',                       // Required; Prefix for namespacing libraries, classes, widgets
+        'developer'                 => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
+        'developer_url'             => 'http://beingzoe.com/',            // Required; full URI to developer website;
         'content_width'             => 500,                             // Required; as a global variable mainly used by WP but will bear in mind in KST as a constant; maximum width of images in posts
         'theme_excerpt_length'      => 100,
         /* OPTIONAL */
         'theme_seo_title_sep'       => '&laquo;',                       // Optional; Separator between title bar title segments
     );
     
-    /* Only needed if you are using the built-in KST_OPTIONS CLASS (make whatever options you like */
+    /*
+     * Array for options page
+     * Groovy thing: You can keep adding items to the array later if you have business logic to work out as well.
+    */
     $theme_options = array (
             // Layout options
             array(  "name"      => __('Layout'),
@@ -59,101 +57,219 @@
             array(  "name"      => __('Asides Category'),
                     "desc"      => __('Pick the category to use as your sideblog'),
                     "id"        => "layout_category_aside",
-                    "type"      => "select_category",
+                    "type"      => "select_wp_categories",
                     "args"      => array( )
                     ),
             
             array(  "name"      => __('Gallery Category SLUG'),
                     "desc"      => __('Pick the category to use for gallery posts'),
                     "id"        => "layout_category_gallery",
-                    "type"      => "select_category",
+                    "type"      => "select_wp_categories",
                     "args"      => array( )
                     )
         );
-            
+    /* Sample Bonus array to test extra menus and stuff */
+    $theme_options2 = array ( 
+        array(  "name"    => __('Some notes'),
+                "desc"  => __("
+                            <p><em>Just wanted to say hi and let you know in this demo this array appears as two different menu items.</em></p>
+                            "),
+                "type"  => "section",
+                "is_shut"   => FALSE ),
         
-/* INSTANTIATE KITCHEN SINK HTML5 BASE 
- * Presets a few necessary things and will be used later to enhance functionality
- */ 
+        array(  "name"  => __('Favorite color'),
+                "desc"  => __('Red? Green? Blue?'),
+                "id"    => "favorite_color",
+                "default"   => "",
+                "type"  => "text",
+                "size"  => "15"), 
+        
+        array(  "name"  => __('Checkbox default on'),
+                "desc"  => __('This is on by default usually'),
+                "id"    => "checkbox_default_on",
+                "default"   => "1",
+                "type"  => "checkbox"), 
+        
+        array(  "name"  => __('Checkbox default off'),
+                "desc"  => __('This is on by default usually'),
+                "id"    => "checkbox_default_off",
+                "default"   => "0",
+                "type"  => "checkbox"), 
+        
+        array(  "name"    => __('TEST2'),
+                "desc"  => __("
+                            
+                            "),
+                "type"  => "section"),
+        
+        array(  "name"  => __('TEST RADIO BUTTON'),
+                "desc"  => __('What choice will you make?'),
+                "id"    => "TEST_RADIO_BUTTON",
+                "default"   => "this radio 3",
+                "type"  => "radio",
+                "options" => array(     "this radio 1", 
+                                        "this radio 2", 
+                                        "this radio 3", 
+                                        "this radio 4", 
+                                        "this radio 5"
+                                            )
+                ),
+        
+        
+        
+        array(    "name"    => __('Textarea'),
+                        "desc"    => __("What you type here will indicate the possibility of success."),
+                        "id"      => "textarea_id",
+                        "std"     => __("You do not have to put any defaults"),
+                        "type"    => "textarea",
+                        "rows" => "2",
+                        "cols" => "55"
+                        ),
+        
+        array(    "name"    => __('Select'),
+                        "desc"    => __("There are many choices awaiting"),
+                        "id"      => "TEST_SELECT",
+                        "default"     => "Select 4",
+                        "type"    => "select",
+                        "options" => array(    "Select 1", 
+                                            "Select 2",
+                                            "Select 3",
+                                            "Select 4",
+                                            "Select 5"
+                                            ) 
+                        ),
+        
+        array(  "name"  => __('Asides Category'),
+                "desc"  => __('Pick the category to use as your sideblog'),
+                "id"    => "TEST_ASIDES_CATEGORY_SELECTOR",
+                "type"  => "select_wp_categories",
+                "args" => array(     
+                                    
+                                            )
+                ),
+        
+        array(  "name"  => __('Featured Page'),
+                "desc"  => __('Choose the page to feature'),
+                "id"    => "TEST_PAGE_SELECTOR",
+                "type"  => "select_wp_pages",
+                "args" => array(     
+                                    
+                                            )
+                ),
+        
+        array(    "name"    => __('MultiSelect'),
+                        "desc"    => __("There are many choices awaiting and you can have them all"),
+                        "id"      => "TEST_MULTISELECT",
+                        "default"     => "Select 5",
+                        "type"    => "select",
+                        "multi"   => TRUE,
+                        "size"   => "8",
+                        "options" => array(    "Select 1", 
+                                            "Select 2",
+                                            "Select 3",
+                                            "Select 4",
+                                            "Select 5",
+                                            "Select 6",
+                                            "Select 7",
+                                            "Select 8"
+                                            ) 
+                        )
+        
+    );
     
-    /**#@+
-     * The farther we get down this list the more likely it is low priority or to be considered for companion plugins
-     * @since       0.1
-     */
-    //NOTE: This is a temporary hack until we decide on how we can protect the theme if somehow KST isn't loaded (ala turning off the plugin) but this is the criteria
-    if ( class_exists('KST') ) {
+    
 
+    
+
+switch ( class_exists('KST') ) { // Is this the best way we can protect the theme from a missing plugin?
+    // Your KST Dependent theme initialization code goes here
+    case TRUE:
+        /**#@+
+         * @since       0.1
+        */
+         
+        /* REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE 
+         * Two options below, both return an object for you to use
+        */ 
+         
+        /*
+         * Option #1
+         * Load preset configuration  
+         * Then init the features you want to use individually
+         * 
+         * default, minimum, and_the_kitchen_sink
+        */
+        //$my_theme = KST::newWithPresetConfiguration($twenty_eleven_settings, 'and_the_kitchen_sink');
         
-        /* Invoke the plugin to use it */
-        $theme = new KST_Doodad($kst_settings);
-        /* OPTIONAL: Load preset configuration  
-         * default, minimum, and_the_kitchen_sink */
-        //$theme = KST_Doodad::new_with_preset_configuration($kst_settings, 'and_the_kitchen_sink');
+        /*
+         * Option #2
+         * Just register your theme with KST
+         * Then init the features you want to use individually
+        */
+        $my_theme = KST::newDoodad($twenty_eleven_settings);
         
-        
-        //echo KST::{ksd_0_1}->testme;
-        
-        
-        
-        
-        
-        /* OPTIONAL: Load individual functionality - Autoloading classes? (have that just in case but also allow loading through here?) */
         
         /* Load and use KST_Options
          * Uses your $theme_options array(s) to create admin menus/pages 
-         */ 
-        require_once KST_DIR_LIB . '/KST/Options.php';
-        /* Add your menus/pages */ 
-        $twenty_eleven_options = new KST_Options('theme_options', 'top', 'Theme Options');
-        $more_options = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options', 'My CUSTOM page TITLE');
-        $more_options2 = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options2', 'Important Settings');
-        $twenty_eleven_options2 = new KST_Options('theme_options', 'top', 'Other Options');
-        $more_options = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other', 'My CUSTOM page TITLE');
-        $more_options2 = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other2', 'Important Settings');
+        */ 
         
+        
+        $my_theme->newOptionsPage($theme_options, 'Theme Options', 'appearance');
+        $my_theme->newOptionsPage($theme_options2, 'Theme Options 2', 'appearance');
+        $my_theme->newOptionsPage($theme_options2, 'Theme Options 3', 'appearance');
+        
+        $theme_options2[] = array(  "name"    => __('ADDED FLOOP AFTER WE ALREADY PASSED IT'),
+                                    "desc"  => __("
+                                                <p><em>YEAH</em></p>
+                                                "),
+                                    "type"  => "section",
+                                    "is_shut"   => FALSE 
+                                );
+
+            
+
+        
+        //print_r( KST::test_static_AdminPages() );
+                
         /* HTML5 Boilerplate, WP normalization, and smart stuff */
-        KST::init_sensible_defaults();
-        /* KST THEME HELP */
-        KST::init_help();
+        $my_theme->initSensibleDefaults();
+        $my_theme->initHelp(); // KST THEME HELP
+        //KST::initSEO(); // KST SEO and META DATA
+        $my_theme->initContact(); // KST easy flexible email and contact forms
         
         
         
-        /* KST SEO and META DATA */
-        KST::init_seo();
-        /* KST easy flexible email and contact forms */
-        KST::init_contact();
+        /* Add your menus/pages */ 
+        //$twenty_eleven_options = new KST_Options('theme_options', 'top', 'Theme Options');
+        //$more_options = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options', 'My CUSTOM page TITLE');
+        //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options2', 'Important Settings');
+        //$twenty_eleven_options2 = new KST_Options('theme_options', 'top', 'Other Options');
+        //$more_options = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other', 'My CUSTOM page TITLE');
+        //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other2', 'Important Settings');
+        
         
         /* Load and use KST_Asides class to manage asides side blog */
         require_once KST_DIR_LIB . '/KST/Asides.php'; // Class to save aside post for clean delayed output
-        $loop_asides = new KST_Asides( $twenty_eleven_options->get_option('layout_category_aside') );
+        $loop_asides = new KST_Asides( $my_theme->getOption('layout_category_aside') );
         
-        /* WP WIDGET: KST post to post next/previous post buttons for sidebar (only on single blog posts) */
-        KST::init_widget_nav_post();
-        /* WP WIDGET: KST Page to page older/newer browse posts buttons for sidebar (only on single blog posts) */
-        KST::init_widget_nav_posts();
+        $my_theme->initWidgetNavPost(); // WP WIDGET: KST post to post next/previous post buttons for sidebar (only on single blog posts)
+        $my_theme->initWidgetNavPosts(); // WP WIDGET: KST Page to page older/newer browse posts buttons for sidebar (only on single blog posts)
         
-        /* WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc... */
-        KST::init_wp_media_normalize();
-        //$KST::init_kst_jquery_lightbox();
-        //$KST::init_kst_mp3_player();
+        /* WP Media Normalization */
+        $my_theme->initWPMediaNormalize(); // WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc... 
+        //$KST::initKSTjqueryLightbox(); // WP Media Normalization: Just gallery and caption normalization with automatic lightboxing
+        //$KST::initKSTmp3Player(); // WP Media Normalization: mp3plaery shortcode and automatic player when an mp3 is directly linked
         
-        /* OPTIONAL: Should become separate plugin(s) package(s) */
-        
-        /* KST/jQuery: KST JIT (Just-in-Time) message (sliding out a panel on a trigger) */
-        KST::init_kst_jquery_jit_message();
-        /* WP WIDGET: KST JIT (Just-in-Time) Sidebar (Magic relative/fixed sidebars)  */
-        KST::init_widget_jit_sidebar();
-        /* KST/jQuery: tools: scrollable content (content slideshow with shortcodes)  */
-        KST::init_kst_jquery_tools_scrollable();
-        /* KST/jQuery: malsup cycle content (content slideshow with shortcodes) */
-        KST::init_widget_kst_jquery_cycle();
+        /* OPTIONAL: Plugin-ish features */
+        $my_theme->initKSTjqueryJITmessage(); //KST/jQuery: KST JIT (Just-in-Time) message (sliding out a panel on a trigger)
+        $my_theme->initWidgetJITsidebar(); // WP WIDGET: KST JIT (Just-in-Time) Sidebar (Magic relative/fixed sidebars)
+        $my_theme->initKSTjqueryToolsScrollable(); // KST/jQuery: tools: scrollable content (content slideshow with shortcodes)
+        $my_theme->initKSTjqueryCycle(); // KST/jQuery: malsup cycle content (content slideshow with shortcodes)
         
         /**#@-*/
-
-        //echo KST::{THEME_ID}->testme;
-        
-        
-    } else {
+    break;
+    // Your
+    default;
         // Needs to check if it is in the admin section OR in the login page (login is not in the admin)
         if ( is_admin() ) {
             return;
@@ -162,24 +278,21 @@
         echo "<h1>Pretty cool!<br />You are using a Kitchen Sink based WordPress theme<br />HOWEVER...</h1><p>...you have not activated the KST Plugin in WordPress OR you haven't included it as library in your theme.<br />See the <a href='http://beingzoe.com/zui/wordpress/kitchen_sink_theme'>documentation</a> if you need assistance.</p><p><a href='#'>Sign in</a> to WordPress.";
             exit;
         }
-        
-    }
-    
-    
- 
-    
-    
+    break;
+}
+
+
     
 /* BELOW HERE will not be in the base as is 
  * but there will be some placeholder sections for this stuff with some examples maybe? 
  * 
  * Some of the stuff below was just to run the TwentyEleven theme 
  * and will not be included at all is duly noted
- */
+*/
 
     /* ADD AND REMOVE JUNK - 
      * See documentation (online or in plugin) for things that are added and removed by default as sensible defaults
-     */
+    */
         remove_action('wp_head', 'rsd_link');
         remove_action('wp_head', 'wp_generator');
         remove_action('wp_head', 'wlwmanifest_link');
@@ -187,19 +300,19 @@
     /**
      * REGISTER THEME MENUS WITH BUILT-IN WP MENUS
      * Also set default fallback menu functions
-     */
+    */
         register_nav_menu('hd_menu', 'Masthead Menu'); //primary site nav
         register_nav_menu('ft_menu', 'Footer Menu'); //footer nav
         
     /**
      * REGISTER WIDGETIZED SIDEBAR/AREAS
-     */
+    */
      
      
                                                                                              /* NOT PART OF KST - just something I like to do
                                                                                               * DRY: Widget area formatting arguments
                                                                                               * Sets theme-wide widgetized area formatting arguments
-                                                                                              */
+                                                                                             */
                                                                                              $kst_widget_area_format_args = array( /* Common sidebar */
                                                                                                                            'before_widget' => '<aside id="%1$s" class="widget %2$s">',
                                                                                                                            'after_widget'  => '</aside>',
@@ -246,7 +359,7 @@
  * Anything to error check or add to child theme features?
  * Only really important if you are also developing a child theme 
  * or distributing your parent theme expecting people to make child themes for it
- */ 
+*/ 
  
     /* Hook to do stuff after child themes functions.php loads */
     add_action( 'after_setup_theme', 'kst_after_child_theme' ); // Delay final setup until both Parent and Child theme functions.php are loaded
@@ -320,7 +433,7 @@
      * Use to insert styles or whatever 
      * 
      * @since 0.4
-     */
+    */
     function kst_add_custom_image_header() { 
         
     }
@@ -330,106 +443,9 @@
      * Use to insert styles or whatever; Required by WP;
      * 
      * @since 0.4
-     */
+    */
     function kst_add_custom_image_header_admin() { 
         
     }
 
-
-            /* Sample Bonus array to test extra menus and stuff */
-            $theme_options2 = array ( 
-                array(  "name"    => __('Some notes'),
-                        "desc"  => __("
-                                    <p><em>Just wanted to say hi and let you know in this demo this array appears as two different menu items.</em></p>
-                                    "),
-                        "type"  => "section",
-                        "is_shut"   => FALSE ),
-                
-                array(  "name"  => __('Favorite color'),
-                        "desc"  => __('Red? Green? Blue?'),
-                        "id"    => "favorite_color",
-                        "default"   => "",
-                        "type"  => "text",
-                        "size"  => "15"), 
-                
-                array(  "name"    => __('TEST2'),
-                        "desc"  => __("
-                                    
-                                    "),
-                        "type"  => "section"),
-                
-                array(  "name"  => __('TEST RADIO BUTTON'),
-                        "desc"  => __('What choice will you make?'),
-                        "id"    => "TEST_RADIO_BUTTON",
-                        "default"   => "this radio 3",
-                        "type"  => "radio",
-                        "options" => array(     "this radio 1", 
-                                                "this radio 2", 
-                                                "this radio 3", 
-                                                "this radio 4", 
-                                                "this radio 5"
-                                                    )
-                        ),
-                
-                
-                
-                array(    "name"    => __('Textarea'),
-                                "desc"    => __("What you type here will indicate the possibility of success."),
-                                "id"      => "textarea_id",
-                                "std"     => __("You do not have to put any defaults"),
-                                "type"    => "textarea",
-                                "rows" => "2",
-                                "cols" => "55"
-                                ),
-                
-                array(    "name"    => __('Select'),
-                                "desc"    => __("There are many choices awaiting"),
-                                "id"      => "TEST_SELECT",
-                                "default"     => "Select 4",
-                                "type"    => "select",
-                                "options" => array(    "Select 1", 
-                                                    "Select 2",
-                                                    "Select 3",
-                                                    "Select 4",
-                                                    "Select 5"
-                                                    ) 
-                                ),
-                
-                array(  "name"  => __('Asides Category'),
-                        "desc"  => __('Pick the category to use as your sideblog'),
-                        "id"    => "TEST_ASIDES_CATEGORY_SELECTOR",
-                        "type"  => "select_category",
-                        "args" => array(     
-                                            
-                                                    )
-                        ),
-                
-                array(  "name"  => __('Featured Page'),
-                        "desc"  => __('Choose the page to feature'),
-                        "id"    => "TEST_PAGE_SELECTOR",
-                        "type"  => "select_page",
-                        "args" => array(     
-                                            
-                                                    )
-                        ),
-                
-                array(    "name"    => __('MultiSelect'),
-                                "desc"    => __("There are many choices awaiting and you can have them all"),
-                                "id"      => "TEST_MULTISELECT",
-                                "default"     => "Select 5",
-                                "type"    => "select",
-                                "multi"   => TRUE,
-                                "size"   => "8",
-                                "options" => array(    "Select 1", 
-                                                    "Select 2",
-                                                    "Select 3",
-                                                    "Select 4",
-                                                    "Select 5",
-                                                    "Select 6",
-                                                    "Select 7",
-                                                    "Select 8"
-                                                    ) 
-                                )
-                
-            );
 
