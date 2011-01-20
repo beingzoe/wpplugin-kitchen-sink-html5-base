@@ -19,9 +19,9 @@ class KST_Widget extends WP_Widget {
      to register
      *
     */
-    public static registerWidget($widget) {
+    public static function registerWidget($widget) {
         require_once KST_DIR_LIB . "/KST/Widget/{$widget}.php";
-        add_action('widgets_init', create_function('', "return register_widget('KST_Widget_{$widget})';"));
+        add_action('widgets_init', create_function('', "return register_widget('KST_Widget_{$widget}');"));
     }
 }
 

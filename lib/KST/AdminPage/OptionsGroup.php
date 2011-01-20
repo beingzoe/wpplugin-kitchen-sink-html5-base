@@ -15,7 +15,7 @@
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @uses        KST_AdminPage
  */
-class KST_AdminPage_OptionsPage extends KST_AdminPage {
+class KST_AdminPage_OptionsGroup extends KST_AdminPage {
        
     /**#@+
      * @since       0.1
@@ -64,7 +64,7 @@ class KST_AdminPage_OptionsPage extends KST_AdminPage {
      * 
      * @since       0.1
      * @param       required string $item    unnamespaced option name
-     * @uses        KST_AdminPage_OptionsPage::namespace
+     * @uses        KST_AdminPage_OptionsGroup::namespace
      * @return      string
     */
     protected function _formatInNamespace( $item ) {
@@ -135,8 +135,8 @@ class KST_AdminPage_OptionsPage extends KST_AdminPage {
      * Still try to be unique to avoid collisions with other KST developers
      * 
      * @since       0.1
-     * @uses        KST_AdminPage_OptionsPage::menu_title
-     * @uses        KST_AdminPage_OptionsPage::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsGroup::menu_title
+     * @uses        KST_AdminPage_OptionsGroup::_formatInNamespace()
      * @return      string
     */
     protected function _createMenuSlug() {
@@ -147,8 +147,8 @@ class KST_AdminPage_OptionsPage extends KST_AdminPage {
      * Register the options with WP
      * 
      * @since 0.1
-     * @uses KST_AdminPage_OptionsPage::_formatInNamespace()
-     * @uses KST_AdminPage_OptionsPage::options_array 
+     * @uses KST_AdminPage_OptionsGroup::_formatInNamespace()
+     * @uses KST_AdminPage_OptionsGroup::options_array 
      * @uses register_setting() WP function
      * 
      * NOTE: Creates option with namespace prepended
@@ -193,8 +193,8 @@ class KST_AdminPage_OptionsPage extends KST_AdminPage {
      * Register the options with WP
      * 
      * @since       0.1
-     * @uses        KST_AdminPage_OptionsPage::_formatInNamespace()
-     * @uses        KST_AdminPage_OptionsPage::options_array 
+     * @uses        KST_AdminPage_OptionsGroup::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsGroup::options_array 
      * @uses        current_user_can() WP function
      * @uses        wp_die() WP function
      * 

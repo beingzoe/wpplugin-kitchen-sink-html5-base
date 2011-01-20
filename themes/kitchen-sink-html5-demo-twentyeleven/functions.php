@@ -198,14 +198,14 @@ if ( class_exists('KST') ) { // Is this the best way we can protect the theme fr
      * 
      * default, minimum, and_the_kitchen_sink
     */
-    //$my_theme = new KST_Theme($twenty_eleven_settings, 'and_the_kitchen_sink');
+    //$my_theme = new KST_Kitchen_Theme($twenty_eleven_settings, 'and_the_kitchen_sink');
     
     /*
      * Option #2
      * Just register your theme with KST
      * Then init the features you want to use individually
     */
-    $my_theme = new KST_Theme($twenty_eleven_settings);
+    $my_theme = new KST_Kitchen_Theme($twenty_eleven_settings);
     
     
     /* Load and use KST_Options
@@ -213,9 +213,9 @@ if ( class_exists('KST') ) { // Is this the best way we can protect the theme fr
     */ 
     
     
-    $my_theme->newOptionsPage($theme_options, 'Theme Options', 'appearance');
-    $my_theme->newOptionsPage($theme_options2, 'Theme Options 2', 'appearance');
-    $my_theme->newOptionsPage($theme_options2, 'Theme Options 3', 'appearance');
+    $my_theme->newOptionsGroup($theme_options, 'Theme Options', 'appearance');
+    $my_theme->newOptionsGroup($theme_options2, 'Theme Options 2', 'appearance');
+    $my_theme->newOptionsGroup($theme_options2, 'Theme Options 3', 'appearance');
     
     $theme_options2[] = array(  "name"    => __('ADDED FLOOP AFTER WE ALREADY PASSED IT'),
                                 "desc"  => __("

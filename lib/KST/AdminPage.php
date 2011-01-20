@@ -26,12 +26,6 @@ if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSe
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  */
 class KST_AdminPage {
-       
-    /**#@+
-     * @since       0.1
-     * @access      protected
-    */
-    protected $admin_pages; // Array containing the pages to add
 
     /**#@-*/
     
@@ -46,8 +40,8 @@ class KST_AdminPage {
      * Register the options with WP
      * 
      * @since       0.1
-     * @uses        KST_AdminPage_OptionsPage::_formatInNamespace()
-     * @uses        KST_AdminPage_OptionsPage::options_array 
+     * @uses        KST_AdminPage_OptionsGroup::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsGroup::options_array 
      * @uses        current_user_can() WP function
      * @uses        wp_die() WP function
      * 

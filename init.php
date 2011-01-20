@@ -52,17 +52,18 @@ if (defined('KST_BUNDLED_THEME_DEV') && KST_BUNDLED_THEME_DEV) {
  * @since       0.1  
 */
 require_once KST_DIR_LIB . '/KST.php';
-require_once KST_DIR_LIB . '/KST/Plugin.php';
-require_once KST_DIR_LIB . '/KST/Theme.php';
+require_once KST_DIR_LIB . '/KST/Kitchen.php';
+require_once KST_DIR_LIB . '/KST/Kitchen/Plugin.php';
+require_once KST_DIR_LIB . '/KST/Kitchen/Theme.php';
 
 /**
  * Load remaining core class files
  * 
  * @since       0.1
 */ 
-require_once KST_DIR_LIB . '/KST/AdminPages.php';
-require_once KST_DIR_LIB . '/KST/AdminPages/OptionsPages.php';
-require_once KST_DIR_LIB . '/KST/AdminPages/HelpPages.php';
+require_once KST_DIR_LIB . '/KST/AdminPage.php';
+require_once KST_DIR_LIB . '/KST/AdminPage/OptionsGroup.php';
+require_once KST_DIR_LIB . '/KST/AdminPage/Help.php';
 
 /**
  * KST core settings editable from WP admin irrespective of theme
@@ -77,6 +78,6 @@ require_once KST_DIR_LIB . '/functions/settings_core.php';
  * Add hooks for core functionality
 */
 add_action('activated_plugin', 'loadAsFirstPlugin');
-add_action('plugins_loaded', 'KST::pluginsAreLoaded')); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
+add_action('plugins_loaded', 'KST::pluginsAreLoaded'); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
 
 // Now we wait for a plugin or theme to initialize...

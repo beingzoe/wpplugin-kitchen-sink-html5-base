@@ -39,7 +39,7 @@ class KST_Widget_JitSidebar extends KST_Widget {
     function widget($args, $instance) {	
         extract( $args );
         //no settings so no variables to get/set
-        add_action('wp_footer', 'KST_Widget_JitSidebar::print_jit_message_scripts');
+        add_action('wp_footer', 'KST_Widget_JitSidebar::printJitSidebarScripts');
         echo $before_widget;
         echo $after_widget; 
     }
@@ -83,7 +83,7 @@ class KST_Widget_JitSidebar extends KST_Widget {
      * @uses        get_template_directory_uri() WP function
      * @uses        wp_print_scripts() WP function
      */
-    public static function print_jit_message_scripts() {
+    public static function printJitSidebarScripts() {
         wp_register_script('jit_sidebar', KST_URI_ASSETS . '/javascripts/jquery/jquery.kst_jit_sidebar.js' , array('jquery') , '0.1', true);
         /* just print the script directly to the page with wp_footer */
         wp_print_scripts('jit_sidebar');

@@ -28,8 +28,8 @@ class KST {
     protected $namespace;
     protected $developer;
     protected $developer_url;
-    protected $admin_pages; // Store all menus/pages from one registered kst doodads
-    protected static $admin_pages; // Store all menus/pages from all registered kst doodads
+    protected $admin_pages; // Store all menus/pages from one registered kst kitchen
+    protected static $all_admin_pages; // Store all menus/pages from all registered kst kitchens
     /**#@-*/
     
     /**
@@ -46,8 +46,8 @@ class KST {
         echo "Yup we can do that with " . $this->getFriendlyName() . " " . $this->getPrefix() . " " . $this->getDeveloper() . " " . $this->getDeveloper_url();
     }
     public function test_static_AdminPages() {
-        //return self::$admin_pages;
-        print_r( self::$admin_pages );
+        //return self::$all_admin_pages;
+        print_r( self::$all_admin_pages );
     }
     
     
@@ -62,7 +62,7 @@ class KST {
      * @param       optional string $parent_menu 
      * @param       optional string $page_title Explicit title to use on page, defaults to "friendly_name menu_title"
     */
-    public function newOptionsPage($options_array, $menu_title, $parent_menu = 'kst', $page_title = FALSE) {
+    public function newOptionsGroup($options_array, $menu_title, $parent_menu = 'kst', $page_title = FALSE) {
 
         // Create generic title if none given
         $page_title = ( $page_title ) ? $page_title
@@ -70,9 +70,9 @@ class KST {
         
         // Save this options page object in KST static member variable to create the actual pages with later
         // We won't actually add the menus or markup hmtl until we have them all and do sorting if necessary and prevent overwriting existing menus
-        $new_page = new KST_AdminPage_OptionsPage( $options_array, $menu_title, $parent_menu, $page_title, $this->namespace );
+        $new_page = new KST_AdminPage_OptionsGroup( $options_array, $menu_title, $parent_menu, $page_title, $this->namespace );
         // Naming the keys using the menu_slug so we can manipulate our menus later
-        self::$admin_pages[$new_page->get_menu_slug()] = $new_page; 
+        self::$all_admin_pages[$new_page->get_menu_slug()] = $new_page; 
         
         add_action('admin_menu', 'KST_AdminPage::create_admin_pages'); // hook to create menus/pages in admin AFTER we have ALL the options
         
@@ -86,7 +86,7 @@ class KST {
      * you can $my_theme_object->getOption("admin_email");
      * 
      * @since 0.1
-     * @see         KST_AdminPage_OptionsPage::getOption()
+     * @see         KST_AdminPage_OptionsGroup::getOption()
      * @param       required string option 
      * @param       optional string default ANY  optional, defaults to null
      * @uses        KST_Options::do_namespace_option_id
@@ -94,7 +94,7 @@ class KST {
      * @return      string
     */
     public function getOption($option, $default = null) {
-        return KST_AdminPage_OptionsPage::getOption($this->namespace, $option, $default);
+        return KST_AdminPage_OptionsGroup::getOption($this->namespace, $option, $default);
     }
     
     /**
@@ -110,7 +110,7 @@ class KST {
      *       Multiple tests for the same option are saved and won't affect load time as much
      * 
      * @since       0.1
-     * @see         KST_AdminPage_OptionsPage::getOption()
+     * @see         KST_AdminPage_OptionsGroup::getOption()
      * @global      $wpdb
      * @param       required string $option 
      * @return      boolean
@@ -122,7 +122,7 @@ class KST {
         
         // Check to see if the current key exists 
         if ( !array_key_exists( $namespaced_option, self::$extant_options ) ) { // Don't know yet, so make a query to test for actual row
-            $does_exist = KST_AdminPage_OptionsPage::getOption($this->namespace, $option, $default);
+            $does_exist = KST_AdminPage_OptionsGroup::getOption($this->namespace, $option, $default);
         } else { // The option name exists in our "extantoptions" array so just skip it
             $skip_it = true;
         }
@@ -143,7 +143,7 @@ class KST {
      * 
      * @since       0.1
      * @param       required string $item    unprefixed option name
-     * @uses        KST_AdminPage_OptionsPage::prefix
+     * @uses        KST_AdminPage_OptionsGroup::prefix
      * @return      string
     */
     protected function _formatNamespace() {
@@ -151,13 +151,13 @@ class KST {
     }
     
     /**
-     * Public accessor for static member variable self::$admin_pages
+     * Public accessor for static member variable self::$all_admin_pages
      * 
      * @since       0.1
      * @return      array
     */
     public static function getAdminPages() {
-        return self::$admin_pages;
+        return self::$all_admin_pages;
     }
     
     /**
@@ -168,7 +168,7 @@ class KST {
      * @return      object
     */
     public static function getAdminPage( $key ) {
-        return self::$admin_pages['$key'];
+        return self::$all_admin_pages['$key'];
     }
     
     
@@ -347,6 +347,7 @@ class KST {
      * @since       0.1
     */
     public static function initWidgetNavPost() {
+        require_once KST_DIR_LIB . '/KST/Widget.php';  
         KST_Widget::registerWidget('NavPost');
     }
     
@@ -356,6 +357,7 @@ class KST {
      * @since       0.1
     */
     public static function initWidgetNavPosts() {
+        require_once KST_DIR_LIB . '/KST/Widget.php';  
         KST_Widget::registerWidget('NavPosts');
     }
     
@@ -409,6 +411,7 @@ class KST {
      * @since       0.1
     */
     public static function initWidgetJitSidebar() {
+        require_once KST_DIR_LIB . '/KST/Widget.php';  
         KST_Widget::registerWidget('JitSidebar');
     }
     

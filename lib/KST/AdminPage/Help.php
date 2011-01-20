@@ -14,7 +14,7 @@
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @uses        KST_AdminPage
 */
-class KST_AdminPage_HelpPage extends KST_AdminPage {
+class KST_AdminPage_Help extends KST_AdminPage {
     
     /**
      * @since       0.1

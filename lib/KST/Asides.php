@@ -20,9 +20,6 @@
  * @todo        check to see if this class has been loaded already (plugin or class in theme)
  * @todo        create some kind of method of passing a template in to output fully custom markup
 */
-
-/* Code reminder to make sure the class doesn't already exist when we distribute */
-if ( !class_exists('KST_Asides') ) { /* */ }
  
 class KST_Asides {
     
