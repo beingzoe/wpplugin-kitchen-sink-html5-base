@@ -9,13 +9,13 @@ require_once KST_DIR_LIB . '/KST/Widget.php';
  * 
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
- * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkWidgetClasses
+ * @subpackage  Widgets
  * @version     0.1 
  */
 class KST_Widget_JitSidebar extends KST_Widget {
+    
     /**
      * Widget constructor
      * 
@@ -23,8 +23,9 @@ class KST_Widget_JitSidebar extends KST_Widget {
      * @uses WP_Widget()
      */
     function KST_Widget_JitSidebar() {
-        $widget_ops = array('classname' => 'widget_jit_sidebar', 'description' => __( "Any widget BELOW this widget will magically float down the page as you scroll when it reaches the top of the window.") );
-        parent::WP_Widget(false, $name = 'Theme: JIT Sidebar Start', $widget_ops);	
+        $widget_name        = 'KST: JIT Sidebar Start';
+        $widget_ops          = array('classname' => 'widget_jit_sidebar', 'description' => __( "Any widget BELOW this widget will magically float down the page as you scroll when it reaches the top of the window.") );
+        parent::WP_Widget(false, $widget_name, $widget_ops);	
     }
     
     /**
@@ -67,9 +68,7 @@ class KST_Widget_JitSidebar extends KST_Widget {
      */
     function form($instance) {				
         //no settings so just give them more help
-        ?>
-            <p>Any widget added below this one will magically start floating when they are scrolled to the top of the page.</p>
-        <?php 
+        echo '<p>Any widget added below this one will magically start floating when they are scrolled to the top of the page.</p>';
     }
     
     /**

@@ -23,4 +23,3 @@ class KST_Widget extends WP_Widget {
         add_action('widgets_init', create_function('', "return register_widget('KST_Widget_{$widget}');"));
     }
 }
-
