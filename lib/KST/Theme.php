@@ -31,9 +31,7 @@ class KST_Theme extends KST {
     /**
      * @since       0.1
     */
-    public function __construct($settings) {
-        //parent::__construct($settings);
-        
+    public function __construct($settings, $preset=null) {
         /**#@+
          * KST default settings
          *
@@ -55,7 +53,7 @@ class KST_Theme extends KST {
          * 
          * @since 0.1
         */
-        $this->_init( $settings ); // common theme/plugin member properties and such in KST
+        parent::__construct($settings, $preset);
         $this->set_theme_content_width( $settings['content_width'] );
         $this->set_theme_excerpt_length( $settings['theme_excerpt_length'] );
         $this->set_theme_seo_title_sep( $settings['theme_seo_title_sep'] );

@@ -54,12 +54,15 @@ class KST {
     /**
      * Init Theme/Plugin instance
     */
-    protected function _init( $settings ) {
+    protected function __construct( $settings, $preset=null ) {
         $this->_setFriendlyName( $settings['friendly_name'] );
         $this->_setPrefix( $settings['prefix'] );
         $this->_setDeveloper( $settings['developer'] );
         $this->_setDeveloper_url( $settings['developer_url'] );
         $this->namespace = $this->_formatNamespace( $this->getPrefix() );
+        if ($preset) {
+            self::initPreset($preset);
+        }
     }
     
     
@@ -280,39 +283,11 @@ class KST {
     */
      
     /**
-     * Init theme or plugin first
-     * Determine if we are loading a theme or plugin
-     * Instantiate an object for it to interface with
-     * 
-     * @since       0.1
-     * @access      public
-     * @return      object
-     
-    */
-    public static function newDoodad( $settings ) {
-        /* Make sure they set a 'prefix' in their setting array or give help */
-        if ( isset($settings['prefix']) ) { // Need an id to proceed
-            if ( KST::arePluginsLoaded() ) { // We are defining a theme
-                require_once KST_DIR_LIB . '/KST/Theme.php'; // Make sure we have the KST_Doodad class loaded (probably should be loaded with KST_Options
-                return new KST_Theme( $settings );
-        } else { // We are defining a plugin
-                require_once KST_DIR_LIB . '/KST/Plugin.php'; // Make sure we have the KST_Doodad class loaded (probably should be loaded with KST_Options
-                return new KST_Plugin( $settings );
-        }
-        } else { // Help them
-            exit('<h1>No "prefix" has been given in your settings array</h1><p>Make sure you have created a settings array with the required settings included</p>');
-        }
-       
-    }
-    
-     
-    /**
      * KST presets
      * 
      * @since       0.1
     */
-    public static function newWithPresetConfiguration( $settings, $preset = 'default') {
-        $new = self::newDoodad($settings);
+    public static function initPreset( $preset = 'default') {
         switch ($preset) {
             case 'minimum':
                 self::initSensibleDefaults();
@@ -338,7 +313,6 @@ class KST {
                 self::initContact();
             break;
         }
-        return $new;
     }
     
     /**

@@ -52,6 +52,8 @@ if (defined('KST_BUNDLED_THEME_DEV') && KST_BUNDLED_THEME_DEV) {
  * @since       0.1  
 */
 require_once KST_DIR_LIB . '/KST.php';
+require_once KST_DIR_LIB . '/KST/Plugin.php';
+require_once KST_DIR_LIB . '/KST/Theme.php';
 
 /**
  * Load remaining core class files

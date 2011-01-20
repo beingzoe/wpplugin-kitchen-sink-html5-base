@@ -22,7 +22,7 @@ class KST_Plugin extends KST {
     /**
      * @since       0.1
     */
-    public function __construct($settings) {
+    public function __construct($settings, $preset=null) {
         
         /**#@+
          * KST default settings
@@ -43,9 +43,8 @@ class KST_Plugin extends KST {
          * 
          * @since 0.1
         */
-        $this->_init($settings);
+        parent::__construct($settings, $preset);
         /**#@-*/
-        
     }
     
 }
