@@ -1,0 +1,30 @@
+@charset "UTF-8";
+/*
+ * Kitchen Sink IE 6-7 only stylesheet
+ * lte IE7 stylesheet
+ * Based on ZUI XHTML/CSS structure (http://beingzoe.com/zui/
+ * by zoe somebody (http://beingzoe.com/)
+ */
+
+@media screen, handheld, projection, print  { 
+
+input { 
+    /*vertical-align: middle !important;*/
+    overflow: visible;
+}
+.input_image_button {
+    font-size: 0;
+    text-indent: 0 !important;
+    padding-top: 100px;
+    overflow: hidden;
+}
+
+.clearfix, #hd, #hd_menu, #pg, #bd, #sb, #ft {
+    zoom: 1;     /* triggers hasLayout */
+}  
+
+#wp div.category-asides {
+    margin-bottom: 54px !important; /* match margin for all post */
+}
+
+}
