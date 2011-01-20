@@ -165,9 +165,7 @@ class KST_Asides {
             <article id="post-aside-<?php $this->asides[0]->post_date; ?>" class="aside hentry">
             <?php
             foreach ( $this->asides as $post ) {
-            ?>
-                <?php echo '<div id="post-' . $post->ID . '" class="wp_entry"><header class="wp_entry_aside_meta"><a href="' . get_permalink($post->ID) . '"><span class="meta-nav">' . get_the_time('', $post) . ' &raquo;</span></a></header>' . wptexturize($post->post_content) . '</div>' ?>
-            <?php 
+                echo '<div id="post-' . $post->ID . '" class="wp_entry"><header class="wp_entry_aside_meta"><a href="' . get_permalink($post->ID) . '"><span class="meta-nav">' . get_the_time('', $post) . ' &raquo;</span></a></header>' . wptexturize($post->post_content) . '</div>';
             }
             ?>
             </article>
