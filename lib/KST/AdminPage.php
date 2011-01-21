@@ -40,7 +40,7 @@ class KST_AdminPage {
      * Register the options with WP
      *
      * @since       0.1
-     * @uses        KST_AdminPage_OptionsGroup::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsGroup::_prefixWithNamespace()
      * @uses        KST_AdminPage_OptionsGroup::options_array
      * @uses        current_user_can() WP function
      * @uses        wp_die() WP function
@@ -54,7 +54,7 @@ class KST_AdminPage {
         if ( isset( $_REQUEST['action'] ) ) { // If we have an action to take
             $kst_option_save_action = $_REQUEST['action']; // only initialized here to prevent warnings
 
-            if ( 'top' == $this->parent_menu || 'custom' == $this->parent_menu ) { // WP uses admin.php for custom top level and children so ignore parent_slug and hope they change that
+            if ( 'top' == $this->parent_menu || 'top-item' == $this->parent_menu ) { // WP uses admin.php for custom top level and children (top-item) so ignore parent_slug and hope they change that
                 $base_page = 'admin.php' . "?page=";
             } else if ( 'pages' == $this->parent_menu ) { // Fix stupid pages exception with the damn query string in the slug, grrr
                 $base_page = $this->parent_slug . "&page=";
@@ -66,7 +66,7 @@ class KST_AdminPage {
                 if ( 'save' == $kst_option_save_action ) {
                     foreach ($this->options_array as $value) {
                         if ( $value['type'] != 'section' ) {
-                            $option_name = $this->_formatInNamespace( $value['id'] ); // Name of option to insert
+                            $option_name = $this->_prefixWithNamespace( $value['id'] ); // Name of option to insert
                             $option_value = $_REQUEST[ $option_name ]; // Value of option being inserted
                             $result = update_option( $option_name , $option_value ); // oh-oh-oh it's magic
                         }
@@ -75,7 +75,7 @@ class KST_AdminPage {
                     exit;
                 } else if( 'reset' == $kst_option_save_action ) {
                     foreach ($this->options_array as $value) {
-                        delete_option( $this->_formatInNamespace( $value['id'] ) ); // bye-bye
+                        delete_option( $this->_prefixWithNamespace( $value['id'] ) ); // bye-bye
                     }
                     header("Location: " . $base_page . $this->menu_slug . "&reset=true");
                     exit;
@@ -84,6 +84,20 @@ class KST_AdminPage {
         } // END if action
 
         echo $this->_generate_page();
+    }
+
+    /**
+     * Everything involving options is namespaced "namespace_"
+     * e.g. options, option_group, menu_slugs
+     * Still try to be unique to avoid collisions with other KST developers
+     *
+     * @since       0.1
+     * @param       required string $item    unnamespaced option name
+     * @uses        KST_AdminPage_OptionsGroup::namespace
+     * @return      string
+    */
+    protected function _prefixWithNamespace( $item ) {
+        return $this->namespace . $item;
     }
 
     /**
@@ -123,7 +137,7 @@ class KST_AdminPage {
                 return 'options-general.php';
             case 'top':
                 return $this->menu_slug;
-            case 'custom':
+            case 'top-item':
                 return $this->get_parent_menu_menu_slug();
             default:
                 exit("<h2>Where should we put this fancy menu you are making?</h2><p>We can't find the parent_menu you specified (" . $this->parent_menu . ").</p><p>Do one of the following:</p><ul><li>Pass a known WP menu name (e.g. 'appearance', 'settings')</li><li>Pass 'top' (i.e. a new top level menu)</li><li>Or pass the entire object of a custom parent menu you already created</li></ul><p>If you aren't in the middle of setting up your custom admin menus using the 'Kitchen Sink KST_Options class' then something is terribly wrong with the world.</p>");
@@ -156,6 +170,7 @@ class KST_AdminPage {
     /**
      *
      * @since       0.1
+     * @return      string
     */
     public function get_menu_slug() {
         return $this->menu_slug;

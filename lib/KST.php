@@ -57,11 +57,20 @@ class KST {
         $page_title = ( $page_title ) ? $page_title
                                       : $this->getFriendlyName() . " " . $menu_title;
 
+
+
         // Save this options page object in KST static member variable to create the actual pages with later
-        // We won't actually add the menus or markup hmtl until we have them all and do sorting if necessary and prevent overwriting existing menus
+        // We won't actually add the menus or markup html until we have them all and do sorting if necessary and prevent overwriting existing menus
         $new_page = new KST_AdminPage_OptionsGroup( $options_array, $menu_title, $parent_menu, $page_title, $this->namespace );
+
+
+        $new_page_menu_slug = $new_page->get_menu_slug();
+        /*
+        $does_key_exist = array_search($new_page_menu_slug,  self::$all_admin_pages);
+        */
+
         // Naming the keys using the menu_slug so we can manipulate our menus later
-        self::$all_admin_pages[$new_page->get_menu_slug()] = $new_page;
+        self::$all_admin_pages[$new_page_menu_slug] = $new_page;
 
         add_action('admin_menu', 'KST_AdminPage::create_admin_pages'); // hook to create menus/pages in admin AFTER we have ALL the options
 
@@ -116,7 +125,7 @@ class KST {
             $skip_it = true;
         }
 
-        /* Return the answer */
+        // Return the answer
         if ( $skip_it || is_object( $row ) ) { // The option exists regardless of trueness of value
             self::$extant_options[$namespaced_option]['exists'] = true; // Save in array if exists to minimize repeat queries
             return true;

@@ -23,28 +23,7 @@ class KST_Kitchen_Plugin extends KST_Kitchen {
      * @since       0.1
     */
     public function __construct($settings, $preset=null) {
-
-        /**#@+
-         * KST default settings
-         *
-         * @since       0.1
-        */
-        $default_settings = array(
-            'friendly_name'       => 'Kitchen Sink',
-            'prefix'              => 'kst_0_2',
-            'developer'           => 'zoe somebody',
-            'developer_url'       => 'http://beingzoe.com/',
-        );
-        $settings = array_merge( $default_settings, $settings );
-        /**#@-*/
-
-        /**#@+
-         * KST plugin settings
-         *
-         * @since 0.1
-        */
         parent::__construct($settings, $preset);
-        /**#@-*/
     }
 
 }

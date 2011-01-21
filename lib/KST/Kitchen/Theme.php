@@ -32,16 +32,13 @@ class KST_Kitchen_Theme extends KST_Kitchen {
      * @since       0.1
     */
     public function __construct($settings, $preset=null) {
+
         /**#@+
-         * KST default settings
+         * KST theme specific default settings
          *
          * @since       0.1
          */
         $default_settings = array(
-            'friendly_name'             => 'Kitchen Sink',
-            'prefix'                    => 'kst_0_2',
-            'developer'                 => 'zoe somebody',
-            'developer_url'             => 'http://beingzoe.com/',
             'content_width'             => 500,
             'theme_excerpt_length'      => 100,
             'theme_seo_title_sep'       => '&laquo;',           // Defined in Settings core
@@ -49,11 +46,11 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         $settings = array_merge( $default_settings, $settings );
 
         /**#@+
-         * KST theme/plugin settings
+         * KST common "kitchen" theme/plugin settings
          *
          * @since 0.1
         */
-        parent::__construct($settings, $preset);
+        parent::__construct($settings, $preset); // pass the settings on to get the common theme/plugin stuff
         $this->set_theme_content_width( $settings['content_width'] );
         $this->set_theme_excerpt_length( $settings['theme_excerpt_length'] );
         $this->set_theme_seo_title_sep( $settings['theme_seo_title_sep'] );

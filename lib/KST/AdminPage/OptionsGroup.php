@@ -43,32 +43,18 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
 
         $this->namespace = $namespace;
         $this->options_array =& $options_array; // The options array by reference
-        $this->settings_options_group = $this->_formatInNamespace('options_group');
+        $this->settings_options_group = $this->_prefixWithNamespace('options_group');
         $this->menu_title = $menu_title;
         $this->menu_slug = $this->_createMenuSlug();
         $this->parent_menu = $parent_menu;
         $this->parent_slug = $this->_getParentSlug();
         $this->page_title = $page_title;
 
+        // Figure out if we have a new top level menu item (top-item)
+
         // We only need the menus/pages if we are in the admin
         // hook to register settings for options
         add_action('admin_menu', array(&$this, 'registerSettings' ));
-
-    }
-
-
-    /**
-     * Everything involving options is namespaced "namespace_"
-     * e.g. options, option_group, menu_slugs
-     * Still try to be unique to avoid collisions with other KST developers
-     *
-     * @since       0.1
-     * @param       required string $item    unnamespaced option name
-     * @uses        KST_AdminPage_OptionsGroup::namespace
-     * @return      string
-    */
-    protected function _formatInNamespace( $item ) {
-        return $this->namespace . $item;
     }
 
     /**
@@ -107,7 +93,7 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      * @since       0.1
      * @global      $wpdb
      * @param       required string $option
-     * @uses        KST_Options::_formatInNamespace()
+     * @uses        KST_Options::_prefixWithNamespace()
      * @uses        KST_Options::$extant_options
      * @return      boolean
     */
@@ -136,18 +122,18 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      *
      * @since       0.1
      * @uses        KST_AdminPage_OptionsGroup::menu_title
-     * @uses        KST_AdminPage_OptionsGroup::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsGroup::_prefixWithNamespace()
      * @return      string
     */
     protected function _createMenuSlug() {
-        return $this->_formatInNamespace( str_replace( " ", "_", $this->menu_title ) );
+        return $this->_prefixWithNamespace( str_replace( " ", "_", $this->menu_title ) );
     }
 
     /**
      * Register the options with WP
      *
      * @since 0.1
-     * @uses KST_AdminPage_OptionsGroup::_formatInNamespace()
+     * @uses KST_AdminPage_OptionsGroup::_prefixWithNamespace()
      * @uses KST_AdminPage_OptionsGroup::options_array
      * @uses register_setting() WP function
      *
@@ -184,7 +170,7 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
          */
         foreach ($this->options_array as $value) {
             if ( isset($value['id']) )
-                register_setting( $this->settings_options_group, $this->_formatInNamespace( $value['id'] ) );
+                register_setting( $this->settings_options_group, $this->_prefixWithNamespace( $value['id'] ) );
         }
     }
 
@@ -193,7 +179,7 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      * Register the options with WP
      *
      * @since       0.1
-     * @uses        KST_AdminPage_OptionsGroup::_formatInNamespace()
+     * @uses        KST_AdminPage_OptionsGroup::_prefixWithNamespace()
      * @uses        KST_AdminPage_OptionsGroup::options_array
      * @uses        current_user_can() WP function
      * @uses        wp_die() WP function
@@ -238,7 +224,7 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
             // Get this pages content
             foreach ($this->options_array as $block) {
 
-                $this_option        = $this->_formatInNamespace( $block['id'] ); // namespaced option name as stored in database
+                $this_option        = $this->_prefixWithNamespace( $block['id'] ); // namespaced option name as stored in database
                 $this_value         = $this->getOption( $this->namespace, $block['id'] ); // Value of namespaced option name in database
                 $this_exists        = $this->doesOptionExist( $this->namespace, $block['id'] ); // Boolean existence of the current option
                 $this_attr_name_id  = " name='{$this_option}' id='{$this_option}'"; // Used on every element
