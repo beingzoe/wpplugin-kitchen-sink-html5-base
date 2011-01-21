@@ -13,8 +13,8 @@
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     KitchenSinkHTML5Base
- * @subpackage  KitchenSinkThemeLibraries
+ * @package     ZUI
+ * @subpackage  Abstraction
  * @uses        kst_clean_user_input($str) to protect from XSS attack (in functions.php_
  * @todo        everything!!!!!
  * @todo        Find an email class (or just use sendmail) and finish this so WordPress Theme Review will like it
