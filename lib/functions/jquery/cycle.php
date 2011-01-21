@@ -102,7 +102,7 @@ add_filter('the_content', 'kst_shortcode_cyclabes_output', 11);
  * Add custom css class for cyclables container wrapper
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -136,7 +136,7 @@ function kst_shortcode_cycle_class($atts, $content = null) {
  * Add header for cyclable
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -170,7 +170,7 @@ function kst_shortcode_cycle_header($atts, $content = null) {
  * Add footer for cyclable
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -204,7 +204,7 @@ function kst_shortcode_cycle_footer($atts, $content = null) {
  * Add pager nav elements for cyclable
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -235,7 +235,7 @@ function kst_shortcode_cycle_pager($atts, $content = null) {
  * Add content to current set of cyclable slides
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -270,7 +270,7 @@ function kst_shortcode_cycle_slide($atts, $content = null) {
  * Output the scrollable with content
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required string $content
  * @uses        add_action() WP function
  * @uses        is_home() WP function

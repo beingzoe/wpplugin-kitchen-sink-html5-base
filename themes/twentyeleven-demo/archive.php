@@ -2,16 +2,16 @@
 /**
  * Posts archive generic template
  *
+ * @package     KitchenSinkHTML5Themes
+ * @subpackage  TwentyEleven
+ * @version     0.4
+ * @since       1.0
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     KitchenSinkHTML5Base
- * @subpackage  Theme
- * @version     0.4
- * @since       1.0
  *
  * Based on Twenty Ten archive.php
- */
+*/
 
 get_header();
 

@@ -34,7 +34,7 @@ class KST_Widget_NavPosts extends KST_Widget {
      *
      * @since       0.1
      * @see         WP_Widget::widget
-     * @global      $wp_query
+     * @global      object $wp_query WP main query
      * @uses        widget()
      * @uses        is_home()
      * @uses        is_archive()

@@ -16,6 +16,17 @@
  * This is handled by the KST plugin because us KST people
  * just need this stuff to happen and don't want to look at it in our themes ;)
  *
+ * @author		zoe somebody
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
+ * @package     KitchenSinkHTML5Themes
+ * @subpackage  TwentyEleven
+ * @version     0.2
+ * @since       0.1
+ * @uses        kst_theme_help_meta_data() to include install specific help content in context
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @todo        convert to class
+ * @todo        find a better way to do this
  */
 wp_enqueue_script( 'comment-reply' );
 add_theme_support( 'automatic-feed-links' );

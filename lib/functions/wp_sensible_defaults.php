@@ -282,8 +282,8 @@ if ( !function_exists('kst_remove_gallery_css') ) {
  *
  * @since       0.4
  * @global      $multipage
- * @global      $page
- * @global      $post
+ * @global      object $page WP current page of post in loop being displayed
+ * @global      object $post WP current post data being output
  * @param       required string $title
  * @param       required string $id
  * @return      string
@@ -308,7 +308,7 @@ if ( !function_exists('kst_the_title') ) {
  *
  * li is not closed by WordPress design; closed automatically on output
  *
- * @global      $comment
+ * @global      object $comment WP current comments for the current $post
  * @uses        comment_class()
  * @uses        comment_ID()
  * @uses        get_avatar()

@@ -93,7 +93,7 @@ add_filter('the_content', 'kst_shortcode_scrollables_output', 11);
  * Add custom class for scrollables container wrapper
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -127,7 +127,7 @@ function kst_shortcode_scrollable_class($atts, $content = null) {
  * Add header for scrollable
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -161,7 +161,7 @@ function kst_shortcode_scrollable_header($atts, $content = null) {
  * Add footer for scrollable
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -195,7 +195,7 @@ function kst_shortcode_scrollable_footer($atts, $content = null) {
  * Add nav elements for scrollable
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -226,7 +226,7 @@ function kst_shortcode_scrollable_nav($atts, $content = null) {
  * Add content to current set of scrollable slides
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required array $atts
  * @param       required string $content
  * @uses        add_action() WP function
@@ -268,7 +268,7 @@ function kst_shortcode_scrollable_slide($atts, $content = null) {
  *
  *
  * @since       0.1
- * @global      $post
+ * @global      object $post WP current post data being output
  * @param       required string $content
  * @return      string
  *

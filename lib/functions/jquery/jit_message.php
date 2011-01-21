@@ -59,9 +59,9 @@ $kst_mb_jit_message = new WPAlchemy_MetaBox( array (
  * Wait until "wp" function to be sure we have the global $post variable to use
  *
  * @since       0.1
- * @global      $post
- * @global      $jit_message
- * @global      $kst_mb_jit_message
+ * @global      object $post WP current post data being output
+ * @global      string|int $jit_message id of post to link or any html
+ * @global      object $kst_mb_jit_message metabox for choosing/creating jit message
  * @uses        WPAlchemy_MetaBox::get_the_value()
  * @uses        WPAlchemy_MetaBox
  * @uses        kst_jit_output()
@@ -102,7 +102,7 @@ function kst_jit_init() {
  *      string = explicit message?
  *
  * @since       0.1
- * @global      $jit_message
+ * @global      string|int $jit_message id of post to link or any html
  * @uses        get_posts() WP function
  * @uses        get_permalink() WP function
  * @uses        has_post_thumbnail() WP function

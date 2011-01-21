@@ -88,7 +88,7 @@ if ( !function_exists('kst_admin_edit_tinymce') ) {
  * Add and remove WP admin dashboard widgets using $wp_meta_boxes WP global array
  *
  * @since       0.1
- * @global      $wp_meta_boxes
+ * @global      array $wp_meta_boxes
  * @uses        wp_add_dashboard_widget() WP function
  * @uses        kst_cb_admin_dashboard_theme_support() callback to echo content for dashboard widget
  * @link        http://webdesignfan.com/customizing-the-wordpress-admin-area/ by Pippin Williamson
