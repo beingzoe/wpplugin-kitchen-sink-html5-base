@@ -180,38 +180,50 @@ $theme_options2 = array (
 );
 
 
-
-
-
-if ( class_exists('KST') ) { // Is this the best way we can protect the theme from a missing plugin?
-    // Your KST Dependent theme initialization code goes here
+if ( class_exists('KST') ) {
 
     /* REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE
-     * Two options below, both return an object for you to use
-    */
-
-    /*
-     * Option #1
-     * Load preset configuration
-     * Then init the features you want to use individually
+     * Option #1: Create your $theme object and pass a preset configuration
      *
      * default, minimum, and_the_kitchen_sink
     */
     //$my_theme = new KST_Kitchen_Theme($twenty_eleven_settings, 'and_the_kitchen_sink');
 
-    /*
-     * Option #2
-     * Just register your theme with KST
+    /* REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE
+     * Option #2: Just create your $theme object
+     *
      * Then init the features you want to use individually
     */
     $my_theme = new KST_Kitchen_Theme($twenty_eleven_settings);
 
+    /* HTML5 Boilerplate, WP normalization, and smart stuff */
+    $my_theme->initSensibleDefaults();
+    $my_theme->initHelp(); // KST THEME HELP
+    //KST::initSEO(); // KST SEO and META DATA
+    $my_theme->initContact(); // KST easy flexible email and contact forms
 
-    /* Load and use KST_Options
+    /* Load and use KST_Asides class to manage asides side blog */
+    require_once KST_DIR_LIB . '/KST/Asides.php'; // Class to save aside post for clean delayed output
+    $loop_asides = new KST_Asides( $my_theme->getOption('layout_category_aside') );
+
+    $my_theme->initWidgetNavPost(); // WP WIDGET: KST post to post next/previous post buttons for sidebar (only on single blog posts)
+    $my_theme->initWidgetNavPosts(); // WP WIDGET: KST Page to page older/newer browse posts buttons for sidebar (only on single blog posts)
+
+    /* OPTIONAL: WP Media Normalization */
+    $my_theme->initWPMediaNormalize(); // WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc...
+    //$KST::initJqueryLightbox(); // WP Media Normalization: Just gallery and caption normalization with automatic lightboxing
+    //$KST::initMp3Player(); // WP Media Normalization: mp3plaery shortcode and automatic player when an mp3 is directly linked
+
+    /* OPTIONAL: Plugin-ish features */
+    $my_theme->initJqueryJitMessage(); //KST/jQuery: KST JIT (Just-in-Time) message (sliding out a panel on a trigger)
+    $my_theme->initWidgetJitSidebar(); // WP WIDGET: KST JIT (Just-in-Time) Sidebar (Magic relative/fixed sidebars)
+    $my_theme->initJqueryToolsScrollable(); // KST/jQuery: tools: scrollable content (content slideshow with shortcodes)
+    $my_theme->initJqueryCycle(); // KST/jQuery: malsup cycle content (content slideshow with shortcodes)
+
+
+    /* Create Admin Options menus/pages
      * Uses your $theme_options array(s) to create admin menus/pages
     */
-
-
     $my_theme->newOptionsGroup($theme_options, 'Theme Options', 'appearance');
     $my_theme->newOptionsGroup($theme_options2, 'Theme Options 2', 'appearance');
     $my_theme->newOptionsGroup($theme_options2, 'Theme Options 3', 'appearance');
@@ -224,40 +236,7 @@ if ( class_exists('KST') ) { // Is this the best way we can protect the theme fr
                                 "is_shut"   => FALSE
                             );
 
-    /* HTML5 Boilerplate, WP normalization, and smart stuff */
-    $my_theme->initSensibleDefaults();
-    $my_theme->initHelp(); // KST THEME HELP
-    //KST::initSEO(); // KST SEO and META DATA
-    $my_theme->initContact(); // KST easy flexible email and contact forms
-
-
-
-    /* Add your menus/pages */
-    //$twenty_eleven_options = new KST_Options('theme_options', 'top', 'Theme Options');
-    //$more_options = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options', 'My CUSTOM page TITLE');
-    //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options, 'More Options2', 'Important Settings');
-    //$twenty_eleven_options2 = new KST_Options('theme_options', 'top', 'Other Options');
-    //$more_options = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other', 'My CUSTOM page TITLE');
-    //$more_options2 = new KST_Options('theme_options2', $twenty_eleven_options2, 'More Other2', 'Important Settings');
-
-
-    /* Load and use KST_Asides class to manage asides side blog */
-    require_once KST_DIR_LIB . '/KST/Asides.php'; // Class to save aside post for clean delayed output
-    $loop_asides = new KST_Asides( $my_theme->getOption('layout_category_aside') );
-
-    $my_theme->initWidgetNavPost(); // WP WIDGET: KST post to post next/previous post buttons for sidebar (only on single blog posts)
-    $my_theme->initWidgetNavPosts(); // WP WIDGET: KST Page to page older/newer browse posts buttons for sidebar (only on single blog posts)
-
-    /* WP Media Normalization */
-    $my_theme->initWPMediaNormalize(); // WP Media Normalization: preset for all media normalization: Auto lightboxing, mp3player, etc...
-    //$KST::initJqueryLightbox(); // WP Media Normalization: Just gallery and caption normalization with automatic lightboxing
-    //$KST::initMp3Player(); // WP Media Normalization: mp3plaery shortcode and automatic player when an mp3 is directly linked
-
-    /* OPTIONAL: Plugin-ish features */
-    $my_theme->initJqueryJitMessage(); //KST/jQuery: KST JIT (Just-in-Time) message (sliding out a panel on a trigger)
-    $my_theme->initWidgetJitSidebar(); // WP WIDGET: KST JIT (Just-in-Time) Sidebar (Magic relative/fixed sidebars)
-    $my_theme->initJqueryToolsScrollable(); // KST/jQuery: tools: scrollable content (content slideshow with shortcodes)
-    $my_theme->initJqueryCycle(); // KST/jQuery: malsup cycle content (content slideshow with shortcodes)
+    // Any other KST dependent code should be here to protect it in case the plugin is removed
 
 } else {
     // Needs to check if it is in the admin section OR in the login page (login is not in the admin)
