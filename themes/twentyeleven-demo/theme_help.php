@@ -27,7 +27,7 @@
 <p>
     This help page explains any unique functionality in your theme.<br />
     WordPress is a powerful tool with many options not used in every theme. <br />
-    Below are some topics on how to get the most out of your <em><?php echo THEME_NAME; ?> custom theme</em>.
+    Below are some topics on how to get the most out of your <em><?php  ?> custom theme</em>.
 </p>
 <p>
     <em>
@@ -37,7 +37,7 @@
     </em>
 </p>
 <p>
-    <em>If you need help editing the theme itself or questions on using it contact <a href='<?php echo THEME_DEVELOPER_URL; ?>'><?php echo THEME_DEVELOPER; ?></a></em>
+    <em>If you need help editing the theme itself or questions on using it contact <a href='<?php echo "#" ?>'><?php echo "NEED THEME DEVELOPER INSTANCE" ?></a></em>
 </p>
 
 <p><strong>Major Topics</strong></p>

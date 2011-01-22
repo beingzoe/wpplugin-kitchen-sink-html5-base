@@ -22,7 +22,7 @@
 <div class="kst_meta_box">
     <p>
         SEO meta data control for this post/page.<br />
-        If no data is entered here defaults will be used/created using the post/page content and the settings in "<a href='<?php echo THEME_OPTIONS_URL; ?>'>Appearance &gt; Theme Options</a>".<br />
+        If no data is entered here defaults will be used/created using the post/page content and the settings in "<a href='<?php echo "#" ?>'>NOT YET: Appearance &gt; Theme Options</a>".<br />
         For more information about how the SEO meta data is used see "<a href='<?php echo THEME_HELP_URL; ?>#seo'>Appearance &gt; Theme Help</a>".
     </p>
     <table class="form-table">

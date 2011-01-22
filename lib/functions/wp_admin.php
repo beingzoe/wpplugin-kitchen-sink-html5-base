@@ -40,7 +40,7 @@ if ( is_admin() ) { // remove admin specific junk
 if ( !function_exists('kst_admin_favorite_actions') ) {
     function kst_admin_favorite_actions( $actions ) {
         //unset($actions['edit-comments.php']); // Example removing comments quick link
-        $actions[THEME_HELP_URL] = array('Theme Help', 'edit_posts'); // Add
+        $actions["admin.php?page=theme_help"] = array('Theme Help', 'edit_posts'); // Add
         return $actions;
     }
 }
@@ -99,7 +99,7 @@ if ( !function_exists('kst_admin_dashboard_customize') ) {
         global $wp_meta_boxes;
 
         /* Add Widgets */
-        wp_add_dashboard_widget( THEME_ID . "_help", THEME_NAME . " Theme Help", 'kst_cb_admin_dashboard_theme_support');
+        wp_add_dashboard_widget( "theme_help", "Theme Help", 'kst_cb_admin_dashboard_theme_support');
 
         /* Remove Widgets */
         //unset($wp_meta_boxes['dashboard']['normal']['core']['dashboard_incoming_links']); //google blogsearch incomng
@@ -110,8 +110,8 @@ if ( !function_exists('kst_admin_dashboard_customize') ) {
         $original_dashboard_array = $wp_meta_boxes['dashboard']['normal']['core'];
         /* Theme Support */
         //move in array
-        $dashboard_temp = array(THEME_ID . "_help" => $original_dashboard_array[THEME_ID . "_help"]); //backup our widget from the dashboard array
-        unset($original_dashboard_array[THEME_ID . "_help"]); //delete the widget we just added to the dashboard array
+        $dashboard_temp = array("theme_help" => $original_dashboard_array["theme_help"]); //backup our widget from the dashboard array
+        unset($original_dashboard_array["theme_help"]); //delete the widget we just added to the dashboard array
         $sorted_dashboard = array_merge($dashboard_temp, $original_dashboard_array); ///merge our widget back in at the top
         //replace dashboard array with sorted array
         $wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
@@ -129,8 +129,8 @@ if ( !function_exists('kst_admin_dashboard_customize') ) {
  */
 if ( !function_exists('kst_admin_dashboard_theme_support') ) {
     function kst_cb_admin_dashboard_theme_support() {
-        echo "<p>Be sure to configure your theme SEO and options in <a href='" . THEME_OPTIONS_URL . "'>Appearance &gt; Theme Options</a><br />Learn more about using WordPress and your custom " . THEME_NAME . " theme in <a href='" . THEME_HELP_URL . "'>Appearance &gt; Theme Help</a></p>";
-        echo "<p>Need more help?<br />Contact the developer, <a href='" . THEME_DEVELOPER_URL . "'>" . THEME_DEVELOPER . "</a>.";
+        echo "<p>Be sure to configure your theme SEO and options in <a href='" . "#" . "'>NOT YET: Appearance &gt; Theme Options</a><br />Learn more about using WordPress and your custom theme in <a href='" . "theme_help" . "'>Appearance &gt; Theme Help</a></p>";
+        echo "<p>Need more help?<br />Contact the developer, <a href='" . "#" . "'>" . "NEED THEME DEVELOPER NAME INSTANCE" . "</a>.";
     }
 }
 

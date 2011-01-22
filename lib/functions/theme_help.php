@@ -29,22 +29,19 @@ if ( is_admin() )
  * Add menu page for theme help
  *
  * @since       0.1
- * @uses        THEME_ID
  * @uses        THEME_NAME
  * @uses        add_submenu_page() WP function
  * @uses        kst_theme_help_page()
  */
 function kst_theme_help_menu() {
     /* add new menu under Appearance */
-    add_submenu_page("themes.php", THEME_NAME . " Theme Help and Notes", "Theme Help", "publish_posts", THEME_ID . "_help", "kst_theme_help_page");
+    add_submenu_page("admin.php", " Theme Help and Notes", "Theme Help", "publish_posts", "theme_help", "kst_theme_help_page");
 }
 
 /**
  * Build the page to display at our new menu item
  *
  * @since       0.1
- * @uses        THEME_ID
- * @uses        THEME_NAME
  * @uses        TEMPLATEPATH
  * @uses        current_user_can() WP function
  * @uses        wp_die() WP function
@@ -60,7 +57,7 @@ function kst_theme_help_page() {
     /* OUTPUT the actual help page */
     echo "<div class='wrap'>"; //Standard WP Admin content class
     if ( function_exists('screen_icon') ) screen_icon();
-    echo "<h2>". THEME_NAME . " theme help</h2>";
+    echo "<h2>Theme help</h2>";
 
     $help_file = TEMPLATEPATH . '/theme_help.php';
 
