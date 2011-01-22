@@ -341,7 +341,7 @@ class ZUI_FormHelper {
     */
     public static function block_might_close_dl( $block_previous_type ) {
         if ( $block_previous_type && ( $block_previous_type != 'section' &&  $block_previous_type != 'subsection' ) )
-            return $output .= '</dl>'; // Close .form-table
+            return '</dl>'; // Close .form-table
         else
             return false;
     }
