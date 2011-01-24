@@ -19,6 +19,7 @@ class ZUI_FormHelper {
      * @var array
     */
     private static $blocks_of_type_section;    // Array of form output blocks "of type section" (not a form element); Used for conditionally formatting output;
+    private static $blocks_of_type_form;    // Array of form output blocks "of type section" (not a form element); Used for conditionally formatting output;
     private static $blocks_of_type_all;        // Array of ALL form output block types possible; Anything is custom and we just dump the block['desc']
     /**#@-*/
 
@@ -32,8 +33,11 @@ class ZUI_FormHelper {
     public static function get_blocks_of_type_section() {
         return self::$blocks_of_type_section = array('section', 'subsection');
     }
+    public static function get_blocks_of_type_form() {
+        return self::$blocks_of_type_all = array('text', 'radio', 'checkbox',  'textarea', 'select', 'select_wp_categories', 'select_wp_pages' );
+    }
     public static function get_blocks_of_type_all() {
-        return self::$blocks_of_type_all = array('section', 'subsection', 'text', 'radio',  'textarea', 'select', 'select_wp_categories', 'select_wp_pages' );//, 'input_checkbox'
+        return self::$blocks_of_type_all =  array_merge(self::get_blocks_of_type_section(), self::get_blocks_of_type_form() );//array('section', 'subsection', 'text', 'radio', 'checkbox', 'textarea', 'select', 'select_wp_categories', 'select_wp_pages' );
     }
     /**#@-*/
 
