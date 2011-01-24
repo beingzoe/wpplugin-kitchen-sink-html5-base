@@ -1,10 +1,5 @@
 <?php
 /**
- * Parent class
-*/
-require_once KST_DIR_LIB . '/KST/Kitchen.php';
-
-/**
  * Class for managing plugin through KST
  *
  * @package     KitchenSinkHTML5Base
@@ -17,6 +12,12 @@ require_once KST_DIR_LIB . '/KST/Kitchen.php';
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
 */
+
+/**
+ * Parent class
+*/
+require_once KST_DIR_LIB . '/KST/Kitchen.php';
+
 class KST_Kitchen_Theme extends KST_Kitchen {
 
     /**#@+
@@ -50,33 +51,25 @@ class KST_Kitchen_Theme extends KST_Kitchen {
          *
          * @since 0.1
         */
-        parent::__construct($settings, $preset); // pass the settings on to get the common theme/plugin stuff
+        $this->type_of_kitchen = 'theme';
         $this->set_theme_content_width( $settings['content_width'] );
         $this->set_theme_excerpt_length( $settings['theme_excerpt_length'] );
         $this->set_theme_seo_title_sep( $settings['theme_seo_title_sep'] );
+
+        parent::__construct($settings, $preset); // Now set the common stuff (has to be last because of preset)
 
         /**
          * kst_theme_init
          * Define contstants used throughout KST
          *
          * @param $options array
-         * @see THEME_NAME_CURRENT
-         * @see THEME_ID
-         * @see THEME_DEVELOPER
-         * @see THEME_DEVELOPER_URL
          * @see THEME_HELP_URL path to theme help file
-         * @see THEME_OPTIONS_URL
          * @see CONTENT_WIDTH
          * @see THEME_EXCERPT_LENGTH
          * @global $content_width WP width used to protect layout by limiting content width; WP best practice
          * @global $theme_excerpt_length Override default WP excerpt length; Used by kst_excerpt_length() filter
         */
         /* These need removed - SEARCH AND REPLACE AFTER Options and Help have been updated*/
-        define( 'THEME_NAME',           $settings['friendly_name'] );
-        define( 'THEME_ID',             $settings['prefix'] );
-        define( 'THEME_DEVELOPER',      $settings['developer'] );
-        define( 'THEME_DEVELOPER_URL',  $settings['developer_url'] );
-        define( 'THEME_HELP_URL',       "themes.php?page=" . THEME_ID . "_help" );  // path to theme help file
         define( 'KST_SEO_TITLE_SEPARATOR_DEFAULT',           $settings['theme_seo_title_sep'] ); // Really only for SEO "theme_meta_data" I think so not sure it needs to be here
         define( 'CONTENT_WIDTH',        $settings['content_width'] );               // We use this to minimize global scope variables and for sensible defaults
         /**#@-*/

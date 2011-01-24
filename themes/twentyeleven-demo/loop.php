@@ -56,7 +56,7 @@ while ( have_posts() ) {
 
     /* ASIDES */
     /* Gallery Category Asides */
-    if ( is_category( $asides_gallery ) && in_category( _x($asides_gallery, 'gallery category slug', 'twentyten') ) ) {
+    if ( 0 == 1 && is_category( $asides_gallery ) && in_category( _x($asides_gallery, 'gallery category slug', 'twentyten') ) ) {
 ?>
         <article id="<?php echo get_post_type() . '-' . $post->ID; ?>" <?php post_class(); ?>>
 

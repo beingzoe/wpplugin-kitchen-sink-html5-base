@@ -1,10 +1,5 @@
 <?php
 /**
- * Parent class
-*/
-require_once KST_DIR_LIB . '/KST/Kitchen.php';
-
-/**
  * Class for managing plugin through KST
  *
  * @package     KitchenSinkHTML5Base
@@ -17,13 +12,20 @@ require_once KST_DIR_LIB . '/KST/Kitchen.php';
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
 */
+
+/**
+ * Parent class
+*/
+require_once KST_DIR_LIB . '/KST/Kitchen.php';
+
 class KST_Kitchen_Plugin extends KST_Kitchen {
 
     /**
      * @since       0.1
     */
     public function __construct($settings, $preset=null) {
-        parent::__construct($settings, $preset);
+        $this->type_of_kitchen = 'plugin';
+        parent::__construct($settings, $preset); // Now set the common stuff (has to be last because of preset)
     }
 
 }

@@ -123,7 +123,7 @@ function swap_admin_menu_sections($from_section,$to_section) {
 	$from_section = get_admin_menu_section($from_section);
 	if ($from_section)
 		$from_section->swap_with($to_section);
-	return $section;
+	//return $section;
 }
 function get_admin_menu_section($section) {
 	if (!is_a($section,'WP_AdminMenuSection'))
@@ -153,7 +153,6 @@ class WP_AdminMenuSection {
 		$this->WP_AdminMenuSection($section);
 	}
 	function WP_AdminMenuSection($section=false) {
-	    echo $section;
 		if ($section) { // $section=false when we need to add one. Static methods would be nicer.
 			if (is_a($section,'WP_AdminMenuSection')) {
 				$this->index =      &$section->index;

@@ -1,18 +1,5 @@
 <?php
 /**
- * Compansion classes to encapsulate access to admin menu global arrays $menu and $submenu
- * Likely to be included in future WP core (version 3.2 ???)
- *
- * @since       0.1
- * @see         WP_AdminMenuSection
- * @see         WP_AdminMenuItem
- * @uses        WP_AdminMenu
-*/
-if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSection') ) {
-    require_once KST_DIR_VENDOR . '/WP/AdminMenu.php';
-}
-
-/**
  * Class for adding menus/pages to WP admin
  *
  * @package     KitchenSinkHTML5Base
@@ -25,16 +12,86 @@ if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSe
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  */
+
+/**
+ * Compansion classes to encapsulate access to admin menu global arrays $menu and $submenu
+ * Likely to be included in future WP core (version 3.2 ???)
+ *
+ * @since       0.1
+ * @see         WP_AdminMenuSection
+ * @see         WP_AdminMenuItem
+ * @uses        WP_AdminMenu
+*/
+if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSection') ) {
+    require_once KST_DIR_VENDOR . '/WP/AdminMenu.php';
+}
+
 class KST_AdminPage {
 
+    /**#@+
+     * @since       0.1
+     * @access      protected
+    */
+    protected $namespace;
+    protected $menu_title;
+    protected $menu_slug; // virtual page name sent to and used by WP;
+    protected $parent_menu;
+    protected $parent_slug; // WP section slugs; i.e. themes.php or options-general.php or if custom top admin.php?????
+    protected $page_title;
     /**#@-*/
+
 
     /**
      * @since       0.1
+     * @param       required string $namespace prefix to prepend everything with
+     * @param       required string $menu_title actual text to display in menu
+     * @param       required string $parent_menu Used to internally to track and determine final menu positions i.e. set correct parent_slugs
+     * @param       required string $page_title Explicit title to use on page
     */
-    public function __construct() {
-
+    public function __construct($menu_title, $menu_slug, $parent_menu, $page_title, $namespace) {
+        $this->namespace = $namespace;
+        $this->menu_title = $menu_title;
+        $this->menu_slug = $menu_slug;
+        $this->parent_menu = $parent_menu;
+        $this->page_title = $page_title;
     }
+
+
+    /**
+     * Register new admin "options" page with KST
+     * We will save them up and output them all at once.
+     *
+     * All new pages are added to WP Admin here.
+     * This is called after the WP global $menu is set
+     * and we have already acted on it if necessary
+     * to prevent overwriting existing menus and
+     * all KST created menus go where they need to be.
+     *
+     * @since       0.1
+     * @access      public
+     * @uses        WP_AdminMenu::add_admin_menu_separator()
+     * @uses        add_menu_page() WP function
+     * @uses        add_submenu_page() WP function
+     * @uses        current_user_can() WP function
+     * @param       required object $page everything ready-to-go to send to WordPress to add the page
+     * @return      boolean
+    */
+    public static function create($page) {
+
+        // Do new top level
+        if ( in_array( $page->parent_menu, array('top')) ) {
+            $testthis = add_menu_page( $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, array($page,'manage'), ''); //, $icon_url, $position
+            // Do submenu; Always add a submenu (if parent the menu_title is used for both parent and submenu per WP best practice) */
+            add_submenu_page($page->menu_slug, $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, array($page,'manage') );//'make_menu_shit'
+            //print_r($testthis);
+        } else {
+            $updated_parent_slug = $page->_getParentSlug($page->parent_menu);
+            add_submenu_page($updated_parent_slug, $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, array($page,'manage') );//'make_menu_shit'
+        }
+
+        return true;
+    }
+
 
     /**
      * Register the options with WP
@@ -48,7 +105,7 @@ class KST_AdminPage {
      * NOTE: Creates option with namespace prepended
      *       "option_1" is saved to the db as "namespace_option_1"
     */
-    public function manage_page() {
+    public function manage() {
 
         // This is an options page and we need to think about saving/resetting
         if ( isset( $_REQUEST['action'] ) ) { // If we have an action to take
@@ -83,22 +140,15 @@ class KST_AdminPage {
             } // END if correct page
         } // END if action
 
-        echo $this->_generate_page();
+        // OUTPUT the actual pages
+        echo "<div class='wrap kst_options'>"; //Standard WP Admin content class plus our class to style with
+        /*if ( function_exists('screen_icon') )
+            screen_icon('options-general');*/
+            echo "<h2>" . $this->page_title . "</h2>";
+            echo $this->_generate_content();
+        echo  "</div>"; // End options page 'wrap'
     }
 
-    /**
-     * Everything involving options is namespaced "namespace_"
-     * e.g. options, option_group, menu_slugs
-     * Still try to be unique to avoid collisions with other KST developers
-     *
-     * @since       0.1
-     * @param       required string $item    unnamespaced option name
-     * @uses        KST_AdminPage_OptionsGroup::namespace
-     * @return      string
-    */
-    protected function _prefixWithNamespace( $item ) {
-        return $this->namespace . $item;
-    }
 
     /**
      * Get the menu slug for this page
@@ -106,13 +156,15 @@ class KST_AdminPage {
      * Protects us from page name changes and deal with top level menus later
      *
      * @since       0.1
-     * @uses        KST_Options::get_parent_menu_menu_slug()
+     * @uses        KST_Options::getParentMenuMenuSlug()
      * @uses        KST_Options::parent_menu
      * @return      string
      * @link        http://codex.wordpress.org/Adding_Administration_Menus
     */
-    protected function _getParentSlug() {
-        switch ( $this->parent_menu ) {
+    protected function _getParentSlug($parent_menu) {
+        switch ( $parent_menu ) {
+            case 'top':
+                return $this->menu_slug;
             case 'dashboard':
                 return 'index.php';
             case 'posts':
@@ -135,15 +187,34 @@ class KST_AdminPage {
                 return 'tools.php';
             case 'settings':
                 return 'options-general.php';
-            case 'top':
-                return $this->menu_slug;
-            case 'top-item':
-                return $this->get_parent_menu_menu_slug();
-            default:
-                exit("<h2>Where should we put this fancy menu you are making?</h2><p>We can't find the parent_menu you specified (" . $this->parent_menu . ").</p><p>Do one of the following:</p><ul><li>Pass a known WP menu name (e.g. 'appearance', 'settings')</li><li>Pass 'top' (i.e. a new top level menu)</li><li>Or pass the entire object of a custom parent menu you already created</li></ul><p>If you aren't in the middle of setting up your custom admin menus using the 'Kitchen Sink KST_Options class' then something is terribly wrong with the world.</p>");
+            default: // Child of custom top level must be sent the final slug
+                return $parent_menu;
         }
 
     } // END get_parent_slug()
+
+    /**
+     * set the parent_slug
+     *
+     * Used internally to determine menu position
+     *
+     * @since       0.1
+     * return       string
+    */
+    public function setParentSlug($parent_slug) {
+        $this->parent_slug = $parent_slug;
+    }
+
+    /**
+     *
+     * @since       0.1
+     * @access      public
+     * @return      string
+    */
+    public function getMenuSlug() {
+        return $this->menu_slug;
+    }
+
 
     /**
      * Get the parent menu's menu slug from passed parent menu object (for submenus)
@@ -152,11 +223,13 @@ class KST_AdminPage {
      * If it fails die and help them out.
      *
      * @since       0.1
-     * @uses        KST_Options::parent_menu_object
-     * @uses        KST_Options::menu_slug
+     * @uses        KST_Options::$parent_menu_object
+     * @uses        KST_Options::$menu_slug
      * return       string
     */
-    public function get_parent_menu_slug() {
+    public function getParentMenuMenuSlug() {
+
+        /*
         if ( is_object($this->parent_menu_object) ) {
             $slug = $this->parent_menu_object->menu_slug;
             if ( empty( $slug ) ) // We can't find what we need in the object you passed
@@ -165,62 +238,56 @@ class KST_AdminPage {
         } else {
             exit("<h2>Something is terribly wrong</h2><p>Something thinks in Kitchen Sink class KST_Options needs something from it's parent menu object. But that object doesn't exit.</p>");
         }
-    }
-
-    /**
-     *
-     * @since       0.1
-     * @return      string
-    */
-    public function get_menu_slug() {
-        return $this->menu_slug;
+        */
     }
 
 
     /**
-     * Register new admin "options" page with KST
-     * We will save them up and output them all at once.
+     * Get the parent_menu
      *
-     * All new pages are added to WP Admin here
-     * This is called after the WP global $menu is set
-     * and we have already acted on it if necessary
-     * to prevent overwriting existing menus and
-     * all KST created menus go where they need to be.
+     * Used internally to determine menu position
      *
      * @since       0.1
-     * @access      public
-     * @param       required array $options_array passed by reference; Contains options block types and their parameters
-     * @param       required string $menu_title actual text to display in menu
-     * @param       optional string $parent_menu
-     * @param       optional string $page_title Explicit title to use on page, defaults to "friendly_name menu_title"
+     * return       string
     */
-    public static function create_admin_pages() {
+    public function getParentMenu() {
+        return $this->parent_menu;
+    }
 
-         // If you can't manage your options then you can't have any menus - speed things up a bit
-        if (!current_user_can('manage_options'))
-            return;
+    /**
+     * Get the parent_menu
+     *
+     * Used internally to determine menu position
+     *
+     * @since       0.1
+     * return       string
+    */
+    public function setParentMenu($parent_menu) {
+        $this->parent_menu = $parent_menu;
+    }
 
-        // Logic to reorganize menus would go here
+    /**
+     * Get this page_title
+     *
+     * Get text for the h1 for this page
+     *
+     * @since       0.1
+     * return       string
+    */
+    public function getPageTitle() {
+        return $this->page_title;
+    }
 
-        //print_r(KST::getAdminPages());
-
-        // Tell WP we want these pages
-        foreach ( KST::getAdminPages() as $page ) {
-
-            /* Are we adding a top level menu? */
-            if ( 'top' == $page->parent_menu ) {
-                add_admin_menu_separator(58); // WP_AdminMenu function
-                add_menu_page( $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, 'KST_AdminPage::manage_page', '', 59); //, $icon_url, $position
-
-            }
-
-            //print_r($page);
-            //echo "parent_slug = " . $page->parent_slug . " pagetitle = " . $page->page_title . " menutitle = " . $page->menu_title . " function = " . 'manage_options' . " menu_slug = " . $page->menu_slug . "<br />";
-
-            /* Always add a submenu (if parent the menu_title is used for both parent and submenu per WP best practice) */
-            add_submenu_page($page->parent_slug, $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, array($page, 'manage_page') );//'make_menu_shit'
-        }
-
+    /**
+     * Get this menu_title
+     *
+     * Get text for menu for this page
+     *
+     * @since       0.1
+     * return       string
+    */
+    public function getMenuTitle() {
+        return $this->menu_title;
     }
 
 }

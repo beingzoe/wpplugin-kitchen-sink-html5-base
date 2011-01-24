@@ -220,13 +220,32 @@ if ( class_exists('KST') ) {
     $my_theme->initJqueryToolsScrollable(); // KST/jQuery: tools: scrollable content (content slideshow with shortcodes)
     $my_theme->initJqueryCycle(); // KST/jQuery: malsup cycle content (content slideshow with shortcodes)
 
+    $theme_options_test_main = array(
+                        array(  "name"    => __('Theme Test MAIN'),
+                                "desc"  => __("
+                                            Yes.
+                                            "),
+                                "type"  => "section",
+                                "is_shut"   => FALSE
+                            )
+                        );
+    $theme_options_test_2 = array(
+                        array(  "name"    => __('Theme Test TWO'),
+                                "desc"  => __("
+                                            Yes.
+                                            "),
+                                "type"  => "section",
+                                "is_shut"   => FALSE
+                            )
+                        );
 
     /* Create Admin Options menus/pages
      * Uses your $theme_options array(s) to create admin menus/pages
     */
-    $my_theme->newOptionsGroup($theme_options, 'Theme Options', 'appearance');
-    $my_theme->newOptionsGroup($theme_options2, 'Theme Options 2', 'appearance');
-    $my_theme->newOptionsGroup($theme_options2, 'Theme Options 3', 'appearance');
+
+    $my_theme->addOptionPage($theme_options_test_main, 'Theme Options 1', 'kst');
+    $my_theme->addOptionPage($theme_options_test_2, 'Theme Options 2', 'kst');
+    $my_theme->addOptionPage($theme_options2, 'Theme Options 3', 'kst');
 
     $theme_options2[] = array(  "name"    => __('ADDED FLOOP AFTER WE ALREADY PASSED IT'),
                                 "desc"  => __("

@@ -19,8 +19,8 @@
  */
 $kst_core_settings = array(
             /* REQUIRED */
-            'friendly_name'       => 'Kitchen Sink HTML5 Plugin Pack',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
-            'prefix'              => 'kst_plugin_pack_',                       // Required; Prefix for namespacing libraries, classes, widgets
+            'friendly_name'       => 'Kitchen Sink HTML5 Base',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
+            'prefix'              => 'kst_core',                       // Required; Prefix for namespacing libraries, classes, widgets
             'developer'           => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
             'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
         );
@@ -28,6 +28,15 @@ $kst_core_settings = array(
 /**
  * Define the settings for the core
  */
+
+ $kst_core_options_test = array (
+            array(  "name"      => __('Core'),
+                    "desc"      => __("
+                                    Yes.
+                                "),
+                    "type"      => "section",
+                    "is_shut"   => FALSE )
+            );
 
 $kst_core_options = array (
             array(  "name"      => __('Kitchen Sink Base core settings'),
@@ -128,9 +137,9 @@ $kst_core_options = array (
 /**
  * Instantiate core menu
 */
-$my_plugin = new KST_Kitchen_Plugin($kst_core_settings);
+$my_core = new KST_Kitchen_Plugin($kst_core_settings);
 
-$my_plugin->newOptionsGroup($kst_core_options, 'KST Settings', 'appearance') ;
+$my_core->addOptionPage($kst_core_options_test, 'About KST', 'core') ;
 
 function kst_load_settings_core() {
     //global $kst_options;

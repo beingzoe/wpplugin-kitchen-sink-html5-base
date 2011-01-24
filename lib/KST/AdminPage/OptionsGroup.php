@@ -8,12 +8,15 @@
  * @subpackage  Core
  * @version     0.1
  * @since       0.1
- * @author      zoe somebody
+ * @author      zoe somebody http://beingzoe.com/
  * @link        http://beingzoe.com/
- * @author      Scragz
+ * @author      Scragz http://scragz.com/
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @uses        KST_AdminPage
+ * @todo        WP settings_fields() and WP register_setting() are not working and we are manually updating the options pre 2.7 style
+ * @todo        As a consequence of the previous we are not saving serialized data at this time and need to
+ * @todo        Do the previous two items and create a "migration" on plugin update to fix old settings to continue to function when we begin serializing
  */
 class KST_AdminPage_OptionsGroup extends KST_AdminPage {
 
@@ -22,40 +25,32 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      * @access      protected
     */
     public $options_array; // reference to original options array
-    protected $namespace;
-    protected $settings_options_group;
-    protected $menu_title;
-    protected $menu_slug;
-    protected $parent_menu;
-    protected $parent_slug;
-    protected $page_title;
+    protected $settings_options_group; // A group of options that belong to a menu/page associated by menu_slug
     /**#@-*/
+
 
     /**
      * @since       0.1
      * @param       required array $options_array passed by reference; Contains options block types and their parameters
-     * @param       required string $menu_title actual text to display in menu
+     * @param       required string $menu_title
+     * @param       required string $menu_slug
      * @param       required string $parent_menu
-     * @param       required string $page_title Explicit title to use on page
-     * @param       required string $namespace prefix to prepend everything with
+     * @param       required string $page_title
+     * @param       required string $settings_options_group
+     * @param       required string $namespace // N.B. Options and options group are namespaced automatically e.g. namespace_optionname, namespace_optionsgroup
     */
-    public function __construct(&$options_array, $menu_title, $parent_menu, $page_title, $namespace) {
+    public function __construct(&$options_array, $menu_title, $menu_slug, $parent_menu, $page_title, $namespace) {
+        parent::__construct($menu_title, $menu_slug, $parent_menu, $page_title, $namespace); // Pass the common stuff on to the parent first
 
-        $this->namespace = $namespace;
         $this->options_array =& $options_array; // The options array by reference
-        $this->settings_options_group = $this->_prefixWithNamespace('options_group');
-        $this->menu_title = $menu_title;
-        $this->menu_slug = $this->_createMenuSlug();
-        $this->parent_menu = $parent_menu;
-        $this->parent_slug = $this->_getParentSlug();
-        $this->page_title = $page_title;
+        $this->menu_slug = $menu_slug;
+        $this->settings_options_group = $namespace . 'options_group';
 
-        // Figure out if we have a new top level menu item (top-item)
-
-        // We only need the menus/pages if we are in the admin
         // hook to register settings for options
-        add_action('admin_menu', array(&$this, 'registerSettings' ));
+        // SEE todo regarding registering settings - do not delete
+        //add_action('admin_init', array(&$this, 'registerSettingsWithWP' ));
     }
+
 
     /**
      * Public static accessor to get a namespaced option when you only know the namespace and unnamespaced option
@@ -91,9 +86,8 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      *       Multiple tests for the same option are saved and won't affect load time as much
      *
      * @since       0.1
-     * @global      $wpdb
+     * @global      object $wpdb This is wordpress ;)
      * @param       required string $option
-     * @uses        KST_Options::_prefixWithNamespace()
      * @uses        KST_Options::$extant_options
      * @return      boolean
     */
@@ -101,14 +95,14 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
 
         global $wpdb; // This IS WordPress ;)
 
-        $namespaced_option = $namespace . $option;
+        $namespaced_option = $namespace . $option ;
 
         // Check to see if the current key exists
         $row = $wpdb->get_row( "SELECT option_value FROM $wpdb->options WHERE option_name = '{$namespaced_option}' LIMIT 1", OBJECT );
 
         // Return the answer
         if ( is_object( $row ) ) { // The option exists regardless of trueness of value
-            KST::$extant_options[$namespaced_option]['exists'] = TRUE; // Save in array if exists to minimize repeat queries
+            //KST::$extant_options[$namespaced_option]['exists'] = TRUE; // Save in array if exists to minimize repeat queries
             return true;
         } else { // The option does not exist at all
             return false;
@@ -116,31 +110,21 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
 
     }
 
-    /**
-     * Everything involving options is namespaced "namespace_"
-     * Still try to be unique to avoid collisions with other KST developers
-     *
-     * @since       0.1
-     * @uses        KST_AdminPage_OptionsGroup::menu_title
-     * @uses        KST_AdminPage_OptionsGroup::_prefixWithNamespace()
-     * @return      string
-    */
-    protected function _createMenuSlug() {
-        return $this->_prefixWithNamespace( str_replace( " ", "_", $this->menu_title ) );
-    }
 
     /**
      * Register the options with WP
      *
      * @since 0.1
-     * @uses KST_AdminPage_OptionsGroup::_prefixWithNamespace()
      * @uses KST_AdminPage_OptionsGroup::options_array
      * @uses register_setting() WP function
+     * @todo        Make this work; see todo for this class
      *
      * NOTE: Creates option with namespace prepended
      *       "option_1" is saved to the db as "namespace_option_1"
     */
-    public function registerSettings() {
+    public function registerSettingsWithWP() {
+
+        require_once KST_DIR_VENDOR . '/ZUI/FormHelper.php';
 
         /* Make sure $this->options_array exists and give help */
         if ( !$this->options_array )
@@ -169,44 +153,42 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
          * must register each option to be used in options form
          */
         foreach ($this->options_array as $value) {
-            if ( isset($value['id']) )
-                register_setting( $this->settings_options_group, $this->_prefixWithNamespace( $value['id'] ) );
+            if ( isset($value['id']) && isset($value['type']) && in_array($value['type'], ZUI_FormHelper::get_blocks_of_type_form()) ) {
+                register_setting( $this->settings_options_group, $this->namespace . $value['id'] );
+            }
         }
     }
 
 
     /**
-     * Register the options with WP
+     * Generate markup for options group page
      *
      * @since       0.1
-     * @uses        KST_AdminPage_OptionsGroup::_prefixWithNamespace()
-     * @uses        KST_AdminPage_OptionsGroup::options_array
+     * @uses        ZUI_FormHelper class
      * @uses        current_user_can() WP function
      * @uses        wp_die() WP function
+     * @uses        settings_fields() WP function
+     * @uses        wp_nonce_field() WP function
      *
      * NOTE: Creates option with namespace prepended
      *       "option_1" is saved to the db as "namespace_option_1"
     */
-    protected function _generate_page() {
+    protected function _generate_content() {
 
         require_once KST_DIR_VENDOR . '/ZUI/FormHelper.php';
 
-        //$current_page_object = KST::getAdminPage();
         $output = "";
 
-        if (!current_user_can('manage_options'))  {
+        // If you can't manage your options then you can't have any menus - speed things up a bit
+        if ( !current_user_can('manage_options') )  {
             wp_die( __('You do not have sufficient permissions to access this page.') );
         }
 
-        /* OUTPUT the actual options page */
-        $output .= "<div class='wrap kst_options'>"; //Standard WP Admin content class plus our class to style with
-        /*
-        if ( function_exists('screen_icon') )
-            screen_icon('options-general');
-            */
-            $output .= "<h2>" . $this->page_title . "</h2>";
+        if ( !isset($this->options_array[0]['name']) ) {
+            wp_die( __('<h3>Your options array looks messed up</h3><p>Verify that you have created an array that contains an array for each option block you need.<br />See the Kitchen Sink HTML5 Base documentation for help.</p>') );
+        }
 
-        /* Give response on action */
+        // Give response on action
         if ( isset($_REQUEST['updated']) )
             $output .= "<div id='message' class='updated fade'><p><strong>" . $this->page_title . " settings saved.</strong></p></div>";
         if ( isset($_REQUEST['reset']) )
@@ -215,7 +197,7 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
         $output .= "<form method='post' id='poststuff' class='metabox-holder'>";
             $output .= '<div class="meta-box-sortables" id="normal-sortables">'; // Attempting to utilize as much WP style/formatting as possible
 
-            /* Set up variables for block output loop */
+            // Set up variables for block output loop
             $can_save               = FALSE; // Flag to only create form if we have a form element to save
             $kst_do_end_section     = FALSE; // Flag to clean up behind the previous section
             $kst_do_close_section   = FALSE; // Flag sections to be "closed" on load
@@ -223,11 +205,12 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
 
             // Get this pages content
             foreach ($this->options_array as $block) {
-
-                $this_option        = $this->_prefixWithNamespace( $block['id'] ); // namespaced option name as stored in database
-                $this_value         = $this->getOption( $this->namespace, $block['id'] ); // Value of namespaced option name in database
-                $this_exists        = $this->doesOptionExist( $this->namespace, $block['id'] ); // Boolean existence of the current option
-                $this_attr_name_id  = " name='{$this_option}' id='{$this_option}'"; // Used on every element
+                if ( !in_array( $block['type'], ZUI_FormHelper::get_blocks_of_type_section()) ) {
+                    $this_option        = $this->namespace . $block['id'] ; // namespaced option name as stored in database
+                    $this_value         = $this->getOption( $this->namespace, $block['id'] ); // Value of namespaced option name in database
+                    $this_exists        = $this->doesOptionExist( $this->namespace, $block['id'] ); // Boolean existence of the current option
+                    $this_attr_name_id  = " name='{$this_option}' id='{$this_option}'"; // Used on every element
+                }
 
                 // Start new dl if next block is NOT a section AND the PREVIOUS WAS a 'section' AND the next block is a known block type
                 if ( !in_array( $block['type'], ZUI_FormHelper::get_blocks_of_type_section() ) && $block_previous_type && in_array( $block_previous_type, ZUI_FormHelper::get_blocks_of_type_section() ) && in_array( $block['type'], ZUI_FormHelper::get_blocks_of_type_all() ) )
@@ -282,7 +265,7 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
                         // set value
                         if ( $this_exists )
                             $value = $this_value;
-                        else if ( !$this_exists )
+                        else if ( !$this_exists && isset($block['default']) )
                             $value = $block['default'];
                         else
                             $value = null;
@@ -508,7 +491,19 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
             $output .= "</div>"; // End normal-sortables
 
             if ( $can_save ) {
-                settings_fields( $this->settings_options_group ); // Output nonce, action, and option_page fields
+                //settings_fields( $this->settings_options_group ); // Output nonce, action, and option_page fields
+                // N.B. We have to manually outpt the settings_fields because WP echos that (WTF?)
+                // See the todo for this class!!!!
+                /**
+                 * N.B. We have to manually output the settings_fields() because WP echos that (WTF?)
+                 * And we further need to manually output wp_referer_field normally called from wp_nonce_field because it doesn't return if you don't echo wp_nonce_field (WTF?)
+                 * @link        http://codex.wordpress.org/Function_Reference/settings_fields
+                 * @link        http://codex.wordpress.org/Function_Reference/wp_nonce_field
+                */
+                $output .= "<input type='hidden' name='option_page' value='" . esc_attr($this->settings_options_group) . "' />";
+                $output .= '<input type="hidden" name="action" value="update" />';
+    	        $output .= wp_nonce_field($this->settings_options_group . "-options", "_wpnonce", FALSE, FALSE);
+    	        $output .= wp_referer_field(FALSE);
                 $output .= "<p class='submit'>";
                     $output .= "<input type='submit' class='button-primary' value='" . __('Save Changes') . "' />";
                     $output .= "<input type='hidden' name='action' value='save' />  ";
@@ -526,8 +521,6 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
             $output .= "</form>";
         }
 
-        $output .= "</div>"; // End options page 'wrap'
-
         /* You can filter this if you want */
         $output = apply_filters( 'kst_option_page_output', $output );
 
@@ -536,6 +529,19 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
     }
 
 
+    /**
+     * Everything involving options is namespaced "namespace_"
+     * e.g. options, option_group, menu_slugs
+     * Still try to be unique to avoid collisions with other KST developers
+     *
+     * @since       0.1
+     * @param       required string $item    unnamespaced option name
+     * @uses        KST_AdminPage_OptionsGroup::namespace
+     * @return      string
+    */
+    protected function _prefixWithNamespace( $item ) {
+        return $this->namespace . $item;
+    }
 
 }
 
