@@ -29,7 +29,7 @@ define( 'KST_URI',              WP_PLUGIN_URL . '/' . basename(KST_DIR) ); // Cu
 define( 'KST_URI_VENDOR',       KST_URI . '/vendor' );
 define( 'KST_URI_TEMPLATES',    KST_URI . '/templates' );
 define( 'KST_URI_ASSETS',       KST_URI . '/assets' );
-define( 'THEME_NAME_CURRENT',   get_current_theme() );
+define( 'KST_THEME_NAME_CURRENT',   get_current_theme() );
 /**#@-*/
 
 /**
