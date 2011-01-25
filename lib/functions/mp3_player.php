@@ -14,6 +14,8 @@
  * @subpackage  Plugins:Media
  * @version     0.1
  * @since       0.1
+ * @link        http://flash-mp3-player.net/
+ * @link        http://flash-mp3-player.net/players/maxi/documentation/
  */
 
 /**
