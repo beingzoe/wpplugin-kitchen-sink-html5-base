@@ -2,7 +2,7 @@
 /**
  * KST SENSIBLE DEFAULTS FUNCTIONS
  *
- * Functions only required if we are in the WP admin
+ * Shit you would normally do in your functions.php and shouldn't have to think about
  *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
@@ -12,6 +12,8 @@
  * @subpackage  Base
  * @version     0.1
  * @since       0.1
+ * @todo        Clean this crap up to match the beauty of all new stuff
+ * @todo        Figure out how to handle FrontEnd/Admin/Mixed sensible defaults
  */
 
 /**
@@ -192,59 +194,7 @@ if ( !function_exists('kst_threaded_comment_reply') ) {
 }
 
 
-/**
- * kst_widget_create_multiple_areas
- * Create multiple consectuive widget areas to be displayed in sequence
- *
- * Use
- * Useful for floated column widget areas that share characteristics
- * Creates "named" sidebars with
- *
- * @since 0.4
- * @param       required array $array   The
- * @uses        dynamic_sidebar() WP function
- */
-function kst_widget_create_multiple_areas($how_many, $name, $id, $description, $args = NULL) {
-    $defaults = array(
-                'before_widget' => '<aside id="%1$s" class="sb_widget %2$s">',
-                'after_widget'  => '</aside>',
-                'before_title'  => '<h2 class="widget_title">',
-                'after_title'   => '</h2>'
-                );
-    $args = wp_parse_args( $args, $defaults );
 
-    $kst_sidebars_footer = array(); //used to loop and output multiple sidebars
-    for ($i = 1; $i <= $how_many; $i++) {
-        $this_id = "{$id}_{$i}";
-        register_sidebar( array_merge( array(
-            'name'          => "{$name} {$i}",
-            'id'            => $this_id,
-            'description'   => "1 of {$how_many} widget areas in footer. Does not appear if no widgets added.",
-        ), $args ) );
-        $kst_sidebars_footer[] = $this_id;
-    }
-
-    return $kst_sidebars_footer;
-}
-
-/**
- * kst_widget_output_multiple_areas
- * Output multiple widget areas in sequence
- *
- * Useful for floated column widget areas that share characteristics
- * Creates "named" sidebars with
- *
- * @since 0.4
- * @param       required array $array   The
- * @uses        dynamic_sidebar() WP function
- */
-function kst_widget_output_multiple_areas($array) {
-    if ( !$array )
-        return;
-    foreach ($array as $sidebar) {
-        dynamic_sidebar( $sidebar );
-    }
-}
 
 /**
  * FUNCTIONS: ADD/MODIFY/FILTER OUTPUT AND OVERRIDE EXISTING FUNCTIONALITY
