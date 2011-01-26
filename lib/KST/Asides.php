@@ -19,23 +19,27 @@
  * @todo        rename to KSP (kitchen sink plugins) building a brand you know
  * @todo        check to see if this class has been loaded already (plugin or class in theme)
  * @todo        create some kind of method of passing a template in to output fully custom markup
+ * @todo        have the asides categories created dynamically by kitchen
 */
 
 class KST_Asides {
 
     /**#@+
-     * @access private
-     * @var string
+     * @access      private
+     * @var         string
     */
     private $current_day;       // Custom date string (dmY) of current post
     private $previous_day;      // Custom date string of  post
     private $category;          // The category the asides belong to; $name, $slug, OR $id
+    /**#@-*/
 
     /**#@+
      * @access private
      * @var array
     */
     private $asides;            // Array of asides content
+    /**#@-*/
+
 
 
     /**
@@ -52,8 +56,37 @@ class KST_Asides {
             return; // No category so nothing to do
         $this->category = $category;
         $this->asides = array();
+
+        $asides_options = array (
+            // Layout options
+            array(  "name"      => __('Aside Categories'),
+                    "desc"      => __("
+                                    <p><em>Options affecting the layout and presentation of your site.</em></p>
+                                    <p>See \"Appearance &gt; Theme Help\" to learn more about asides.</p>
+                                "),
+                    "type"      => "section",
+                    "is_shut"   => FALSE ),
+
+            array(  "name"      => __('Asides Category'),
+                    "desc"      => __('Pick the category to use as your sideblog'),
+                    "id"        => "layout_category_aside",
+                    "type"      => "select_wp_categories",
+                    "args"      => array( )
+                    ),
+
+            array(  "name"      => __('Gallery Category SLUG'),
+                    "desc"      => __('Pick the category to use for gallery posts'),
+                    "id"        => "layout_category_gallery",
+                    "type"      => "select_wp_categories",
+                    "args"      => array( )
+                    )
+        );
+
         add_action( 'loop_start', array( &$this, 'should_we_do_this' ), 10, 2 );
     }
+
+
+
 
 
     /**
