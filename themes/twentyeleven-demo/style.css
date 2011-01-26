@@ -402,7 +402,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
                 }
 
         /* ft layout */
-        #ft nav, .ft_widget {
+        #ft nav, #ft_widgets .widget {
             float: left;
             width: 150px;
             min-height: 100px;
@@ -416,7 +416,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         #ft_menu .menu-item {
             margin-right: 10px;
         }
-        .ft_widget {
+        #ft_widgets .widget {
             width: 200px;
             padding-left: 20px;
             border-left: 1px solid #eee;
@@ -770,7 +770,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     margin-bottom: 2em;
     list-style: none;
 }
-.ft_widget { /* typically handled in ft_layout */ }
+.ft_widget { /* typically handled in ft_layout DEPRECATED er, DELETED??? from standard markup? */ }
 .sb_widget ul, .ft_widget ul { margin-top: 0; }
 .widget_title, .widget_title a { margin: 0; font-size: 16px; }
 
