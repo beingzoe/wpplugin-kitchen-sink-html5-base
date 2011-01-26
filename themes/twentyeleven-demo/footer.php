@@ -14,9 +14,6 @@
  *
  * Based on kitchenSink theme Version 0.3 and ZUI by zoe somebody http://beingzoe.com/zui/
  */
-
-global $twenty_eleven_options, $kst_sidebars_footer; // This (and all template globals needs resolved and removed to put these templates in the core as defaults)
-
 ?>
 </div><!-- close #pg -->
 <footer id="ft" class="clearfix">
@@ -29,7 +26,9 @@ global $twenty_eleven_options, $kst_sidebars_footer; // This (and all template g
                 'sort_column'       => 'menu_order',
                 'depth'             => '1'
                 ) );
-    kst_widget_output_multiple_areas($kst_sidebars_footer);
+    echo '<section id="ft_widgets" class="widgets clearfix">';
+    $GLOBALS["my_theme"]->wordpress->dynamicSidebars('footer_area_3');
+    echo '</section>';
     ?>
     <div id="ft_logo">
         <a href="<?php echo home_url(); ?>/" title="<?php bloginfo('name'); ?> Home"><?php bloginfo('name'); ?></a>
