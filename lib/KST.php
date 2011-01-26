@@ -18,7 +18,7 @@
 class KST {
 
     /**
-     * Set is_plugins_loaded to false until WP tells us that the plugins are loaded
+     * Set _plugins_are_loaded to false until WP tells us that the plugins are loaded
      * Hook set in init.php
      *
      * @since       0.1
@@ -26,30 +26,6 @@ class KST {
      * @see         KST::pluginsAreLoaded()
     */
     protected static $_plugins_are_loaded = false;
-
-
-    /**#@+
-     * Core protected variables to keep tabs on all the kitchens
-     *
-     * @since       0.1
-     * @access      protected
-    */
-    protected static $_extant_options; // Array of options that exist IF they were checked with $this->option_exists();
-    protected static $_all_admin_pages; // Store all menus/pages from all registered kst kitchens
-    protected static $_appliances; // Array of bundled appliances (classes, functions/helper libraries)
-    /**#@-*/
-
-
-    /**
-     * Set static _appliances with bundled appliances array
-     *
-     * @since       0.1
-     * @access      public
-     * @param       required array $array
-    */
-    public function init_appliances() {
-        self::$_appliances = kst_bundled_appliances();
-    }
 
 
     /**

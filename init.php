@@ -72,33 +72,100 @@ require_once KST_DIR_LIB . '/KST/AdminPage/Help.php';
  *
  * @since       0.1
 */
-require_once KST_DIR_LIB . '/functions/settings_core.php';
+// Set the core appliances array for KST::$_appliances;
+$kst_bundled_appliances = array(
+    'wp_sensible_defaults' => array(
+            'path'          => KST_DIR_LIB . '/functions/wp_sensible_defaults.php',
+            'class_name'    => FALSE
+        ),
+    'help' => array(
+            'path'          => KST_DIR_LIB . '/functions/theme_help.php',
+            'class_name'    => FALSE
+        ),
+    /*
+    'seo' => array(
+            'path'          => KST_DIR_LIB . '/functions/seo.php',
+            'class_name'    => FALSE
+        ),
+    */
+    'wordpress' => array(
+            'path'          => KST_DIR_LIB . '/KST/Wordpress.php',
+            'class_name'    => 'KST_Wordpress'
+        ),
+    /*
+    'contact' => array(
+            'path'          => KST_DIR_LIB . '/functions/contact.php',
+            'class_name'    => FALSE
+        ),
+    */
+    'widgetNavPost' => array(
+            'path'          => KST_DIR_LIB . '/KST/Widget/NavPost.php',
+            'class_name'    => FALSE
+        ),
+    'widgetNavPosts' => array(
+            'path'          => KST_DIR_LIB . '/KST/Widget/NavPosts.php',
+            'class_name'    => FALSE
+        ),
+    'widgetJitSidebar' => array(
+            'path'          => KST_DIR_LIB . '/KST/Widget/JitSidebar.php',
+            'class_name'    => FALSE
+        ),
+    'jqueryLightbox' => array(
+            'path'          => KST_DIR_LIB . '/functions/jquery/lightbox.php',
+            'class_name'    => FALSE
+        ),
+    'mp3Player' => array(
+            'path'          => KST_DIR_LIB . '/functions/mp3_player.php',
+            'class_name'    => FALSE
+        ),
+    'jitMessage' => array(
+            'path'          => KST_DIR_LIB . '/functions/jquery/jit_message.php',
+            'class_name'    => FALSE
+        ),
+    'jqueryCycle' => array(
+            'path'          => KST_DIR_LIB . '/functions/jquery/cycle.php',
+            'class_name'    => FALSE
+        ),
+    'jqueryToolsScrollable' => array(
+            'path'          => KST_DIR_LIB . '/functions/jquery/scrollables.php',
+            'class_name'    => FALSE
+        ),
+);
 
-/**
- * Loads the bundled appliances array set in settings core into KST::$_appliances
- *
- * @since       0.1
-*/
-KST::init_appliances();
+// Every kitchen needs the basic settings
+$kst_core_settings = array(
+            /* REQUIRED */
+            'friendly_name'       => 'Kitchen Sink HTML5 Base',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
+            'prefix'              => 'kst_core',                       // Required; Prefix for namespacing libraries, classes, widgets
+            'developer'           => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
+            'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
+        );
+
+
+// Define the options for the core
+$kst_core_options = array (
+    array(  "name"      => __('Kitchen Sink Base core settings'),
+            "desc"      => __("
+                            <p><em>There are no core settings at this time.<br />But we sure are glad you are using Kitchen Sink HTML5 Base.</em></p>
+                            <p>Various links to the documentation, git repos, and other stuff will also be here soon.</p>
+                        "),
+            "type"      => "section",
+            "is_shut"   => FALSE )
+    );
 
 /**
  * Instantiate the core as it's own 'kitchen'
- *
- * @since       0.1
 */
 $kst_core = new KST_Kitchen_Plugin($kst_core_settings);
 
-/**
- * Add the core options/about page
- *
- * @since       0.1
-*/
+/* Register bundled appliances */
+$kst_core->registerAppliances($kst_bundled_appliances);
+
+/* Add the core options/about page */
 $kst_core->addOptionPage($kst_core_options, 'About KST', 'core') ;
 
-/**
- * Add WP hooks for core functionality
-*/
-add_action('activated_plugin', 'loadAsFirstPlugin');
+/* Add WP hooks for core functionality */
+add_action('activated_plugin', 'KST::loadAsFirstPlugin');
 add_action('plugins_loaded', 'KST::pluginsAreLoaded'); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
 
 // Now we wait for a plugin or theme to initialize...

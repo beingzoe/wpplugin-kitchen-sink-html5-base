@@ -23,9 +23,9 @@ class KST_Kitchen_Plugin extends KST_Kitchen {
     /**
      * @since       0.1
     */
-    public function __construct($settings, $preset=null) {
+    public function __construct($settings) {
         $this->type_of_kitchen = 'plugin';
-        parent::__construct($settings, $preset); // Now set the common stuff (has to be last because of preset)
+        parent::__construct($settings);
     }
 
 }

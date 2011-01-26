@@ -32,6 +32,16 @@ class KST_Kitchen_Theme extends KST_Kitchen {
     /**
      * @since       0.1
     */
+
+
+    /**
+     * Theme/Plugin instance constructor
+     *
+     * @since       0.1
+     * @access      protected
+     * @param       required array $settings
+     * @param       optional string $preset // As a convenience you can just pass a preset when you make your kitchen
+    */
     public function __construct($settings, $preset=null) {
 
         /**#@+
@@ -88,6 +98,10 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         */
         define( 'THEME_EXCERPT_LENGTH',   $settings['theme_excerpt_length'] );
 
+        // Anything to help a brother out - sure we'll load that preset
+        if ($preset) {
+            $this->loadPreset($preset);
+        }
     }
 
     /**
