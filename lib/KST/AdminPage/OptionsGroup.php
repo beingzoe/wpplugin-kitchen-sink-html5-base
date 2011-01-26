@@ -83,12 +83,10 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      * Typically only necessary when testing existence to set defaults on first use for radio buttons etc...
      *
      * N.B.: First request is an entire query and obviously a speed hit so use wisely
-     *       Multiple tests for the same option are saved and won't affect load time as much
      *
      * @since       0.1
      * @global      object $wpdb This is wordpress ;)
      * @param       required string $option
-     * @uses        KST_Options::$extant_options
      * @return      boolean
     */
     public static function doesOptionExist( $namespace, $option ) {
@@ -102,7 +100,6 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
 
         // Return the answer
         if ( is_object( $row ) ) { // The option exists regardless of trueness of value
-            //KST::$extant_options[$namespaced_option]['exists'] = TRUE; // Save in array if exists to minimize repeat queries
             return true;
         } else { // The option does not exist at all
             return false;

@@ -35,7 +35,7 @@ if ( is_admin() )
  */
 function kst_theme_help_menu() {
     /* add new menu under Appearance */
-    add_submenu_page("admin.php", " Theme Help and Notes", "Theme Help", "publish_posts", "theme_help", "kst_theme_help_page");
+    add_submenu_page("themes.php", " Theme Help and Notes", "Theme Help", "publish_posts", "theme_help", "kst_theme_help_page");
 }
 
 /**

@@ -21,7 +21,6 @@ class KST_AdminPage_Help extends KST_AdminPage {
     */
     public function __construct($settings) {
 
-
     }
 
 
