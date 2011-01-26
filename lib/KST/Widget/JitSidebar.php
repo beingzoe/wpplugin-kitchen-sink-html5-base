@@ -7,6 +7,11 @@ require_once KST_DIR_LIB . '/KST/Widget.php';
 /**
  * WordPress Widget Class to trigger JIT (just-in-time) floating sidebar
  *
+ * Any widget _below this_ in that sidebar is auto-wrapped with a div
+ * and will start to 'float' (containing element becomes position:fixed)
+ * when it is scrolled to the top of the screen. Becomes normal inline content
+ * again when the page is scrolled back down.
+ *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
