@@ -1,10 +1,5 @@
 <?php
 /**
- * Parent class
- */
-require_once KST_DIR_LIB . '/KST/Widget.php';
-
-/**
  * WordPress Widget Class to show older/newer paged posts buttons in dynamic sidebar
  *
  * @package     KitchenSinkHTML5Base
@@ -12,7 +7,13 @@ require_once KST_DIR_LIB . '/KST/Widget.php';
  * @version     0.1
  * @since       0.1
  * @author      zoe somebody http://beingzoe.com/zui/
+*/
+
+/**
+ * Parent class
  */
+require_once KST_DIR_LIB . '/KST/Widget.php';
+
 class KST_Widget_NavPosts extends KST_Widget {
 
     /**
@@ -111,5 +112,6 @@ class KST_Widget_NavPosts extends KST_Widget {
             <p><label for="<?php echo $this->get_field_id('previous'); ?>"><?php _e('Newer:'); ?> <input class="widefat" id="<?php echo $this->get_field_id('previous'); ?>" name="<?php echo $this->get_field_name('previous'); ?>" type="text" value="<?php echo $previous; ?>" /></label></p>
         <?php
     }
-
 }
+
+add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_NavPosts");'));

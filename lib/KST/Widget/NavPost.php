@@ -1,10 +1,5 @@
 <?php
 /**
- * Parent class
- */
-require_once KST_DIR_LIB . '/KST/Widget.php';
-
-/**
  * WordPress Widget Class to show next/previous post buttons in dynamic sidebar
  *
  * @author		zoe somebody
@@ -14,6 +9,13 @@ require_once KST_DIR_LIB . '/KST/Widget.php';
  * @subpackage  Widgets
  * @version     0.1
  */
+
+ /**
+ * Parent class
+ */
+require_once KST_DIR_LIB . '/KST/Widget.php';
+
+
 class KST_Widget_NavPost extends KST_Widget {
 
     /**
@@ -21,7 +23,17 @@ class KST_Widget_NavPost extends KST_Widget {
      *
      * @since   0.1
      * @uses    WP_Widget()
-     */
+    */
+    /*
+    public function __construct() {
+        //parent::__construct('KST_Widget_NavPost'); // Tell the parent who we are
+        //add_action('widgets_init', array(&$this, 'KST_Widget_NavPost'));
+    }
+    */
+
+    /**
+     * Callback function for this widget
+    */
     function KST_Widget_NavPost() {
         $widget_name        = 'KST: Next/Previous buttons';
         $widget_ops         = array(    'classname' => 'widget_theme_nav_post clearfix',
@@ -106,3 +118,4 @@ class KST_Widget_NavPost extends KST_Widget {
     }
 
 }
+add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_NavPost");'));

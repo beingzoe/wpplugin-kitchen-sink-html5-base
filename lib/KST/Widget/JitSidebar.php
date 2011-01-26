@@ -13,6 +13,8 @@ require_once KST_DIR_LIB . '/KST/Widget.php';
  * @package     KitchenSinkHTML5Base
  * @subpackage  Widgets
  * @version     0.1
+ * @todo        in js figure out if it is overlapping the footer and quit fixing
+ * @todo        pluginify js for use outside of Kitchen Sink
  */
 class KST_Widget_JitSidebar extends KST_Widget {
 
@@ -90,4 +92,4 @@ class KST_Widget_JitSidebar extends KST_Widget {
     }
 
 }
-
+add_action('widgets_init', create_function('', 'return register_widget("KST_Widget_JitSidebar");'));
