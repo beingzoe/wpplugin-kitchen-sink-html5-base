@@ -100,8 +100,8 @@ class KST_Kitchen extends KST {
      * If the file being included is a class (has a class_name) it will be
      * instantiated using the supplied shortname or a custom object name if supplied
      *
-     * @param $shortname String or Array The appliance shortname or an array of the shortname and the property you want to use to access this appliance
-     * @params *args Variable amount of remaining arguments will be passed to the constructor
+     * @param       $shortname String or Array The appliance shortname or an array of the shortname and the property you want to use to access this appliance
+     * @params      *args Variable amount of remaining arguments will be passed to the constructor
     */
     public function load($shortname) {
         $args = func_get_args();
@@ -153,11 +153,9 @@ class KST_Kitchen extends KST {
     }
 
     /**
-     *
+     * @todo        I think this should be deleted now since we went with the other loader method
     */
     public function __get($name) {
-
-        //$this->_appliance[$name]
 
         echo "Getting '$name'\n<br />";
         if (array_key_exists($name, $this->_appliance)) {
@@ -256,7 +254,6 @@ class KST_Kitchen extends KST {
         $custom_start_index = 223;
         $temp__all_admin_pages = parent::$_all_admin_pages;
         $temp_core_options = array();
-        /*$temp_kst_options = array();*/
         $temp_kst_theme_options = array();
         $temp_kst_plugin_options = array();
         $temp_theme_options = array();
@@ -267,7 +264,6 @@ class KST_Kitchen extends KST {
             if ($page['parent_menu'] <> 'core') {
                 $doCoreOnly = FALSE; // We have a kitchen so core options will be moved accordingly
                 if ( 'kst' == $page['parent_menu'] ) {
-                    /*$temp_kst_options[$key] = $page;*/
                     if ( $page['type'] == 'theme') {
                         $temp_kst_theme_options[$key] = $page; // KST managed theme options
                     } else {
@@ -319,7 +315,7 @@ class KST_Kitchen extends KST {
             // And then loop that to get the individual page array element
             foreach ( $pages as $page ) {
 
-                // Is this menu the child of a custom top level - reverse the master pages array and look for the menu title
+                // Is this menu is the child of a custom top level -  look for the parent menu
                 if ( !in_array($page['parent_menu'], array('Theme Options','top', 'dashboard', 'posts', 'media', 'links', 'pages', 'comments', 'appearance', 'plugins', 'users', 'tools', 'settings' )) ) {
                     // We need to loop again to find the key of the custom top level parent menu
                     foreach ($pages as $searchkey => $searchvalue ) {
@@ -340,7 +336,7 @@ class KST_Kitchen extends KST {
         }
 
         if ( FALSE == $custom_start_index ) {
-            // Lastly put all of this above appear
+            // Lastly put all of this above 'Appearance' in the sidebar if we have at least one KST managed menu
             global $menu;
 
             $menu[] = array('','','','','');; // Need a dummy element to stick our separator in
@@ -535,29 +531,6 @@ class KST_Kitchen extends KST {
     */
     protected function _setDeveloper_url($value) {
         $this->developer_url = $value;
-    }
-
-
-    /**
-     * Get a custom kitchen variable
-     *
-     * @since       0.1
-     * @access      public
-     * @return      string
-    */
-    public function getVar($variable) {
-        return $this->{$variable};
-    }
-
-
-    /**
-     * Set a custom kitchen variable
-     *
-     * @since       0.1
-     * @access      public
-    */
-    public function setVar($variable, $value) {
-        $this->{$variable} = $value;
     }
 
 
