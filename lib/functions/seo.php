@@ -177,11 +177,6 @@ $kst_options_seo_settings = array (
 $kst_options_seo = new KST_Options('kst_options_seo_settings', 'appearance', 'SEO and Meta');
 
 
-add_action('admin_menu', 'kst_load_settings_core');
-function test_menus() {
-print_r( get_admin_menu_section('Dashboard') );
-}
-
 
 /**
  * Set meta page title separator character
