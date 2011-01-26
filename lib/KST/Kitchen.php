@@ -30,19 +30,20 @@ class KST_Kitchen extends KST {
     protected $namespace;
     protected $developer;
     protected $developer_url;
+    protected $_appliance;
     /**#@-*/
 
 
     /**
      * Theme/Plugin instance constructor
+     *
+     * @since       0.1
+     * @access      protected
+     * @param       required array $settings
+     * @param       optional string $preset // As a convenience you can just pass a preset when you make your kitchen
     */
     protected function __construct( $settings, $preset=null ) {
 
-        /**#@+
-         * KST default settings
-         *
-         * @since       0.1
-         */
         $default_settings = array(
             'friendly_name'             => 'Kitchen Sink',
             'prefix'                    => 'kst_0_2',
@@ -55,12 +56,122 @@ class KST_Kitchen extends KST {
         $this->_setPrefix( $settings['prefix'] );
         $this->_setDeveloper( $settings['developer'] );
         $this->_setDeveloper_url( $settings['developer_url'] );
-        $this->namespace = "kst_" . $this->prefix . "_"; //$this->_formatNamespace( $this->getPrefix() )
+        $this->namespace = "kst_" . $this->prefix . "_";
+        $this->_appliance = array();
+
+        // Anything to help a brother out - sure we'll load that preset
         if ($preset) {
-            KST::initPreset($preset);
+            $this->loadPreset($preset);
         }
     }
 
+
+    /**
+     * Registers a loadable appliance and shortname for it
+     *
+     * This is intended for plugins using KST that want to load
+     * custom classes and be able to access them or give access to them
+     * with the same syntax as the bundled appliances. While the load() method
+     * will simply 'include' a file, unless you want to make it available for
+     * the theme developer to call programatically later, just include
+     * functions library and heaven forbid, procedural code, normally through php
+     *
+     * @since       0.1
+     * @access      public
+     * @param       required string $shortname unique identifier in KST for your appliance
+     * @param       required string $path /absolute/path/including/filename.php to the class or functions library to load
+     * @param       optional string $class_name The name of the class to invoke if the appliance is a class file
+    */
+    public function registerAppliance($shortname, $path, $class_name=false) {
+        if (array_key_exists($shortname, $_appliances)) {
+            // collision!
+            trigger_error("You attempted to register an 'Appliance' ({$shortname}) with Kitchen Sink HTML5 Base that is already register. Please choose a more unique shortname to register.", E_USER_NOTICE);
+        } else {
+            //self::$_appliances[$shortname] = [];
+            self::$_appliances[$shortname]['path'] = $path;
+            self::$_appliances[$shortname]['class_name'] = $class_name; // FALSE if appliance is not a class
+        }
+    }
+
+
+    /**
+     * Load appliances (classes, functions/helper libraries)
+     *
+     * If the file being included is a class (has a class_name) it will be
+     * instantiated using the supplied shortname or a custom object name if supplied
+     *
+     * @param $shortname String or Array The appliance shortname or an array of the shortname and the property you want to use to access this appliance
+     * @params *args Variable amount of remaining arguments will be passed to the constructor
+    */
+    public function load($shortname) {
+        $args = func_get_args();
+        array_shift($args); // get rid of $shortname
+        if (is_array($shortname)) {
+            list($shortname, $property) = $shortname;
+        } else {
+            $property = $shortname;
+        }
+        if (array_key_exists($shortname, self::$_appliances)) { // Find the known appliance to load
+            $appliance = self::$_appliances[$shortname];
+            require_once $appliance['path']; // Load the file
+            if ( $appliance['class_name'] ) { // FALSE if appliance is not a class
+                $_reflection = new ReflectionClass($appliance['class_name']);
+                $this->{$property} = $_reflection->newInstanceArgs($args);
+                return true;
+            } else {
+                return TRUE; // Just tell them we finished
+            }
+        } else {
+            return FALSE;
+        }
+    }
+
+    /**
+     * KST presets
+     *
+     * @since       0.1
+    */
+    public function loadPreset( $preset = 'default') {
+        switch ($preset) {
+            case 'minimum':
+                $this->load('wp_sensible_defaults');
+                $this->load('help');
+            break;
+            case 'and_the_kitchen_sink':
+                foreach (parent::$_appliances as $key => $value) {
+                    $this->load($key);
+                }
+            break;
+            default:
+                $this->load('wp_sensible_defaults');
+                $this->load('help');
+                $this->load('seo');
+                $this->load('wordpress');
+                $this->load('contact');
+            break;
+        }
+    }
+
+    /**
+     *
+    */
+    public function __get($name) {
+
+        //$this->_appliance[$name]
+
+        echo "Getting '$name'\n<br />";
+        if (array_key_exists($name, $this->_appliance)) {
+            return $this->_appliance[$name];
+        }
+
+        $trace = debug_backtrace();
+        trigger_error(
+            'Undefined property via __get(): ' . $name .
+            ' in ' . $trace[0]['file'] .
+            ' on line ' . $trace[0]['line'],
+            E_USER_NOTICE);
+        return null;
+    }
 
     /**
      * Kitchen wants a new option group
@@ -77,8 +188,8 @@ class KST_Kitchen extends KST {
         if ( is_admin() ) {
 
             // Make sure we have or array to save all the pages to
-            if ( !isset(parent::$all_admin_pages) )
-                parent::$all_admin_pages = array();
+            if ( !isset(parent::$_all_admin_pages) )
+                parent::$_all_admin_pages = array();
 
             // Create generic title if none given
             $page_title = ( $page_title ) ? $page_title
@@ -97,7 +208,7 @@ class KST_Kitchen extends KST {
                     $unique_menu_slug .= "_" . $i;
                 }
                 // Check if the $unique slug exists in our master pages array
-                $does_key_exist = ( array_key_exists($unique_menu_slug,  parent::$all_admin_pages) )
+                $does_key_exist = ( array_key_exists($unique_menu_slug,  parent::$_all_admin_pages) )
                                 ? TRUE
                                 : FALSE;
 
@@ -115,7 +226,7 @@ class KST_Kitchen extends KST {
             $new_page = new KST_AdminPage_OptionsGroup( $options_array, $menu_title, $unique_menu_slug, $parent_menu, $page_title, $this->namespace );
 
             // Naming the keys using the menu_slug so we can manipulate our menus later
-            parent::$all_admin_pages[$unique_menu_slug] = array( 'type'=>$this->type_of_kitchen, 'name'=>$this->friendly_name, 'parent_menu'=>$parent_menu, 'page'=>$new_page);
+            parent::$_all_admin_pages[$unique_menu_slug] = array( 'type'=>$this->type_of_kitchen, 'name'=>$this->friendly_name, 'parent_menu'=>$parent_menu, 'page'=>$new_page);
 
             if ( !has_action( 'admin_menu', 'KST_Kitchen::createAdminPages' ) ) {
                 add_action('admin_menu', 'KST_Kitchen::createAdminPages',999); // hook to create menus/pages in admin AFTER we have ALL the options
@@ -143,7 +254,7 @@ class KST_Kitchen extends KST {
         // Reorganize: Set up temporary arrays and settings to group everything
         $doCoreOnly = TRUE;
         $custom_start_index = 223;
-        $temp_all_admin_pages = parent::$all_admin_pages;
+        $temp__all_admin_pages = parent::$_all_admin_pages;
         $temp_core_options = array();
         /*$temp_kst_options = array();*/
         $temp_kst_theme_options = array();
@@ -152,7 +263,7 @@ class KST_Kitchen extends KST {
         $temp_plugin_options = array();
         $temp_plugin_other = array();
         // Reorganize: Determine if a kitchen exists and build grouped temporary arrays
-        foreach ( $temp_all_admin_pages as $key => $page ) {
+        foreach ( $temp__all_admin_pages as $key => $page ) {
             if ($page['parent_menu'] <> 'core') {
                 $doCoreOnly = FALSE; // We have a kitchen so core options will be moved accordingly
                 if ( 'kst' == $page['parent_menu'] ) {
@@ -170,7 +281,7 @@ class KST_Kitchen extends KST {
             } else {
                 $temp_core_options[$key] = $page; // Core options
             }
-            unset( $temp_all_admin_pages[$key] ); // Remove this item from the master array
+            unset( $temp__all_admin_pages[$key] ); // Remove this item from the master array
         }
 
         // Reorganize: Assign 'kst' and 'core' menus a proper parent_menu and slug
@@ -299,7 +410,7 @@ class KST_Kitchen extends KST {
         $skip_it = FALSE; // Flag used to help skip the query if we've checked it before
 
         // Check to see if the current key exists
-        if ( !array_key_exists( $namespaced_option, self::$extant_options ) ) { // Don't know yet, so make a query to test for actual row
+        if ( !array_key_exists( $namespaced_option, self::$_extant_options ) ) { // Don't know yet, so make a query to test for actual row
             $does_exist = KST_AdminPage_OptionsGroup::getOption($this->namespace, $option, $default);
         } else { // The option name exists in our "extantoptions" array so just skip it
             $skip_it = true;
@@ -307,7 +418,7 @@ class KST_Kitchen extends KST {
 
         // Return the answer
         if ( $skip_it || $does_exist ) { // The option exists regardless of trueness of value
-            self::$extant_options[$namespaced_option]['exists'] = true; // Save in array if exists to minimize repeat queries
+            self::$_extant_options[$namespaced_option]['exists'] = true; // Save in array if exists to minimize repeat queries
             return true;
         } else { // The option does not exist at all
             return false;

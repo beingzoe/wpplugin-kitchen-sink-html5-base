@@ -46,6 +46,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         );
         $settings = array_merge( $default_settings, $settings );
 
+
         /**#@+
          * KST common "kitchen" theme/plugin settings
          *
@@ -57,6 +58,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         $this->set_theme_seo_title_sep( $settings['theme_seo_title_sep'] );
 
         parent::__construct($settings, $preset); // Now set the common stuff (has to be last because of preset)
+
 
         /**
          * kst_theme_init
@@ -73,6 +75,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         define( 'KST_SEO_TITLE_SEPARATOR_DEFAULT',           $settings['theme_seo_title_sep'] ); // Really only for SEO "theme_meta_data" I think so not sure it needs to be here
         define( 'CONTENT_WIDTH',        $settings['content_width'] );               // We use this to minimize global scope variables and for sensible defaults
         /**#@-*/
+
 
         /**
          * Figure out how to access the accessor functions of this instance
@@ -102,6 +105,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         return $this->theme_content_width;
     }
 
+
     /**
      * Set this theme_content_width
      *
@@ -111,6 +115,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
     protected function set_theme_content_width($value) {
         $this->theme_content_width = $value;
     }
+
 
     /**
      * Get this theme_excerpt_length
@@ -122,6 +127,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         return $this->theme_excerpt_length;
     }
 
+
     /**
      * Set this theme_excerpt_length
      *
@@ -132,6 +138,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         $this->theme_excerpt_length = $value;
     }
 
+
     /**
      * Get this theme_seo_title_sep
      *
@@ -141,6 +148,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
     public function get_theme_seo_title_sep() {
         return $this->theme_seo_title_sep;
     }
+
 
     /**
      * Set this theme_seo_title_sep

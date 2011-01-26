@@ -1,8 +1,10 @@
 <?php
 /**
- * KST SENSIBLE DEFAULTS FUNCTIONS
+ * Core settings and initialization
  *
- * Functions only required if we are in the WP admin
+ * KST behaves like a any other kitchen (plugin).
+ * The only difference being that it initializes various
+ * shared static members for the other kitchens to use and communicate
  *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
@@ -14,9 +16,70 @@
  * @since       0.1
  */
 
-/**
- * Add hook to load core settings menu once the menu is available to add
- */
+// Set the core appliances array for KST::$_appliances;
+function kst_bundled_appliances() {
+    $kst_bundled_appliances = array(
+        'wp_sensible_defaults' => array(
+                'path'          => KST_DIR_LIB . '/functions/wp_sensible_defaults.php',
+                'class_name'    => FALSE
+            ),
+        'help' => array(
+                'path'          => KST_DIR_LIB . '/functions/theme_help.php',
+                'class_name'    => FALSE
+            ),
+        /*
+        'seo' => array(
+                'path'          => KST_DIR_LIB . '/functions/seo.php',
+                'class_name'    => FALSE
+            ),
+        */
+        'wordpress' => array(
+                'path'          => KST_DIR_LIB . '/KST/Wordpress.php',
+                'class_name'    => 'KST_Wordpress'
+            ),
+        /*
+        'contact' => array(
+                'path'          => KST_DIR_LIB . '/functions/contact.php',
+                'class_name'    => FALSE
+            ),
+        */
+        'widgetNavPost' => array(
+                'path'          => KST_DIR_LIB . '/KST/Widget/NavPost.php',
+                'class_name'    => FALSE
+            ),
+        'widgetNavPosts' => array(
+                'path'          => KST_DIR_LIB . '/KST/Widget/NavPosts.php',
+                'class_name'    => FALSE
+            ),
+        'widgetJitSidebar' => array(
+                'path'          => KST_DIR_LIB . '/KST/Widget/JitSidebar.php',
+                'class_name'    => FALSE
+            ),
+        'jqueryLightbox' => array(
+                'path'          => KST_DIR_LIB . '/functions/jquery/lightbox.php',
+                'class_name'    => FALSE
+            ),
+        'mp3Player' => array(
+                'path'          => KST_DIR_LIB . '/functions/mp3_player.php',
+                'class_name'    => FALSE
+            ),
+        'jitMessage' => array(
+                'path'          => KST_DIR_LIB . '/functions/jquery/jit_message.php',
+                'class_name'    => FALSE
+            ),
+        'jqueryCycle' => array(
+                'path'          => KST_DIR_LIB . '/functions/jquery/cycle.php',
+                'class_name'    => FALSE
+            ),
+        'jqueryToolsScrollable' => array(
+                'path'          => KST_DIR_LIB . '/functions/jquery/scrollables.php',
+                'class_name'    => FALSE
+            ),
+        );
+    return $kst_bundled_appliances;
+}
+
+// Every kitchen needs the basic settings
 $kst_core_settings = array(
             /* REQUIRED */
             'friendly_name'       => 'Kitchen Sink HTML5 Base',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
@@ -25,128 +88,15 @@ $kst_core_settings = array(
             'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
         );
 
-/**
- * Define the settings for the core
- */
 
- $kst_core_options_test = array (
-            array(  "name"      => __('Core'),
-                    "desc"      => __("
-                                    Yes.
-                                "),
-                    "type"      => "section",
-                    "is_shut"   => FALSE )
-            );
-
+// Define the options for the core
 $kst_core_options = array (
-            array(  "name"      => __('Kitchen Sink Base core settings'),
-                    "desc"      => __("
-                                    <p><em>There are no core settings at this time</em></p>
-                                "),
-                    "type"      => "section",
-                    "is_shut"   => FALSE ),
-
-        array(  "name"  => __('PLUGIN Favorite color'),
-                "desc"  => __('Red? Green? Blue?'),
-                "id"    => "favorite_color",
-                "default"   => "",
-                "type"  => "text",
-                "size"  => "15"),
-
-        array(  "name"    => __('PLUGIN TEST2'),
-                "desc"  => __("
-
-                            "),
-                "type"  => "section"),
-
-        array(  "name"  => __('PLUGIN TEST RADIO BUTTON'),
-                "desc"  => __('What choice will you make?'),
-                "id"    => "TEST_RADIO_BUTTON",
-                "default"   => "this radio 3",
-                "type"  => "radio",
-                "options" => array(     "this radio 1",
-                                        "this radio 2",
-                                        "this radio 3",
-                                        "this radio 4",
-                                        "this radio 5"
-                                            )
-                ),
-
-
-
-        array(    "name"    => __('PLUGIN Textarea'),
-                        "desc"    => __("What you type here will indicate the possibility of success."),
-                        "id"      => "textarea_id",
-                        "std"     => __("You do not have to put any defaults"),
-                        "type"    => "textarea",
-                        "rows" => "2",
-                        "cols" => "55"
-                        ),
-
-        array(    "name"    => __('PLUGIN Select'),
-                        "desc"    => __("There are many choices awaiting"),
-                        "id"      => "TEST_SELECT",
-                        "default"     => "Select 4",
-                        "type"    => "select",
-                        "options" => array(    "Select 1",
-                                            "Select 2",
-                                            "Select 3",
-                                            "Select 4",
-                                            "Select 5"
-                                            )
-                        ),
-
-        array(  "name"  => __('PLUGIN Asides Category'),
-                "desc"  => __('Pick the category to use as your sideblog'),
-                "id"    => "TEST_ASIDES_CATEGORY_SELECTOR",
-                "type"  => "select_wp_categories",
-                "args" => array(
-
-                                            )
-                ),
-
-        array(  "name"  => __('PLUGIN Featured Page'),
-                "desc"  => __('Choose the page to feature'),
-                "id"    => "TEST_PAGE_SELECTOR",
-                "type"  => "select_wp_pages",
-                "args" => array(
-
-                                            )
-                ),
-
-        array(    "name"    => __('PLUGIN MultiSelect'),
-                        "desc"    => __("There are many choices awaiting and you can have them all"),
-                        "id"      => "TEST_MULTISELECT",
-                        "default"     => "Select 5",
-                        "type"    => "select",
-                        "multi"   => TRUE,
-                        "size"   => "8",
-                        "options" => array(    "Select 1",
-                                            "Select 2",
-                                            "Select 3",
-                                            "Select 4",
-                                            "Select 5",
-                                            "Select 6",
-                                            "Select 7",
-                                            "Select 8"
-                                            )
-                        )
-
+    array(  "name"      => __('Kitchen Sink Base core settings'),
+            "desc"      => __("
+                            <p><em>There are no core settings at this time.<br />But we sure are glad you are using Kitchen Sink HTML5 Base.</em></p>
+                            <p>Various links to the documentation, git repos, and other stuff will also be here soon.</p>
+                        "),
+            "type"      => "section",
+            "is_shut"   => FALSE )
     );
 
-/**
- * Instantiate core menu
-*/
-$my_core = new KST_Kitchen_Plugin($kst_core_settings);
-
-$my_core->addOptionPage($kst_core_options_test, 'About KST', 'core') ;
-
-function kst_load_settings_core() {
-    //global $kst_options;
-
-    /**
-     * Create KST core options page
-     */
-    //$kst_options = new KST_Options('kst_settings_core', 'settings', 'KST Core', 'Kitchen Sink Core options');
-
-}
