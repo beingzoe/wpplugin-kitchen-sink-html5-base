@@ -75,7 +75,28 @@ require_once KST_DIR_LIB . '/KST/AdminPage/Help.php';
 require_once KST_DIR_LIB . '/functions/settings_core.php';
 
 /**
- * Add hooks for core functionality
+ * Loads the bundled appliances array set in settings core into KST::$_appliances
+ *
+ * @since       0.1
+*/
+KST::init_appliances();
+
+/**
+ * Instantiate the core as it's own 'kitchen'
+ *
+ * @since       0.1
+*/
+$kst_core = new KST_Kitchen_Plugin($kst_core_settings);
+
+/**
+ * Add the core options/about page
+ *
+ * @since       0.1
+*/
+$kst_core->addOptionPage($kst_core_options, 'About KST', 'core') ;
+
+/**
+ * Add WP hooks for core functionality
 */
 add_action('activated_plugin', 'loadAsFirstPlugin');
 add_action('plugins_loaded', 'KST::pluginsAreLoaded'); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
