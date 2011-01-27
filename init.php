@@ -78,6 +78,10 @@ $kst_bundled_appliances = array(
             'path'          => KST_DIR_LIB . '/functions/wp_sensible_defaults.php',
             'class_name'    => FALSE
         ),
+    'wp_sensible_defaults_admin' => array(
+                'path'          => KST_DIR_LIB . '/functions/wp_sensible_defaults_admin.php',
+                'class_name'    => FALSE
+        ),
     'help' => array(
             'path'          => KST_DIR_LIB . '/functions/theme_help.php',
             'class_name'    => FALSE

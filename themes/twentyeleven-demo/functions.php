@@ -98,6 +98,16 @@ if ( class_exists('KST') ) {
 
     // Any other KST dependent code should be here to protect it in case the "KST plugin framework" is removed
 
+    echo "getThemeContentWidth=" . $my_theme->getThemeContentWidth() . "<br />";
+    echo "getThemeExcerptLength=" . $my_theme->getThemeExcerptLength() . "<br />";
+    echo "getThemeSeoTitleSep=" . $my_theme->getThemeSeoTitleSep() . "<br />";
+    KST_Kitchen_Theme::setThemeContentWidth(1000);
+    KST_Kitchen_Theme::setThemeExcerptLength(200);
+    KST_Kitchen_Theme::setThemeSeoTitleSep('|');
+    echo "getThemeContentWidth=" . KST_Kitchen_Theme::getThemeContentWidth() . "<br />";
+    echo "getThemeExcerptLength=" . KST_Kitchen_Theme::getThemeExcerptLength() . "<br />";
+    echo "getThemeSeoTitleSep=" . KST_Kitchen_Theme::getThemeSeoTitleSep() . "<br />";
+
 } else {
     // Needs to check if it is in the admin section OR in the login page (login is not in the admin)
     if ( is_admin() ) {

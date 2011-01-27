@@ -158,6 +158,7 @@ class KST_Kitchen {
             break;
             default:
                 $this->load('wp_sensible_defaults');
+                $this->load('wp_sensible_defaults_admin');
                 $this->load('help');
                 $this->load('seo');
                 $this->load('wordpress');
