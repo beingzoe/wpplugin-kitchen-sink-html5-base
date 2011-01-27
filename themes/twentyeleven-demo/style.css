@@ -724,7 +724,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         height: auto;
     }
 
-    /* kst_caption_shortcode_filtered() (filter default WP wp_caption & caption code)
+    /* kstFilterShortcodeCaptionAndWpCaption() (filter default WP wp_caption & caption code)
      * See functions.php
      *
      * wp_attachment & wp_caption are used when inserting images and in attachment.php

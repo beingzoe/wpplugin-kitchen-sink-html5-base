@@ -3,7 +3,7 @@
  * Comments partial/include template
  *
  * Current comments and the comment form.
- * Formatting/display of comments handled by a callback to kst_format_wp_list_comments() in functions.php
+ * Formatting/display of comments handled by a callback to kstFormatWpListComments() in functions.php
  *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
@@ -42,7 +42,7 @@ if ( post_password_required() ) {
                       * wp_list_comments is dumb
                       * There is no reason for this kind of rigamorale to customize html
                       */
-					wp_list_comments('style=ol&type=comment&callback=kst_format_wp_list_comments'); // See functions.php to edit
+					wp_list_comments('style=ol&type=comment&callback=kstFormatWpListComments'); // See functions.php to edit
 				?>
 			</ol>
 
