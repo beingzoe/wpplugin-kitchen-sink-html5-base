@@ -40,6 +40,7 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      * @param       required string $namespace // N.B. Options and options group are namespaced automatically e.g. namespace_optionname, namespace_optionsgroup
     */
     public function __construct(&$options_array, $menu_title, $menu_slug, $parent_menu, $page_title, $namespace) {
+
         parent::__construct($menu_title, $menu_slug, $parent_menu, $page_title, $namespace); // Pass the common stuff on to the parent first
 
         $this->options_array =& $options_array; // The options array by reference
@@ -120,6 +121,10 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      *       "option_1" is saved to the db as "namespace_option_1"
     */
     public function registerSettingsWithWP() {
+
+        // If you can't manage your options then you can't have any menus - speed things up a bit
+        if (!current_user_can('manage_options'))
+            return false;
 
         require_once KST_DIR_VENDOR . '/ZUI/FormHelper.php';
 
