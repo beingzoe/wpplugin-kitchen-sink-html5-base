@@ -20,7 +20,7 @@
             ?>
             <div id="wp_entry_author">
                 <div id="wp_entry_author_avatar">
-                    <?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'twentyten_author_bio_avatar_size', 60 ) ); ?>
+                    <?php echo get_avatar( get_the_author_meta( 'user_email' ), apply_filters( 'kst_author_bio_avatar_size', 60 ) ); ?>
                 </div>
                 <div id="wp_entry_author_info">
                     <h2><?php printf( esc_attr__( 'About %s', 'twentyten' ), get_the_author() ); ?></h2>
