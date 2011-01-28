@@ -187,6 +187,8 @@ if ( !function_exists('kstFilterTheTitleToIncludePageNumber') ) {
  *
  * li is not closed by WordPress design; closed automatically on output
  *
+ * @see         kstFormatWpListCommentsEnd()
+ * @see         wp_list_comments() WP function
  * @global      object $comment WP current comments for the current $post
  * @uses        comment_class()
  * @uses        comment_ID()
@@ -194,50 +196,51 @@ if ( !function_exists('kstFilterTheTitleToIncludePageNumber') ) {
  * @uses        __()
  * @uses        get_comment_link()
  * @uses        edit_comment_link()
- * @uses        get_comment_author_link()
+ * @uses        get_wp_comment_author_link()
  * @uses        get_comment_date()
  * @uses        get_comment_time()
  * @uses        comment_text()
  * @uses        comment_reply_link()
  * @todo        pingbacks last
- */
+*/
 if ( !function_exists('kstFormatWpListComments') ) {
     function kstFormatWpListComments($comment, $args, $depth) {
 
         $GLOBALS['comment'] = $comment; ?>
 
-        <?php if ($comment->comment_approved == '0') : ?>
-            <li class="comment-moderate"><?php _e('Your comment is awaiting moderation.') ?></li>
-        <?php endif; ?>
+        <article id="wp_comment-<?php comment_ID(); ?>"<?php comment_class('wp_comment clearfix'); ?>>
+<?php
+            if ($comment->comment_approved == '0') {
+                 echo "<span class='wp_comment_moderated'>" . __('Your comment is awaiting moderation.') . "</span>";
+            }
+?>
 
-        <li id="li-comment-<?php comment_ID() ?>" <?php comment_class('clearfix'); ?>>
+<?php if ( get_option('show_avatars') ) : ?>
+            <div class="wp_comment_avatar">
+                <?php echo get_avatar($comment, $size='48' ); ?>
+            </div>
+<?php endif; ?>
 
-            <?php if ( get_option('show_avatars') ) : ?>
-                <div class="comment_avatar">
-                    <?php echo get_avatar($comment, $size='48' ); ?>
-                </div>
-            <?php endif; ?>
-
-            <div id="comment-<?php comment_ID(); ?>" <?php comment_class('clearfix'); ?>>
-                <div class="comment-author vcard">
+            <div>
+                <div class="wp_comment_author vcard">
                     <?php
-                        //printf(__('<cite class="fn">%s</cite> <span class="says">says:</span>'), get_comment_author_link())
+                        //printf(__('<cite class="fn">%s</cite> <span class="says">says:</span>'), get_wp_comment_author_link())
                         printf(__('<cite class="fn">%s</cite>'), get_comment_author_link())
                     ?>
                 </div>
 
-                <div class="comment-meta commentmetadata">
+                <div class="wp_comment_meta commentmetadata">
                     <a href="<?php echo htmlspecialchars( get_comment_link( $comment->comment_ID ) ) ?>"
                     ><?php printf(__('%1$s at %2$s'), get_comment_date(),  get_comment_time()) ?></a>
                 </div>
 
-                <div class="comment-comment">
+                <div class="wp_comment_comment">
                     <?php comment_text(); ?>
                 </div>
 
                 <div class="reply">
                     <?php
-                        comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'])));
+                        comment_reply_link(array_merge( $args, array('depth' => $depth, 'max_depth' => $args['max_depth'], 'add_below' => 'wp_comment')));
                         edit_comment_link(__('Edit'),'  ','');
                     ?>
                 </div>
@@ -245,6 +248,29 @@ if ( !function_exists('kstFormatWpListComments') ) {
     <?php
     }
 }
+
+/**
+ * Callback function to wp_list_comments() specifically 'end-callback'
+ *
+ * kstFormatWpListCommentsEnd() is needed for closing the parent comment article
+ * if threaded comments are to be nested.
+ *
+ * If you decide to NOT NEST threaded comments and want to close the comment container
+ * in kstFormatWpListComments() and you are not using a <ul>, <ol>, or <div> as the container
+ * e.g. <article> or <aside> then you still need this function to prevent WP from outputting
+ * a closing </li>
+ *
+ * @see         kstFormatWpListComments()
+ * @see         wp_list_comments() WP function
+*/
+if ( !function_exists('kstFormatWpListCommentsEnd') ) {
+    function kstFormatWpListCommentsEnd() {
+        echo "</article>"; // Not closed in opening function so threaded comments are nested
+    }
+}
+
+
+
 
 /**
  * kstFilterShortcodeCaptionAndWpCaption
@@ -272,7 +298,8 @@ if ( !function_exists('kstFilterShortcodeCaptionAndWpCaption') ) {
     function kstFilterShortcodeCaptionAndWpCaption($attr, $content = null) {
 
         // Allow plugins/themes to override the default caption template.
-        $output = apply_filters('img_caption_shortcode', '', $attr, $content);
+        $output = apply_filters('kst_wp_caption_shortcode', '', $attr, $content);
+
         if ( $output != '' )
             return $output;
 

@@ -12,78 +12,85 @@
  * @subpackage  TwentyEleven
  * @version     0.4
  * @since       1.0
- */
+*/
 ?>
 
-<section id="#comments">
+<section id="comments">
 
 <?php
+
+
 if ( post_password_required() ) {
-    echo '<section id="comments"><p class="nopassword">' . _e( 'This post is password protected. Enter the password to view any comments.', 'twentyten' ) . '</p></section><!-- #comments -->';
-    return; // Stop the rest of comments.php
-};
 
- if ( have_comments() ) : ?>
-			<h3 id="comments-title"><?php
-			printf( _n( 'One Response to %2$s', '%1$s Responses to %2$s', get_comments_number(), 'twentyten' ),
-			number_format_i18n( get_comments_number() ), '<em>' . get_the_title() . '</em>' );
-			?></h3>
+    // No password then you get know comments - post is password protected
+    echo "<p class='nopassword'>" . _e( 'This post is password protected. Enter the password to view any comments.', 'twentyten' ) . "</p>";
+    echo "</section><!-- #comments -->"; // Has to close itself because...
+    return; // We stop the rest of comments.php
 
-<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? ?>
-			<div class="navigation">
-				<div class="nav-previous"><?php previous_comments_link( __( '<span class="meta-nav">&larr;</span> Older Comments', 'twentyten' ) ); ?></div>
-				<div class="nav-next"><?php next_comments_link( __( 'Newer Comments <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?></div>
-			</div> <!-- .navigation -->
-<?php endif; /* check for comment navigation */ ?>
+} else if ( !comments_open() ) {
 
-			<ol class="commentlist">
-				<?php
-					/**
-                      * wp_list_comments is dumb
-                      * There is no reason for this kind of rigamorale to customize html
-                      */
-					wp_list_comments('style=ol&type=comment&callback=kstFormatWpListComments'); // See functions.php to edit
-				?>
-			</ol>
+    // The party is over - no further discussion to be had here
+    echo "<p class='nocomments'>" .  __( 'Comments are closed for this post.<br />Email us if you still have something to say.', 'twentyten' ) . "</p>";
 
-<?php if ( get_comment_pages_count() > 1 && get_option( 'page_comments' ) ) : // Are there comments to navigate through? ?>
-			<div class="navigation">
-				<div class="nav-previous"><?php previous_comments_link( __( '<span class="meta-nav">&larr;</span> Older Comments', 'twentyten' ) ); ?></div>
-				<div class="nav-next"><?php next_comments_link( __( 'Newer Comments <span class="meta-nav">&rarr;</span>', 'twentyten' ) ); ?></div>
-			</div><!-- .navigation -->
-<?php endif; // check for comment navigation ?>
 
-<?php else : // or, if we don't have comments:
+} else if ( have_comments() ) {
 
-	/* If there are no comments and comments are closed,
-	 * let's leave a little note, shall we?
-	 */
-	if ( ! comments_open() ) :
-?>
-	<p class="nocomments"><?php _e( 'Comments are closed.', 'twentyten' ); ?></p>
-<?php endif; /* end ! comments_open() */ ?>
+    // Woohoo! We have comments and we are going to share them.
+    echo "<header>";
+        echo "<h3 id='wp_comments_title'>" .  sprintf( _n( 'One Response to %2$s', '%1$s Responses to %2$s', get_comments_number(), 'twentyten' ),
+                                                        number_format_i18n( get_comments_number() ), '<em>' . get_the_title() . '</em>' );
+        echo "</h3>";
 
-<?php endif; /* end have_comments() */ ?>
+        // Show comments navigation if paged
+        include( locate_template( array( '_nav_comments.php' ) ) );
+    echo "</header>";
 
-<?php
-/*. $aria_req*/
-$fields =  array(
+    /**
+     * Outputting comments using wp_list_comments and TWO CALLBACKS
+     *
+     * @see         wp_sensible_defaults.php
+     * @see         kstFormatWpListComments()
+     * @see         kstFormatWpListCommentsEnd()
+     *
+     * These callback functions only exist if you are using the ''wp_sensible_defaults' appliance
+     * found in /libs/functions/wp_sensible_defaults.php
+     * Create your markup 'template' for the comments by "plugging" the two functions above.
+     *
+     * Or make your own callbacks if you are not using the 'wp_sensible_defaults' appliance.
+     * If you are not using 'wp_sensible_defaults' then you MUST create your own callbacks for wp_list_comments()
+    */
+    wp_list_comments('style=div&type=comment&callback=kstFormatWpListComments&end-callback=kstFormatWpListCommentsEnd'); // Using wp_sensible_defaults callbacks
+
+    echo "<footer>";
+        // Show comments navigation if paged
+        include( locate_template( array( '_nav_comments.php' ) ) );
+    echo "</footer>";
+
+} else { // or, if we don't have comments:
+
+
+} // End have_comments()
+
+// Comment form arguments - Altered markup to allow for more customization - ideally <p> would be replaced with a more semantically correct element
+$comment_form_fields =  array(
 	'author' => '<p class="comment-form-author">' . '<label for="author">' . __( 'Name' ) . ( $req ? '<span class="required">*</span>' : '' ) . '</label> ' .
 	            '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"'  . ' /></p>',
 	'email'  => '<p class="comment-form-email"><label for="email">' . __( 'Email' ) . ( $req ? '<span class="required">*</span>' : '' ) . '</label> ' .
-	            '<input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . ' /></p>',
+	            '<input id="email" name="email" type="text" value="' . esc_attr(  $commenter['comment_author_email'] ) . '" size="30"' . $aria_req . ' /></p>',
 	'url'    => '<p class="comment-form-url"><label for="url">' . __( 'Website' ) . '</label>' .
-	            '<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" /></p>',
-); ?>
+	            '<input id="url" name="url" type="text" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30"' . $aria_req . ' /></p>',
+);
 
-
-<?php
-    function comment_form_fix($post_ID)  {
+/**
+ * Hack to fix clearing this crazy form with the floating I like to do here
+*/
+if (!function_exists('kst_comment_form_clearfix')) {
+    function kst_comment_form_clearfix($post_ID)  {
        echo "<div class='clear clearfix'>&nbsp;</div>";
     }
-    add_action('comment_form', 'comment_form_fix');
-    $comment_form_args = array('fields' => $fields);
-    comment_form( $comment_form_args );
+}
+add_action('comment_form', 'kst_comment_form_clearfix');
+comment_form( array('fields' => $comment_form_fields) );
 ?>
 
 </section><!-- #comments -->
