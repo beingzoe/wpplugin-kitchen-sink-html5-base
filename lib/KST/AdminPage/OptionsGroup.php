@@ -20,13 +20,17 @@
  */
 class KST_AdminPage_OptionsGroup extends KST_AdminPage {
 
-    /**#@+
+    /**
+     * @since       0.1
+     * @access      public
+    */
+    public $options_array; // reference to original options array
+
+    /**
      * @since       0.1
      * @access      protected
     */
-    public $options_array; // reference to original options array
     protected $settings_options_group; // A group of options that belong to a menu/page associated by menu_slug
-    /**#@-*/
 
 
     /**
