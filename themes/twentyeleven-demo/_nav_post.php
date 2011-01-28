@@ -1,16 +1,23 @@
 <?php
 /**
- * Display navigation to next/previous post when applicable
+ * Display navigation to next/previous/more post to post when applicable
  * DRY include/partial
+ *
+ * Note that by default this also includes a list of the 5 most recent posts
+ * immediately following the previous/next.
+ *
+ * Aside
+ *      ul
+ *          li
  *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Themes
  * @subpackage  TwentyEleven
- * @version     0.4
- * @since       1.0
- */
+ * @version     0.1
+ * @since       0.1
+*/
 ?>
 
 <aside class="wp_next_previous_more clearfix">

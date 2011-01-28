@@ -36,9 +36,9 @@
 <body <?php body_class('wp'); ?>>
 
 <div id="doc">
-<header id="hd" class="clearfix">
+<header id="hd" class="clearfix" role="banner">
     <hgroup class="clearfix">
-        <h1 id="hd_logo"><a href="<?php echo home_url(); ?>/" title="<?php bloginfo('name'); ?> Home"><?php bloginfo('name'); ?></a></h1>
+        <h1 id="hd_logo"><a href="<?php echo home_url(); ?>/" title="<?php bloginfo('name'); ?> Home" rel="home"><?php bloginfo('name'); ?></a></h1>
         <h2 id="hd_tag"><?php bloginfo('description'); ?></h2>
     </hgroup>
     <?php
@@ -51,15 +51,17 @@
                     echo '<img id="hd_image" src="' . get_header_image() . '" width="' . HEADER_IMAGE_WIDTH . '" height="' . HEADER_IMAGE_HEIGHT . '" alt="" />' . "\n";
         }
 
-        /* Output masthead menu */
+        /* Output masthead menu e.g. container => false*/
+        echo "<nav class='clearfix' rel='navigation'>"; //manually creating container for ARIA landmark roles
         wp_nav_menu( array(
                     'theme_location'    => 'hd_menu',
-                    'container'         => 'nav',
-                    'container_class'   => 'clearfix',
+                    'container'         => false,
+                    'container_class'   => false,
                     'menu_id'           => 'hd_menu',
                     'sort_column'       => 'menu_order',
                     'depth'             => '3'
                     ) );
+        echo "</nav>";
         ?>
 
 </header>

@@ -55,7 +55,7 @@ EOD;
 add_shortcode('contact_form', 'kst_shortcode_contact_form');
 ?>
 
-<section id="bd" class="clearfix hfeed">
+<section id="bd" class="clearfix hfeed" role="main">
 
 <?php
     # Send email

@@ -15,7 +15,7 @@ get_header();
 
 ?>
 
-<section id="bd" class="clearfix hfeed">
+<section id="bd" class="clearfix hfeed" role="main">
 <article id="page-other" class="page">
 <?php if ( have_posts() ) : ?>
 

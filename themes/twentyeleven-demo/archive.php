@@ -17,7 +17,7 @@ get_header();
 
 ?>
 
-<section id="bd" class="clearfix hfeed">
+<section id="bd" class="clearfix hfeed" role="main">
 
     <?php
         /* Queue the first post, that way we know
