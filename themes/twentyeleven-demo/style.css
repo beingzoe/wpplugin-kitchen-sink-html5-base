@@ -103,7 +103,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     select, input, textarea, button { font:99% sans-serif; }
 
     #hd_tag { font-family: Georgia, serif; }
-    h1, h2, h3, h4, h5, h6, nav, #ft_logo, .wp_entry_footer { font-family: Helvetica, Arial, sans-serif; }
+    h1, h2, h3, h4, h5, h6, nav, #ft_logo, .wp_entry_footer, .wp_next_previous_more { font-family: Helvetica, Arial, sans-serif; }
     pre, code, kbd, samp { font-family: "Lucida Console", Monaco, monospace, sans-serif; }
 
     /* Vertical Rhythm - inspired by http://24ways.org/2006/compose-to-a-vertical-rhythm */
@@ -139,6 +139,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     ol { padding-left: 27px; }
     ul ul, ol ol, ul ol, ol ul, dl dl { margin-top: 0; }
     ol { list-style: decimal outside none; }
+    nav ul { padding-left: 0; }
     nav ul, nav li { margin: 0; }
     dt { font-weight: 700; }
     dt { margin-top: 18px;  }
@@ -593,8 +594,12 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     .post-thumbnail-single { /* container */ }
     .post-thumbnail-single .post-thumbnail-single { /* img */ margin-bottom: 18px; }
 
-    /* Comment form */
+    /* Comments */
     #comments { clear: both; }
+    #comments_title { /* h3 */  }
+
+    /* Comment form */
+
     #respond {
         clear: both;
         min-height: 390px;
@@ -744,11 +749,15 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
        padding-top: 4px;
     }
 
-    /* Next/Previous navigation */
-    .next_previous {
+    /* Next, Previous, more navigation */
+    .wp_next_previous_more {
         clear: both;
         margin-top: 3em;
         margin-bottom: 3em;
+    }
+    .wp_next_previous_more ul {
+        list-style: none;
+        padding-left: 0;
     }
     .previous, .next {
          margin: 0 0 36px;
@@ -759,6 +768,17 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     .previous span { margin-left: -18px; }
     .next span { margin-right: -18px; }
 
+    .wp_next_previous_more .more ul {
+        /* Make this second level be a proper list again */
+        list-style-type: disc;
+        padding-left: 18px;
+    }
+    .wp_next_previous_more .more_title {
+        display: block;
+        /* h2 properties */
+        font-size: 20px; line-height: 36px; margin-top: 36px;
+        margin-bottom: 0em; font-weight: bold;
+    }
 
 
 /*
@@ -846,7 +866,37 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
 /*
  * WP threaded comments
  * comment_class() http://codex.wordpress.org/Template_Tags/comment_class
+ *
+ * Refactor for article
  */
+
+    .wp_comment { /* article */
+        margin: 18px 0 0;
+        padding: 0;
+    }
+
+    .wp_comment_moderated { /* span */
+        font-style: italic;
+    }
+
+    div.comment {
+        float: left;
+        width: 80%;
+    }
+    li.comment .wp_comment_avatar {
+        float: left;
+        width: 48px;
+        margin: 0 18px 18px 0;
+    }
+
+    div.comment .reply {
+        margin: 18px 0;
+        text-align: right;
+    }
+
+
+
+
     ol.commentlist {
         margin: 18px 0 0;
         padding: 0;
@@ -856,11 +906,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         margin: 18px 0 0;
         padding: 0;
     }
-    li.comment-moderate {
-        /* This is weird. I put the moderation announcement outside of the li containing the comment*/
-        font-style: italic;
-        list-style:none;
-    }
+
     li.comment {
         margin-bottom: 18px;
         padding: 18px;
@@ -908,20 +954,13 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     li.comment.bypostauthor:hover {
         background: #faf9e1 none 0 0 repeat;
     }
-    div.comment {
-        float: left;
-        width: 80%;
-    }
+
     li.comment .comment_avatar {
         float: left;
         width: 48px;
         margin: 0 18px 18px 0;
     }
 
-    div.comment .reply {
-        margin: 18px 0;
-        text-align: right;
-    }
     li.comment.odd .comment-author  {
         border-bottom:1px solid #e5e5e6;
     }
