@@ -54,17 +54,34 @@ class KST_AdminPage {
 
     /**
      * @since       0.1
-     * @param       required string $namespace prefix to prepend everything with
-     * @param       required string $menu_title actual text to display in menu
-     * @param       required string $parent_menu Used to internally to track and determine final menu positions i.e. set correct parent_slugs
-     * @param       required string $page_title Explicit title to use on page
+     * @param       required array $options:
+     *              required string namespace prefix to prepend everything with
+     *              required string menu_title actual text to display in menu
+     *              required string parent_menu Used to internally to track and determine final menu positions i.e. set correct parent_slugs
+     *              required string page_title Explicit title to use on page
     */
-    public function __construct($menu_title, $menu_slug, $parent_menu, $page_title, $namespace) {
-        $this->namespace = $namespace;
-        $this->menu_title = $menu_title;
-        $this->menu_slug = $menu_slug;
-        $this->parent_menu = $parent_menu;
-        $this->page_title = $page_title;
+    public function __construct($options) {
+        $options += self::defaultOptions();
+        $this->namespace = $options['namespace'];
+        $this->menu_title = $options['menu_title'];
+        $this->menu_slug = $options['menu_slug'];
+        $this->parent_menu = $options['parent_menu'];
+        $this->page_title = $options['page_title'];
+    }
+
+    /**
+     * This class and its children require a lot of optional arguments that need defaults.
+     * @return array
+    */
+    static public function defaultOptions() {
+        return array(
+            'menu_title' => '',
+            'menu_slug' => '',
+            'page_title' => '',
+            'parent_menu' => 'kst',
+            'namespace' => null,
+            'type_of_kitchen' => 'plugin',
+            'friendly_name' => '');
     }
 
 
@@ -108,13 +125,17 @@ class KST_AdminPage {
      *
      * @since 0.1
      * @uses         KST_AdminPage_OptionsGroup::getOption()
-     * @param       required string option
-     * @param       optional string default ANY  optional, defaults to null
+     * @param       required array $options_array
+     * @param       required array $options of:
+     *              required string namespace prefix to prepend everything with
+     *              required string menu_title actual text to display in menu
+     *              required string parent_menu Used to internally to track and determine final menu positions i.e. set correct parent_slugs
+     *              required string page_title Explicit title to use on page
      * @return      object
      * @todo        test to see if it is faster to let action hook be called multiple times or limit it with has_action()?
-     * @todo        Move the bulk of this code to KST_AdminPage
     */
-    public static function addOptionPage($options_array, $menu_title, $menu_slug, $parent_menu = 'kst', $page_title = FALSE, $namespace = null, $type_of_kitchen = 'plugin', $friendly_name = '') {
+    public static function addOptionPage($options_array, $options = array()) {
+        $options += self::defaultOptions();
         // Only need actual menu/pages if in WP Admin - speed things up
         if ( is_admin() ) {
 
@@ -126,7 +147,7 @@ class KST_AdminPage {
             $i = 0;
             $still_checking = TRUE;
             while ( $still_checking ) {
-                $unique_menu_slug = $menu_slug; // Reset the unique test name each loop
+                $unique_menu_slug = $options['menu_slug']; // Reset the unique test name each loop
                 if ($i > 0) { // After first loop append _$i to try and find a unique slug
                     $unique_menu_slug .= "_" . $i;
                 }
@@ -143,13 +164,14 @@ class KST_AdminPage {
                 }
                 $i++;
             }
+            $options['menu_slug'] = $unique_menu_slug;
 
             // Save this options page object in static member variable to create the actual pages with later
             // We won't actually add the menus or markup html until we have them all and do sorting if necessary and prevent overwriting existing menus
-            $new_page = new KST_AdminPage_OptionsGroup( $options_array, $menu_title, $unique_menu_slug, $parent_menu, $page_title, $namespace );
+            $new_page = new KST_AdminPage_OptionsGroup( $options_array, $options );
 
             // Naming the keys using the menu_slug so we can manipulate our menus later
-            self::$_admin_pages[$unique_menu_slug] = array( 'type'=>$type_of_kitchen, 'name'=>$friendly_name, 'parent_menu'=>$parent_menu, 'page'=>$new_page);
+            self::$_admin_pages[$options['menu_slug']] = array( 'type'=>$options['type_of_kitchen'], 'name'=>$options['friendly_name'], 'parent_menu'=>$options['parent_menu'], 'page'=>$new_page);
 
             if ( !has_action( 'admin_menu', 'KST_AdminPage::createAdminPages' ) ) {
                 add_action('admin_menu', 'KST_AdminPage::createAdminPages',999); // hook to create menus/pages in admin AFTER we have ALL the options

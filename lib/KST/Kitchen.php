@@ -45,22 +45,26 @@ class KST_Kitchen {
      *
      * @since       0.1
      * @access      protected
-     * @param       required array $settings
+     * @param       required array $options:
+     *              required string friendly_name
+     *              required string prefix
+     *              required string developer
+     *              required string developer_url
     */
-    protected function __construct( $settings) {
+    protected function __construct( $options) {
 
-        $default_settings = array(
-            'friendly_name'             => 'Kitchen Sink',
-            'prefix'                    => 'kst_0_2',
-            'developer'                 => 'zoe somebody',
-            'developer_url'             => 'http://beingzoe.com/'
+        $defaults = array(
+            'friendly_name'             => '',
+            'prefix'                    => '',
+            'developer'                 => '',
+            'developer_url'             => ''
         );
-        $settings = array_merge( $default_settings, $settings );
+        $options += $defaults;
 
-        $this->_setFriendlyName( $settings['friendly_name'] );
-        $this->_setPrefix( $settings['prefix'] );
-        $this->_setDeveloper( $settings['developer'] );
-        $this->_setDeveloper_url( $settings['developer_url'] );
+        $this->_setFriendlyName( $options['friendly_name'] );
+        $this->_setPrefix( $options['prefix'] );
+        $this->_setDeveloper( $options['developer'] );
+        $this->_setDeveloper_url( $options['developer_url'] );
         $this->namespace = "kst_" . $this->prefix . "_";
         $this->_local_appliances = array();
     }
@@ -190,20 +194,30 @@ class KST_Kitchen {
      * Kitchen wants a new option group
      *
      * @since 0.1
-     * @uses         KST_AdminPage_OptionsGroup::getOption()
-     * @param       required string option
-     * @param       optional string default ANY  optional, defaults to null
+     * @uses         KST_AdminPage::addOptionPage()
+     * @param       required array $options_array
+     * @param       required array options:
+     *              required string menu_title
+     *              required string parent_menu
+     *              required string page_title
      * @return      object
-     * @todo        test to see if it is faster to let action hook be called multiple times or limit it with has_action()?
     */
-    public function addOptionPage($options_array, $menu_title, $parent_menu = 'kst', $page_title = FALSE) {
+    public function addOptionPage($options_array, $options = array()) {
+        $defaults = array(
+            'menu_title' => '',
+            'parent_menu' => 'kst',
+            'page_title' => '');
+        $options += $defaults;
+        $options['namespace'] = $this->namespace;
+        $options['type_of_kitchen'] = $this->type_of_kitchen;
+        $options['friendly_name'] = $this->friendly_name;
         // Create generic title if none given
-        $page_title = ( $page_title ) ? $page_title
-                                      : $this->getFriendlyName() . " " . $menu_title;
+        $page_title = ( empty($options['page_title']) ) ? $options['page_title']
+                                      : $this->getFriendlyName() . " " . $options['menu_title'];
         // Create a namespaced menu slug from their menu title
-        $menu_slug = $this->_prefixWithNamespace( str_replace( " ", "_", $menu_title ) );
+        $options['menu_slug'] = $this->_prefixWithNamespace( str_replace( " ", "_", $options['menu_title'] ) );
 
-        return KST_AdminPage::addOptionPage($options_array, $menu_title, $menu_slug, $parent_menu, $page_title, $this->namespace, $this->type_of_kitchen, $this->friendly_name);
+        return KST_AdminPage::addOptionPage($options_array, $options);
     }
 
 

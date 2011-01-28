@@ -87,7 +87,7 @@ if ( class_exists('KST') ) {
     */
 
     // CREATE ADMIN OPTIONS MENUS/PAGES - Don't forget to make an array
-    $my_theme->addOptionPage($twentyeleven_options, 'Theme Options', 'kst');
+    $my_theme->addOptionPage($twentyeleven_options, array('menu_title' => 'Theme Options', 'menu_slug' => 'kst'));
 
     // Use some of the nifty WordPress function replacements for a big time saver (and a cleaner kitchen)
     $my_theme->wordpress->registerSidebar('Blog Sidebar', 'Sidebar content for blog articles');

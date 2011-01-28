@@ -166,7 +166,7 @@ $kst_core = new KST_Kitchen_Plugin($kst_core_settings);
 $kst_core->registerAppliances($kst_bundled_appliances);
 
 /* Add the core options/about page */
-$kst_core->addOptionPage($kst_core_options, 'About KST', 'core') ;
+$kst_core->addOptionPage($kst_core_options, array('menu_title' => 'About KST', 'menu_slug' => 'core')) ;
 
 /* Add WP hooks for core functionality */
 add_action('activated_plugin', 'KST::loadAsFirstPlugin');

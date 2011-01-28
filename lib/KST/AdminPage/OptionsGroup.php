@@ -43,13 +43,12 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
      * @param       required string $settings_options_group
      * @param       required string $namespace // N.B. Options and options group are namespaced automatically e.g. namespace_optionname, namespace_optionsgroup
     */
-    public function __construct(&$options_array, $menu_title, $menu_slug, $parent_menu, $page_title, $namespace) {
-
-        parent::__construct($menu_title, $menu_slug, $parent_menu, $page_title, $namespace); // Pass the common stuff on to the parent first
+    public function __construct(&$options_array, $options = array()) {
+        $options += self::defaultOptions();
+        parent::__construct($options); // Pass the common stuff on to the parent first
 
         $this->options_array =& $options_array; // The options array by reference
-        $this->menu_slug = $menu_slug;
-        $this->settings_options_group = $namespace . 'options_group';
+        $this->settings_options_group = $options['namespace'] . 'options_group';
 
         // hook to register settings for options
         // SEE todo regarding registering settings - do not delete
@@ -508,8 +507,8 @@ class KST_AdminPage_OptionsGroup extends KST_AdminPage {
                 */
                 $output .= "<input type='hidden' name='option_page' value='" . esc_attr($this->settings_options_group) . "' />";
                 $output .= '<input type="hidden" name="action" value="update" />';
-    	        $output .= wp_nonce_field($this->settings_options_group . "-options", "_wpnonce", FALSE, FALSE);
-    	        $output .= wp_referer_field(FALSE);
+                $output .= wp_nonce_field($this->settings_options_group . "-options", "_wpnonce", FALSE, FALSE);
+                $output .= wp_referer_field(FALSE);
                 $output .= "<p class='submit'>";
                     $output .= "<input type='submit' class='button-primary' value='" . __('Save Changes') . "' />";
                     $output .= "<input type='hidden' name='action' value='save' />  ";
