@@ -19,17 +19,18 @@ License:        MIT
  * Theme/Plugin settings common to any instance
  * @since 0.1
 */
-define( 'KST_DIR',              dirname(__FILE__) );                        // Absolute path to KST
-define( 'KST_DIR_LIB',          KST_DIR . '/lib' );
-define( 'KST_DIR_VENDOR',       KST_DIR . '/vendor' );
-define( 'KST_DIR_TEMPLATES',    KST_DIR . '/templates' );
-define( 'KST_DIR_ASSETS',       KST_DIR . '/assets' );
-define( 'WP_URI_SITE',          get_site_url() );                           // Current WP site uri
-define( 'KST_URI',              WP_PLUGIN_URL . '/' . basename(KST_DIR) ); // Current uri to KST
-define( 'KST_URI_VENDOR',       KST_URI . '/vendor' );
-define( 'KST_URI_TEMPLATES',    KST_URI . '/templates' );
-define( 'KST_URI_ASSETS',       KST_URI . '/assets' );
-define( 'KST_THEME_NAME_CURRENT',   get_current_theme() );
+define( 'KST_DIR',                      dirname(__FILE__) );                                            // Absolute path to KST
+define( 'KST_DIR_LIB',                  KST_DIR . '/lib' );
+define( 'KST_DIR_VENDOR',               KST_DIR . '/vendor' );
+define( 'KST_DIR_TEMPLATES',            KST_DIR . '/templates' );
+define( 'KST_DIR_ASSETS',               KST_DIR . '/assets' );
+define( 'WP_URI_SITE',                  get_site_url() );                                               // Current WP site uri
+define( 'KST_URI',                      WP_PLUGIN_URL . '/' . basename(KST_DIR) );                      // Current uri to KST
+define( 'KST_URI_VENDOR',               KST_URI . '/vendor' );
+define( 'KST_URI_TEMPLATES',            KST_URI . '/templates' );
+define( 'KST_URI_ASSETS',               KST_URI . '/assets' );
+define( 'KST_THEME_NAME_CURRENT',       get_current_theme() );
+define( 'KST_HELP_SECTION_SEPARATOR',   '<br /><br /><a href="#wphead">Top</a><br /><br /><br />' );    // For separating sections and creating a back to top link
 /**#@-*/
 
 /**
@@ -82,9 +83,13 @@ $kst_bundled_appliances = array(
                 'path'          => KST_DIR_LIB . '/functions/wp_sensible_defaults_admin.php',
                 'class_name'    => FALSE
         ),
-    'help' => array(
+    'helpold' => array(
             'path'          => KST_DIR_LIB . '/functions/theme_help.php',
             'class_name'    => FALSE
+        ),
+    'help' => array(
+            'path'          => KST_DIR_LIB . '/functions/theme_help.php',
+            'class_name'    => 'KST_AdminPage_Help'
         ),
     /*
     'seo' => array(

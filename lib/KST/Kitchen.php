@@ -149,6 +149,7 @@ class KST_Kitchen {
         switch ($preset) {
             case 'minimum':
                 $this->load('wp_sensible_defaults');
+                $this->load('helpold');
                 $this->load('help');
             break;
             case 'and_the_kitchen_sink':
@@ -159,6 +160,7 @@ class KST_Kitchen {
             default:
                 $this->load('wp_sensible_defaults');
                 $this->load('wp_sensible_defaults_admin');
+                $this->load('helpold');
                 $this->load('help');
                 $this->load('seo');
                 $this->load('wordpress');
@@ -189,8 +191,8 @@ class KST_Kitchen {
     /**
      * Kitchen wants a new option group
      *
-     * @since 0.1
-     * @uses         KST_AdminPage_OptionsGroup::getOption()
+     * @since       0.1
+     * @uses        KST_AdminPage_OptionsGroup::getOption()
      * @param       required string option
      * @param       optional string default ANY  optional, defaults to null
      * @return      object
