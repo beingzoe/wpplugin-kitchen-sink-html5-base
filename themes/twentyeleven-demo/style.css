@@ -869,30 +869,107 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
  *
  * Refactor for article
  */
+    #comments { /* section - contains header, comments, comment form */
 
+    }
+    #comments header {
+
+    }
+        #wp_comments_title { /* h3 */
+
+        }
+        #comments .wp_comments_nav { /* nav */
+            clear: both;
+            margin: 18px 0;
+        }
+        #comments .wp_comments_nav .previous {
+
+        }
+        #comments .wp_comments_nav .next {
+            text-align: right;
+        }
     .wp_comment { /* article */
         margin: 18px 0 0;
-        padding: 0;
+        padding: 18px;
     }
 
     .wp_comment_moderated { /* span */
         font-style: italic;
     }
-
-    div.comment {
-        float: left;
-        width: 80%;
-    }
-    li.comment .wp_comment_avatar {
+    .wp_comment_avatar {
         float: left;
         width: 48px;
         margin: 0 18px 18px 0;
     }
+    .wp_comment_author {  }
+    .wp_comment_meta {  }
+    .wp_comment_comment {  }
 
-    div.comment .reply {
+    .comment { /* div */
+        float: left;
+        width: 80%;
+        min-height: 100px;
+    }
+
+    .comment .reply {
         margin: 18px 0;
         text-align: right;
     }
+
+    .comment.odd {
+        background: #f2f2f2 none 0 0 repeat;
+    }
+    .comment.odd:hover {
+        background: #f7f7f7 none 0 0 repeat;
+    }
+    .comment.even {
+        background: #d9d9d9 none 0 0 repeat;
+    }
+    .comment.even:hover {
+        background: #dedede none 0 0 repeat;
+    }
+    .comment.depth-2 {
+        margin-left: 50px;
+        background: #e5e5e5 none 0 0 repeat;
+    }
+    .comment.depth-2:hover {
+        background: #e5e5e5 none 0 0 repeat;
+    }
+    .comment.depth-3 {
+        margin-left: 100px;
+        background: #d9d9d9 none 0 0 repeat;
+    }
+    .comment.depth-3:hover {
+        background: #dedede none 0 0 repeat;
+    }
+    .comment.depth-4 {
+        margin-left: 150px;
+        background: #cccccc none 0 0 repeat;
+    }
+    .comment.depth-4:hover {
+        background: #d1d1d1 none 0 0 repeat;
+    }
+    .comment.depth-5 {
+        background: #bfbfbf none 0 0 repeat;
+    }
+    .comment.depth-5:hover {
+        background: #c4c4c4 none 0 0 repeat;
+    }
+    .comment.bypostauthor {
+        background: #faf8cc  none 0 0 repeat;
+    }
+    .comment.bypostauthor:hover {
+        background: #faf9e1 none 0 0 repeat;
+    }
+
+
+
+
+
+
+
+
+
 
 
 
@@ -961,13 +1038,13 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         margin: 0 18px 18px 0;
     }
 
-    li.comment.odd .comment-author  {
+    li.comment.odd .wp_comment_author  {
         border-bottom:1px solid #e5e5e6;
     }
-    li.comment.even .comment-author  {
+    li.comment.even .wp_comment_author  {
         border-bottom:1px solid #ccc;
     }
-    li.comment .comment_meta  {
+    li.comment .wp_comment_meta  {
 
     }
     li.comment .comment_comment  {

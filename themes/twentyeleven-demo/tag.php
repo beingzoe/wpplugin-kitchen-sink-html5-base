@@ -16,7 +16,7 @@ get_header();
 
 ?>
 
-<section id="bd" class="clearfix hfeed">
+<section id="bd" class="clearfix hfeed" role="main">
 
     <h1><?php
         printf( __( '<span class="smaller quiet">Content Tagged:</span> %s', 'twentyten' ), '<span>' . single_tag_title( '', false ) . '</span>' );

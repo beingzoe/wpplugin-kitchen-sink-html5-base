@@ -16,7 +16,7 @@ get_header();
 
 ?>
 
-<section id="bd" class="clearfix hfeed">
+<section id="bd" class="clearfix hfeed" role="main">
 
 <?php include( locate_template( array( 'loop.php' ) ) ); /* get_template_part( 'loop' ); */ ?>
 

@@ -16,7 +16,7 @@
  */
 global $numpages, $multipage, $more;
 if ( $multipage ) {
-    echo '<nav class="wp_entry_pager">';
+    echo '<nav class="wp_entry_pager" role="navigation">';
     if ( !has_excerpt() )
         $more = 1; // Tell WordPress there is "more" even in an index loop so first page is not clickable and show [next] link appears
     /* Standard [1][2][3] paged entry */

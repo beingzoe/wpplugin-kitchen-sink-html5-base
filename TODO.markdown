@@ -38,6 +38,7 @@ and send me a pull request when you are done.
   * make excerpt, more links cooler
   * microformats in footer need a permanent solution
 
+
 * ON INSTALL/ACTIVATE actions and UNINSTALL/DEACTIVATE
   * Make sure we load first (everytime a KST plugin activates)
   * Have generic hook callback to migrate and database stuff that might change version to version
@@ -86,58 +87,87 @@ handling this that was not maintainable (and somewhat embarassing in retrospect)
 but worked fine since at that time each custom client theme could not be
 automatically updated anyway.
 
-Ideally the documentation for each kitchen/appliance would be created and stored
-in the files where that help is relevant (i.e. Help for a plugin appliance would
-be in the main file of that appliance) and then we somehow aggregate all the
-individual disparate help content (on ACTIVATION? each time the appropriate HELP
-file is VIEWED in the admin?).
+Final Plan:
+/my_kitchen/help/...
 
-The help would be added to some predefined structure:
+Directory structure ideally would match the intended pattern of the output
+but doesn't matter.
 
-page
-    section
-        ...that help content...
+Create an array of your help files:
 
-It would also add a TOC entry at the same time based on the section name.
-For now I think the Page>Section with no nested sections will work fine.
-Ideally though we would be able to also nest sections for more robust help files.
+$array = array(
+            array (
+                'title' => 'Intro to WP',
+                'page' => 'Using WordPress',
+                'section' => 'Post thumbnails',
+                'path' => '/relative/or/not/is/the/question'
+                ),
+            array (
+                'title' => 'Intro to WP',
+                'page' => 'Using WordPress',
+                'section' => 'Post thumbnails',
+                'path' => '/relative/or/not/is/the/question'
+                ),
+);
 
-So from the admin menu you would see a top level section under 'Theme Options':
-
-[Theme Help]
-WordPress
-Theme Notes
-Features
-Plugins
-Dev Notes
-
-Actual predefined pages TBD
-
-So the question is what mechanism to create/store/load/output the disparate help
-content? In my fanciful world we would do something like...
-
-On activation?:
-$my_kitchen->addHelp($page, $section, $content_title, $content_entry );
-
-That method would then store that information somewhere (new table?) and would
-never be asked for again unless being explicitly viewed and minimally to create the menus.
-
-or?
-$args = array(
-                array('
-                    'page' => 'known_help_page',
-                    'section' => 'existing_section',
-                    'entry_title' => 'TwitterBar',
-                    'entry_content' => 'path or content'
-                ')
-            );
-
-            $my_kitchen->help->add($args);
-            $my_kitchen->help->remove($entry_title);
-addEntry($page, $section, $entry_title, $entry_content);
+Standard pages
+    Theme help
+    Theme options
+    Features
+    Using WordPress
+    Blog Posts
+    Site Pages (cms)
+    Media
+    Plugins
+    Settings
+    Developer notes
 
 
-Ideas?
+is_admin() && just viewing any page but a help page
+    parse and merge the arrays
+        just return all the pages and make it unique
+            create the menus (add_submenu_page)
+
+is_admin() && about to view a particular page)
+    parse and merge the arrays
+        just the elements that have the appropriate $page value
+            make a new array with this and sort alphabetically?
+                loop
+                    create toc
+                loop
+                    include templates
+
+
+
+plugins/
+  kitchen-sink-html5-base/
+    docs/
+      wordpress/
+        intro_to_wordpress.html
+      theme/
+        customizing_icons.html
+      [etc.]
+  kst-extra-bonus-appliances/
+    docs/
+      tetris_plugin.html
+      [etc.]
+themes/
+  custom-theme/
+    docs/
+      plugins/
+        using_paypal_because_you_are_dumb.html
+      theme_notes/
+        style_guide.html
+
+kst/init.php
+if (is_admin()) {
+  $core->registerHelpFile('wordpress/intro_to_wordpress.html', array('title' => 'Intro to WP', 'section' => 'wordpress'));
+  $core->addOptionPage // etc.
+}
+  [etc.]
+
+
+
 
 
 

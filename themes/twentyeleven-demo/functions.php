@@ -89,6 +89,60 @@ if ( class_exists('KST') ) {
     // CREATE ADMIN OPTIONS MENUS/PAGES - Don't forget to make an array
     $my_theme->addOptionPage($twentyeleven_options, array('menu_title' => 'Theme Options', 'menu_slug' => 'kst'));
 
+    $help1 = array(
+            array (
+                'title' => 'Intro to WP1',
+                'page' => 'Using WordPress',
+                'section' => 'Post thumbnails',
+                'path' => 'blog_posts_excerpts_and_more_teasers.php'
+                ),
+            array (
+                'title' => 'loving WP2',
+                'page' => 'Using WordPress',
+                'section' => 'Post thumbnails',
+                'path' => 'blog_posts_post_thumbnails.php'
+                ),
+        );
+    $help2 = array(
+            array (
+                'title' => 'Intro to WP3',
+                'page' => 'Using WordPress',
+                'section' => 'Post thumbnails',
+                'path' => 'blog_posts_multi_page_paged_content.php'
+                ),
+            array (
+                'title' => 'loving WP4',
+                'page' => 'Using WordPress',
+                'section' => 'Post thumbnails',
+                'path' => 'blog_posts_gallery_posts.php'
+                ),
+        );
+    $help3 = array(
+            array (
+                'title' => 'Intro to WP5',
+                'page' => 'Using WordPress',
+                'section' => 'Post thumbnails',
+                'path' => '/relative/or/not/is/the/question5'
+                ),
+            array (
+                'title' => 'loving WP6',
+                'page' => 'Using WordPress',
+                'section' => 'Post thumbnails',
+                'path' => '/relative/or/not/is/the/question6'
+                ),
+            array (
+                'title' => 'Sociable',
+                'page' => 'Plugins',
+                'section' => 'Sociable',
+                'path' => '/relative/or/not/is/the/question6'
+                ),
+        );
+
+    // Add help files
+    $my_theme->help->add($help1);
+    $my_theme->help->add($help2);
+    $my_theme->help->add($help3);
+
     // Use some of the nifty WordPress function replacements for a big time saver (and a cleaner kitchen)
     $my_theme->wordpress->registerSidebar('Blog Sidebar', 'Sidebar content for blog articles');
     $my_theme->wordpress->registerSidebar('Pages Sidebar', 'Sidebar content for pages');

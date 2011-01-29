@@ -14,7 +14,7 @@
  * @since       0.1
  */
 ?>
-<form action="<?php echo home_url(); ?>" class="searchform" method="get">
+<form action="<?php echo home_url(); ?>" class="searchform" method="get" role="search">
 	<div>
         <!--<label for="search" class="screen-reader-text">Search</label>-->
         <input type="text" name="s" value="" size="15" />

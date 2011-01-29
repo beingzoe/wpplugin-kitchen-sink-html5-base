@@ -16,7 +16,7 @@ get_header();
 
 ?>
 
-<section id="bd" class="clearfix">
+<section id="bd" class="clearfix" role="main">
     <section id="page-other" class="page error404 not-found">
     <?php
     _e( '<h1>WOOPS! We can\'t find that page!</h1>', 'twentyten' );

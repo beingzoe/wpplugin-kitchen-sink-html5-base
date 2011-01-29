@@ -12,7 +12,7 @@
  */
 
 ?>
-<section id="sb" class="wp_sidebar widgets clearfix">
+<section id="sb" class="wp_sidebar widgets clearfix" role="complementary">
 <?php
 if ( is_home() )
     $GLOBALS["my_theme"]->wordpress->dynamicSidebar('Home Sidebar');

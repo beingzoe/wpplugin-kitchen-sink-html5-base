@@ -15,7 +15,7 @@ get_header();
 
 ?>
 
-<section id="bd" class="clearfix hfeed">
+<section id="bd" class="clearfix hfeed" role="main">
 
 <?php if ( have_posts() ) while ( have_posts() ) : the_post(); ?>
 
@@ -104,7 +104,7 @@ get_header();
                     title="<?php echo esc_attr( get_the_title() ); ?>"
                     rel="attachment"
                     ><?php
-                        $attachment_size = apply_filters( 'twentyten_attachment_size', 900 );
+                        $attachment_size = apply_filters( 'kst_attachment_size', 900 );
                         echo wp_get_attachment_image( $post->ID, array( $attachment_size, 9999 ) ); // filterable image width with, essentially, no limit for image height.
                     ?></a>
                 <?php if ( !empty( $post->post_excerpt ) ) { ?>

@@ -22,10 +22,11 @@ get_header();
  *
  * Edit the heredoc content below with your contact form
  */
-function kst_shortcode_contact_form($atts, $content = NULL) {
-    extract(shortcode_atts(array(), $atts));
+if ( !function_exists('kst_shortcode_contact_form') ) {
+    function kst_shortcode_contact_form($atts, $content = NULL) {
+        extract(shortcode_atts(array(), $atts));
 
-	$output =
+        $output =
 <<< EOD
 
 <form id="contact_form" method="post" action="">
@@ -50,12 +51,13 @@ function kst_shortcode_contact_form($atts, $content = NULL) {
 </form>
 EOD;
 
-    return $output;
+        return $output;
+    }
 }
 add_shortcode('contact_form', 'kst_shortcode_contact_form');
 ?>
 
-<section id="bd" class="clearfix hfeed">
+<section id="bd" class="clearfix hfeed" role="main">
 
 <?php
     # Send email
