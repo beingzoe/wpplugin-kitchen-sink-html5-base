@@ -66,6 +66,9 @@ require_once KST_DIR_LIB . '/KST/AdminPage.php';
 require_once KST_DIR_LIB . '/KST/AdminPage/OptionsGroup.php';
 require_once KST_DIR_LIB . '/KST/AdminPage/Help.php';
 
+
+require_once KST_DIR_VENDOR . '/ZUI/WpAdminPages.php';
+
 /**
  * KST core settings editable from WP admin irrespective of theme
  * Instantiates Options for use by themes, plugins, and internals

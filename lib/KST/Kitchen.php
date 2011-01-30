@@ -174,25 +174,6 @@ class KST_Kitchen {
     }
 
     /**
-     * @todo        I think this should be deleted now since we went with the other loader method
-    */
-    public function __get($name) {
-
-        echo "Getting '$name'\n<br />";
-        if (array_key_exists($name, $this->_local_appliances)) {
-            return $this->_local_appliances[$name];
-        }
-
-        $trace = debug_backtrace();
-        trigger_error(
-            'Undefined property via __get(): ' . $name .
-            ' in ' . $trace[0]['file'] .
-            ' on line ' . $trace[0]['line'],
-            E_USER_NOTICE);
-        return null;
-    }
-
-    /**
      * Kitchen wants a new option group
      *
      * @since 0.1

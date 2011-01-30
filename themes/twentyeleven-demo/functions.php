@@ -139,9 +139,9 @@ if ( class_exists('KST') ) {
         );
 
     // Add help files
-    $my_theme->help->add($help1);
-    $my_theme->help->add($help2);
-    $my_theme->help->add($help3);
+    //$my_theme->help->add($help1);
+    //$my_theme->help->add($help2);
+    //$my_theme->help->add($help3);
 
     // Use some of the nifty WordPress function replacements for a big time saver (and a cleaner kitchen)
     $my_theme->wordpress->registerSidebar('Blog Sidebar', 'Sidebar content for blog articles');
@@ -151,6 +151,352 @@ if ( class_exists('KST') ) {
 
 
     // Any other KST dependent code should be here to protect it in case the "KST plugin framework" is removed
+
+
+
+
+    //Our example application
+    $current_theme_directory = get_stylesheet_directory();
+    //echo "current theme dir=" . $current_theme_directory . "<br />" ;
+    $option_group_array = array(
+            'option_group_name'     => 'layout_settings',
+
+            'parent_slug'           => 'layout_settings', //explicit existing WP menu literal page name OR an explicit custom top level menu_slug that has already been created
+
+            'page_title'            => 'Theme Layout Settings',
+            'menu_title'            => 'LAYOUT SETTINGS',
+            'menu_slug'             => 'layout_settings',
+            'capability'            => 'manage_options',
+            'view_page_callback'    => "auto", //auto OR layout_options_output OR 'view_page_callback'    => "{$current_theme_directory}/_layout_options_form.php",
+            //'icon_url'              => '?',
+            //'position'              => '',
+
+            'section_open_template' => '<div class="postbox"><div title="Click to toggle" class="handlediv"><br></div><h3 class="hndle"><span>{section_name}</span></h3><div class="inside">',
+            'section_close_template' => '</div><!--End .inside--></div><!--End .postexcerpt-->',
+
+            'options'               => array(
+                                        'sample_options_section' => array(
+                                                "name"      => 'Sample Options',
+                                                "desc"      => "
+                                                                <p><em>Sample options affecting the layout and presentation of your site.</em></p>
+                                                                <p>See \"Appearance &gt; Theme Help\" to learn more about asides.</p>
+                                                            ",
+                                                "type"      => "section",
+                                                "is_shut"   => FALSE
+                                                ),
+
+                                        'would_default_to_bob' => array(
+                                                "name"      => 'Your name',
+                                                "desc"      => 'Just who you are.',
+                                                "value"     => get_option('would_default_to_bob'), // send null or leave out 'value' to use default
+                                                "default"   => "Bob",
+                                                "type"      => "text"
+                                                ),
+
+                                        'textarea_id' => array(
+                                                "name"    => 'PLUGIN Textarea',
+                                                "desc"    => "What you type here will indicate the possibility of success.",
+                                                "value"     => get_option('textarea_id'), // send null or leave out 'value' to use default
+                                                "default"     => "You do not have to put any defaults",
+                                                "type"    => "textarea",
+                                                "rows" => "2",
+                                                "cols" => "55"
+                                                ),
+
+                                        'sample_options_subsection' => array(
+                                                "name"      => 'Some subsection',
+                                                "desc"      => "
+                                                                <p>Y'know an explanation goes here. This is a subsection to demarcate the rest of this section of the form</p>
+                                                            ",
+                                                "type"      => "subsection",
+                                                "is_shut"   => FALSE
+                                                ),
+
+                                        'TEST_SELECT' => array(
+                                                "name"    => __('PLUGIN Select'),
+                                                "desc"    => __("There are many choices awaiting"),
+                                                "value"     => get_option('TEST_SELECT'), // send null or leave out 'value' to use default
+                                                "default"     => "Select 2",
+                                                "type"    => "select",
+                                                "options" => array(    "Select 1",
+                                                                    "Select 2",
+                                                                    "Select 3",
+                                                                    "Select 4",
+                                                                    "Select 5"
+                                                                    )
+                                                ),
+
+                                        'TEST_MULTISELECT' => array(
+                                                "name"    => __('PLUGIN MultiSelect'),
+                                                "desc"    => __("There are many choices awaiting and you can have them all"),
+                                                "value"     => get_option('TEST_MULTISELECT'), // send null or leave out 'value' to use default
+                                                "default"     => "Select 5",
+                                                "type"    => "select",
+                                                "multi"   => TRUE,
+                                                "size"   => "8",
+                                                "form_attr" => 'style="min-width: 150px; height: auto;"',
+                                                "options" => array(    "Select 1",
+                                                                    "Select 2",
+                                                                    "Select 3",
+                                                                    "Select 4",
+                                                                    "Select 5",
+                                                                    "Select 6",
+                                                                    "Select 7",
+                                                                    "Select 8"
+                                                                    )
+                                                ),
+
+                                        'TEST_RADIO_BUTTON' => array(
+                                                "name"  => __('PLUGIN TEST RADIO BUTTON'),
+                                                "desc"  => __('What choice will you make?'),
+                                                "value"     => get_option('TEST_RADIO_BUTTON'), // send null or leave out 'value' to use default
+                                                "default"   => "this radio 4",
+                                                "type"  => "radio",
+                                                "options" => array(     "this radio 1",
+                                                                        "this radio 2",
+                                                                        "this radio 3",
+                                                                        "this radio 4",
+                                                                        "this radio 5"
+                                                                            )
+                                                ),
+
+                                        'some_new_category_selector' => array(
+                                                "name"      => 'Featured Category',
+                                                "desc"      => 'This doesn\'t really do anything but is an example option block',
+                                                "type"      => "select_wp_categories",
+                                                "args"      => array('selected'=>get_option('some_new_category_selector'))
+                                                ),
+
+                                        'some_new_page_selector' => array(
+                                                "name"      => 'Featured Page',
+                                                "desc"      => 'This doesn\'t really do anything but is an example option block',
+                                                "type"      => "select_wp_pages",
+                                                "args"      => array('selected'=>get_option('some_new_page_selector'))
+                                                ),
+
+                                        'checkbox_example' => array(
+                                                "name"      => 'Checkbox default on',
+                                                "desc"      => 'This is CHECKED by default usually and could be used somewhere in your templates',
+                                                "id"        => "checkbox_example",
+                                                "default"   => TRUE,
+                                                "type"      => "checkbox"
+                                                ),
+
+
+                                        'thing_1' => array(
+                                                "name"      => 'Sample Options',
+                                                "desc"      => "
+                                                                <p><em>Sample options affecting the layout and presentation of your site.</em></p>
+                                                                <p>See \"Appearance &gt; Theme Help\" to learn more about asides.</p>
+                                                            ",
+                                                "type"      => "section",
+                                                "is_shut"   => FALSE
+                                                ),
+
+                                        'thing_2' => array(
+                                                "name"      => 'Your name',
+                                                "desc"      => 'Just who you are.',
+                                                "value"     => get_option('thing_2'), // send null or leave out 'value' to use default
+                                                "default"   => "Bob",
+                                                "type"      => "text"
+                                                ),
+
+                                        'thing_3' => array(
+                                                "name"    => 'PLUGIN Textarea',
+                                                "desc"    => "What you type here will indicate the possibility of success.",
+                                                "value"     => get_option('thing_3'), // send null or leave out 'value' to use default
+                                                "default"     => "You do not have to put any defaults",
+                                                "type"    => "textarea",
+                                                "rows" => "2",
+                                                "cols" => "55"
+                                                ),
+
+                                        'thing_4' => array(
+                                                "name"    => __('PLUGIN Select'),
+                                                "desc"    => __("There are many choices awaiting"),
+                                                "value"     => get_option('thing_4'), // send null or leave out 'value' to use default
+                                                "default"     => "Select 2",
+                                                "type"    => "select",
+                                                "options" => array(    "Select 1",
+                                                                    "Select 2",
+                                                                    "Select 3",
+                                                                    "Select 4",
+                                                                    "Select 5"
+                                                                    )
+                                                ),
+
+                                        'thing_5' => array(
+                                                "name"    => __('PLUGIN MultiSelect'),
+                                                "desc"    => __("There are many choices awaiting and you can have them all"),
+                                                "value"     => get_option('thing_5'), // send null or leave out 'value' to use default
+                                                "default"     => "Select 5",
+                                                "type"    => "select",
+                                                "multi"   => TRUE,
+                                                "size"   => "8",
+                                                "form_attr" => 'style="min-width: 150px; height: auto;"',
+                                                "options" => array(    "Select 1",
+                                                                    "Select 2",
+                                                                    "Select 3",
+                                                                    "Select 4",
+                                                                    "Select 5",
+                                                                    "Select 6",
+                                                                    "Select 7",
+                                                                    "Select 8"
+                                                                    )
+                                                ),
+
+                                        'thing_6' => array(
+                                                "name"  => __('PLUGIN TEST RADIO BUTTON'),
+                                                "desc"  => __('What choice will you make?'),
+                                                "value"     => get_option('thing_6'), // send null or leave out 'value' to use default
+                                                "default"   => "this radio 4",
+                                                "type"  => "radio",
+                                                "options" => array(     "this radio 1",
+                                                                        "this radio 2",
+                                                                        "this radio 3",
+                                                                        "this radio 4",
+                                                                        "this radio 5"
+                                                                            )
+                                                ),
+
+                                        'thing_7' => array(
+                                                "name"      => 'Featured Category',
+                                                "desc"      => 'This doesn\'t really do anything but is an example option block',
+                                                "type"      => "select_wp_categories",
+                                                "args"      => array('selected'=>get_option('thing_7'))
+                                                ),
+
+                                        'thing_8' => array(
+                                                "name"      => 'Featured Page',
+                                                "desc"      => 'This doesn\'t really do anything but is an example option block',
+                                                "type"      => "select_wp_pages",
+                                                "args"      => array('selected'=>get_option('thing_8'))
+                                                ),
+
+                                        'thing_9' => array(
+                                                "name"      => 'Checkbox default on',
+                                                "desc"      => 'This is CHECKED by default usually and could be used somewhere in your templates',
+                                                "value"     => get_option('thing_9'), // send null or leave out 'value' to use default
+                                                "default"   => TRUE,
+                                                "type"      => "checkbox"
+                                                )
+                                    )
+        );
+
+
+    $option_group_array_2 = array(
+            'option_group_name'     => 'random_extra_shit',
+
+            'parent_slug'           => 'layout_settings', //explicit existing WP menu literal page name OR an explicit custom top level menu_slug that has already been created
+
+            'page_title'            => 'Random Extra Settings',
+            'menu_title'            => 'RANDOM',
+            'menu_slug'             => 'random_extra_shit',
+            'capability'            => 'manage_options',
+            'view_page_callback'    => "auto", //auto OR layout_options_output OR 'view_page_callback'    => "{$current_theme_directory}/_layout_options_form.php",
+            //'icon_url'              => '?',
+            //'position'              => '',
+
+            'section_open_template' => '<div class="postbox"><div title="Click to toggle" class="handlediv"><br></div><h3 class="hndle"><span>{section_name}</span></h3><div class="inside">',
+            'section_close_template' => '</div><!--End .inside--></div><!--End .postexcerpt-->',
+
+            'options'               => array(
+                                        'sample_options_section' => array(
+                                                "name"      => 'Random extra shit',
+                                                "desc"      => "
+                                                                <p><em>This is not important but you should fill it out</em></p>
+                                                            ",
+                                                "type"      => "section",
+                                                "is_shut"   => FALSE
+                                                ),
+
+                                        'silly_extra_setting' => array(
+                                                "name"      => 'Secret code',
+                                                "desc"      => 'Some random characters to randomize with',
+                                                "value"     => get_option('silly_extra_setting'), // send null or leave out 'value' to use default
+                                                "default"   => "Bob",
+                                                "type"      => "text"
+                                                )
+                                        )
+
+        );
+
+     $callback_page_array = array(
+            'option_group_name'     => 'other_settings_fake',
+
+            'parent_slug'           => 'layout_settings', //explicit existing WP menu literal page name OR an explicit custom top level menu_slug that has already been created
+
+            'page_title'            => 'Callback Settings',
+            'menu_title'            => 'via callback',
+            'menu_slug'             => 'other_settings_fake',
+            'capability'            => 'manage_options',
+            'view_page_callback'    => "layout_options_output", //auto OR layout_options_output OR 'view_page_callback'    => "{$current_theme_directory}/_layout_options_form.php",
+            'options'               => array(
+                                        'not_really'
+                                        )
+            //'icon_url'              => '?',
+            //'position'              => '',
+        );
+
+     $file_page_array = array(
+            'option_group_name'     => 'settings_from_file',
+
+            'parent_slug'           => 'layout_settings', //explicit existing WP menu literal page name OR an explicit custom top level menu_slug that has already been created
+
+            'page_title'            => 'My files settings form',
+            'menu_title'            => 'via file',
+            'menu_slug'             => 'settings_from_file',
+            'capability'            => 'manage_options',
+            'view_page_callback'    => "{$current_theme_directory}/_layout_options_form.php", //auto OR layout_options_output OR 'view_page_callback'    => "{$current_theme_directory}/_layout_options_form.php",
+            'options'               => array(
+                                        'background_color',
+                                        'footer_copyright_text'
+                                        )
+            //'icon_url'              => '?',
+            //'position'              => '',
+        );
+    /*
+
+    array('background_color', 'text_color', 'header_color', 'footer_copyright_text')
+    array(
+                    'background_color' => array(
+                            'the bg color' => 1
+                        ),
+                    'text_color' => array(
+                            'the text color' => 1
+                        ),
+                    'header_color' => array(
+                            'the header color' => 1
+                        ),
+                    'footer_copyright_text'=> array(
+                            'copyright' => 1
+                        )
+                )
+
+
+
+        */
+    $layout_options = new ZUI_WpAdminPages();
+    $layout_options->newOptionGroup($option_group_array);
+    $random_options = new ZUI_WpAdminPages();
+    $random_options->newOptionGroup($option_group_array_2);
+    $callback_options = new ZUI_WpAdminPages();
+    $callback_options->newOptionGroup($callback_page_array);
+    $file_options = new ZUI_WpAdminPages();
+    $file_options->newOptionGroup($file_page_array);
+
+
+    function layout_options_output() {
+    ?>
+
+    <p>This is just a test of the call back output.</p>
+
+    <?php
+    }
+
+
+
+
 
 
 } else {
@@ -176,18 +522,6 @@ if ( class_exists('KST') ) {
  * See the documentation at https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki
  * for all the groovy awesomeness that is handled for you and how to use everything but the kitchen sink
 */
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

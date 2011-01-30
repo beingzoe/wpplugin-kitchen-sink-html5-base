@@ -43,7 +43,8 @@ class KST_AdminPage_Help extends KST_AdminPage {
     public function add($help_files) {
         if (!is_admin())
             return false;
-
+        /*
+        //echo "namespace=" . $this->getDeveloper_url() . "<br />";
         echo "Before merge we have (this->_help_files):<br />";
         print_r($this->_help_files);
         echo "<br /><br /><br />";
@@ -51,12 +52,15 @@ class KST_AdminPage_Help extends KST_AdminPage {
         echo "Being merged with (passed help_files):<br />";
         print_r($help_files);
         echo "<br /><br /><br />";
+        */
 
         //Merge
         $this->_help_files = array_merge($this->_help_files, $help_files);
+        /*
         echo "After merge we have:<br />";
         print_r($this->_help_files);
         echo "<br /><br /><br />";
+        */
     }
 
 
@@ -72,7 +76,7 @@ class KST_AdminPage_Help extends KST_AdminPage {
         if (!is_admin())
             return false;
 
-        echo "We would be adding help menus";
+        //echo "We would be adding help menus";
 
         // loop the array
         //$this->_help_files
@@ -83,7 +87,29 @@ class KST_AdminPage_Help extends KST_AdminPage {
                 'menu_slug' => 'kst_theme_help',
                 'parent_menu' => 'top'
             );
-        KST_AdminPage::create($theme_help_menu_section);
+
+/*
+        $defaults = array(
+            'menu_title' => '',
+            'parent_menu' => 'kst',
+            'page_title' => '');
+        $options += $defaults;
+        $options['namespace'] = $this->namespace;
+        $options['type_of_kitchen'] = $this->type_of_kitchen;
+        $options['friendly_name'] = $this->friendly_name;
+        // Create generic title if none given
+        $page_title = ( empty($options['page_title']) ) ? $options['page_title']
+                                      : $this->getFriendlyName() . " " . $options['menu_title'];
+        // Create a namespaced menu slug from their menu title
+        $options['menu_slug'] = $this->_prefixWithNamespace( str_replace( " ", "_", $options['menu_title'] ) );
+
+        return KST_AdminPage::addOptionPage($options_array, $options);
+
+
+        */
+
+
+        //KST_AdminPage::create($theme_help_menu_section);
 
         //$testthis = add_menu_page( $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, array($page,'manage'), ''); //, $icon_url, $position
         //add_submenu_page($updated_parent_slug, $page->page_title, $page->menu_title, 'manage_options', $page->menu_slug, array($page,'manage') );//'make_menu_shit'
