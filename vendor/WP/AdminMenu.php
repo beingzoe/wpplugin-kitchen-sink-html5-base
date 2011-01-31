@@ -82,6 +82,7 @@ function add_admin_menu_separator($position) {
       break;
     }
   }
+  return $menu[$position]; // Added by zoe
 }
 
 
