@@ -36,6 +36,10 @@ $twenty_eleven_settings = array(
 );
 
 
+// Temp while making seo class
+define('KST_SEO_TITLE_SEPARATOR_DEFAULT', '&laquo;');
+
+
 if ( class_exists('KST') ) {
 
     // REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE
@@ -457,42 +461,34 @@ if ( class_exists('KST') ) {
 
     // An array to create a theme options page - make one array per options page you need (u)
     $twentyeleven_options = array(
-                'parent_slug'           => 'kst', // 'kst' OR explicit existing WP menu literal page name OR an explicit custom top level menu_slug that has already been created
+        'parent_slug'           => 'kst',
+        'menu_title'            => 'Layout Settings',
+        'page_title'            => 'Custom Layout Settings',
+        'capability'            => 'manage_options',
+        'view_page_callback'    => "auto",
+        'options'               => array(
+                'sample_section' => array(
+                                "name"      => 'Sample Options',
+                                "desc"      => "<p><em>Sample options for layout and presentation</em></p>",
+                                "type"      => "section",
+                                "is_shut"   => FALSE
+                                ),
 
-                'menu_title'            => 'Crazy stuff',
-                //'menu_slug'             => 'theme_options', // Optional unless creating a new top level section; Defaults to underscored/lowercased menu_slug
-                'page_title'            => 'Crazy awesome settings', // Optional; will use "$this->friendly_name menu_title" by default
-                'capability'            => 'manage_options', // Optional; Defaults to 'manage_options' for options pages and 'edit_posts' (contributor and up) for other
-                'view_page_callback'    => "auto", //auto OR layout_options_output OR 'view_page_callback'    => "{$current_theme_directory}/_layout_options_form.php",
-                'options'               => array(
-                                    'twentyeleven_sample_section' => array(
-                                                    "name"      => 'Sample Options',
-                                                    "desc"      => "
-                                                                    <p><em>Sample options affecting the layout and presentation of your site.</em></p>
-                                                                    <p>See \"Appearance &gt; Theme Help\" to learn more about asides.</p>
-                                                                ",
-                                                    "type"      => "section",
-                                                    "is_shut"   => FALSE
-                                                    ),
+                'sample_wp_categories' => array(
+                                "name"      => 'Featured Category',
+                                "desc"      => 'This doesn\'t really do anything but demonstrates a select_wp_categories option block',
+                                "default"   => "Bob",
+                                "type"      => "select_wp_categories",
+                                "args"      => array( )
+                                ),
 
-                                    'twentyeleven_layout_category_aside' => array(
-                                                    "name"      => 'Featured Category',
-                                                    "desc"      => 'This doesn\'t really do anything but demonstrates a select_wp_categories option block',
-                                                    //"value"     => get_option('would_default_to_bob'), // send null or leave out 'value' to use default
-                                                    "default"   => "Bob",
-                                                    "type"      => "select_wp_categories",
-                                                    "args"      => array( )
-                                                    ),
-
-                                    'twentyeleven_checkbox_example' => array(
-                                                    "name"    => 'Checkbox default on',
-                                                    "desc"    => "This is CHECKED by default usually",
-                                                    //"value"     => get_option('textarea_id'), // send null or leave out 'value' to use default
-                                                    "default"     => TRUE,
-                                                    "type"    => "checkbox",
-                                                    )
-
-                                    )
+                'sample_checkbox' => array(
+                                "name"      => 'Turn something on',
+                                "desc"      => "Checked by default.",
+                                "default"   => TRUE,
+                                "type"      => "checkbox",
+                                )
+                )
         );
     $twentyeleven_options2 = array(
                 'parent_slug'           => 'foo', // twentyeleven_crazy_stuff2 'kst' OR explicit existing WP menu literal page name OR an explicit custom top level menu_slug that has already been created
@@ -535,6 +531,8 @@ if ( class_exists('KST') ) {
     $my_theme->load('options');
     $my_theme->options->addGroup($twentyeleven_options);
     $my_theme->options->addGroup($twentyeleven_options2);
+
+
 
 } else {
     // Needs to check if it is in the admin section OR in the login page (login is not in the admin)

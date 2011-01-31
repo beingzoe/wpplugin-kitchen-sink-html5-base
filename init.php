@@ -90,12 +90,12 @@ $kst_bundled_appliances = array(
             'class_name'            => 'KST_AdminPage_Help'
         ),
     */
-    /*
+
     'seo' => array(
             'path'                  => KST_DIR_LIB . '/functions/seo.php',
             'class_name'            => FALSE
         ),
-    */
+
     'wordpress' => array(
             'path'                  => KST_DIR_LIB . '/KST/Wordpress.php',
             'class_name'            => 'KST_Wordpress'
@@ -163,49 +163,46 @@ $kst_core_settings = array(
  * @since       0.1
 */
 $kst_core_options = array(
-                'parent_slug'           => 'core', // required;
+    'parent_slug'           => 'core', // required;
 
-                'menu_title'            => 'About KST',
-                //'menu_slug'             => 'theme_options', // Optional unless creating a new top level section; Defaults to underscored/lowercased menu_slug
-                'page_title'            => 'Kitchen Sink HTML5 Base Core Settings', // Optional; will use "$this->friendly_name menu_title" by default
-                'capability'            => 'manage_options', // Optional; Defaults to 'manage_options' for options pages and 'edit_posts' (contributor and up) for other
-                'view_page_callback'    => "auto", //auto OR layout_options_output OR 'view_page_callback'    => "{$current_theme_directory}/_layout_options_form.php",
-                'options'               => array(
-                                    'core_main' => array(
-                                                    "name"      => 'About Kitchen Sink HTML5 Base Settings',
-                                                    "desc"      => "
-                                                                    <p><em>Your current theme or a plugin you are using relies on Kitchen Sink HTML5 Base (KST) to operate.</em></p>
-                                                                    <p>KST settings generally only modify KST itself.<br />KST based themes and plugins will have their own options.<br />Only edit these settings if you experience conflicts or unwanted behavior with non-KST WordPress plugins.</p>
-                                                                ",
-                                                    "type"      => "section",
-                                                    "is_shut"   => FALSE
-                                                    ),
+    'menu_title'            => 'About KST',
+    //'menu_slug'             => 'theme_options', // Optional unless creating a new top level section; Defaults to underscored/lowercased menu_slug
+    'page_title'            => 'Kitchen Sink HTML5 Base Core Settings', // Optional; will use "$this->friendly_name menu_title" by default
+    'capability'            => 'manage_options', // Optional; Defaults to 'manage_options' for options pages and 'edit_posts' (contributor and up) for other
+    'view_page_callback'    => "auto", //auto OR layout_options_output OR 'view_page_callback'    => "{$current_theme_directory}/_layout_options_form.php",
+    'options'               => array(
+                        'core_main' => array(
+                                        "name"      => 'About Kitchen Sink HTML5 Base Settings',
+                                        "desc"      => "
+                                                        <p><em>Your current theme or a plugin you are using relies on Kitchen Sink HTML5 Base (KST) to operate.</em></p>
+                                                        <p>KST settings generally only modify KST itself.<br />KST based themes and plugins will have their own options.<br />Only edit these settings if you experience conflicts or unwanted behavior with non-KST WordPress plugins.</p>
+                                                    ",
+                                        "type"      => "section",
+                                        "is_shut"   => FALSE
+                                        ),
 
-                                    'core_admin_interface' => array(
-                                                    "name"      => 'Admin Interface',
-                                                    "desc"      => "
-                                                                    <p><em>Settings affecting your WordPress administrative interface.</em></p>
-                                                                ",
-                                                    "type"      => "section",
-                                                    "is_shut"   => TRUE
-                                                    ),
+                        'core_admin_interface' => array(
+                                        "name"      => 'Admin Interface',
+                                        "desc"      => "
+                                                        <p><em>Settings affecting your WordPress administrative interface.</em></p>
+                                                    ",
+                                        "type"      => "section",
+                                        "is_shut"   => TRUE
+                                        ),
 
-                                    'core_admin_interface_menus' => array(
-                                                    "name"      => 'Admin Menus',
-                                                    "desc"      => "",
-                                                    "type"      => "subsection"
-                                                    ),
+                        'core_admin_interface_menus' => array(
+                                        "name"      => 'Admin Menus',
+                                        "desc"      => "",
+                                        "type"      => "subsection"
+                                        ),
 
-
-
-                                    'doAllowKstToMoveAdminMenus' => array(
-                                                    "name"    => 'Allow Moving Admin Menus',
-                                                    "desc"    => "Defaults to TRUE.<br /><br />Allows KST themes and plugins to reorganize admin menus.<br />Only affects menus created through KST.",
-                                                    "default"     => TRUE,
-                                                    "type"    => "checkbox",
-                                                    )
-
-                                    )
+                        'doAllowKstToMoveAdminMenus' => array(
+                                        "name"    => 'Allow Moving Admin Menus',
+                                        "desc"    => "Defaults to TRUE.<br /><br />Allows KST themes and plugins to reorganize admin menus.<br />Only affects menus created through KST.",
+                                        "default"     => TRUE,
+                                        "type"    => "checkbox",
+                                        )
+                        )
         );
 
 
