@@ -35,10 +35,11 @@ class KST_Kitchen {
      * @since       0.1
      * @access      protected
     */
-    protected static $_extant_options; // Array of options that exist IF they were checked with $this->option_exists();
+    protected static $_extant_options; // ??? I think we are only using this in the new Options class - check and delete Array of options that exist IF they were checked with $this->option_exists();
     protected static $_appliances; // Array of bundled appliances (classes, functions/helper libraries)
     /**#@-*/
 
+    protected static $_admin_pages; // Store all menus/pages from all registered kst kitchens
 
     /**
      * Theme/Plugin instance constructor
@@ -86,7 +87,7 @@ class KST_Kitchen {
      * @param       required string $path /absolute/path/including/filename.php to the class or functions library to load
      * @param       optional string $class_name The name of the class to invoke if the appliance is a class file
     */
-    public function registerAppliance($shortname, $path, $class_name=false) {
+    public function registerAppliance($shortname, $path, $class_name=false, $require_args = FALSE) {
         if ( !is_array(self::$_appliances) ) self::$_appliances = array();
         if (array_key_exists($shortname, self::$_appliances)) {
             // collision!
@@ -95,6 +96,7 @@ class KST_Kitchen {
             //self::$_appliances[$shortname] = [];
             self::$_appliances[$shortname]['path'] = $path;
             self::$_appliances[$shortname]['class_name'] = $class_name; // FALSE if appliance is not a class
+            self::$_appliances[$shortname]['require_args'] = $require_args; // FALSE if appliance is not a class
         }
     }
 
@@ -107,7 +109,15 @@ class KST_Kitchen {
     */
     public function registerAppliances($appliances) {
         foreach ($appliances as $shortname => $appliance) {
-            $this->registerAppliance($shortname, $appliance['path'], $appliance['class_name']);
+
+            // require_args is used to prevent an appliance from auto instantiating itself if it requires parameters to do so
+            if ( array_key_exists('require_args', $appliance))
+                $require_args = $appliance['require_args'];
+            else
+                $require_args = FALSE;
+
+            // Register the appliance
+            $this->registerAppliance($shortname, $appliance['path'], $appliance['class_name'], $require_args);
         }
     }
 
@@ -118,21 +128,25 @@ class KST_Kitchen {
      * If the file being included is a class (has a class_name) it will be
      * instantiated using the supplied shortname or a custom object name if supplied
      *
-     * @param       $shortname String or Array The appliance shortname or an array of the shortname and the property you want to use to access this appliance
+     * @param       $shortname String or Array The appliance shortname or an array of the shortname and the property (object variable name) you want to use to access this appliance
      * @params      *args Variable amount of remaining arguments will be passed to the constructor
     */
     public function load($shortname) {
-        $args = func_get_args();
+        $args = func_get_args(); // Get args to send to class
         array_shift($args); // get rid of $shortname
         if (is_array($shortname)) {
-            list($shortname, $property) = $shortname;
+            list($shortname, $property) = $shortname; // object property name
         } else {
             $property = $shortname;
         }
-        if (array_key_exists($shortname, self::$_appliances)) { // Find the known appliance to load
+        $this_kitchen = &$this; // Store kitchen object for new appliance objects
+        $args[] = $this_kitchen; // Add it to the $args array
+
+        // Find the known appliance to load
+        if (array_key_exists($shortname, self::$_appliances)) {
             $appliance = self::$_appliances[$shortname];
             require_once $appliance['path']; // Load the file
-            if ( $appliance['class_name'] ) { // FALSE if appliance is not a class
+            if ( $appliance['class_name'] && ( !$appliance['require_args'] || 1 < count($args) ) ) { // FALSE if appliance is not a class && it can't require args || the args are greater than 1 because we are inserting the kitchen object
                 $_reflection = new ReflectionClass($appliance['class_name']);
                 $this->{$property} = $_reflection->newInstanceArgs($args);
                 return true;
@@ -144,6 +158,7 @@ class KST_Kitchen {
         }
     }
 
+
     /**
      * KST presets
      *
@@ -154,7 +169,7 @@ class KST_Kitchen {
             case 'minimum':
                 $this->load('wp_sensible_defaults');
                 $this->load('helpold');
-                $this->load('help');
+                //$this->load('help');
             break;
             case 'and_the_kitchen_sink':
                 foreach (self::$_appliances as $key => $value) {
@@ -165,13 +180,14 @@ class KST_Kitchen {
                 $this->load('wp_sensible_defaults');
                 $this->load('wp_sensible_defaults_admin');
                 $this->load('helpold');
-                $this->load('help');
+                //$this->load('help');
                 $this->load('seo');
                 $this->load('wordpress');
                 $this->load('contact');
             break;
         }
     }
+
 
     /**
      * Kitchen wants a new option group
@@ -198,63 +214,9 @@ class KST_Kitchen {
         $page_title = ( empty($options['page_title']) ) ? $options['page_title']
                                       : $this->getFriendlyName() . " " . $options['menu_title'];
         // Create a namespaced menu slug from their menu title
-        $options['menu_slug'] = $this->_prefixWithNamespace( str_replace( " ", "_", $options['menu_title'] ) );
+        $options['menu_slug'] = $this->prefixWithNamespace( str_replace( " ", "_", $options['menu_title'] ) );
 
         return KST_AdminPage::addOptionPage($options_array, $options);
-    }
-
-
-    /**
-     * Public accessor to get KST managed and namespaced WP theme option
-     *
-     * @since 0.1
-     * @uses         KST_AdminPage_OptionsGroup::getOption()
-     * @param       required string option
-     * @param       optional string default ANY  optional, defaults to null
-     * @return      string
-    */
-    public function getOption($option, $default = null) {
-        return KST_AdminPage_OptionsGroup::getOption($this->namespace, $option, $default);
-    }
-
-
-    /**
-     * Test for existence of KST theme option REGARDLESS OF trueNESS of option value
-     *
-     * Returns true if option exists REGARDLESS OF trueNESS of option value
-     * WP get_option returns false if option does not exist
-     * AND if it does and is false
-     *
-     * Typically only necessary when testing existence to set defaults on first use for radio buttons etc...
-     *
-     * N.B.: First request is an entire query and obviously a speed hit so use wisely
-     *       Multiple tests for the same option are saved and won't affect load time as much
-     *
-     * @since       0.1
-     * @see         KST_AdminPage_OptionsGroup::getOption()
-     * @global      object $wpdb This is wordpress ;)
-     * @param       required string $option
-     * @return      boolean
-    */
-    public function doesOptionExist( $option ) {
-
-        $namespaced_option = $this->_prefixWithNamespace($option);
-        $skip_it = FALSE; // Flag used to help skip the query if we've checked it before
-
-        // Check to see if the current key exists
-        if ( !array_key_exists( $namespaced_option, self::$_extant_options ) ) { // Don't know yet, so make a query to test for actual row
-            $does_exist = KST_AdminPage_OptionsGroup::getOption($this->namespace, $option, $default);
-        } else { // The option name exists in our "extantoptions" array so just skip it
-            $skip_it = true;
-        }
-
-        // Return the answer
-        if ( $skip_it || $does_exist ) { // The option exists regardless of trueness of value
-            self::$_extant_options[$namespaced_option]['exists'] = true; // Save in array if exists to minimize repeat queries
-            return true;
-        } else { // The option does not exist at all
-            return false;
-        }
     }
 
 
@@ -268,7 +230,7 @@ class KST_Kitchen {
      * @uses        KST_AdminPage_OptionsGroup::namespace
      * @return      string
     */
-    protected function _prefixWithNamespace( $item ) {
+    public function prefixWithNamespace( $item ) {
         return $this->namespace . $item;
     }
 
@@ -302,6 +264,18 @@ class KST_Kitchen {
 
 
     /**
+     * Get this type_of_kitchen
+     *
+     * @since       0.1
+     * @access      public
+     * @return      string
+    */
+    public function getTypeOfKitchen() {
+        return $this->type_of_kitchen;
+    }
+
+
+    /**
      * Get this prefix
      *
      * @since       0.1
@@ -321,6 +295,18 @@ class KST_Kitchen {
     */
     protected function _setPrefix($value) {
         $this->prefix = $value;
+    }
+
+
+    /**
+     * Get this namespace
+     *
+     * @since       0.1
+     * @access      public
+     * @return      string
+    */
+    public function getNamespace() {
+        return $this->namespace;
     }
 
 
@@ -368,6 +354,5 @@ class KST_Kitchen {
     protected function _setDeveloper_url($value) {
         $this->developer_url = $value;
     }
-
 
 }

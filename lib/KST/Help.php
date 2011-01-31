@@ -14,7 +14,7 @@
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @uses        KST_AdminPage
 */
-class KST_AdminPage_Help extends KST_AdminPage {
+class KST_Help {
 
     /**
      * @since       0.1
@@ -101,7 +101,7 @@ class KST_AdminPage_Help extends KST_AdminPage {
         $page_title = ( empty($options['page_title']) ) ? $options['page_title']
                                       : $this->getFriendlyName() . " " . $options['menu_title'];
         // Create a namespaced menu slug from their menu title
-        $options['menu_slug'] = $this->_prefixWithNamespace( str_replace( " ", "_", $options['menu_title'] ) );
+        $options['menu_slug'] = $this->prefixWithNamespace( str_replace( " ", "_", $options['menu_title'] ) );
 
         return KST_AdminPage::addOptionPage($options_array, $options);
 
