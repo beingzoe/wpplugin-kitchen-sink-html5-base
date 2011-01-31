@@ -1,21 +1,21 @@
 <?php
 /**
- * Page level docblock
+ * Automatically create and manage WordPress pages
  *
- *
+ * @package     ZUI
+ * @subpackage  HTML
+ * @author      zoe somebody
+ * @link        http://beingzoe.com/
+ * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
 */
+
 
 /**
  * Class for creating forms programmatically
  * Creates dl style form pattern
  *
- * @package     ZUI
- * @subpackage  Helpers
  * @version     0.1
  * @since       0.1
- * @author      zoe somebody
- * @link        http://beingzoe.com/
- * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @todo        Add name/value pairs like WP custom fields
 */
 class ZUI_FormHelperX {
@@ -436,10 +436,9 @@ class ZUI_FormHelperX {
             );
         $args = array_merge($defaults, $args);
         foreach ($args as $tag => $value) {
-            //echo $tag . " " . $template . " " . $value . "<br />";
-          $template = str_replace($tag, $value, $template);
+          $replaced = str_replace($tag, $value, $template);
         }
-        return $template;
+        return $replaced;
     }
 
     /**
@@ -478,7 +477,7 @@ class ZUI_FormHelperX {
                 //echo "<br /><br /><br /><br />";
 
                 // Loop prep
-                $b_type = $block['type'];
+                $b_type             = $block['type'];
                 $b_id               = $key;
                 $b_name             = $block['name'];
                 $b_desc             = $block['desc'];
@@ -688,16 +687,16 @@ class ZUI_FormHelperX {
 
                     case 'section':
 
-                        /* Er, bad naming here...I mean should we close the div containers? */
+                        // Should we close previous opened fieldset/div/etc... wrapper containers?
                         $output .= self::block_might_close_section( $do_close_section, $b_type_previous, $section_close_template );
 
-                        /* Output the block */
-                        $section_open_template = self::simpleTemplateFilter( array('{section_name}'=>$b_name ), $section_open_template);
-                        $output .= $section_open_template;
+                        // Output the block
+                        $section_open_formatted = self::simpleTemplateFilter( array('{section_name}'=> $b_name ), $section_open_template);
+                        $output .= $section_open_formatted;
                             $output .= $b_desc;
-                                // We MIGHT close this section later on - so yeah don't include closing tags in the open_template close here
+                            // We MIGHT close this section later on - so yeah don't include closing tags in the open_template close here
 
-                        /* Cleanup */
+                        // Cleanup
                         $do_close_section = TRUE;
                         $b_type_previous = 'section';
 
@@ -707,8 +706,8 @@ class ZUI_FormHelperX {
 
                         // Output the block
                         $output .= self::block_might_close_dl( $b_type_previous ); // Should we close dl?
-                        $subsection_open_template = self::simpleTemplateFilter( array('{section_name}'=>$b_name ), $subsection_open_template);
-                        $output .= $subsection_open_template;
+                        $subsection_open_formatted = self::simpleTemplateFilter( array('{section_name}'=>$b_name ), $subsection_open_template);
+                        $output .= $subsection_open_formatted;
                         $output .= $b_desc;
                         $output .= $subsection_close_template;
 
