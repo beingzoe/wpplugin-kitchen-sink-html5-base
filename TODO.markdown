@@ -78,6 +78,10 @@ and send me a pull request when you are done.
     * note
 * cool forms? js/image replacement?
 
+* Regarding options - review add_settings_field and add_settings_section
+  which allow adding options and even whole sections of options to an
+  existing page (not a whole new menu - just the options to be added)
+
 
 ## Help File(s) System ##
 

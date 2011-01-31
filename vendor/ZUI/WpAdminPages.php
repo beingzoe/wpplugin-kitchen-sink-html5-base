@@ -265,6 +265,7 @@ class ZUI_WpAdminPages {
                 echo "<div id='message' class='updated fade'><p><strong>" . $this->_page_data_array['page_title'] . " reset.</strong></p></div>";
 
             // Now get whatever content they told us to get
+
             if ( 'auto' == $this->_isCallbackOrTemplate ) { // Build them a page using the form builder
                 echo "<form method='post' id='poststuff' class='metabox-holder' action='options.php'>";
                     echo '<div class="meta-box-sortables" id="normal-sortables">'; // Attempting to utilize as much WP style/formatting as possible
@@ -288,9 +289,11 @@ class ZUI_WpAdminPages {
 
             } else if ( 'template' == $this->_isCallbackOrTemplate ) { // Include a .php template
                 include $this->_page_data_array['view_page_callback'];
+
             } else if ( 'callback' == $this->_isCallbackOrTemplate && function_exists($this->_page_data_array['view_page_callback']) ) { // supplied callback function
                 $callback = $this->_page_data_array['view_page_callback'];
                 $callback(); // Output their callback;
+
             } else {
                 wp_die("zui WP AdminPage Error: We don't know how to display your admin page<br />For the 'view_page_callback' parameter enter either the name of a valid callback function or the full path to the template file to include that contains your content.");
             }
