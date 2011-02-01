@@ -18,6 +18,7 @@ License:        MIT
  * @uses        KST_Kitchen_Theme
  * @uses        KST_Kitchen_Plugin
  * @uses        KST_Appliance_Options class
+ * @todo        replace WP_PLUGIN_DIR and any of these constants per Codex?
 */
 
 

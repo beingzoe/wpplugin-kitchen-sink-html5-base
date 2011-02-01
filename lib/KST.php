@@ -14,6 +14,7 @@
  * @subpackage  Core
  * @version     0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @todo        replace WP_PLUGIN_DIR and any of these constants per Codex?
 */
 class KST {
 
