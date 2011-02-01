@@ -63,60 +63,66 @@ if ( class_exists('KST') ) {
     $my_theme->load('jqueryCycle');
     $my_theme->load('jqueryToolsScrollable');
     */
-
+    $current_help_path = get_template_directory() . '/help/';
     $help1 = array(
             array (
                 'title' => 'Intro to WP1',
-                'page' => 'Using WordPress',
+                'page' => 'WordPress',
                 'section' => 'Post thumbnails',
-                'path' => 'blog_posts_excerpts_and_more_teasers.php'
+                'path' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'loving WP2',
-                'page' => 'Using WordPress',
-                'section' => 'Post thumbnails',
-                'path' => 'blog_posts_post_thumbnails.php'
+                'page' => 'WordPress',
+                'section' => 'Another section',
+                'path' => $current_help_path . 'test.php'
                 ),
-        );
-    $help2 = array(
             array (
                 'title' => 'Intro to WP3',
-                'page' => 'Using WordPress',
+                'page' => 'WordPress',
                 'section' => 'Post thumbnails',
-                'path' => 'blog_posts_multi_page_paged_content.php'
+                'path' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'loving WP4',
-                'page' => 'Using WordPress',
-                'section' => 'Post thumbnails',
-                'path' => 'blog_posts_gallery_posts.php'
+                'page' => 'WordPress',
+                'section' => 'Another section',
+                'path' => $current_help_path . 'test.php'
                 ),
-        );
-    $help3 = array(
             array (
                 'title' => 'Intro to WP5',
-                'page' => 'Using WordPress',
+                'page' => 'WordPress',
                 'section' => 'Post thumbnails',
-                'path' => '/relative/or/not/is/the/question5'
+                'path' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'loving WP6',
-                'page' => 'Using WordPress',
-                'section' => 'Post thumbnails',
-                'path' => '/relative/or/not/is/the/question6'
+                'page' => 'WordPress',
+                'section' => 'Another section',
+                'path' => $current_help_path . 'test.php'
+                ),
+            array (
+                'title' => 'loving WP6',
+                'page' => 'WordPress',
+                'section' => 'Using Blog Posts',
+                'path' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'Sociable',
-                'page' => 'Plugins',
-                'section' => 'Sociable',
-                'path' => '/relative/or/not/is/the/question6'
+                'page' => 'Features',
+                'section' => 'Using Sociable',
+                'path' => $current_help_path . 'test.php'
                 ),
+            array (
+                'title' => 'Adding new images sizes for posts',
+                'page' => 'Features',
+                'section' => 'Additional Image Sizes',
+                'path' => $current_help_path . 'test.php'
+                )
         );
 
     // Add help files
-    //$my_theme->help->add($help1);
-    //$my_theme->help->add($help2);
-    //$my_theme->help->add($help3);
+    $my_theme->help->add($help1);
 
     // Use some of the nifty WordPress function replacements for a big time saver (and a cleaner kitchen)
     $my_theme->wordpress->registerSidebar('Blog Sidebar', 'Sidebar content for blog articles');

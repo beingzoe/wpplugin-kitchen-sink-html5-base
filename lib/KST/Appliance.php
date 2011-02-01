@@ -8,8 +8,6 @@
  * @since       0.1
  * @author      zoe somebody
  * @link        http://beingzoe.com/
- * @author      Scragz
- * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @uses        KST_Kitchen
  */
