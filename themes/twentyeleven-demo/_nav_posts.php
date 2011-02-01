@@ -22,8 +22,8 @@ if ( $wp_query->max_num_pages > 1 ) {
 ?>
     <nav class="wp_next_previous_more clearfix" role="navigation">
         <ul>
-        <li class="previous"><?php previous_post_link( '%link', '<strong><span>&larr;</span> PREVIOUS:</strong><br />%title' ); ?></li>
-        <li class="next"><?php next_post_link( '%link', '<strong>NEXT:<span>&rarr;</span></strong><br />%title' ); ?></li>
+        <li class="previous"><?php next_posts_link( '<strong><span>&larr;</span> Older posts:</strong>' ); ?></li>
+        <li class="next"><?php previous_posts_link( '<strong>Newer posts:<span>&rarr;</span></strong>' ); ?></li>
         <li class="more">
             <span class="more_title">Other recent posts...</span>
             <ul>
@@ -44,5 +44,6 @@ if ( $wp_query->max_num_pages > 1 ) {
                 <li><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></li>
                 <?php endforeach; ?>
             </ul>
+        </ul>
     </nav>
 <?php } ?>

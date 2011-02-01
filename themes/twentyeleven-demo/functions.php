@@ -19,13 +19,12 @@
  * 4) Create
 */
 
-
 // KST Base theme settings array
 // Various Kitchen Sink HTML5 Base settings for your theme
 $twenty_eleven_settings = array(
     /* REQUIRED */
     'friendly_name'             => 'Twenty Eleven',         // Friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
-    'prefix'                    => 'ksd_0_1',               // Prefix for namespacing libraries, classes, widgets
+    'prefix'                    => 'kst_demo',               // Prefix for namespacing libraries, classes, widgets
     'developer'                 => 'zoe somebody',          // Friendly name of current developer; only used for admin display;
     'developer_url'             => 'http://beingzoe.com/',  // Full URI to developer website;
     /* REQUIRED for WP best practice */
@@ -34,7 +33,6 @@ $twenty_eleven_settings = array(
     /* OPTIONAL */
     'theme_seo_title_sep'       => '&laquo;',               // Separator between title bar title segments
 );
-
 
 // Temp while making seo class
 define('KST_SEO_TITLE_SEPARATOR_DEFAULT', '&laquo;');
@@ -65,7 +63,6 @@ if ( class_exists('KST') ) {
     $my_theme->load('jqueryCycle');
     $my_theme->load('jqueryToolsScrollable');
     */
-
 
     $help1 = array(
             array (
@@ -531,7 +528,6 @@ if ( class_exists('KST') ) {
     $my_theme->load('options');
     $my_theme->options->addGroup($twentyeleven_options);
     $my_theme->options->addGroup($twentyeleven_options2);
-
 
 
 } else {

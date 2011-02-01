@@ -30,7 +30,7 @@ form dl:before, form dl:after {
 
 /* content div - inheriting from WP post metaboxes i.e. .wrap #poststuff.metabox-holder #normal-sortables.meta-box-sortables .postbox  */
 .postbox { /* padding-top: 136px; */ }
-.hndle, .handlediv { margin-bottom: 36px; !important }
+.hndle, .handlediv { margin-bottom: 0; !important }
 .inside { clear: both; }
 
 form dl {

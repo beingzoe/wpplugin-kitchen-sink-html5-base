@@ -27,7 +27,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title><?php wp_title( "", true, 'right'); ?></title>
+<title><?php wp_title( "&laquo;", true, 'right'); ?></title>
 
 <link rel="pingback" href="<?php bloginfo('pingback_url'); ?>" />
 <?php wp_head(); /* Everything else: CSS, JS, feeds, meta tags etc... */ ?>
