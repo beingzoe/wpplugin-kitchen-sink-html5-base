@@ -1,6 +1,6 @@
 <?php
 /**
- * KST_Options
+ * KST_Appliance_Options
  * Kitchen Sink Class: Options
  * Methods to rapidly create and use WordPress options (and just admin content pages)
  * Creates menu item and builds options/content page using options array you create
@@ -63,6 +63,10 @@ class KST {
      *
      * @since       0.1
      * @see         http://wordpress.org/support/topic/how-to-change-plugins-load-order
+     * @uses        plugin_basename() WP Function
+     * @uses        get_option() WP Function
+     * @uses        update_option() WP Function
+     * @uses        WP_PLUGIN_DIR WP constant
      * @todo        Clean this up
      * @todo        Create a hook for KST plugin developers to use to make sure they load after this
     */

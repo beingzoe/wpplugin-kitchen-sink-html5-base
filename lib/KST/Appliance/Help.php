@@ -14,7 +14,7 @@
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @uses        KST_AdminPage
 */
-class KST_Help {
+class KST_Appliance_Help extends KST_Appliance {
 
     /**
      * @since       0.1
@@ -26,7 +26,15 @@ class KST_Help {
     /**
      * @since       0.1
     */
-    public function __construct() {
+    public function __construct(&$kitchen) {
+
+        if ( !is_admin() )
+            return FALSE;
+
+        // Common to all pages for this kitchen
+        $this->_kitchen = $kitchen;
+        $this->_type_of_kitchen = $this->_kitchen->getTypeOfKitchen();
+
         $this->_help_files = array();
         add_action('admin_menu', 'KST_AdminPage_Help::addMenus',1000); // hook to create menus/pages in admin AFTER the option page menus are created
     }

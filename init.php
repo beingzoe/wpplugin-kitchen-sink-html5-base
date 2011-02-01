@@ -13,12 +13,21 @@ License:        MIT
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  Core
+ * @uses        KST
+ * @uses        KST_Kitchen
+ * @uses        KST_Kitchen_Theme
+ * @uses        KST_Kitchen_Plugin
+ * @uses        KST_Appliance_Options class
 */
 
 
 /**#@+
  * CONSTANTS
- * @since 0.1
+ *
+ * @since       0.1
+ * @uses        get_site_url() WP function
+ * @uses        get_current_theme() WP function
+ * @uses        WP_PLUGIN_URL WP constant
 */
 define( 'KST_DIR',                      dirname(__FILE__) );                                            // Absolute path to KST
 define( 'KST_DIR_LIB',                  KST_DIR . '/lib' );
@@ -43,6 +52,10 @@ define( 'KST_HELP_SECTION_SEPARATOR',   '<br /><br /><a href="#wphead">Top</a><b
  * define('KST_BUNDLED_THEME_DEV', true);
  *
  * @since       0.1
+ * @uses        register_theme_directory() WP function
+ * @uses        KST_BUNDLED_THEME_DEV
+ * @uses        WP_PLUGIN_DIR
+ * @uses        KST_DIR
 */
 if (defined('KST_BUNDLED_THEME_DEV') && KST_BUNDLED_THEME_DEV) {
     register_theme_directory( WP_PLUGIN_DIR . '/' . basename(KST_DIR) . '/themes' );
@@ -58,6 +71,7 @@ require_once KST_DIR_LIB . '/KST.php';
 require_once KST_DIR_LIB . '/KST/Kitchen.php';
 require_once KST_DIR_LIB . '/KST/Kitchen/Plugin.php';
 require_once KST_DIR_LIB . '/KST/Kitchen/Theme.php';
+require_once KST_DIR_LIB . '/KST/Appliance.php';
 
 
 /**
@@ -68,9 +82,17 @@ require_once KST_DIR_LIB . '/KST/Kitchen/Theme.php';
 */
 $kst_bundled_appliances = array(
     'options' => array(
-            'path'                  => KST_DIR_LIB . '/KST/Options.php',
-            'class_name'            => 'KST_Options'
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Options.php',
+            'class_name'            => 'KST_Appliance_Options'
             //,'require_args'          => TRUE
+        ),
+    'helpold' => array(
+            'path'                  => KST_DIR_LIB . '/functions/theme_help.php',
+            'class_name'            => FALSE
+        ),
+    'help' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Help.php',
+            'class_name'            => 'KST_Appliance_Help'
         ),
     'wp_sensible_defaults' => array(
             'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults.php',
@@ -80,22 +102,10 @@ $kst_bundled_appliances = array(
                 'path'              => KST_DIR_LIB . '/functions/wp_sensible_defaults_admin.php',
                 'class_name'        => FALSE
         ),
-    'helpold' => array(
-            'path'                  => KST_DIR_LIB . '/functions/theme_help.php',
-            'class_name'            => FALSE
-        ),
-    /*
-    'help' => array(
-            'path'                  => KST_DIR_LIB . '/KST/Help.php',
-            'class_name'            => 'KST_AdminPage_Help'
-        ),
-    */
-
     'seo' => array(
-            'path'                  => KST_DIR_LIB . '/functions/seo.php',
-            'class_name'            => FALSE
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/seo.php',
+            'class_name'            => 'KST_Appliance_Seo'
         ),
-
     'wordpress' => array(
             'path'                  => KST_DIR_LIB . '/KST/Wordpress.php',
             'class_name'            => 'KST_Wordpress'
@@ -117,6 +127,10 @@ $kst_bundled_appliances = array(
     'widgetJitSidebar' => array(
             'path'                  => KST_DIR_LIB . '/KST/Widget/JitSidebar.php',
             'class_name'            => FALSE
+        ),
+    'asides' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Asides.php',
+            'class_name'            => 'KST_Appliance_Asides'
         ),
     'jqueryLightbox' => array(
             'path'                  => KST_DIR_LIB . '/functions/jquery/lightbox.php',
@@ -156,11 +170,35 @@ $kst_core_settings = array(
         );
 
 
-/**
+/**#@+
+ * Initialize KST core
+ *
+ * @since       0.1
+ * @uses        KST_Kitchen::registerAppliances()
+ * @uses        KST_Kitchen::load()
+ * @uses        KST_Appliance_Options::addGroup()
+*/
+
+// Instantiate the core as it's own 'kitchen'
+$kst_core = new KST_Kitchen_Plugin($kst_core_settings);
+
+// Register bundled appliances
+$kst_core->registerAppliances($kst_bundled_appliances);
+/**#@-*/
+
+
+/**#@+
  * Define the options for the core
  * KST core settings editable from WP admin irrespective of theme
  *
  * @since       0.1
+ * @uses        KST_Kitchen
+ * @uses        KST_Appliance_Options
+ * @uses        KST_Kitchen::load()
+ * @uses        KST_Kitchen::setDisabledAppliances()
+ * @uses        KST_Appliance_Options::addGroup()
+ * @uses        KST_Appliance_Options::get()
+
 */
 $kst_core_options = array(
     'parent_slug'           => 'core', // required;
@@ -196,36 +234,44 @@ $kst_core_options = array(
                                         "type"      => "subsection"
                                         ),
 
-                        'doAllowKstToMoveAdminMenus' => array(
+                        'do_allow_kst_to_move_admin_menus' => array(
                                         "name"    => 'Allow Moving Admin Menus',
                                         "desc"    => "Defaults to TRUE.<br /><br />Allows KST themes and plugins to reorganize admin menus.<br />Only affects menus created through KST.",
                                         "default"     => TRUE,
                                         "type"    => "checkbox",
+                                        ),
+
+                        'core_disable_these_appliances' => array(
+                                        "name"      => 'Disable appliances',
+                                        "desc"      => "Experimental feature. Use at your own risk!<br />Allow blog owner to shut off certain appliances (i.e they want a separate plugin to handle that functionality).<br />Only class objects can be disabled at this time.<br />",
+                                        "type"      => "section"
+                                        ),
+
+                        'disable_these_appliances' => array(
+                                        "name"      => 'Disable appliances',
+                                        "desc"      => "Comma separated list of appliance 'shortnames' to disable.",
+                                        "type"      => "text",
+                                        "default"   => FALSE
                                         )
                         )
         );
 
 
-/**#@+
- * Initialize KST core
- *
- * @since       0.1
-*/
-
-// Instantiate the core as it's own 'kitchen'
-$kst_core = new KST_Kitchen_Plugin($kst_core_settings);
-
-// Register bundled appliances
-$kst_core->registerAppliances($kst_bundled_appliances);
-
 // Add the core options/about page
 $kst_core->load('options');
 $kst_core->options->addGroup($kst_core_options);
+KST_Kitchen::setDisabledAppliances( $kst_core->options->get('disable_these_appliances') );
+/**#@-*/
 
-// Add WP hooks for core functionality
+
+/**#@+
+ * Add WP hooks for core functionality
+ *
+ * @since       0.1
+ * @uses        add_action() WP Function
+*/
 add_action('activated_plugin', 'KST::loadAsFirstPlugin');
 add_action('plugins_loaded', 'KST::pluginsAreLoaded'); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
 /**#@-*/
-
 
 // Now we wait for a plugin or theme to initialize...

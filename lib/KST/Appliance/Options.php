@@ -13,6 +13,7 @@
  * @author      zoe somebody
  * @link        http://beingzoe.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
+ * @uses        * @uses        KST_Kitchen
  * @todo        is_shut and show/hide sections isn't working i.e. implement $do_collapse_section has to do with the new simple templating
  * @todo        our admin pages need styling love that needs to be in the dev starter themes
  */
@@ -53,27 +54,25 @@ require_once KST_DIR_VENDOR . '/ZUI/WpAdminPages.php';
  * @uses        ZUI_FormHelper
  * @uses        AdminMenu.php
 */
-class KST_Options {
+class KST_Appliance_Options extends KST_Appliance {
 
     /**#@+
      * @since       0.1
      * @access      protected
+     * @var         array
     */
     protected static $_option_pages = array('kst_theme'=> array(),'kst_plugin'=> array(),'core'=> array(),'theme'=> array(),'plugin'=> array());
-    protected static $_custom_start_index = 223; // where we start storing our menus - hopefully out of everybody's way
-    protected static $_custom_end_index; // where we end - not used ?
-    protected static $_extant_options = array(); // Options checked for extant-ness
+    protected static $_extant_options; // Options checked for extant-ness
     /**#@-*/
 
 
     /**#@+
-     * Core protected variables to keep tabs on all the kitchens
-     *
      * @since       0.1
      * @access      protected
+     * @var         int
     */
-    protected $_kitchen; // current kitchen instance
-    protected $_type_of_kitchen;
+    protected static $_custom_start_index = 223; // where we start storing our menus - hopefully out of everybody's way
+    protected static $_custom_end_index; // where we end - not used ?
     /**#@-*/
 
 
@@ -93,6 +92,9 @@ class KST_Options {
         // Common to all pages for this kitchen
         $this->_kitchen = $kitchen;
         $this->_type_of_kitchen = $this->_kitchen->getTypeOfKitchen();
+        //self::$_extant_options
+        if ( !is_array(self::$_extant_options ) )
+            self::$_extant_options = array();
     }
 
 
@@ -103,22 +105,21 @@ class KST_Options {
      *
      * @since       0.1
      * @uses        ZUI_WpAdminPages::get_all_parent_slugs()
-     * @uses        ZUI_FormHelperX::get_blocks_of_type_form()
+     * @uses        ZUI_FormHelper::get_blocks_of_type_form()
      * @uses        KST_Kitchen::prefixWithNamespace()
-     * @uses        KST_Options::_doesOptionExist()
+     * @uses        KST_Appliance_Options::_doesOptionExist()
      * @uses        wp_die() WP function
      * @uses        get_option() WP function
      * @uses        has_action() WP function
      * @uses        add_action() WP function
      * @param       required array $options see documentation for details
      * @return      string The namespaced menu slug
+     * @todo        Could this be sped up by saving already added-addGroups as an option (i.e. save self::$_extant_options and check against that first? how would we update it?)
     */
     public function addGroup($options) {
 
-        if (!is_admin())
-            return; // nothing to do
 
-        $blocks_of_type_form = ZUI_FormHelperX::get_blocks_of_type_form();
+        $blocks_of_type_form = ZUI_FormHelper::get_blocks_of_type_form();
 
         // Set the key to save each group of options under - useed to sort the options later
         if ( 'core' == $options['parent_slug'] ) {
@@ -160,7 +161,7 @@ class KST_Options {
             unset($options['options'][$key]); // delete the old key
 
             // Check to see if the option is a form element, if the value exists and set it appropriately
-            if ( in_array($options['options'][$namespaced_key]['type'],$blocks_of_type_form) && $this->_doesOptionExist($namespaced_key) ) {
+            if ( in_array($options['options'][$namespaced_key]['type'],$blocks_of_type_form) && $this->_doesOptionExist($namespaced_key) ) { /**/
                 $options['options'][$namespaced_key]['value'] = get_option($namespaced_key); // Just use WP - it's already namespaced here
             } else if ( in_array($options['options'][$namespaced_key]['type'],$blocks_of_type_form) ) {
                 $options['options'][$namespaced_key]['value'] = NULL; // Must send NULL to tell it the option doesn't exist otherwise empty() just means they chose no option
@@ -174,6 +175,7 @@ class KST_Options {
             }
         }
 
+
         // Now we can set the option_group safely - always match the menu_slug
         $options['option_group_name'] = $options['menu_slug'];
 
@@ -185,13 +187,16 @@ class KST_Options {
 
         $options['priority'] = 999; // We like to go last-ish
 
-        // Add the hook to organize all the submitted pages before we send them to WP
-        if ( !has_action( '_admin_menu', 'KST_Options::create') ) {
-            add_action('_admin_menu', 'KST_Options::create', 999); // important for sequencing
-        }
-
         // Save the cleaned up array
         self::$_option_pages[$group_key][$options['menu_slug']] = $options; //
+
+        if (!is_admin())
+            return; // nothing to do
+
+        // Add the hook to organize all the submitted pages before we send them to WP
+        if ( !has_action( '_admin_menu', 'KST_Appliance_Options::create') ) {
+            add_action('_admin_menu', 'KST_Appliance_Options::create', 999); // important for sequencing
+        }
 
         // And return the key?
         return $options['menu_slug'];
@@ -262,8 +267,8 @@ class KST_Options {
 
         // And we'll move them around after we are done - store the ending index of kst managed menus
         // If blog owner allows and we haven't already added this hook
-        if ( $GLOBALS['kst_core']->options->get('doAllowKstToMoveAdminMenus') && !has_action( '_admin_menu', 'KST_Options::moveKSTMenus') ) {
-            add_action('admin_menu', 'KST_Options::moveKSTMenus', 1000);
+        if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Options::moveKSTMenus') ) {
+            add_action('admin_menu', 'KST_Appliance_Options::moveKSTMenus', 1000);
         }
 
     }
@@ -282,7 +287,7 @@ class KST_Options {
     */
     public static function moveKSTMenus() {
 
-        if ( !$GLOBALS['kst_core']->options->get('doAllowKstToMoveAdminMenus') )
+        if ( !$GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') )
             return false; // abide the blog owner
 
         global $menu;
@@ -317,10 +322,19 @@ class KST_Options {
      * Test for existence of KST theme option REGARDLESS OF TRUENESS of option value
      *
      * Returns true if option exists REGARDLESS OF TRUENESS of option value
-     * WP get_option returns false if option does not exist
-     * AND if it does and is false
+     * Returns false ONLY if option DOES NOT EXIST
+     * Native WP get_option() returns indeterminate empty($value) so is useless for defaults
      *
-     * Typically only necessary when testing existence to set defaults on first use for radio buttons etc...
+     * NOTE: This is a highly optimized piece of simplistic beauty. Harnessing the
+     *       strength of WP's autoload options and wp_cache_get() as well as our own
+     *       $_extant_options array that stores 'exists','default','value' from the
+     *       first access.
+     *
+     *
+     * Typical use for testing existence to set defaults on first use for radio buttons etc...
+     * Used extensively by get(). With this method we have eliminated the need for
+     * using WP's get_option() altogether while namespacing everything for people and
+     * I think simplifying the entire process of creating and using options.
      *
      * N.B.: First request is an entire query and obviously a speed hit so use wisely
      *
@@ -332,7 +346,6 @@ class KST_Options {
     protected function _doesOptionExist( $option ) {
         // Check to see if the current key exists
         if ( !array_key_exists($option, self::$_extant_options) ) { // First request so ask WordPress...
-            // huh...&& !array_key_exists('exists', self::$_extant_options[$option])
 
             // simulating part of the get_option() WP function just to get extant-ness - speed things up
             $alloptions = wp_load_alloptions(); // Gets all autoloaded options - cached if already done
@@ -362,7 +375,10 @@ class KST_Options {
 
 
     /**
-     * Public accessor to get a namespaced option from a kitchen
+     * Public accessor to get a namespaced option created by a particular kitchen
+     *
+     * Fully cached brilliance relying on _doesOptionExist() and WP option caching
+     * Returns set value OR the default created in the original options array!
      *
      * Replaces native get_option for convenience
      * So instead of get_option("namespace_admin_email");
@@ -370,10 +386,11 @@ class KST_Options {
      *
      * @since 0.1
      * @uses        KST_Kitchen::prefixWithNamespace()
+     * @uses        KST_Appliance_Options::_doesOptionExist()
+     * @uses        KST_Appliance_Options::$_extant_options
      * @param       required string $option
      * @param       optional string $default ANY  optional, defaults to null
-     * @uses        get_option() WP function
-     * @return      string
+     * @return      string value of option OR the default for the option
     */
     public function get($option, $default = NULL) {
 

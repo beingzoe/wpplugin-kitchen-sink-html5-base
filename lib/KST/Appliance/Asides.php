@@ -22,7 +22,7 @@
  * @todo        have the asides categories created dynamically by kitchen
 */
 
-class KST_Asides {
+class KST_Appliance_Asides extends KST_Appliance {
 
     /**#@+
      * @access      private
@@ -33,13 +33,13 @@ class KST_Asides {
     private $category;          // The category the asides belong to; $name, $slug, OR $id
     /**#@-*/
 
+
     /**#@+
      * @access private
      * @var array
     */
     private $asides;            // Array of asides content
     /**#@-*/
-
 
 
     /**
@@ -51,42 +51,67 @@ class KST_Asides {
      * @uses        KST_Asides::should_we_do_this()
      * @uses        add_action() WP function
     */
-    public function __construct( $category ) {
+    public function __construct(&$kitchen) {
+        /*
         if ( !is_object( get_term_by( 'id', $category, 'category' ) ) )
             return; // No category so nothing to do
-        $this->category = $category;
-        $this->asides = array();
+            */
 
-        $asides_options = array (
-            // Layout options
-            array(  "name"      => __('Aside Categories'),
-                    "desc"      => __("
-                                    <p><em>Options affecting the layout and presentation of your site.</em></p>
-                                    <p>See \"Appearance &gt; Theme Help\" to learn more about asides.</p>
-                                "),
-                    "type"      => "section",
-                    "is_shut"   => FALSE ),
+        // Common to all pages for this kitchen
+        $this->_kitchen = $kitchen;
+        $this->_type_of_kitchen = $this->_kitchen->getTypeOfKitchen();
 
-            array(  "name"      => __('Asides Category'),
-                    "desc"      => __('Pick the category to use as your sideblog'),
-                    "id"        => "layout_category_aside",
-                    "type"      => "select_wp_categories",
-                    "args"      => array( )
-                    ),
 
-            array(  "name"      => __('Gallery Category SLUG'),
-                    "desc"      => __('Pick the category to use for gallery posts'),
-                    "id"        => "layout_category_gallery",
-                    "type"      => "select_wp_categories",
-                    "args"      => array( )
+        $kst_asides_options = array(
+            'parent_slug'           => 'kst',
+            'menu_title'            => 'Asides',
+            'page_title'            => 'Asides sideblog and special custom formatting',
+            'capability'            => 'manage_options',
+            'view_page_callback'    => "auto",
+            'options'               => array(
+                    // Page title settings
+                    'seo_main' => array(  "name"      => __('Aside Categories'),
+                            "desc"      => __("
+                                            <p><em>Choose the categories to use for sideblogs and special custom formatting.</em></p>
+                                            <p>See \"Appearance &gt; Theme Help\" to learn more about asides.</p>
+                                        "),
+                            "type"      => "section",
+                            "is_shut"   => FALSE ),
+
+                    'layout_category_aside' => array(  "name"      => __('Asides Category'),
+                            "desc"      => __('Pick the category to use as your sideblog'),
+                            "type"      => "select_wp_categories",
+                            "args"      => array( )
+                            ),
+
+                    'layout_category_gallery' => array(  "name"      => __('Gallery Category SLUG'),
+                            "desc"      => __('Pick the category to use for gallery posts'),
+                            "type"      => "select_wp_categories",
+                            "args"      => array( )
+                            )
                     )
         );
 
+         // Every kitchen needs the basic settings
+        $kst_asides_settings = array(
+                    /* REQUIRED */
+                    'friendly_name'       => 'KST Appliance: Plugin: Blog: Asides',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
+                    'prefix'              => 'kst_asides',                       // Required; Prefix for namespacing libraries, classes, widgets
+                    'developer'           => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
+                    'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
+                );
+
+        // Initialize as kitchen and create options page
+        $this->_appliance = new KST_Kitchen_Plugin($kst_asides_settings);
+        $this->addOptionsGroup($kst_asides_options);
+
+        return false; // We aren't ready for you yet!
+
+        $this->category = $category;
+        $this->asides = array();
+
         add_action( 'loop_start', array( &$this, 'should_we_do_this' ), 10, 2 );
     }
-
-
-
 
 
     /**
@@ -99,6 +124,7 @@ class KST_Asides {
     private function set_date($date) {
         return date( "mdY", strtotime($date) );
     }
+
 
     /**
      * Determine if we are in the "main" loop
@@ -117,6 +143,7 @@ class KST_Asides {
         add_action( 'the_post', array( &$this, 'do_in_loop' ), 10, 2 );
         add_action( 'loop_end', array( &$this, 'output' ), 10 );
     }
+
 
     /**
      * Check the current $post_object object for an aside
@@ -151,6 +178,7 @@ class KST_Asides {
         }
     }
 
+
     /**
      * Add Aside
      *
@@ -164,6 +192,7 @@ class KST_Asides {
     public function add( $post_object ) {
         $this->asides[] = $post_object;
     }
+
 
     /**
      * Reset (empty) the asides array
