@@ -11,9 +11,6 @@ and send me a pull request when you are done.
 
 ## Misc ##
 
-* SEO needs updated for all the new stuff and put into bundled_appliances array and presets
-  * analytics should be inserted unobtrusivley and not be in templates at all
-
 * create new send mail class
 
 * Theme support
@@ -63,24 +60,6 @@ and send me a pull request when you are done.
     * template?
 
 * Asides class (make awesome, unobtrusive, and truly useful)
-
-* Additional Image Sizes plugin redone and bundled version as appliance
-  * Or possibly just redo then submodule/subtree it so it always exists but can be maintained separately
-* Sociable plugin submoduled/subtreed so that it always exists but is maintained separately?
-
-* mp3player could have more customizability
-  * Find safe HTML5 solution for this and video
-
-* create default page layout options (see those other themes with 12 layout templates to choose from or some shit
-* cool handy multipurpose shortcodes
-  * special formatted boxes
-    * error
-    * note
-* cool forms? js/image replacement?
-
-* Regarding options - review add_settings_field and add_settings_section
-  which allow adding options and even whole sections of options to an
-  existing page (not a whole new menu - just the options to be added)
 
 
 ## Help File(s) System ##
@@ -169,10 +148,4 @@ if (is_admin()) {
   $core->addOptionPage // etc.
 }
   [etc.]
-
-
-
-
-
-
 
