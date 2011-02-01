@@ -24,6 +24,7 @@
  * @version     0.1
  * @since       0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @uses        KST_Kitchen
  * @uses        KST_Appliance_Options
  * @uses        WPAlchemy_MetaBox
  * @todo        convert to class
