@@ -11,6 +11,7 @@
  * @author      Scragz
  * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
+ * @todo        Finish disable appliances
 */
 
 class KST_Kitchen {
@@ -37,6 +38,7 @@ class KST_Kitchen {
     */
     protected static $_extant_options; // ??? I think we are only using this in the new Options class - check and delete Array of options that exist IF they were checked with $this->option_exists();
     protected static $_appliances; // Array of bundled appliances (classes, functions/helper libraries)
+    protected static $_disabled_appliances = array();
     /**#@-*/
 
     protected static $_admin_pages; // Store all menus/pages from all registered kst kitchens
@@ -97,6 +99,11 @@ class KST_Kitchen {
             self::$_appliances[$shortname]['path'] = $path;
             self::$_appliances[$shortname]['class_name'] = $class_name; // FALSE if appliance is not a class
             self::$_appliances[$shortname]['require_args'] = $require_args; // FALSE if appliance is not a class
+            // Add ability for blog owner to override kitchen creator appliances
+            $GLOBALS['kst_core_options']['options'][$shortname]['name'] = $shortname;
+            $GLOBALS['kst_core_options']['options'][$shortname]['desc'] = 'Disable this appliance';
+            $GLOBALS['kst_core_options']['options'][$shortname]['type'] = 'checkbox';
+            $GLOBALS['kst_core_options']['options'][$shortname]['default'] = FALSE;
         }
     }
 
@@ -143,10 +150,11 @@ class KST_Kitchen {
         $args[] = $this_kitchen; // Add it to the $args array
 
         // Find the known appliance to load
-        if (array_key_exists($shortname, self::$_appliances)) {
+        if ( array_key_exists($shortname, self::$_appliances) ) {
             $appliance = self::$_appliances[$shortname];
             require_once $appliance['path']; // Load the file
-            if ( $appliance['class_name'] && ( !$appliance['require_args'] || 1 < count($args) ) ) { // FALSE if appliance is not a class && it can't require args || the args are greater than 1 because we are inserting the kitchen object
+            // Auto instantiate IF not disabled, is a class (has class_name), and does NOT require args (or it does and it has more than 1 - we always send the kitchen object)
+            if ( !in_array($shortname, self::$_disabled_appliances) && $appliance['class_name'] && ( !$appliance['require_args'] || 1 < count($args) ) ) { // FALSE if appliance is not a class && it can't require args || the args are greater than 1 because we are inserting the kitchen object
                 $_reflection = new ReflectionClass($appliance['class_name']);
                 $this->{$property} = $_reflection->newInstanceArgs($args);
                 return true;
@@ -232,6 +240,21 @@ class KST_Kitchen {
     */
     public function prefixWithNamespace( $item ) {
         return $this->namespace . $item;
+    }
+
+    /**
+     * Appliances to disable at blog owners request
+     *
+     * Experimental.
+     *
+     * @since       0.1
+     * @param       required string $item    unnamespaced option name
+     * @uses        KST_Kitchen::$_disabled_appliances
+    */
+    public static function setDisabledAppliances($disabled_list) {
+        if ( !empty($disabled_list) && is_string($disabled_list)) {
+            self::$_disabled_appliances = explode(",", $disabled_list);
+        }
     }
 
 

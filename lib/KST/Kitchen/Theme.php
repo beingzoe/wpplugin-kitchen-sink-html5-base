@@ -65,7 +65,10 @@ class KST_Kitchen_Theme extends KST_Kitchen {
         $this->type_of_kitchen = 'theme';
         self::setThemeContentWidth( $settings['content_width'] );
         self::setThemeExcerptLength( $settings['theme_excerpt_length'] );
-        self::setThemeSeoTitleSep( $settings['theme_seo_title_sep'] );
+
+        // Set the meta title segment separator if the theme developer included it
+        if ( isset($settings['theme_seo_title_sep']) )
+            self::setThemeSeoTitleSep( $settings['theme_seo_title_sep'] );
 
         parent::__construct($settings, $preset); // Now set the common stuff (has to be last because of preset)
 
