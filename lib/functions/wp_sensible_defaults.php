@@ -156,6 +156,7 @@ if ( !function_exists('kstRemoveGalleryInvalidCss') ) {
     }
 }
 
+
 /**
  * Filter the_title to include the page number if article is paged
  *
@@ -170,11 +171,11 @@ if ( !function_exists('kstRemoveGalleryInvalidCss') ) {
 if ( !function_exists('kstFilterTheTitleToIncludePageNumber') ) {
     function kstFilterTheTitleToIncludePageNumber($title, $id) {
         global $multipage, $page, $post;
-        /* If current post is multipage AND the post title we are filtering is for the same post we are viewing
-         * Otherwise this filter caused other functions using the_title (e.g. next_post_link() ) to incorrectly get filtered
-         */
+        // If current post is multipage AND the post title we are filtering is for the same post we are viewing
+        // Otherwise this filter caused other functions using the_title (e.g. next_post_link() ) to incorrectly get filtered
         if ( $multipage && $page > 1 && $id == $post->ID )
             $title .= " (Page {$page})";
+
         return $title;
     }
 }

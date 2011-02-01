@@ -19,7 +19,7 @@
  * @since       0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @todo        convert to class
- * @todo        make use our new KST_Options class
+ * @todo        make use our new KST_Appliance_Options class
  */
 
 if ( is_admin() )
