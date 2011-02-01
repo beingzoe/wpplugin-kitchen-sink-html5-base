@@ -81,6 +81,17 @@ class ZUI_WpAdminPages {
      * @uses        ZUI_WpAdminPages::_isCallbackOrTemplate
      * @uses        ZUI_WpAdminPages::newOptionGroup()
      * @param       required array  $page_array           Info about this OptionsGroup, the page that should display it, and all of the settings that belong to this option_group
+     *              required string 'parent_slug'
+     *              required string 'page_title'
+     *              required string 'menu_title'
+     *              required string 'menu_slug'
+     *              required string 'capability'
+     *              required string 'view_page_callback'
+     *              optional string 'icon_url'               // defaults to NULL
+     *              optional int    'position'               // defaults to NULL
+     *              opt/req  string 'option_group_name'      // defaults to NULL; required for options pages using WP Settings API
+     *              opt/req  array  'options'                // defaults to NULL; required for options pages using WP Settings API
+     *              opt/req  array  'options[]'              // defaults to NULL; required for options...see documentation?
     */
     public function __construct( $page_data_array ) {
 
@@ -116,33 +127,11 @@ class ZUI_WpAdminPages {
 
 
     /**
-     * Register options ('settings' in WP) for an entire option group
-     *
-     * @param       required array  $option_group_array           Info about this OptionsGroup, the page that should display it, and all of the settings that belong to this option_group
-    */
-    public function newOptionGroup() {
-
-        // Set type of page
-        $this->_page_type = 'options';
-
-        // Get our option keys and save them to register with WP
-        foreach ($this->_page_data_array['options'] as $key => $option) {
-           if ( is_array($option) ) {
-               if ( !empty($key) && in_array($option['type'], ZUI_FormHelper::get_blocks_of_type_form()) ) { // Don't do 'non-form element' blocks
-                   $this->_settingsIds[] = $key;
-               }
-           } else {
-               $this->_settingsIds[] = $option;
-           }
-        }
-
-    }
-
-
-    /**
-     * Method to request a menu/page and settings for it registered (if options page)
+     * Method to request a menu/page
      * Adds Menu to WP via addMenu()
-     * Adds hook to actually register options (i.e settings) with WP
+     *
+     * If an options page (Settings API) adds a hook to actually register
+     * options (i.e settings) with WP
      *
      * @since       0.1
      * @uses        ZUI_WpAdminPages::addMenu()
@@ -153,7 +142,7 @@ class ZUI_WpAdminPages {
         // Now tell WP all about it - add_menu_page and/or add_submenu_page
         $hookname = $this->addMenu();
 
-        // Hook to register settings with WP so it will manage the updates for us - IF options
+        // If options page: Hook to register settings with WP so it will manage the updates for us
         if ( 'options' == $this->_page_type )
             add_action('admin_init', array(&$this, 'registerSettings'));
 
@@ -175,8 +164,12 @@ class ZUI_WpAdminPages {
 
         if ( !isset($icon_url) )
             $icon_url = NULL;
+
         if ( !isset($position) )
             $position = NULL;
+
+        if ( !isset($parent_menu_title) )
+            $parent_menu_title = $menu_title;
 
         // Determine if this is a new top level i.e. new parent_slug or a child menu for an existing menu
         if ( !in_array($this->_page_data_array['parent_slug'], self::$_all_parent_slugs) ) { // must be a top level since we haven't seen it before
@@ -185,7 +178,7 @@ class ZUI_WpAdminPages {
             else
                 $callback = array($this, 'viewPage');
 
-            $hookname = add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, $icon_url, $position ); //returns only the hookname registered (i.e. $page_type . '_page_' . $plugin_name) , $icon_url, $position      $view_page_callback
+            $hookname = add_menu_page( $page_title, $parent_menu_title, $capability, $menu_slug, $callback, $icon_url, $position ); //returns only the hookname registered (i.e. $page_type . '_page_' . $plugin_name) , $icon_url, $position      $view_page_callback
         }
 
         // Per WP best practice (de facto practice except for comments where they KNOW there are no children coming) the first menu item in section will always be the same as the parent_menu
@@ -199,23 +192,6 @@ class ZUI_WpAdminPages {
 
         // Return the hookname that WP will use to view the page
         return $hookname;
-    }
-
-
-    /**
-     * Callback method for WP to register options (i.e. settings) (so WP can manage)
-     *
-     * @since       0.1
-     * @uses        ZUI_WpAdminPages::$_settingsIds
-     * @uses        ZUI_WpAdminPages::$_page_data_array
-     * @uses        register_setting() WP function
-    */
-    public function registerSettings() {
-        // Register all the options (i.e. settings) for this option group for WP to manage (WP will handle updates)
-        foreach ( $this->_settingsIds as $option) {
-            // check to see if $option is a key, if so then we also need to check what type of 'block' it is (for automatic form creation) and only add it if this is an option form element
-            register_setting( $this->_page_data_array['option_group_name'], $option );
-        }
     }
 
 
@@ -253,9 +229,6 @@ class ZUI_WpAdminPages {
             } // END if action
         }
 
-        // Fucked up exception? If you add a top level only and set it's
-        //if ( !isset($this->_page_data_array['top_only']) || (isset($this->_page_data_array['top_only']) && 'header_only' != $this->_page_data_array['top_only']) ) {}
-
         // OUTPUT the actual pages
         echo "<div class='wrap kst_options'>"; //Standard WP Admin content class plus our class to style with
             echo "<h2>" . $this->_page_data_array['page_title'] . "</h2>";
@@ -282,7 +255,6 @@ class ZUI_WpAdminPages {
                         echo "</p>";
                     echo "</div><!--End .normal-sortables-->"; // End normal-sortables
                 echo "</form>";
-
                 echo "<form method='post' class='metabox-holder'>";
                     echo "<p class='submit'>";
                         $reset_nonce = wp_create_nonce('reset_nonce'); // make a nonce
@@ -296,9 +268,9 @@ class ZUI_WpAdminPages {
             } else if ( 'template' == $this->_isCallbackOrTemplate ) { // Include a .php template
                 include $this->_page_data_array['view_page_callback'];
 
-            } else if ( 'callback' == $this->_isCallbackOrTemplate && function_exists($this->_page_data_array['view_page_callback']) ) { // supplied callback function
+            } else if ( 'callback' == $this->_isCallbackOrTemplate && is_callable($this->_page_data_array['view_page_callback']) ) { // supplied callback function
                 $callback = $this->_page_data_array['view_page_callback'];
-                $callback(); // Output their callback;
+                call_user_func($callback); // Output their callback;
 
             } else {
                 wp_die("zui WP AdminPage Error: We don't know how to display your admin page<br />For the 'view_page_callback' parameter enter either the name of a valid callback function or the full path to the template file to include that contains your content.");
@@ -359,6 +331,7 @@ class ZUI_WpAdminPages {
 
     }
 
+
     /**
      * Get these extant parent_slugs
      *
@@ -369,6 +342,50 @@ class ZUI_WpAdminPages {
     public static function get_all_parent_slugs() {
         return self::$_all_parent_slugs;
     }
+
+
+    /**
+     * Options Settings API only:
+     * Extract just the options id's ('settings' in WP) for an entire option group
+     * This will be used to register them for WP to manage
+     *
+    */
+    public function newOptionGroup() {
+
+        // Set type of page
+        $this->_page_type = 'options';
+
+        // Get our option keys and save them to register with WP
+        foreach ($this->_page_data_array['options'] as $key => $option) {
+           if ( is_array($option) ) {
+               if ( !empty($key) && in_array($option['type'], ZUI_FormHelper::get_blocks_of_type_form()) ) { // Don't do 'non-form element' blocks
+                   $this->_settingsIds[] = $key;
+               }
+           } else {
+               $this->_settingsIds[] = $option;
+           }
+        }
+
+    }
+
+
+    /**
+     * Options Settings API only:
+     * Callback method for WP to register options (i.e. settings) (so WP can manage)
+     *
+     * @since       0.1
+     * @uses        ZUI_WpAdminPages::$_settingsIds
+     * @uses        ZUI_WpAdminPages::$_page_data_array
+     * @uses        register_setting() WP function
+    */
+    public function registerSettings() {
+        // Register all the options (i.e. settings) for this option group for WP to manage (WP will handle updates)
+        foreach ( $this->_settingsIds as $option) {
+            // check to see if $option is a key, if so then we also need to check what type of 'block' it is (for automatic form creation) and only add it if this is an option form element
+            register_setting( $this->_page_data_array['option_group_name'], $option );
+        }
+    }
+
 
     /**
      * Move one menu section UP in the WP $menu array ABOVE another one
