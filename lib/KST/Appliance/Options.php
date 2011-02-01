@@ -13,10 +13,11 @@
  * @author      zoe somebody
  * @link        http://beingzoe.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @uses        * @uses        KST_Kitchen
+ * @uses        KST_Kitchen
  * @todo        is_shut and show/hide sections isn't working i.e. implement $do_collapse_section has to do with the new simple templating
  * @todo        our admin pages need styling love that needs to be in the dev starter themes
  */
+
 
 /**
  * Companion classes to encapsulate access to admin menu global arrays $menu and $submenu
@@ -32,7 +33,7 @@ if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSe
 }
 
 /**
- * Class to quickly create WP admin menu/pages and auto build the forms if necessary
+ * Companion class to quickly create WP admin menu/pages and auto build the forms if necessary
  *
  * Uses an array to manage all information pertaining to menu/page creation and the settings to register/manage
  *
@@ -265,7 +266,7 @@ class KST_Appliance_Options extends KST_Appliance {
             }
         }
 
-        // And we'll move them around after we are done - store the ending index of kst managed menus
+        // And we'll move them around after we are done
         // If blog owner allows and we haven't already added this hook
         if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Options::moveKSTMenus') ) {
             add_action('admin_menu', 'KST_Appliance_Options::moveKSTMenus', 1000);
@@ -301,6 +302,7 @@ class KST_Appliance_Options extends KST_Appliance {
         } else {
             return FALSE;
         }
+        /*
         // Get current index of Appearance
         $menu_key_to_move_above = ZUI_WpAdminPages::findCurrentKeyOfWpMenuSection('Appearance');
 
@@ -313,7 +315,7 @@ class KST_Appliance_Options extends KST_Appliance {
             ZUI_WpAdminPages::moveMenuSectionUpAboveAnother(998,$menu_key_to_move_above);
         else
             return FALSE;
-
+            */
         return TRUE;
     }
 
