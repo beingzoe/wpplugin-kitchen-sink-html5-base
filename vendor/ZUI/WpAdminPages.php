@@ -7,6 +7,9 @@
  * @author      zoe somebody
  * @link        http://beingzoe.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
+ * @uses        WP_AdminMenus
+ * @uses        ZUI_PhpHelper
+ * @uses        ZUI_FormHelper
 */
 
 /**
@@ -14,7 +17,7 @@
  *
  * @since       0.1
 */
-require_once 'FormHelper2.php';
+require_once 'FormHelper.php';
 
 
 /**
@@ -74,6 +77,9 @@ class ZUI_WpAdminPages {
      * Constructor for page objects
      * All page types (options or static content) use the same $page_data_array
      *
+     * @uses        ZUI_WpAdminPages::_page_data_array
+     * @uses        ZUI_WpAdminPages::_isCallbackOrTemplate
+     * @uses        ZUI_WpAdminPages::newOptionGroup()
      * @param       required array  $page_array           Info about this OptionsGroup, the page that should display it, and all of the settings that belong to this option_group
     */
     public function __construct( $page_data_array ) {
@@ -122,7 +128,7 @@ class ZUI_WpAdminPages {
         // Get our option keys and save them to register with WP
         foreach ($this->_page_data_array['options'] as $key => $option) {
            if ( is_array($option) ) {
-               if ( !empty($key) && in_array($option['type'], ZUI_FormHelperX::get_blocks_of_type_form()) ) { // Don't do 'non-form element' blocks
+               if ( !empty($key) && in_array($option['type'], ZUI_FormHelper::get_blocks_of_type_form()) ) { // Don't do 'non-form element' blocks
                    $this->_settingsIds[] = $key;
                }
            } else {
@@ -269,7 +275,7 @@ class ZUI_WpAdminPages {
             if ( 'auto' == $this->_isCallbackOrTemplate ) { // Build them a page using the form builder
                 echo "<form method='post' id='poststuff' class='metabox-holder' action='options.php'>";
                     echo '<div class="meta-box-sortables" id="normal-sortables">'; // Attempting to utilize as much WP style/formatting as possible
-                        echo ZUI_FormHelperX::makeForm($this->_page_data_array);
+                        echo ZUI_FormHelper::makeForm($this->_page_data_array);
                         settings_fields( $this->_page_data_array['option_group_name'] );
                         echo "<p class='submit'>";
                             echo "<input type='submit' class='button-primary' value='Save Changes' />";
@@ -373,6 +379,10 @@ class ZUI_WpAdminPages {
      * to a known location however inefficiently
      *
      * @global      array $menu Wp admin menus
+     * @uses        WP_AdminMenus
+     * @uses        ZUI_PhpHelper
+     * @uses        WP_AdminMenus::swap_admin_menu_sections()
+     * @uses        ZUI_PhpHelper::array_search_recursive()
     */
     public static function moveMenuSectionUpAboveAnother($menu_key_to_move, $menu_key_to_move_above) {
 
