@@ -93,33 +93,6 @@ $array = array(
                 ),
 );
 
-Standard pages
-    Theme help
-    Theme options
-    Features
-    Using WordPress
-    Blog Posts
-    Site Pages (cms)
-    Media
-    Plugins
-    Settings
-    Developer notes
-
-
-is_admin() && just viewing any page but a help page
-    parse and merge the arrays
-        just return all the pages and make it unique
-            create the menus (add_submenu_page)
-
-is_admin() && about to view a particular page)
-    parse and merge the arrays
-        just the elements that have the appropriate $page value
-            make a new array with this and sort alphabetically?
-                loop
-                    create toc
-                loop
-                    include templates
-
 
 
 plugins/
