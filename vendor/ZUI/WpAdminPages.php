@@ -99,12 +99,12 @@ class ZUI_WpAdminPages {
         $this->_page_data_array = $page_data_array;
 
         // Determine how this page will be displayed and store that as a flag
-        if (stripos( basename( $this->_page_data_array['view_page_callback'] ), '.php' ) ) {
+        if ( is_string($view_page_callback) && stripos(basename($this->_page_data_array['view_page_callback'] ), '.php') ) {
             $this->_isCallbackOrTemplate = 'template';
         } else if ( 'auto' == $this->_page_data_array['view_page_callback'] ) {
             $this->_isCallbackOrTemplate = 'auto'; // This should be autodetected by the state of the options sent to manage? - see next chunk
         } else {
-            $this->_isCallbackOrTemplate = 'callback';
+            $this->_isCallbackOrTemplate = 'callback'; // Not checking is_callable as the developer should see an error
         }
 
         // Fix the parent_slug - Because we allow friendly names to be used for existing WP sidebars
