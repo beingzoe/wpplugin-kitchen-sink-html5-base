@@ -42,9 +42,6 @@
 
 <p><strong>Major Topics</strong></p>
 <ol>
-    <?php
-            if ( function_exists('kst_theme_help_meta_data') ) echo kst_theme_help_meta_data('toc');
-    ?>
     <li>
         <a href="#posts">Blog POSTS</a>
         <ol>
@@ -94,10 +91,6 @@
 </ol>
 
 <br /><br />
-
-<?php
-    if ( function_exists('kst_theme_help_meta_data') ) echo kst_theme_help_meta_data('entry');
-?>
 
 <h2 id="posts">Blog POSTS</h2>
 <p>The following features will help you use your blog like a pro by using advanced techniques while posting.</p>
