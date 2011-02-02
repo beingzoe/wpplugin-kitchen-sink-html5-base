@@ -4,8 +4,8 @@
  *
  * @package     KitchenSinkHTML5Themes
  * @subpackage  TwentyEleven
- * @version     0.4
- * @since       1.0
+ * @version     0.1
+ * @since       0.1
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License

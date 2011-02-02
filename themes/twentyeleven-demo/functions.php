@@ -108,7 +108,6 @@ if ( class_exists('KST') ) {
                 'section' => 'Another section',
                 'content_source' => "<p>Just some content...!</p>"
                 ),
-            /*
             array (
                 'title' => 'Excerpts and teasers',
                 'page' => 'WordPress',
@@ -121,21 +120,18 @@ if ( class_exists('KST') ) {
                 'section' => 'Using Blog Posts',
                 'content_source' => "<p>THEME1 Excerpts and teasers</p>"
                 ),
-
             array (
                 'title' => 'Excerpts and teasers',
                 'page' => 'WordPress',
                 'section' => 'Using Blog Posts',
                 'content_source' => 'someHelpEntry'
                 ),
-
             array (
                 'title' => 'Excerpts and teasers',
                 'page' => 'WordPress',
                 'section' => 'Using Blog Posts',
                 'content_source' => "<p>THEME3 Excerpts and teasers (there is also a callback before this #2)</p>"
                 ),
-*/
             array (
                 'title' => 'Sociable',
                 'page' => 'Features',
@@ -148,8 +144,6 @@ if ( class_exists('KST') ) {
                 'section' => 'Additional Image Sizes',
                 'content_source' => $current_help_path . 'test.php'
                 )
-
-
         );
 
     // Add help files

@@ -46,4 +46,4 @@ if ( $wp_query->max_num_pages > 1 ) {
             </ul>
         </ul>
     </nav>
-<?php } ?>
+<?php }
