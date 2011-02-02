@@ -57,7 +57,7 @@
 
         // Tags
         $tags_list = get_the_tag_list( '', ', ' );
-        if ( $tags_list ) {}
+        if ( $tags_list ) {
 ?>
             <span class="wp_entry_meta wp_entry_meta_tags">
                 <?php printf( __( '<span class="%1$s">Tags:</span> %2$s', 'twentyten' ), '', $tags_list ); ?>
