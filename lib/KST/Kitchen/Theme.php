@@ -13,11 +13,12 @@
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
 */
 
-/**
- * Parent class
-*/
-require_once KST_DIR_LIB . '/KST/Kitchen.php';
 
+/**
+ *
+ *
+ *
+*/
 class KST_Kitchen_Theme extends KST_Kitchen {
 
     /**#@+
