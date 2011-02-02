@@ -216,13 +216,19 @@ class KST_Appliance_Seo extends KST_Appliance {
                     'page' => 'Marketing',
                     'section' => 'SEO, Meta Data, and Analytics',
                     'title' => 'SEO',
-                    'content_source' => array('KST_Appliance_Seo', 'helpSeoOverview')
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoSeo')
                 ),
                 array (
-                    'title' => 'Excerpts and teasers',
-                    'page' => 'WordPress',
-                    'section' => 'Using Blog Posts',
-                    'content_source' => "<p>CORE Excerpts and teasers</p>"
+                    'page' => 'Marketing',
+                    'section' => 'SEO, Meta Data, and Analytics',
+                    'title' => 'Analytics',
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoAnalytics')
+                ),
+                array (
+                    'page' => 'Marketing',
+                    'section' => 'SEO, Meta Data, and Analytics',
+                    'title' => 'Other Meta Data',
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoOtherMetaData')
                 )
             );
 
@@ -493,39 +499,37 @@ class KST_Appliance_Seo extends KST_Appliance {
 
 
     /**
-     * Help
+     * KST_Appliance_Help entry
+     * SEO: SEO
      *
-     *
+     * @since       0.1
     */
-        /**
-     * kst_theme_help entry
-     *
-     * See kst_theme_help
-     * Help content for zui based theme_help.php
-     */
-    public static function helpSeoOverview() {
+    public static function helpSeoSeo() {
         ?>
-            <p>Your theme has built-in control over the page title and meta tags throughout your site. <br />
-            How to use these are explained in detail on the "Appearance &gt; Theme Options" page.</p>
-
-            <h3 id="seo_post_page_custom_fields">Post/Page SEO &amp; Meta Data</h3>
 
             <p>
-                Customize the TITLE, META DESCRIPTION, and META KEYWORDS for ANY POST or PAGE by filling out the "SEO &amp; Meta Data" custom fields under the editor on the post/page edit screen.
+            Your theme has built-in control over the page title and meta tags throughout your site.
+            BE SURE to set the GLOBAL DEFAULTS for SEO settings on the "Theme Options &gt; <a href="admin.php?page=kst_kst_seo_SEO_and_Meta">SEO</a>" page.
+            where you will also find context specific help for SEO and meta data.
             </p>
-            <p><strong>Custom fields and options</strong></p>
+
+            <h3 id="seo_post_page_custom_fields">SEO per Post/Page</h3>
+
+            <p>Directly below the editor while adding/updating posts and pages you will see a metabox for editing SEO meta data for that post.</p>
+
             <ol>
                 <li>Page Title</li>
                 <li>Meta Keywords</li>
-                <li>Add TAGS to Meta Keywords</li>
-                <li>Add Global Keywords to Meta Keywords</li>
+                <li>Add TAGS to Meta Keywords (post tags + global)</li>
+                <li>Add Global Keywords to Meta Keywords (these + global)</li>
                 <li>Meta Description</li>
             </ol>
+
             <p><strong>How the the page title is created</strong></p>
             <ol>
                 <li>
                     Uses custom field "Page Title" if it exists for that post and page
-                    (except the home, blog index, archives, search, and 404) appending "Blog Name" (Settings &gt; General) depending on your settings in "Appearance &gt; Theme Options".
+                    (except the home, blog index, archives, search, and 404) appending "Blog Name" (Settings &gt; <a href="options-general.php">General</a>) depending on your custom theme settings in "Theme Options &gt; <a href="admin.php?page=kst_kst_seo_SEO_and_Meta">SEO</a>".
                 </li>
                 <li>
                     Otherwise the page title is created dynamically depending on the type of page is being viewed
@@ -556,34 +560,46 @@ class KST_Appliance_Seo extends KST_Appliance {
             <p>
                 The Home, Blog index, Archives, Search, and 404 pages cannot use the custom fields for the meta and are created dynamically in conjunction with your global defaults.
             </p>
-
-            <h3>Analytics</h3>
-
-            <p>If you enter your Google Analytics Tracking ID in "Theme Options" the Google Analytics tracking code will be added to the end of every page automatically.</p>
-
             <p>
-                <strong>Note:</strong> The built-in theme essentially precludes the need to use any plugin for SEO or Google Analytics.<br />
+                <strong>Note:</strong> The built-in "appliances" (embedded plugins) essentially precludes the need to use any plugin for SEO or Google Analytics.<br />
                 <em>If for some reason you wish to not use the built-in SEO or Google Analytics options there is no setting for disabling it.<br />
                 You should be able to safely ignore and leave blank any of these built-in theme options. <br />However, if you begin using a plugin
                 and experience problems or are optimizing simply edit functions.php and comment out the line "requiring" kst_theme_meta_data.php.</em>
             </p>
-
-            <br /><br />
-            <a href="#wphead">Top</a>
-            <br /><br /><br />
+            <p><small>Applies to Kitchen Sink HTML5 Base bundled SEO</small></p>
         <?php
     }
 
 
+    /**
+     * KST_Appliance_Help entry
+     * SEO: SEO
+     *
+     * @since       0.1
+    */
+    public static function helpSeoAnalytics() {
+        ?>
+            <p>If you enter your Google Analytics Tracking ID in "Theme Options" the Google Analytics tracking code will be added to the end of every page automatically.</p>
+            <p><small>Applies to Kitchen Sink HTML5 Base bundled SEO</small></p>
+        <?php
+    }
+
+
+    /**
+     * KST_Appliance_Help entry
+     * SEO: SEO
+     *
+     * @since       0.1
+    */
+    public static function helpSeoOtherMetaData() {
+        ?>
+            <p>The theme creator (or a plugin) may also make use of special "classes" for custom formatting or functionality. You may add the custom field <code>meta_body_class</code> to any post or page and that class will be added to the body.</p>
+        <?php
+    }
+
+
+
+
+
 }
-
-
-
-
-
-
-
-
-
-
 

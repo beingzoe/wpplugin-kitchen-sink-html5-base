@@ -235,9 +235,9 @@ class KST_Appliance_Help extends KST_Appliance {
 
         // And we'll move them around after we are done
         // If blog owner allows and we haven't already added this hook
-        //if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Help::moveHelpMenu') ) {
+        if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Help::moveHelpMenu') ) {
             add_action('admin_menu', array('KST_Appliance_Help', 'moveHelpMenu'), 2000);
-        //}
+        }
 
     }
 
@@ -267,7 +267,9 @@ class KST_Appliance_Help extends KST_Appliance {
 
         } else { // Any other help page
 
-            echo self::makeToc($current);
+            $toc = self::makeToc($current);
+
+            echo $toc;
 
             foreach (self::$_help_files as $page => $sections) {
                 if ( self::formatMenuSlug($page) != $current )
@@ -292,6 +294,7 @@ class KST_Appliance_Help extends KST_Appliance {
                         } else if ( 'string' == $path['content_type'] ) {
                             echo $path['content_source'];
                         } // Else do nothing because something is unreachable?
+                        echo "<div class='top'><br /><br /><a href='#wphead'>Top</a><br /><br /><br /></div>";
                     } // End of the title loop
                 } // End of the section loop
             } // End of the page loop
