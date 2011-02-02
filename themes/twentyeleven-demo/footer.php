@@ -11,6 +11,7 @@
  * @subpackage  TwentyEleven
  * @version     0.4
  * @since       1.0
+ * @global      object $_GLOBALS["my_theme"]
  *
  * Based on kitchenSink theme Version 0.3 and ZUI by zoe somebody http://beingzoe.com/zui/
  */
@@ -41,18 +42,6 @@
 </footer>
 
 </div><!-- close #doc -->
-
-<address class="hmeta vcard">
-    <a class="fn org url" href="http://beingzoe.com/">Company Name</a>
-    <span class="adr">
-        <span class="tel">
-            <span class="type">Work</span> 619-123-4579
-        </span>
-        <span class="tel">
-            <span class="type">Fax</span> 619-456-4579
-        </span>
-    </span>
-</address>
 
 <?php wp_footer(); ?>
 

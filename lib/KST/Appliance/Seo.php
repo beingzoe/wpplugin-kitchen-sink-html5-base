@@ -104,20 +104,17 @@ class KST_Appliance_Seo extends KST_Appliance {
                                                             <h4>SEO: Meta Title defaults</h4>
                                                         "),
                                             "type"    => "section"),
-
                         'meta_title_do_add_blog_name' => array(
                                             "name"    => __('Always add "Blog Name" to end of title'),
                                             "desc"    => __("Helps add consistency and usability to browser title bar / tab and for SEO purposes."),
                                             "default"     => TRUE,
                                             "type"    => "checkbox"),
-
                         'meta_title_sep' => array(
                                             "name"  => __('Separator'),
                                             "desc"  => __("Defaults to" . $this->_meta_title_sep_default . "<br />Character or symbol used to separate title parts e.g. My groovy post " . $this->_meta_title_sep_default . " Page 2 " . $this->_meta_title_sep_default . " MyBlog.com"),
                                             "default"   => $this->_meta_title_sep_default,
                                             "type"  => "text",
                                             "size"  => "8"),
-
                         //Meta tag defaults
                         'seo_meta_tags' => array(
                                             "name"    => __('SEO: Meta tag defaults'),
@@ -125,7 +122,6 @@ class KST_Appliance_Seo extends KST_Appliance {
 
                                                         "),
                                             "type"  => "subsection"),
-
                         // Meta tag defaults: General
                         'meta_keywords_global' => array(
                                             "name"  => __('Global meta keywords'),
@@ -133,14 +129,12 @@ class KST_Appliance_Seo extends KST_Appliance {
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
-
                         'meta_description_global' => array(
                                             "name"  => __('Global meta description'),
                                             "desc"  => __('Default description for meta name="description".<br />Used for all WP "Posts/Pages" where custom field "meta_page_description" is not set, description cannot be dynamically created, and/or defaults below are blank (where applicable).'),
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
-
                         // Meta tag defaults: Home (if home is not blog index)
                         'meta_keywords_home' => array(
                                             "name"  => __('Home meta keywords'),
@@ -148,14 +142,12 @@ class KST_Appliance_Seo extends KST_Appliance {
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
-
                         'meta_description_home' => array(
                                             "name"  => __('Home meta description'),
                                             "desc"  => __('Default description for meta name="description" on home page<br />Used if custom field "meta_page_description" is not set on the home/front page if not the blog index and cannot be dynamically created.<br />If blank defaults to "General Meta Description" above.'),
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
-
                         // Meta tag defaults: Single post */
                         'meta_keywords_single' => array(
                                             "name"  => __('Post meta keywords'),
@@ -163,14 +155,12 @@ class KST_Appliance_Seo extends KST_Appliance {
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
-
                         'meta_description_single' => array(
                                             "name"  => __('Post meta description'),
                                             "desc"  => __('Default description for meta name="description" on single post view<br />Used if custom field "meta_page_description" is not set for that Post and cannot be dynamically created or if Add Global Keywords is selected for that post.<br />If blank defaults to "General Meta Description" above.'),
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
-
                         // Meta tag defaults: Page */
                         'meta_keywords_page' => array(
                                             "name"  => __('Page meta keywords'),
@@ -178,7 +168,6 @@ class KST_Appliance_Seo extends KST_Appliance {
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
-
                         'meta_description_page' => array(
                                             "name"  => __('Page meta description'),
                                             "desc"  => __('Default description for meta name="description" on pages<br />Used if custom field "meta_page_description" is not set for that Page and cannot be dynamically created or if Add Global Keywords is selected for that page.<br />If blank defaults to "General Meta Description" above.'),
@@ -186,20 +175,70 @@ class KST_Appliance_Seo extends KST_Appliance {
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
-
                         'seo_analytics' => array(  "name"    => __('Analytics'),
                                             "desc"  => __("
 
                                                         "),
                                             "type"  => "subsection"),
-
                         'ga_tracking_id' => array(  "name"  => __('Google Analytics Tracking ID'),
                                             "desc"  => __('Just the tracking number e.g. UA-XXXXXXX-X;<br />If entered Google Analytics tracking code is added automatically<br />Leave blank if not used or using a Google Analytics plugin'),
                                             "default"   => "",
                                             "type"  => "text",
-                                            "size"  => "15")
+                                            "size"  => "15"),
+
+                        'seo_microformat_vcard' => array(
+                                            "name"    => __('Sitewide vCard (Microformat)'),
+                                            "desc"    => __("
+                                                            <p>
+                                                                By filling out the following information a sitewide microformat vCard will be added at the
+                                                                bottom of every page. When someone browsing your site using a microformat enabled browser/plugin
+                                                                (or bots) they will be able to add the vCard info to their contacts automatically. At some
+                                                                point we will be adding the full range of microformat options.
+                                                            </p>
+                                                            <p>
+                                                                At minimum you need to enter a Name and Website for the vCard to be included.
+                                                            </p>
+                                                        "),
+                                            "type"    => "section"),
+                        'doShowVcard' => array(
+                                            "name"    => __('Show vCard'),
+                                            "desc"    => __("Defaults to FALSE"),
+                                            "default"     => FALSE,
+                                            "type"    => "checkbox"),
+                        'vCardName' => array(
+                                            "name"    => __('Name'),
+                                            "desc"    => __("Full Name / Company Name"),
+                                            "default"     => get_bloginfo('name'),
+                                            "type"    => "text",
+                                            "size"    => 30),
+                        'vCardUrl' => array(
+                                            "name"    => __('Website'),
+                                            "desc"    => __("Complete URL e.g. http://example.org/"),
+                                            "default"     => "http://" . $_SERVER['HTTP_HOST'] . "/",
+                                            "type"    => "text",
+                                            "size"    => 100),
+                        'vCardTelWork' => array(
+                                            "name"    => __('Work Phone'),
+                                            "desc"    => __(""),
+                                            "default"     => NULL,
+                                            "type"    => "text",
+                                            "size"    => 17),
+                        'vCardTelFax' => array(
+                                            "name"    => __('Fax'),
+                                            "desc"    => __(""),
+                                            "default"     => NULL,
+                                            "type"    => "text",
+                                            "size"    => 17),
+                        'vCardTelMobile' => array(
+                                            "name"    => __('Mobile Phone'),
+                                            "desc"    => __(""),
+                                            "default"     => NULL,
+                                            "type"    => "text",
+                                            "size"    => 17)
+
                         )
                 );
+
 
         // Every kitchen needs the basic settings
         $appliance_settings = array(
@@ -229,7 +268,14 @@ class KST_Appliance_Seo extends KST_Appliance {
                     'section' => 'SEO, Meta Data, and Analytics',
                     'title' => 'Other Meta Data',
                     'content_source' => array('KST_Appliance_Seo', 'helpSeoOtherMetaData')
+                ),
+                array (
+                    'page' => 'Marketing',
+                    'section' => 'Microformats',
+                    'title' => 'Sitewide vCard (Microformat)',
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoMicroformatVcard')
                 )
+
             );
 
         // Declare as core
@@ -260,6 +306,10 @@ class KST_Appliance_Seo extends KST_Appliance {
         if ( $this->_appliance->options->get("ga_tracking_id") ) {
             add_action('wp_footer', array(&$this, 'echoGoogleAnalyticsBoilerPlateStyle'));
         }
+        if ( $this->_appliance->options->get('doShowVcard') && $this->_appliance->options->get('vCardName') && $this->_appliance->options->get('vCardUrl') ) {
+            add_action('wp_footer', array(&$this, 'echoMicroformatVcard'));
+        }
+
         add_filter('body_class', array(&$this, 'filterBodyClass'), 10, 2);
 
     }
@@ -480,6 +530,37 @@ class KST_Appliance_Seo extends KST_Appliance {
 
 
     /**
+     * KST built-in google analytics output with HTML5 Boilerplate script
+     *
+     *
+    */
+    public function echoMicroformatVcard() {
+        $vCardName = $this->_appliance->options->get("vCardName");
+        $vCardUrl = $this->_appliance->options->get("vCardUrl");
+        $vCardTelWork = $this->_appliance->options->get("vCardTelWork");
+        $vCardTelFax = $this->_appliance->options->get("vCardTelFax");
+        $vCardTelMobile = $this->_appliance->options->get("vCardTelMobile") ;
+
+        echo '<address class="hmeta vcard">';
+            echo '<a class="fn org url" href="' . $vCardUrl . '">' . $vCardName . '</a>';
+            if ( $vCardTelWork || $vCardTelFax || $vCardTelMobile ) {
+                echo '<span class="tel">';
+                    if ( $vCardTelWork )
+                        echo '<span class="tel">'. '<span class="type">Work</span>' . $vCardTelWork . '</span>';
+                    if ( $vCardTelWork )
+                        echo '<span class="tel">'. '<span class="type">Fax</span>' . $vCardTelFax . '</span>';
+                    if ( $vCardTelMobile )
+                        echo '<span class="tel">'. '<span class="type">Mobile</span>' . $vCardTelMobile . '</span>';
+                echo '</span>';
+                //echo '<span class="adr">';
+                //echo '</span>';
+            }
+        echo '</address>';
+    }
+
+
+
+    /**
      * Add custom classes from posts and pages to WP body_class()
      *
      * Under consideration for deprecation
@@ -591,15 +672,18 @@ class KST_Appliance_Seo extends KST_Appliance {
      *
      * @since       0.1
     */
-    public static function helpSeoOtherMetaData() {
+    public static function helpSeoMicroformatVcard() {
         ?>
-            <p>The theme creator (or a plugin) may also make use of special "classes" for custom formatting or functionality. You may add the custom field <code>meta_body_class</code> to any post or page and that class will be added to the body.</p>
+            <p>Microfomats help bots index your content and more and more are becoming integrated into everyday applications.</p>
+            <p>
+                At some point we will be adding the full range of microformat options. For now know that your site is optimized
+                to use hCard specifications in general (like the list of posts in the blog and post/page articles). But you can
+                also set some contact info about you or your organization in the SEO settings under Theme Options and an hCard
+                will be added at the bottom of every page. When someone browsing your site using a microformat enabled browser/plugin
+                (or bots) they will be able to add the vCard info to their contacts automatically.
+            </p>
         <?php
     }
-
-
-
-
 
 }
 
