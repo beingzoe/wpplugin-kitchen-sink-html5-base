@@ -47,7 +47,7 @@ class KST_Widget_JitSidebar extends KST_Widget {
     function widget($args, $instance) {
         extract( $args );
         //no settings so no variables to get/set
-        add_action('wp_footer', 'KST_Widget_JitSidebar::printJitSidebarScripts');
+        add_action('wp_footer', array('KST_Widget_JitSidebar', 'printJitSidebarScripts'));
         echo $before_widget;
         echo $after_widget;
     }
