@@ -409,65 +409,65 @@ function print_cycle_scripts() {
 //wp_enqueue_script('jquery-cycle');
 
 
+
+
+// Add Help
+$kst_core_help_array = array (
+        array (
+            'page' => 'Features',
+            'section' => 'Content Slideshows',
+            'title' => 'Appliance: Media: Cycle Slideshow',
+            'content_source' => 'kstHelpApplianceMediaSlideShow_cycle'
+        )
+    );
+
+
+// Load Help
+// Needs to be converted to an appliance!
+
+
 /**
- * kst_theme_help entry
- *
- * See kst_theme_help
- * Help content for zui based theme_help.php
+ * KST_Appliance_Help entry
+ * Features: Appliance: Media: Slideshow Cycle
  *
  * @since       0.1
- * @param       required string $part   toc|entry which part do you want?
- * @return      string
- */
-function kst_theme_help_cyclable($part) {
-    if ( $part == 'toc' )
-        $output = "<li><a href='#lib_cyclable'>Cyclable (slider box) content</a></li>";
-    else
-        $output =
-<<< EOD
-<h3 id="lib_cyclable">Cyclable (slider box) content</h3>
+*/
+function kstHelpApplianceMediaSlideShow_cycle() {
+    ?>
+        <h4>USAGE: (via shortcodes)</h4>
 
-<h4>USAGE: (via shortcodes)</h4>
+        <p>
+        The shortcodes may be used in any order.<br />
+        The minimum setup is at least one [cycle_slide /]
+        </p>
 
-<p>
-The shortcodes may be used in any order.<br />
-The minimum setup is at least one [cycle_slide /]
-</p>
+        <p>
+        <strong>ADD SLIDE(s) (required)</strong><br />
+        [cycle_slide]any valid markup use absolute paths to be safe[/cycle_slide]
+        </p>
 
-<p>
-<strong>ADD SLIDE(s) (required)</strong><br />
-[cycle_slide]any valid markup use absolute paths to be safe[/cycle_slide]
-</p>
+        <p>
+        (optional) <strong>ADD CUSTOM CLASS</strong> for scrollables container <br />
+        [cycle_class]my_custom_class[/cycle_class]
+        </p>
 
-<p>
-(optional) <strong>ADD CUSTOM CLASS</strong> for scrollables container <br />
-[cycle_class]my_custom_class[/cycle_class]
-</p>
+        <p>
+        (optional) <strong>ADD HEADER LAYOUT/CONTENT</strong> <br />
+        [cycle_header]Header content with markup okay[/cycle_header]
+        </p>
 
-<p>
-(optional) <strong>ADD HEADER LAYOUT/CONTENT</strong> <br />
-[cycle_header]Header content with markup okay[/cycle_header]
-</p>
+        <p>
+        (optional) <strong>ADD FOOTER LAYOUT/CONTENT</strong> <br />
+        [cycle_header]Header content with markup okay[/cycle_header]
+        </p>
 
-<p>
-(optional) <strong>ADD FOOTER LAYOUT/CONTENT</strong> <br />
-[cycle_header]Header content with markup okay[/cycle_header]
-</p>
+        <p>
+        (optional) <strong>ADD PAGER NAV BAR</strong> (no content, just a flag) <br />
+        [cycle_pager]
+        </p>
 
-<p>
-(optional) <strong>ADD PAGER NAV BAR</strong> (no content, just a flag) <br />
-[cycle_pager]
-</p>
-
-<p>
-    <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
-</p>
-
-<br /><br />
-<a href="#wphead">Top</a>
-<br /><br />
-EOD;
-
-    return $output;
+        <p>
+            <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
+        </p>
+    <?php
 }
-

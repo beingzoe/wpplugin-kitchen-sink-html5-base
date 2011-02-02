@@ -87,6 +87,16 @@ class KST_Appliance_Asides extends KST_Appliance {
                     )
         );
 
+        // Add Help
+        $appliance_help = array (
+                array (
+                    'page' => 'WordPress',
+                    'section' => 'Special Formatting',
+                    'title' => 'Appliance: Media: Asides',
+                    'content_source' => array('KST_Appliance_Asides', 'helpBlogAsides')
+                )
+            );
+
          // Every kitchen needs the basic settings
         $appliance_settings = array(
                     /* REQUIRED */
@@ -99,7 +109,7 @@ class KST_Appliance_Asides extends KST_Appliance {
         // Declare as core
         $this->_is_core_appliance = TRUE;
         // Common appliance
-        parent::_init($kitchen, $appliance_settings, $appliance_options);
+        parent::_init($kitchen, $appliance_settings, $appliance_options, $appliance_help);
 
         return false; // We aren't ready for you yet!
 
@@ -232,6 +242,35 @@ class KST_Appliance_Asides extends KST_Appliance {
             $this->reset(); // Clear the array for next day
 
         }
+    }
+
+
+    /**
+     * KST_Appliance_Help entry
+     * Blog: Asides
+     *
+     * @since       0.1
+    */
+    public static function helpBlogAsides() {
+        ?>
+            <p><strong>
+                NOTE: This is being rewritten (the appliance itself) and
+                it's functionality will go way beyond what you think of
+                when you think of asides. So this help entry is TBD...
+            </strong></p>
+            <p>
+                <em>When you lean towards someone and tell them a little bit of information, you are making an "aside" comment. In blogs, you can do that on your blog by passing on small bits of information to your readers called Asides.
+                Also known as remaindered links or linkblog, Asides were originally implemented by Matt Mullenweg, developer of WordPress, and it soon spread far and wide and became a very popular method of adding little bits of information to your blog.
+                Learn more about Asides <a href='http://codex.wordpress.org/Adding_Asides'>here</a> and <a href='http://churchcrunch.com/a-genius-way-to-keep-your-blog-content-fresh-create-an-aside-category/'>here</a></em>
+            </p>
+            <h4>"Asides" Categories</h4>
+            <p>Your theme has more than one type of "aside". </p>
+            <ol>
+                <li>ASIDES <em>(traditional as described above)</em></li>
+                <li>GALLERY <em>(for posts consisting mostly pictures typically as thumbnails with a lightbox)</em></li>
+            </ol>
+
+        <?php
     }
 
 }

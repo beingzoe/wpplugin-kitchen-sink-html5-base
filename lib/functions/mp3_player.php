@@ -60,3 +60,39 @@ EOD;
     return $output;
 }
 
+
+// Add Help
+$kst_core_help_array = array (
+        array (
+            'page' => 'Features',
+            'section' => 'Media Players',
+            'title' => 'Appliance: Media: mp3 Player',
+            'content_source' => 'kstHelpApplianceMediaPlayers_mp3player'
+        )
+    );
+
+
+// Load Help
+// Needs to be converted to an appliance!
+
+
+/**
+ * KST_Appliance_Help entry
+ * Features: Appliance: Media: Fancybox Lightbox
+ *
+ * @since       0.1
+*/
+function kstHelpApplianceMediaPlayers_mp3player() {
+    ?>
+        <p>
+            If you link directly to an mp3 file (usually only works on the same server) an mp3 player will automatically appear.
+        </p>
+        <p>
+            You may also manually invoke an mp3 player using the shortcode [mp3player].
+        </p>
+        <p>
+            Because we are searching for a proper HTML5 replacement the documentation for this is scant right now.
+            See https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki/Docs_appliance_plugins_media_mp3player
+        </p>
+    <?php
+}

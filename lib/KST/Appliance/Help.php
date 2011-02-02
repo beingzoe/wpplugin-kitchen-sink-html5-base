@@ -9,12 +9,25 @@
  * @since       0.1
  * @author      zoe somebody
  * @link        http://beingzoe.com/
- * @author      scragz
- * @link        http://scragz.com/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @uses        KST_Kitchen
  * @uses        KST_Appliance_Options
 */
+
+
+/**
+ * Companion classes to encapsulate access to admin menu global arrays $menu and $submenu
+ * Likely to be included in future WP core (version 3.2 ???)
+ *
+ * @since       0.1
+ * @uses        is_admin() WP function
+*/
+if ( is_admin() ) {
+    //require_once KST_DIR . '/help/features.php';
+    require_once KST_DIR . '/help/wordpress.php';
+    require_once KST_DIR . '/help/marketing.php';
+}
+
 
 
 /**
@@ -115,7 +128,7 @@ class KST_Appliance_Help extends KST_Appliance {
      *      Features            Flashy feature stuff
      *      WordPress           Intro to WP with some stuff specific to your kitchen
      *      Marketing           About promotional features, seo, and such
-     *      Dev Notes?          Notes for other developers about your custom stuff
+     *      Developers          List of all KST theme/plugin developers with url's and otes for other developers about your custom stuff
      *
      * @since       0.1
      * @access      public
@@ -260,7 +273,24 @@ class KST_Appliance_Help extends KST_Appliance {
         if ( 'kst_theme_help_section' == $current ) {
 
             $output = "";
-            $output .= "<p>These help files contain explanation and overview for the various aspects of your theme, some of the plugin/features, as well as tips and answers on basic (and even some advanced) WordPress usage.</p>";
+            $output .= <<<EOD
+            <p>
+                These help files describe any unique functionality of your theme, <br />
+                some of the plugin/features, as well as tips and answers on basic <br />
+                (and even some advanced) WordPress usage..<br />
+                Below are some topics on how to get the most out of your site.
+            </p>
+            <p>
+                <em>
+                    This page is not intended to explain basic use of WordPress to manage your blog or website. <br />
+                    For help with using WordPress in general visit the
+                    <a href="http://codex.wordpress.org/">WordPress Codex</a> especially the section <a href="http://codex.wordpress.org/Getting_Started_with_WordPress#WordPress_for_Beginners">WordPress for Beginners</a>.
+                </em>
+            </p>
+            <p>
+                <em>If you need help editing the theme itself or questions on using it contact the <a href='admin.php?page=kst_developers'>developers</a></em>.
+            </p>
+EOD;
             $output .= self::makeToc();
 
             echo $output;

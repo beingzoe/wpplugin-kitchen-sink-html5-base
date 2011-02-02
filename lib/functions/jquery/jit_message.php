@@ -168,98 +168,103 @@ EOD;
 }
 
 
+// Add Help
+$kst_core_help_array = array (
+        array (
+            'page' => 'Features',
+            'section' => 'Other "sliders"',
+            'title' => 'Appliance: Media: JIT Message',
+            'content_source' => 'kstHelpApplianceMarketing_jitMessage'
+        ),
+
+        array (
+            'page' => 'Marketing',
+            'section' => 'Call To Action',
+            'title' => 'Appliance: Media: JIT Message',
+            'content_source' => 'kstHelpApplianceMarketing_jitMessage'
+        )
+    );
+
+
+// Load Help
+// Needs to be converted to an appliance!
+
+
+
 /**
- * kst_theme_help entry
- *
- * See kst_theme_help
- * Help content for zui based theme_help.php
+ * KST_Appliance_Help entry
+ * Features: Appliance: Fancybox Lightbox
  *
  * @since       0.1
- * @param       required string $part   toc|entry which part do you want?
- * @return      string
- */
-function kst_theme_help_jit_message($part) {
-    if ( $part == 'toc' )
-        $output = "<li><a href='#lib_jit_message'>JIT (Just in time) message box</a></li>";
-    else
-        $output =
-<<< EOD
-<h3 id="lib_jit_message">JIT (Just in time) message box</h3>
+*/
+function kstHelpApplianceMarketing_jitMessage() {
+    ?>
+        <p>
+            Have another page or a message you would like to share with them as they finish
+            reading a post or page? The JIT box will "slide out" from the right side of the
+            page when the visitor scrolls to the end of the article (where the comments would start).
+        </p>
+        <p>
+            You can include a specific post or page, a random post or page,
+            or just a text message (html is allowed).
+        </p>
+        <p>
+            You can make this box appear on any post or page using the "JIT message box" custom field edit
+            box beneath the post/page editor. The "JIT message box" edit box is close by default. You will
+            need to click it to open it.
+        </p>
 
-<p>
-    Have another page or a message you would like to share with them as they finish
-    reading a post or page? The JIT box will "slide out" from the right side of the
-    page when the visitor scrolls to the end of the article (where the comments would start).
-</p>
-<p>
-    You can include a specific post or page, a random post or page,
-    or just a text message (html is allowed).
-</p>
-<p>
-    You can make this box appear on any post or page using the "JIT message box" custom field edit
-    box beneath the post/page editor. The "JIT message box" edit box is close by default. You will
-    need to click it to open it.
-</p>
-
-<p><strong>Link to a specific post or page</strong></p>
-<ol>
-    <li>Find the ID of the post/page you want to link to</li>
-    <li>
-        Edit the post/page you want to link FROM
+        <p><strong>Link to a specific post or page</strong></p>
         <ol>
+            <li>Find the ID of the post/page you want to link to</li>
             <li>
-                In the "message" field enter the ID
+                Edit the post/page you want to link FROM
                 <ol>
-                    <li>Message: XXX (e.g. 330, 2, 5913)</li>
+                    <li>
+                        In the "message" field enter the ID
+                        <ol>
+                            <li>Message: XXX (e.g. 330, 2, 5913)</li>
+                        </ol>
+                    </li>
                 </ol>
             </li>
+            <li>Update/publish the post</li>
         </ol>
-    </li>
-    <li>Update/publish the post</li>
-</ol>
 
-<p><strong>Link to a random post or page</strong></p>
-<ol>
-    <li>
-        Edit the post/page you want to link from
+        <p><strong>Link to a random post or page</strong></p>
         <ol>
             <li>
-                In the "message" field type 'random'
+                Edit the post/page you want to link from
                 <ol>
-                    <li>Message: random</li>
+                    <li>
+                        In the "message" field type 'random'
+                        <ol>
+                            <li>Message: random</li>
+                        </ol>
+                    </li>
                 </ol>
             </li>
+            <li>Update/publish the post</li>
         </ol>
-    </li>
-    <li>Update/publish the post</li>
-</ol>
 
-<p><strong>JIT message a text message</strong></p>
-<ol>
-    <li>
-        Edit the post/page you want to have the message
+        <p><strong>JIT message a text message</strong></p>
         <ol>
             <li>
-                In the "message" field type the message (html allowed)
+                Edit the post/page you want to have the message
                 <ol>
-                <li>Message: ANY TEXT OR VALID HTML <br />e.g. <p>We are having a <a href='http://mysite.com/big-sale.html'>big sale</a> and you should check it out.</p></li>
+                    <li>
+                        In the "message" field type the message (html allowed)
+                        <ol>
+                        <li>Message: ANY TEXT OR VALID HTML <br />e.g. <p>We are having a <a href='http://mysite.com/big-sale.html'>big sale</a> and you should check it out.</p></li>
+                        </ol>
+                    </li>
                 </ol>
             </li>
+            <li>Update/publish the post</li>
         </ol>
-    </li>
-    <li>Update/publish the post</li>
-</ol>
 
-<p>
-    <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
-</p>
-
-<br /><br />
-<a href="#wphead">Top</a>
-<br /><br /><br />
-
-EOD;
-
-    return $output;
+        <p>
+            <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
+        </p>
+    <?php
 }
-

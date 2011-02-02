@@ -407,67 +407,63 @@ function print_scrollable_scripts() {
 
 
 
+// Add Help
+$kst_core_help_array = array (
+        array (
+            'page' => 'Features',
+            'section' => 'Content Slideshows',
+            'title' => 'Appliance: Media: Tools Scrollable',
+            'content_source' => 'kstHelpApplianceMediaSlideShow_scrollable'
+        )
+    );
+
+
+// Load Help
+// Needs to be converted to an appliance!
+
 
 /**
- * kst_theme_help entry
- *
- * See kst_theme_help
- * Help content for zui based theme_help.php
+ * KST_Appliance_Help entry
+ * Features: Appliance: Media: Slideshow Cycle
  *
  * @since       0.1
- * @param       required string $part   toc|entry which part do you want?
- * @return      string
- */
-function kst_theme_help_scrollables($part) {
-    if ( $part == 'toc' )
-        $output = "<li><a href='#lib_scrollable'>Scrollable (slider box) content</a></li>";
-    else
-        $output =
-<<< EOD
-<h3 id="lib_scrollable">Scrollable (slider box) content</h3>
+*/
+function kstHelpApplianceMediaSlideShow_scrollable() {
+    ?>
+        <h4>USAGE: (via shortcodes)</h4>
 
-<h4>USAGE: (via shortcodes)</h4>
+        <p>
+        The shortcodes may be used in any order.<br />
+        The minimum setup is at least one [scrollable_slide /]
+        </p>
 
-<p>
-The shortcodes may be used in any order.<br />
-The minimum setup is at least one [scrollable_slide /]
-</p>
+        <p>
+        <strong>ADD SLIDE(s) (required)</strong><br />
+        [scrollable_slide]any valid markup use absolute paths to be safe[/scrollable_slide]
+        </p>
 
-<p>
-<strong>ADD SLIDE(s) (required)</strong><br />
-[scrollable_slide]any valid markup use absolute paths to be safe[/scrollable_slide]
-</p>
+        <p>
+        (optional) <strong>ADD CUSTOM CLASS</strong> for scrollables container <br />
+        [scrollable_class]my_custom_class[/scrollable_class]
+        </p>
 
-<p>
-(optional) <strong>ADD CUSTOM CLASS</strong> for scrollables container <br />
-[scrollable_class]my_custom_class[/scrollable_class]
-</p>
+        <p>
+        (optional) <strong>ADD SCROLLABLE HEADER LAYOUT/CONTENT</strong> <br />
+        [scrollable_header]Header content with markup okay[/scrollable_header]
+        </p>
 
-<p>
-(optional) <strong>ADD SCROLLABLE HEADER LAYOUT/CONTENT</strong> <br />
-[scrollable_header]Header content with markup okay[/scrollable_header]
-</p>
+        <p>
+        (optional) <strong>ADD SCROLLABLE FOOTER LAYOUT/CONTENT</strong> <br />
+        [scrollable_header]Header content with markup okay[/scrollable_header]
+        </p>
 
-<p>
-(optional) <strong>ADD SCROLLABLE FOOTER LAYOUT/CONTENT</strong> <br />
-[scrollable_header]Header content with markup okay[/scrollable_header]
-</p>
+        <p>
+        (optional) <strong>ADD PAGER NAV BAR</strong> (no content, just a flag) <br />
+        [scrollable_nav]
+        </p>
 
-<p>
-(optional) <strong>ADD PAGER NAV BAR</strong> (no content, just a flag) <br />
-[scrollable_nav]
-</p>
-
-<p>
-    <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
-</p>
-
-<br /><br />
-<a href="#wphead">Top</a>
-<br /><br />
-EOD;
-
-    return $output;
+        <p>
+            <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
+        </p>
+    <?php
 }
-
-

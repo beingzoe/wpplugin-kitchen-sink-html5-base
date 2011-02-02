@@ -70,39 +70,39 @@ function add_lighbox_rel( $attachment_link ) {
 add_filter( 'wp_get_attachment_link' , 'add_lighbox_rel' );
 */
 
+
+// Add Help
+$kst_core_help_array = array (
+        array (
+            'page' => 'Features',
+            'section' => 'Image lightbox / galleries',
+            'title' => 'Appliance: Media: Fancybox Lightbox',
+            'content_source' => 'kstHelpApplianceMediaLighbox_fancybox'
+        )
+    );
+
+
+// Load Help
+// Needs to be converted to an appliance!
+
+
 /**
- * kst_theme_help entry
- *
- * See kst_theme_help
- * Help content for zui based theme_help.php
+ * KST_Appliance_Help entry
+ * Features: Appliance: Media: Fancybox Lightbox
  *
  * @since       0.1
- * @param       required string $part   toc|entry which part do you want?
- * @return      string
- */
-function kst_theme_help_lightbox($part) {
-    if ( $part == 'toc' )
-        $output = "<li><a href='#lib_lightbox'>Image lightbox / galleries</a></li>";
-    else
-        $output =
-<<< EOD
-<h3 id="lib_lightbox">Image lightbox / galleries</h3>
-<p>
-    By default all images you upload and insert in your posts/pages or show using the [gallery] shortcode
-    will automatically lightbox.
-</p>
-<p>
-    You may also lightbox content by adding the class ".lightbox" to any anchor.<br />
-</p>
-<p>
-    <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
-</p>
-
-<br /><br />
-<a href="#wphead">Top</a>
-<br /><br />
-EOD;
-
-    return $output;
+*/
+function kstHelpApplianceMediaLighbox_fancybox() {
+    ?>
+        <p>
+            By default all images you upload and insert in your posts/pages or show using the [gallery] shortcode
+            will automatically lightbox.
+        </p>
+        <p>
+            You may also lightbox content by adding the class ".lightbox" to any anchor.<br />
+        </p>
+        <p>
+            <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
+        </p>
+    <?php
 }
-
