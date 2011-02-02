@@ -57,12 +57,7 @@ class KST_Appliance_Asides extends KST_Appliance {
             return; // No category so nothing to do
             */
 
-        // Common to all pages for this kitchen
-        $this->_kitchen = $kitchen;
-        $this->_type_of_kitchen = $this->_kitchen->getTypeOfKitchen();
-
-
-        $kst_asides_options = array(
+        $appliance_options = array(
             'parent_slug'           => 'kst',
             'menu_title'            => 'Asides',
             'page_title'            => 'Asides sideblog and special custom formatting',
@@ -93,7 +88,7 @@ class KST_Appliance_Asides extends KST_Appliance {
         );
 
          // Every kitchen needs the basic settings
-        $kst_asides_settings = array(
+        $appliance_settings = array(
                     /* REQUIRED */
                     'friendly_name'       => 'KST Appliance: Plugin: Blog: Asides',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
                     'prefix'              => 'kst_asides',                       // Required; Prefix for namespacing libraries, classes, widgets
@@ -101,9 +96,10 @@ class KST_Appliance_Asides extends KST_Appliance {
                     'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
                 );
 
-        // Initialize as kitchen and create options page
-        $this->_appliance = new KST_Kitchen_Plugin($kst_asides_settings);
-        $this->addOptionsGroup($kst_asides_options);
+        // Declare as core
+        $this->_is_core_appliance = TRUE;
+        // Common appliance
+        parent::_init($kitchen, $appliance_settings, $appliance_options);
 
         return false; // We aren't ready for you yet!
 

@@ -63,62 +63,93 @@ if ( class_exists('KST') ) {
     $my_theme->load('jqueryCycle');
     $my_theme->load('jqueryToolsScrollable');
     */
+
+    function someHelpEntry() {
+        ?>
+            <p>This is my callback entry</p>
+        <?php
+    }
+
     $current_help_path = get_template_directory() . '/help/';
     $help1 = array(
             array (
                 'title' => 'Intro to WP1',
                 'page' => 'WordPress',
                 'section' => 'Post thumbnails',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'loving WP2',
                 'page' => 'WordPress',
                 'section' => 'Another section',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'Intro to WP3',
                 'page' => 'WordPress',
                 'section' => 'Post thumbnails',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'loving WP4',
                 'page' => 'WordPress',
                 'section' => 'Another section',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'Intro to WP5',
                 'page' => 'WordPress',
                 'section' => 'Post thumbnails',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => 'someHelpEntry'
                 ),
             array (
                 'title' => 'loving WP6',
                 'page' => 'WordPress',
                 'section' => 'Another section',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => "<p>Just some content...!</p>"
                 ),
+            /*
             array (
-                'title' => 'loving WP6',
+                'title' => 'Excerpts and teasers',
                 'page' => 'WordPress',
                 'section' => 'Using Blog Posts',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => $current_help_path . 'test.php'
                 ),
+            array (
+                'title' => 'Excerpts and teasers',
+                'page' => 'WordPress',
+                'section' => 'Using Blog Posts',
+                'content_source' => "<p>THEME1 Excerpts and teasers</p>"
+                ),
+
+            array (
+                'title' => 'Excerpts and teasers',
+                'page' => 'WordPress',
+                'section' => 'Using Blog Posts',
+                'content_source' => 'someHelpEntry'
+                ),
+
+            array (
+                'title' => 'Excerpts and teasers',
+                'page' => 'WordPress',
+                'section' => 'Using Blog Posts',
+                'content_source' => "<p>THEME3 Excerpts and teasers (there is also a callback before this #2)</p>"
+                ),
+*/
             array (
                 'title' => 'Sociable',
                 'page' => 'Features',
                 'section' => 'Using Sociable',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => $current_help_path . 'test.php'
                 ),
             array (
                 'title' => 'Adding new images sizes for posts',
                 'page' => 'Features',
                 'section' => 'Additional Image Sizes',
-                'path' => $current_help_path . 'test.php'
+                'content_source' => $current_help_path . 'test.php'
                 )
+
+
         );
 
     // Add help files

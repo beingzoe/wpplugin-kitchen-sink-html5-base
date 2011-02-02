@@ -61,6 +61,7 @@ class KST_Appliance_Help extends KST_Appliance {
      * @var         array
     */
     protected static $_help_files = array();
+    protected static $_help_files_plugins = array();
     /**#@-*/
 
 
@@ -73,7 +74,6 @@ class KST_Appliance_Help extends KST_Appliance {
     /**#@-*/
 
 
-
     /**
      * @since       0.1
     */
@@ -82,12 +82,8 @@ class KST_Appliance_Help extends KST_Appliance {
         if ( !is_admin() )
             return FALSE; // Nothing to do
 
-        // Common to all pages for this kitchen
-        $this->_kitchen = $kitchen;
-        $this->_type_of_kitchen = $this->_kitchen->getTypeOfKitchen();
-
         // Every kitchen needs the basic settings
-        $kst_help_settings = array(
+        $appliance_settings = array(
                     /* REQUIRED */
                     'friendly_name'       => 'KST Appliance: Core: Help',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
                     'prefix'              => 'kst_help',                       // Required; Prefix for namespacing libraries, classes, widgets
@@ -95,8 +91,10 @@ class KST_Appliance_Help extends KST_Appliance {
                     'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
                 );
 
-        // Initialize as kitchen and create options page
-        $this->_appliance = new KST_Kitchen_Plugin($kst_help_settings);
+        // Declare as core
+        $this->_is_core_appliance = TRUE;
+        // Common appliance
+        parent::_init($kitchen, $appliance_settings);
 
     }
 
@@ -104,18 +102,20 @@ class KST_Appliance_Help extends KST_Appliance {
     /**
      * Register/Add help files to the system
      *
-     * Standard help pages and sections created by KST
-     *      Theme Help          index and vital info
-     *      Features            flashy feature stuff
-     *      WordPress           intro to WP with some stuff specific to your kitchen
-     *          Blog Posts
-     *          Site Pages (cms)
-     *          Media
-     *          Plugins
-     *          Settings
-     *      Dev Notes     Notes for other developers about your custom stuff
+     * There can ONLY be ONE ENTRY per page/section/title by design
+     * This enables overwriting/replacing (in the pluggable WP tradition) of entries
      *
-     *      Theme options*
+     * Usually we defer to the theme for things like this but in this case plugins
+     * rule the day since they modify 'everything' after the fact ;) For convenience
+     * known pages are listed here, but see the wiki for a complete list of
+     * default KST pages, sections, and titles that can be overwritten.
+     *
+     * Standard help pages and sections created by KST
+     *      Theme Help          Index and vital info
+     *      Features            Flashy feature stuff
+     *      WordPress           Intro to WP with some stuff specific to your kitchen
+     *      Marketing           About promotional features, seo, and such
+     *      Dev Notes?          Notes for other developers about your custom stuff
      *
      * @since       0.1
      * @access      public
@@ -123,45 +123,43 @@ class KST_Appliance_Help extends KST_Appliance {
      * @return
     */
     public function add($help_files) {
+
         if (!is_admin())
-            return false;
+            return false; // Nothing to do
 
-        //echo "namespace=" . $this->getDeveloper_url() . "<br />";
-        /*
-        echo "Before merge we have (this->_help_files):<br />";
-        print_r($this->_help_files);
-        echo "<br /><br /><br />";
-
-        echo "Being merged with (passed help_files):<br />";
-        print_r($help_files);
-        echo "<br /><br /><br />";
-*/
+        // Separate plugins into their own array so they can overwrite
+        if ( !in_array($this->_type_of_kitchen, array('theme','core')) ) { // is a 'plugin'
+            $temp_array = &self::$_help_files_plugins;
+        } else { // is 'theme' or 'core'
+            $temp_array = &self::$_help_files;
+        }
 
         foreach ($help_files as $value) {
-            self::$_help_files[$value['page']][$value['section']][$value['title']]['path'] = $value['path'];
-            $page_url = self::formatMenuSlug($value['page']);
-            $section_url = str_replace(" ", "_", strtolower($value['section']) );
-            $title_url = str_replace(" ", "_", strtolower($value['title']) );
-            self::$_help_files[$value['page']][$value['section']][$value['title']]['page_url'] = 'admin.php?page=' . $page_url;
-            self::$_help_files[$value['page']][$value['section']][$value['title']]['title_url'] = $section_url;
-            self::$_help_files[$value['page']][$value['section']][$value['title']]['title_url'] = $title_url;
+            $page_slug = self::formatMenuSlug($value['page']);
+            $section_slug = str_replace(" ", "_", strtolower($value['section']) );
+            $title_slug = str_replace(" ", "_", strtolower($value['title']) );
+
+            $content_source = $value['content_source'];
+
+            $temp_array[$value['page']][$value['section']][$value['title']]['page_url'] = 'admin.php?page=' . $page_slug;
+            $temp_array[$value['page']][$value['section']][$value['title']]['section_slug'] = $section_slug;
+            $temp_array[$value['page']][$value['section']][$value['title']]['title_slug'] = $title_slug;
+
+            $temp_array[$value['page']][$value['section']][$value['title']]['content_source'] = $content_source;
+
+            if ( is_string($content_source) && stripos( basename( $content_source ), '.php' ) ) { // include file
+                $temp_array[$value['page']][$value['section']][$value['title']]['content_type'] = 'include';
+            } else if ( is_array($content_source) || FALSE == strpos($content_source, " ") ) { // if it LOOKS like a valid callback - Could also do is_callable but...?
+                $temp_array[$value['page']][$value['section']][$value['title']]['content_type'] = 'callback';
+            } else { // Echo as raw html - PHP not allowed
+                $temp_array[$value['page']][$value['section']][$value['title']]['content_type'] = 'string';
+            }
         }
-
-
-
-        //Merge
-        //self::$_help_files = array_merge(self::$_help_files, $help_files);
-
-        /*
-        echo "After merge we have:<br />";
-        print_r($this->_help_files);
-        echo "<br /><br /><br />";
-*/
 
         // Add the hook to organize all the submitted pages before we send them to WP
-        if ( !has_action( '_admin_menu', 'KST_Appliance_Help::create') ) {
-            add_action('_admin_menu', 'KST_Appliance_Help::create', 1999); // important for sequencing - go after Options at 999
-        }
+        //if ( !has_action( '_admin_menu', array('KST_Appliance_Help','create')) ) {
+            add_action('_admin_menu', array('KST_Appliance_Help', 'create'), 1999); // important for sequencing - go after Options at 999
+        //}
 
     }
 
@@ -180,6 +178,34 @@ class KST_Appliance_Help extends KST_Appliance {
     */
     public static function create() {
 
+        // Plugins overwrite - unset from main for clean merge
+        foreach (self::$_help_files_plugins as $page => $sections) {
+            foreach ($sections as $section => $titles) {
+                foreach ($titles as $title => $value) {
+                    unset(self::$_help_files[$page][$section][$title]);
+                }
+            }
+        }
+
+        /*
+        echo "<br />Core and Theme Help<br />";
+        print_r(self::$_help_files);
+        echo "<br /><br /><br />";
+
+        echo "<br />Plugin Help<br />";
+        print_r(self::$_help_files_plugins);
+        echo "<br /><br /><br />";
+        */
+
+        // Merge back in plugins so they can modify entries
+        self::$_help_files = array_merge_recursive(self::$_help_files, self::$_help_files_plugins); //+= self::$_help_files_plugins
+
+        /*
+        echo "<br />MERGED <br />";
+        print_r(self::$_help_files_plugins);
+        echo "<br /><br /><br />";
+        */
+
         foreach (self::$_help_files as $page => $sections) {
             if ( !isset($did_help_section) ) { // Create the main help section first time through
                 $help_page = array(
@@ -189,7 +215,7 @@ class KST_Appliance_Help extends KST_Appliance {
                         'menu_title'            => 'Index',
                         'page_title'            => 'Theme Help Table of Contents',
                         'capability'            => 'edit_posts',
-                        'view_page_callback'    => 'KST_Appliance_Help::view',
+                        'view_page_callback'    => array('KST_Appliance_Help','view'),
                         'icon_url'              => NULL,
                         'position'              => self::$_custom_start_index
                     );
@@ -202,16 +228,16 @@ class KST_Appliance_Help extends KST_Appliance {
                     'menu_title'            => "{$page}",
                     'menu_slug'             => self::formatMenuSlug($page),
                     'capability'            => 'edit_posts',
-                    'view_page_callback'    => 'KST_Appliance_Help::view'
+                    'view_page_callback'    => array('KST_Appliance_Help','view')
                 );
             new ZUI_WpAdminPages($help_page); // We now have 'Theme Help' top level section
         }
 
         // And we'll move them around after we are done
         // If blog owner allows and we haven't already added this hook
-        if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Help::moveHelpMenu') ) {
-            add_action('admin_menu', 'KST_Appliance_Help::moveHelpMenu', 2000);
-        }
+        //if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Help::moveHelpMenu') ) {
+            add_action('admin_menu', array('KST_Appliance_Help', 'moveHelpMenu'), 2000);
+        //}
 
     }
 
@@ -247,11 +273,25 @@ class KST_Appliance_Help extends KST_Appliance {
                 if ( self::formatMenuSlug($page) != $current )
                     continue; // not the right page
 
+                //natsort($sections); // Egalitarian
+
                 foreach ($sections as $section => $titles) {
-                    echo "<h2 id='{$path['section_url']}'>{$section}</h2>";
+                    echo "<h2 id='{$path['section_slug']}'>{$section}</h2>";
+
+                    //natcasesort($titles); // Egalitarian
+                    //$titles = array_reverse($titles); // Why?
+
                     foreach ($titles as $title => $path) {
-                        echo "<h3 id='{$path['title_url']}'>{$title}</h3>";
-                        include $path['path'];
+                        echo "<h3 id='{$path['title_slug']}'>{$title}</h3>";
+
+                        if ( 'include' == $path['content_type'] ) { // include file - array_key_exists('path', $path)
+                            include $path['content_source'];
+                        } else if ( 'callback' == $path['content_type'] ) { // execute callback - array_key_exists('callback', $path)
+                            $callback = $path['content_source'];
+                            call_user_func($callback); // Output their callback;
+                        } else if ( 'string' == $path['content_type'] ) {
+                            echo $path['content_source'];
+                        } // Else do nothing because something is unreachable?
                     } // End of the title loop
                 } // End of the section loop
             } // End of the page loop
@@ -302,16 +342,19 @@ class KST_Appliance_Help extends KST_Appliance {
                     continue; // not the right page
             $page_output = ""; // new page start over
             $section_output = "<ol>"; // open section list
+            //natsort($sections); // Egalitarian
             foreach ($sections as $section => $titles) {
                 $title_output = ""; // new section so erase titles
+                //natcasesort($titles); // Egalitarian
+                //$titles = array_reverse($titles); // Why?
                 foreach ($titles as $title => $path) {
                     $page_url = self::$_help_files[$page][$section][$title]['page_url'];
-                    $section_url = self::$_help_files[$page][$section][$title]['section_url'];
-                    $title_url = self::$_help_files[$page][$section][$title]['title_url'];
+                    $section_slug = self::$_help_files[$page][$section][$title]['section_slug'];
+                    $title_slug = self::$_help_files[$page][$section][$title]['title_slug'];
 
-                    $title_output .= "<li><a href='{$page_url}#{$title_url}'>{$title}</a></li>"; // Open and Close title li
+                    $title_output .= "<li><a href='{$page_url}#{$title_slug}'>{$title}</a></li>"; // Open and Close title li
                 }  // End of the title loop
-                $section_output .= "<li><a href='{$page_url}#{$section_url}'>{$section}</a> <ol>"; // Open section li - Open title list
+                $section_output .= "<li><a href='{$page_url}#{$section_slug}'>{$section}</a> <ol>"; // Open section li - Open title list
                 $section_output .= $title_output;
                 $section_output .= "</ol></li>"; // Close title list - Close section li
             } // End of the section loop

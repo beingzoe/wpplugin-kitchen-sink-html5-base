@@ -34,19 +34,46 @@ class KST_Appliance {
      * @access      protected
      * @var         string
     */
-    protected $_type_of_kitchen;
+    protected $_type_of_kitchen; // core, plugin, theme
     /**#@-*/
 
+    /**#@+
+     * @since       0.1
+     * @access      protected
+     * @var         boolean
+    */
+    protected $_is_core_appliance = FALSE; // Flag for core/bundled appliances
+    /**#@-*/
 
     /**
-     * Helper method so subclasses can just load and use options in one call
+     * Subclass constructor calls parent::_init()
      *
      * @since       0.1
     */
-    protected function addOptionsGroup($options_array) {
-        $this->_appliance->load('options');
-        $this->_appliance->options->addGroup($options_array);
-    }
+    protected function _init(&$kitchen, $appliance_settings = NULL, $appliance_options = NULL, $appliance_help = NULL) {
 
+        // Common to all pages for this kitchen
+        $this->_kitchen = $kitchen;
+        $this->_type_of_kitchen = $this->_kitchen->getTypeOfKitchen();
+
+        // Initialize as kitchen so we can use other appliances
+        if ( NULL !== $appliance_settings) {
+            $this->_appliance = ($this->_is_core_appliance) ? new KST_Kitchen_Core($appliance_settings)
+                                                            : new KST_Kitchen_Plugin($appliance_settings);
+        }
+
+        // Add options
+        if ( NULL !== $appliance_options) {
+            $this->_appliance->load('options');
+            $this->_appliance->options->addGroup($appliance_options);
+        }
+
+        // Add help
+        if ( NULL !== $appliance_help) {
+            $this->_appliance->load('help');
+            $this->_appliance->help->add($appliance_help);
+        }
+
+    }
 
 }

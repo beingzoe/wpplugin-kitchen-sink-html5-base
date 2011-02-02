@@ -70,10 +70,10 @@ if (defined('KST_BUNDLED_THEME_DEV') && KST_BUNDLED_THEME_DEV) {
 */
 require_once KST_DIR_LIB . '/KST.php';
 require_once KST_DIR_LIB . '/KST/Kitchen.php';
+require_once KST_DIR_LIB . '/KST/Kitchen/Core.php';
 require_once KST_DIR_LIB . '/KST/Kitchen/Plugin.php';
 require_once KST_DIR_LIB . '/KST/Kitchen/Theme.php';
 require_once KST_DIR_LIB . '/KST/Appliance.php';
-
 
 /**
  * Array to register core appliances
@@ -104,7 +104,7 @@ $kst_bundled_appliances = array(
                 'class_name'        => FALSE
         ),
     'seo' => array(
-            'path'                  => KST_DIR_LIB . '/KST/Appliance/seo.php',
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Seo.php',
             'class_name'            => 'KST_Appliance_Seo'
         ),
     'wordpress' => array(
@@ -271,8 +271,8 @@ KST_Kitchen::setDisabledAppliances( $kst_core->options->get('disable_these_appli
  * @since       0.1
  * @uses        add_action() WP Function
 */
-add_action('activated_plugin', 'KST::loadAsFirstPlugin');
-add_action('plugins_loaded', 'KST::pluginsAreLoaded'); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
+add_action('activated_plugin', array('KST', 'loadAsFirstPlugin'));
+add_action('plugins_loaded', array('KST', 'pluginsAreLoaded')); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
 /**#@-*/
 
 // Now we wait for a plugin or theme to initialize...

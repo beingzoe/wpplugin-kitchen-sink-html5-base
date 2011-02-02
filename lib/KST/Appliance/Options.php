@@ -63,7 +63,7 @@ class KST_Appliance_Options extends KST_Appliance {
      * @var         array
     */
     protected static $_option_pages = array('kst_theme'=> array(),'kst_plugin'=> array(),'core'=> array(),'theme'=> array(),'plugin'=> array());
-    protected static $_extant_options; // Options checked for extant-ness
+    protected static $_extant_options = array(); // Options checked for extant-ness
     /**#@-*/
 
 
@@ -90,12 +90,19 @@ class KST_Appliance_Options extends KST_Appliance {
      *              required string page_title Explicit title to use on page
     */
     public function __construct(&$kitchen) {
-        // Common to all pages for this kitchen
-        $this->_kitchen = $kitchen;
-        $this->_type_of_kitchen = $this->_kitchen->getTypeOfKitchen();
-        //self::$_extant_options
-        if ( !is_array(self::$_extant_options ) )
-            self::$_extant_options = array();
+        // Every kitchen needs the basic settings
+        $appliance_settings = array(
+                    /* REQUIRED */
+                    'friendly_name'       => 'KST Appliance: Core: Options',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
+                    'prefix'              => 'kst_options',                       // Required; Prefix for namespacing libraries, classes, widgets
+                    'developer'           => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
+                    'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
+                );
+
+        // Declare as core
+        $this->_is_core_appliance = TRUE;
+        // Common appliance
+        parent::_init($kitchen, $appliance_settings);
     }
 
 
@@ -125,11 +132,11 @@ class KST_Appliance_Options extends KST_Appliance {
         // Set the key to save each group of options under - useed to sort the options later
         if ( 'core' == $options['parent_slug'] ) {
             $group_key = 'core';
-        } else if ( 'kst' == $options['parent_slug'] && 'plugin' == $this->_type_of_kitchen ) {
+        } else if ( 'kst' == $options['parent_slug'] && in_array($this->_type_of_kitchen, array('plugin','core')) ) {
             $group_key = 'kst_plugin';
         } else if ( 'kst' == $options['parent_slug'] && 'theme' == $this->_type_of_kitchen ) {
             $group_key = 'kst_theme';
-        } else if ( 'plugin' == $this->_type_of_kitchen ) {
+        } else if ( in_array($this->_type_of_kitchen, array('plugin','core')) ) {
             $group_key = 'plugin';
         } else if ( 'theme' == $this->_type_of_kitchen ) {
             $group_key = 'theme';
@@ -195,9 +202,9 @@ class KST_Appliance_Options extends KST_Appliance {
             return; // nothing to do
 
         // Add the hook to organize all the submitted pages before we send them to WP
-        if ( !has_action( '_admin_menu', 'KST_Appliance_Options::create') ) {
-            add_action('_admin_menu', 'KST_Appliance_Options::create', 999); // important for sequencing
-        }
+        //if ( !has_action( '_admin_menu', array('KST_Appliance_Options', 'create')) ) {
+            add_action('_admin_menu', array('KST_Appliance_Options', 'create'), 999); // important for sequencing
+        //}
 
         // And return the key?
         return $options['menu_slug'];
@@ -268,9 +275,9 @@ class KST_Appliance_Options extends KST_Appliance {
 
         // And we'll move them around after we are done
         // If blog owner allows and we haven't already added this hook
-        if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Options::moveKSTMenus') ) {
-            add_action('admin_menu', 'KST_Appliance_Options::moveKSTMenus', 1000);
-        }
+        //if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Options::moveKSTMenus') ) {
+            add_action('admin_menu', array('KST_Appliance_Options', 'moveKSTMenus'), 1000);
+        //}
 
     }
 

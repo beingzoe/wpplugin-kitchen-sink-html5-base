@@ -69,7 +69,6 @@ class KST_Appliance_Seo extends KST_Appliance {
     protected $_meta_title_sep_default; // default meta segment separator
     /**#@-*/
 
-
     /**
      * Constructor - saves the kitchen object that this instance belongs to
      * and other information common to all options pages in this kitchen
@@ -81,26 +80,9 @@ class KST_Appliance_Seo extends KST_Appliance {
     */
     public function __construct(&$kitchen) {
 
-        // Common to all pages for this kitchen
-        $this->_kitchen = $kitchen;
-        $this->_type_of_kitchen = $this->_kitchen->getTypeOfKitchen();
-
-        // Get optional THEME meta title segment separator default
-        // This just sets the options default - we get the option later to actual use
-        $this->_meta_title_sep_default = KST_Kitchen_Theme::getThemeSeoTitleSep();
-
-        // Instantiate WPAlchemy_MetaBox class  - Replaces get_post_meta()
-        $this->_metabox_fields = new WPAlchemy_MetaBox( array (
-            'id' => '_kst_wp_meta_data',
-            'title' => 'SEO &amp; Meta Data',
-            'template' => KST_DIR_TEMPLATES . '/meta_boxes/kst_theme_meta_data.php',
-            'context' => 'normal',
-            'priority' => 'high',
-        ));
-
         // Create the seo admin options
         $options_page = '#temp';//THEME_HELP_URL;
-        $kst_seo_options = array(
+        $appliance_options = array(
                 'parent_slug'           => 'kst',
                 'menu_title'            => 'SEO and Meta',
                 'page_title'            => 'SEO and Meta Data Settings',
@@ -220,7 +202,7 @@ class KST_Appliance_Seo extends KST_Appliance {
                 );
 
         // Every kitchen needs the basic settings
-        $kst_seo_settings = array(
+        $appliance_settings = array(
                     /* REQUIRED */
                     'friendly_name'       => 'KST Appliance: Plugin: Marketing: SEO',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
                     'prefix'              => 'kst_seo',                       // Required; Prefix for namespacing libraries, classes, widgets
@@ -228,9 +210,39 @@ class KST_Appliance_Seo extends KST_Appliance {
                     'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
                 );
 
-        // Initialize as kitchen and create options page
-        $this->_appliance = new KST_Kitchen_Plugin($kst_seo_settings);
-        $this->addOptionsGroup($kst_seo_options);
+        // Add Help
+        $appliance_help = array (
+                array (
+                    'page' => 'Marketing',
+                    'section' => 'SEO, Meta Data, and Analytics',
+                    'title' => 'SEO',
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoOverview')
+                ),
+                array (
+                    'title' => 'Excerpts and teasers',
+                    'page' => 'WordPress',
+                    'section' => 'Using Blog Posts',
+                    'content_source' => "<p>CORE Excerpts and teasers</p>"
+                )
+            );
+
+        // Declare as core
+        $this->_is_core_appliance = TRUE;
+        // Common appliance
+        parent::_init($kitchen, $appliance_settings, $appliance_options, $appliance_help);
+
+        // Get optional THEME meta title segment separator default
+        // This just sets the options default - we get the option later to actual use
+        $this->_meta_title_sep_default = KST_Kitchen_Theme::getThemeSeoTitleSep();
+
+        // Instantiate WPAlchemy_MetaBox class  - Replaces get_post_meta()
+        $this->_metabox_fields = new WPAlchemy_MetaBox( array (
+            'id' => '_kst_wp_meta_data',
+            'title' => 'SEO &amp; Meta Data',
+            'template' => KST_DIR_TEMPLATES . '/meta_boxes/kst_theme_meta_data.php',
+            'context' => 'normal',
+            'priority' => 'high',
+        ));
 
         // Set blog owner meta title segment separator if it exists
         $this->_meta_title_sep = $this->_appliance->options->get( 'meta_title_sep' );
@@ -242,7 +254,7 @@ class KST_Appliance_Seo extends KST_Appliance {
         if ( $this->_appliance->options->get("ga_tracking_id") ) {
             add_action('wp_footer', array(&$this, 'echoGoogleAnalyticsBoilerPlateStyle'));
         }
-        add_filter('body_class', array(&$this, 'filterBodyClass', 10, 2));
+        add_filter('body_class', array(&$this, 'filterBodyClass'), 10, 2);
 
     }
 
@@ -480,6 +492,89 @@ class KST_Appliance_Seo extends KST_Appliance {
     }
 
 
+    /**
+     * Help
+     *
+     *
+    */
+        /**
+     * kst_theme_help entry
+     *
+     * See kst_theme_help
+     * Help content for zui based theme_help.php
+     */
+    public static function helpSeoOverview() {
+        ?>
+            <p>Your theme has built-in control over the page title and meta tags throughout your site. <br />
+            How to use these are explained in detail on the "Appearance &gt; Theme Options" page.</p>
+
+            <h3 id="seo_post_page_custom_fields">Post/Page SEO &amp; Meta Data</h3>
+
+            <p>
+                Customize the TITLE, META DESCRIPTION, and META KEYWORDS for ANY POST or PAGE by filling out the "SEO &amp; Meta Data" custom fields under the editor on the post/page edit screen.
+            </p>
+            <p><strong>Custom fields and options</strong></p>
+            <ol>
+                <li>Page Title</li>
+                <li>Meta Keywords</li>
+                <li>Add TAGS to Meta Keywords</li>
+                <li>Add Global Keywords to Meta Keywords</li>
+                <li>Meta Description</li>
+            </ol>
+            <p><strong>How the the page title is created</strong></p>
+            <ol>
+                <li>
+                    Uses custom field "Page Title" if it exists for that post and page
+                    (except the home, blog index, archives, search, and 404) appending "Blog Name" (Settings &gt; General) depending on your settings in "Appearance &gt; Theme Options".
+                </li>
+                <li>
+                    Otherwise the page title is created dynamically depending on the type of page is being viewed
+                    using the post/page entry title where available in conjunction with relevant criteria (e.g. paged, archive, tag)
+                     appending "Blog Name" (Settings &gt; General) depending on your  in "Appearance &gt; Theme Options".
+                </li>
+            </ol>
+            <p><strong>How meta keywords/description is created</strong></p>
+            <ol>
+                <li>
+                    Uses custom field "Meta Keywords" or "Meta Description" if it exists for all posts and pages
+                    (except the home, blog index, archives, search, and 404).
+                    <ol>
+                        <li>For keywords: If Add TAGS is checked the tags for that post/page are appended on output</li>
+                        <li>For keywords: If Add Global Keywords is checked the post/page default keywords are appended if they exist. If not the global default keywords are used.</li>
+                    </ol>
+                </li>
+                <li>
+                    If no custom field exists the theme attempts to use the appropriate post/page specifc defaults entered in the theme options.
+                </li>
+                <li>
+                    If no post/page specific default exists the theme attempts to use the global defaults entered in the theme options.
+                </li>
+                <li>
+                    If no global default exists then the theme uses "Blog Name" and "Tagline" under SETTINGS &gt; GENERAL for the description and the keywords are left blank.
+                </li>
+            </ol>
+            <p>
+                The Home, Blog index, Archives, Search, and 404 pages cannot use the custom fields for the meta and are created dynamically in conjunction with your global defaults.
+            </p>
+
+            <h3>Analytics</h3>
+
+            <p>If you enter your Google Analytics Tracking ID in "Theme Options" the Google Analytics tracking code will be added to the end of every page automatically.</p>
+
+            <p>
+                <strong>Note:</strong> The built-in theme essentially precludes the need to use any plugin for SEO or Google Analytics.<br />
+                <em>If for some reason you wish to not use the built-in SEO or Google Analytics options there is no setting for disabling it.<br />
+                You should be able to safely ignore and leave blank any of these built-in theme options. <br />However, if you begin using a plugin
+                and experience problems or are optimizing simply edit functions.php and comment out the line "requiring" kst_theme_meta_data.php.</em>
+            </p>
+
+            <br /><br />
+            <a href="#wphead">Top</a>
+            <br /><br /><br />
+        <?php
+    }
+
+
 }
 
 
@@ -491,88 +586,4 @@ class KST_Appliance_Seo extends KST_Appliance {
 
 
 
-/**
- * kst_theme_help entry
- *
- * See kst_theme_help
- * Help content for zui based theme_help.php
- */
-function kst_theme_help_meta_data($part) {
-    if ( $part == 'toc' )
-        $output = "<li><a href='#seo'>SEO, meta tags, and Analytics</a></li>";
-    else
-        $output =
-<<< EOD
-<h2 id="seo">SEO, meta tags, and Analytics</h2>
-
-<p>Your theme has built-in control over the page title and meta tags throughout your site. <br />
-How to use these are explained in detail on the "Appearance &gt; Theme Options" page.</p>
-
-<h3 id="seo_post_page_custom_fields">Post/Page SEO &amp; Meta Data</h3>
-
-<p>
-    Customize the TITLE, META DESCRIPTION, and META KEYWORDS for ANY POST or PAGE by filling out the "SEO &amp; Meta Data" custom fields under the editor on the post/page edit screen.
-</p>
-<p><strong>Custom fields and options</strong></p>
-<ol>
-    <li>Page Title</li>
-    <li>Meta Keywords</li>
-    <li>Add TAGS to Meta Keywords</li>
-    <li>Add Global Keywords to Meta Keywords</li>
-    <li>Meta Description</li>
-</ol>
-<p><strong>How the the page title is created</strong></p>
-<ol>
-    <li>
-        Uses custom field "Page Title" if it exists for that post and page
-        (except the home, blog index, archives, search, and 404) appending "Blog Name" (Settings &gt; General) depending on your settings in "Appearance &gt; Theme Options".
-    </li>
-    <li>
-        Otherwise the page title is created dynamically depending on the type of page is being viewed
-        using the post/page entry title where available in conjunction with relevant criteria (e.g. paged, archive, tag)
-         appending "Blog Name" (Settings &gt; General) depending on your  in "Appearance &gt; Theme Options".
-    </li>
-</ol>
-<p><strong>How meta keywords/description is created</strong></p>
-<ol>
-    <li>
-        Uses custom field "Meta Keywords" or "Meta Description" if it exists for all posts and pages
-        (except the home, blog index, archives, search, and 404).
-        <ol>
-            <li>For keywords: If Add TAGS is checked the tags for that post/page are appended on output</li>
-            <li>For keywords: If Add Global Keywords is checked the post/page default keywords are appended if they exist. If not the global default keywords are used.</li>
-        </ol>
-    </li>
-    <li>
-        If no custom field exists the theme attempts to use the appropriate post/page specifc defaults entered in the theme options.
-    </li>
-    <li>
-        If no post/page specific default exists the theme attempts to use the global defaults entered in the theme options.
-    </li>
-    <li>
-        If no global default exists then the theme uses "Blog Name" and "Tagline" under SETTINGS &gt; GENERAL for the description and the keywords are left blank.
-    </li>
-</ol>
-<p>
-    The Home, Blog index, Archives, Search, and 404 pages cannot use the custom fields for the meta and are created dynamically in conjunction with your global defaults.
-</p>
-
-<h3>Analytics</h3>
-
-<p>If you enter your Google Analytics Tracking ID in "Theme Options" the Google Analytics tracking code will be added to the end of every page automatically.</p>
-
-<p>
-    <strong>Note:</strong> The built-in theme essentially precludes the need to use any plugin for SEO or Google Analytics.<br />
-    <em>If for some reason you wish to not use the built-in SEO or Google Analytics options there is no setting for disabling it.<br />
-    You should be able to safely ignore and leave blank any of these built-in theme options. <br />However, if you begin using a plugin
-    and experience problems or are optimizing simply edit functions.php and comment out the line "requiring" kst_theme_meta_data.php.</em>
-</p>
-
-<br /><br />
-<a href="#wphead">Top</a>
-<br /><br /><br />
-EOD;
-
-    return $output;
-}
 
