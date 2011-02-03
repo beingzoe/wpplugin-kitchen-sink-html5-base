@@ -75,7 +75,6 @@ if ( post_password_required() ) {
 // See comment-template.php comment_form()
 $req = get_option( 'require_name_email' );
 $aria_req = ( $req ? " aria-required='true'" : '' );
-echo "req = $req   aria_req = $aria_req";
 $comment_form_fields =  array(
 	'author' => '<p class="comment-form-author">' . '<label for="author">' . __( 'Name' ) . ( $req ? '<span class="required">*</span>' : '' ) . '</label> ' .
 	            '<input id="author" name="author" type="text" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30"' . $aria_req . ' /></p>',
