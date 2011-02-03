@@ -99,11 +99,10 @@ class KST_Appliance_Asides extends KST_Appliance {
 
          // Every kitchen needs the basic settings
         $appliance_settings = array(
-                    /* REQUIRED */
-                    'friendly_name'       => 'KST Appliance: Plugin: Blog: Asides',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
-                    'prefix'              => 'kst_asides',                       // Required; Prefix for namespacing libraries, classes, widgets
-                    'developer'           => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
-                    'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
+                    'friendly_name'       => 'KST Appliance: Plugin: Blog: Asides',
+                    'prefix'              => 'kst_asides',
+                    'developer'           => 'zoe somebody',
+                    'developer_url'       => 'http://beingzoe.com/',
                 );
 
         // Declare as core

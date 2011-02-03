@@ -242,11 +242,10 @@ class KST_Appliance_Seo extends KST_Appliance {
 
         // Every kitchen needs the basic settings
         $appliance_settings = array(
-                    /* REQUIRED */
-                    'friendly_name'       => 'KST Appliance: Plugin: Marketing: SEO',                 // Required; friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
-                    'prefix'              => 'kst_seo',                       // Required; Prefix for namespacing libraries, classes, widgets
-                    'developer'           => 'zoe somebody',                           // Required; friendly name of current developer; only used for admin display;
-                    'developer_url'       => 'http://beingzoe.com/',            // Required; full URI to developer website;
+                    'friendly_name'       => 'KST Appliance: Plugin: Marketing: SEO',
+                    'prefix'              => 'kst_seo',
+                    'developer'           => 'zoe somebody',
+                    'developer_url'       => 'http://beingzoe.com/',
                 );
 
         // Add Help
