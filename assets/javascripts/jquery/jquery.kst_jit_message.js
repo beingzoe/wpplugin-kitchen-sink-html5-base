@@ -12,38 +12,99 @@
  * Requires jQuery v1.3.2 or later
  * @author zoe somebody
  * @todo pluginify
- * @todo add options
- * @todo add option for jit_box element id/class
- * @todo add option for trigger element id/class
- * @todo what to do about the 20px shadow I am accounting for here?
- * @todo settings args for direction/speed jason found this version happening from the top http://blog.okcupid.com/index.php/the-mathematics-of-beauty/
- */
+ * @see inspiration: http://blog.okcupid.com/index.php/the-mathematics-of-beauty/
+*/
 
 (function($) {
 
 $.fn.jit_message = function(options) {
-    log("yes");
-    /* jit box */
-    if ( $('#jit_box').length ) {
 
-        var trigger_top = $('.wp_entry_footer').offset().top - $(window).height();
-        var jit_box_width = $('#jit_box').width() + 40;
+    // Set defaults
+    var params = {
+      'trigger'     : '.wp_entry_footer',
+      'wrapper'     : '#jit_box',
+      'side'        : 'bottom',
+      'speed_in'    : 300,
+      'speed_out'   : 100
+    };
 
-        $('#jit_box').css( "right", -jit_box_width );
+    return this.each(function() { // Allow chaining
 
-        $(window).scroll(function(){
+        // Merge options
+        if ( options ) {
+            params = $.extend( params, options );
+        }
 
-            if ($(window).scrollTop() > trigger_top) {
-                $('#jit_box').animate({'right':'0px'},300)
-            } else {
-                $('#jit_box').stop(true).animate({'right':-jit_box_width},100);
+        if ( $(params.wrapper).length ) {
+
+            $(params.wrapper).addClass(params.side).css({
+                position:   'fixed',
+                display:    'block',
+            });
+
+            var trigger_top = $(params.trigger).offset().top - $(window).height();
+            var jit_box_width = $(params.wrapper).outerWidth(true);
+            var jit_box_height = $(params.wrapper).outerHeight(true);
+
+            // Set side position
+            if ('right' == params.side) {
+                //$(params.wrapper).css( "right", -jit_box_width );
+                $(params.wrapper).css({
+                    right:      -jit_box_width,
+                    bottom:     '50px'
+                });
+            } else if ('left' == params.side) {
+                 $(params.wrapper).css({
+                    left:       -jit_box_width,
+                    bottom:     '50px'
+                });
+            } else if ('top' == params.side) {
+                 $(params.wrapper).css({
+                    top:        -jit_box_height,
+                    margin:     '0 auto'
+                });
+            } else if ('bottom' == params.side) {
+                 $(params.wrapper).css({
+                    bottom:        -jit_box_height,
+                    margin:     '0 auto'
+                });
             }
-        });
-        /* you can close the jit */
-        $('.jit_box_close').bind('click',function(){
-                $('#jit_box').remove();
-        });
-    }
+
+            $(window).scroll(function(){
+
+                if ($(window).scrollTop() > trigger_top) {
+                    if ('right' == params.side) {
+                        $(params.wrapper).animate({'right':'0px'},params.speed_in)
+                    } else if ('left' == params.side) {
+                        $(params.wrapper).animate({'left':'0px'},params.speed_in)
+                    } else if ('top' == params.side) {
+                        $(params.wrapper).animate({'top':'0px'},params.speed_in)
+                    } else if ('bottom' == params.side) {
+                        $(params.wrapper).animate({'bottom':'0px'},params.speed_in)
+                    }
+                } else {
+                    if ('right' == params.side) {
+                        $(params.wrapper).stop(true).animate({'right':-jit_box_width},params.speed_out)
+                    } else if ('left' == params.side) {
+                        $(params.wrapper).stop(true).animate({'left':-jit_box_width},params.speed_out)
+                    } else if ('top' == params.side) {
+                        $(params.wrapper).stop(true).animate({'top':-jit_box_height},params.speed_out)
+                    } else if ('bottom' == params.side) {
+                        $(params.wrapper).stop(true).animate({'bottom':-jit_box_height},params.speed_out)
+                    }
+
+                }
+            });
+
+            // you can close the jit
+            $('.jit_box_close').bind('click',function(){
+                    $(params.wrapper).remove();
+            });
+        }
+
+    });
+
+
 
 };
 

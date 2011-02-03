@@ -2,10 +2,24 @@
 
 
 /* experiment youmightalsolike */
-#jit_box {
-    position: fixed;
-    bottom: 50px;
-    right: -1000px;
+#jit_box { display: none; }
+#jit_box.top {
+    width: 100%;
+    padding: 0 20px 20px;
+    background-color #000;
+}
+#jit_box.right {
+    width: 250px;
+    padding: 20px 0 20px 20px;
+}
+#jit_box.bottom {
+    width: 100%;
+    padding: 20px 20px 20px 0;
+    background-color #000;
+}
+#jit_box.left {
+    width: 250px;
+    padding: 20px 20px 20px 0;
 }
 .jit_box_image {
     position: relative;
@@ -21,7 +35,6 @@
 .jit_box_info {
     clear: both;
     position: relative;
-    width: 250px;
     padding: 10px;
     background: #000 none;
     color: #fff;

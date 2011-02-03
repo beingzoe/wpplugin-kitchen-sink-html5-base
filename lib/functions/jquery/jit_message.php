@@ -163,7 +163,9 @@ EOD;
 
 ?>
     <div id="jit_box" class="<?php echo $jit_box_class; ?>"><?php echo $output_jit_box_image; ?> <?php echo $output_jit_box_info; ?><div class="jit_box_close"><a>Close</a></div></div>
+    <!--[if gt IE 6 ]><!-->
     <script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_message) { $(this).jit_message(); }; });</script>
+    <!--<![endif]-->
 <?php
 }
 
