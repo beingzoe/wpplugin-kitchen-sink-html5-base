@@ -89,7 +89,7 @@ if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
     add_action('get_footer', 'dd_belatedpng_js_hack');
     function dd_belatedpng_js_hack() {
         $output = "<!--[if lt IE 7 ]>";
-        $output .= "<script src='" . get_template_directory_uri() . "/_assets/javascripts/libraries/dd_belatedpng.js'></script>";
+        $output .= "<script src='" . KST_URI_ASSETS . "/javascripts/libraries/dd_belatedpng.js'></script>";
         $output .= "<script> DD_belatedPNG.fix('img, .png_bg'); </script>";
         $output .= "<![endif]-->";
         echo $output;
