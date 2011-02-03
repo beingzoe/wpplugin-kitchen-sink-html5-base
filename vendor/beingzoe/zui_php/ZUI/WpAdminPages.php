@@ -447,7 +447,7 @@ class ZUI_WpAdminPages {
     */
     public static function findCurrentKeyOfWpMenuSection($menu_slug) {
         // Need a recursive array search - for now
-        require_once KST_DIR_VENDOR . '/ZUI/PhpHelper.php';
+        require_once KST_DIR_VENDOR . '/beingzoe/zui_php/ZUI/PhpHelper.php';
 
         global $menu;
 

@@ -40,7 +40,7 @@
  *
  * @since       0.1
 */
-require_once KST_DIR_VENDOR . '/WPAlchemy/MetaBox.php'; // WP admin meta boxe
+require_once KST_DIR_VENDOR . '/farinspace/WPAlchemy/WPAlchemy/MetaBox.php'; // WP admin meta boxe
 
 
 /**

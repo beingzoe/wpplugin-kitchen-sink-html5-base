@@ -64,7 +64,7 @@ Designed for hopeful inclusion within WordPress v3.1
 */
 
 /**
- * Code by the creator but not yet part of the classes/functions
+ * Code by the creator (mikeschinkel) but not yet part of the classes/functions
  * Added by zoe to a forked version of the code
  * @package     WP
  * @subpackage  Helpers

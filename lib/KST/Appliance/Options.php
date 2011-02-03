@@ -29,7 +29,7 @@
  * @uses        AdminMenu.php
 */
 if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSection') ) {
-    require_once KST_DIR_VENDOR . '/WP/AdminMenu.php';
+    require_once KST_DIR_VENDOR . '/mikeschinkel/WP/WP/AdminMenu.php';
 }
 
 /**
@@ -43,7 +43,7 @@ if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSe
  * @see         WpAdminPages.php
  * @see         FormHelper.php
 */
-require_once KST_DIR_VENDOR . '/ZUI/WpAdminPages.php';
+require_once KST_DIR_VENDOR . '/beingzoe/zui_php/ZUI/WpAdminPages.php';
 
 
 /**
