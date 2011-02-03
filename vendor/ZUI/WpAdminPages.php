@@ -23,7 +23,24 @@ require_once 'FormHelper.php';
 /**
  * Methods for creating any number of WordPress Admin Menu Pages
  *
- * Add new pages by:
+ * New object new page.
+ * One page per object. Class statically tracks pages created through it's objects
+ *
+ * Public methods (for developer):
+ *      -addMenu()
+ *      -fixParentSlug()
+ *      -get_all_parent_slugs()
+ *      -findCurrentKeyofWpMenuSection()
+ *      -moveMenuSectionUpAboveAnother()
+ *
+ * Public callback methods (used by WP only):
+ *      -prepMenu()
+ *      -addMenu()
+ *      -registerSettings()
+ *      -viewPage()
+ *
+ *
+ * Multiple ways to add content/pages:
  *      -callback (echoes output)
  *      -included file (includes output)
  *      -'auto' (builds form content from simple array)(only for options page)
@@ -79,7 +96,7 @@ class ZUI_WpAdminPages {
      *
      * @uses        ZUI_WpAdminPages::_page_data_array
      * @uses        ZUI_WpAdminPages::_isCallbackOrTemplate
-     * @uses        ZUI_WpAdminPages::newOptionGroup()
+     * @uses        ZUI_WpAdminPages::_newOptionGroup()
      * @param       required array  $page_array           Info about this OptionsGroup, the page that should display it, and all of the settings that belong to this option_group
      *              required string 'parent_slug'
      *              required string 'page_title'
@@ -112,7 +129,7 @@ class ZUI_WpAdminPages {
 
         // Check to see if this is an "options" page (i.e. settings) - if the options key is present and it is an array
         if ( isset($this->_page_data_array['options']) && is_array($this->_page_data_array['options']))
-            $this->newOptionGroup();
+            $this->_newOptionGroup();
 
         // Optionally tet them set a priority
         if ( isset($this->_page_data_array['priority']) )
@@ -157,7 +174,7 @@ class ZUI_WpAdminPages {
      * @uses        add_menu_page() WP function
      * @uses        add_submenu_page() WP function
     */
-    function addMenu() {
+    public function addMenu() {
 
         // We might want to have defaults merged in before we extract!
         extract($this->_page_data_array);
@@ -282,6 +299,24 @@ class ZUI_WpAdminPages {
 
 
     /**
+     * Options Settings API only:
+     * Callback method for WP to register options (i.e. settings) (so WP can manage)
+     *
+     * @since       0.1
+     * @uses        ZUI_WpAdminPages::$_settingsIds
+     * @uses        ZUI_WpAdminPages::$_page_data_array
+     * @uses        register_setting() WP function
+    */
+    public function registerSettings() {
+        // Register all the options (i.e. settings) for this option group for WP to manage (WP will handle updates)
+        foreach ( $this->_settingsIds as $option) {
+            // check to see if $option is a key, if so then we also need to check what type of 'block' it is (for automatic form creation) and only add it if this is an option form element
+            register_setting( $this->_page_data_array['option_group_name'], $option );
+        }
+    }
+
+
+    /**
      * Get the parent_slug for this page
      *
      * Protects us from page name changes and deal with top level menus later
@@ -350,7 +385,7 @@ class ZUI_WpAdminPages {
      * This will be used to register them for WP to manage
      *
     */
-    public function newOptionGroup() {
+    protected function _newOptionGroup() {
 
         // Set type of page
         $this->_page_type = 'options';
@@ -366,24 +401,6 @@ class ZUI_WpAdminPages {
            }
         }
 
-    }
-
-
-    /**
-     * Options Settings API only:
-     * Callback method for WP to register options (i.e. settings) (so WP can manage)
-     *
-     * @since       0.1
-     * @uses        ZUI_WpAdminPages::$_settingsIds
-     * @uses        ZUI_WpAdminPages::$_page_data_array
-     * @uses        register_setting() WP function
-    */
-    public function registerSettings() {
-        // Register all the options (i.e. settings) for this option group for WP to manage (WP will handle updates)
-        foreach ( $this->_settingsIds as $option) {
-            // check to see if $option is a key, if so then we also need to check what type of 'block' it is (for automatic form creation) and only add it if this is an option form element
-            register_setting( $this->_page_data_array['option_group_name'], $option );
-        }
     }
 
 
