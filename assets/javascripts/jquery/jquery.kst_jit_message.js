@@ -39,7 +39,7 @@ $.fn.jit_message = function(options) {
 
             $(params.wrapper).addClass(params.side).css({
                 position:   'fixed',
-                display:    'block',
+                display:    'block'
             });
 
             var trigger_top = $(params.trigger).offset().top - $(window).height();
@@ -74,23 +74,23 @@ $.fn.jit_message = function(options) {
 
                 if ($(window).scrollTop() > trigger_top) {
                     if ('right' == params.side) {
-                        $(params.wrapper).animate({'right':'0px'},params.speed_in)
+                        $(params.wrapper).animate({'right':'0px'},params.speed_in);
                     } else if ('left' == params.side) {
-                        $(params.wrapper).animate({'left':'0px'},params.speed_in)
+                        $(params.wrapper).animate({'left':'0px'},params.speed_in);
                     } else if ('top' == params.side) {
-                        $(params.wrapper).animate({'top':'0px'},params.speed_in)
+                        $(params.wrapper).animate({'top':'0px'},params.speed_in);
                     } else if ('bottom' == params.side) {
-                        $(params.wrapper).animate({'bottom':'0px'},params.speed_in)
+                        $(params.wrapper).animate({'bottom':'0px'},params.speed_in);
                     }
                 } else {
                     if ('right' == params.side) {
-                        $(params.wrapper).stop(true).animate({'right':-jit_box_width},params.speed_out)
+                        $(params.wrapper).stop(true).animate({'right':-jit_box_width},params.speed_out);
                     } else if ('left' == params.side) {
-                        $(params.wrapper).stop(true).animate({'left':-jit_box_width},params.speed_out)
+                        $(params.wrapper).stop(true).animate({'left':-jit_box_width},params.speed_out);
                     } else if ('top' == params.side) {
-                        $(params.wrapper).stop(true).animate({'top':-jit_box_height},params.speed_out)
+                        $(params.wrapper).stop(true).animate({'top':-jit_box_height},params.speed_out);
                     } else if ('bottom' == params.side) {
-                        $(params.wrapper).stop(true).animate({'bottom':-jit_box_height},params.speed_out)
+                        $(params.wrapper).stop(true).animate({'bottom':-jit_box_height},params.speed_out);
                     }
 
                 }
