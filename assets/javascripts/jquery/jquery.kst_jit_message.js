@@ -23,7 +23,7 @@ $.fn.jit_message = function(options) {
     var params = {
       'trigger'     : '.wp_entry_footer',
       'wrapper'     : '#jit_box',
-      'side'        : 'bottom',
+      'side'        : 'right',
       'speed_in'    : 300,
       'speed_out'   : 100
     };
