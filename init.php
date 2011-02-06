@@ -85,11 +85,6 @@ $kst_bundled_appliances = array(
     'options' => array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Options.php',
             'class_name'            => 'KST_Appliance_Options'
-            //,'require_args'          => TRUE
-        ),
-    'helpold' => array(
-            'path'                  => KST_DIR_LIB . '/functions/theme_help.php',
-            'class_name'            => FALSE
         ),
     'help' => array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Help.php',
@@ -145,9 +140,9 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/functions/mp3_player.php',
             'class_name'            => FALSE
         ),
-    'jitMessage' => array(
-            'path'                  => KST_DIR_LIB . '/functions/jquery/jit_message.php',
-            'class_name'            => FALSE
+    'jit_message' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/JitMessage.php',
+            'class_name'            => 'KST_Appliance_JitMessage',
         ),
     'jqueryCycle' => array(
             'path'                  => KST_DIR_LIB . '/functions/jquery/cycle.php',
@@ -181,7 +176,7 @@ $kst_core_settings = array(
  * @since       0.1
  * @uses        KST_Kitchen::registerAppliances()
  * @uses        KST_Kitchen::load()
- * @uses        KST_Appliance_Options::addGroup()
+ * @uses        KST_Appliance_Options::add()
 */
 
 // Instantiate the core as it's own 'kitchen'
@@ -201,7 +196,7 @@ $kst_core->registerAppliances($kst_bundled_appliances);
  * @uses        KST_Appliance_Options
  * @uses        KST_Kitchen::load()
  * @uses        KST_Kitchen::setDisabledAppliances()
- * @uses        KST_Appliance_Options::addGroup()
+ * @uses        KST_Appliance_Options::add()
  * @uses        KST_Appliance_Options::get()
 
 */
@@ -264,7 +259,7 @@ $kst_core_options = array(
 
 // Add the core options/about page
 $kst_core->load('options');
-$kst_core->options->addGroup($kst_core_options);
+$kst_core->options->add($kst_core_options);
 KST_Kitchen::setDisabledAppliances( $kst_core->options->get('disable_these_appliances') );
 /**#@-*/
 
