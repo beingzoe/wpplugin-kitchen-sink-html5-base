@@ -111,6 +111,10 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/KST/Wordpress.php',
             'class_name'            => 'KST_Wordpress'
         ),
+    'metabox' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/MetaBox.php',
+            'class_name'            => 'KST_Appliance_MetaBox'
+        ),
     /*
     'contact' => array(
             'path'                  => KST_DIR_LIB . '/functions/contact.php',
