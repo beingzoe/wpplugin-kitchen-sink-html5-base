@@ -16,14 +16,13 @@
  * flexible styling of layouts or sections
  *
  * @author		zoe somebody
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
- * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
+ * @link        https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki/Docs_appliance_plugins_marketing_seo
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  Plugins:Marketing
  * @version     0.1
  * @since       0.1
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
  * @uses        KST_Kitchen
  * @uses        KST_Appliance_Options
  * @uses        WPAlchemy_MetaBox
@@ -287,13 +286,51 @@ class KST_Appliance_Seo extends KST_Appliance {
         $this->_meta_title_sep_default = KST_Kitchen_Theme::getThemeSeoTitleSep();
 
         // Instantiate WPAlchemy_MetaBox class  - Replaces get_post_meta()
-        $this->_metabox_fields = new WPAlchemy_MetaBox( array (
+
+        $seo_metabox = array(
             'id' => '_kst_wp_meta_data',
             'title' => 'SEO &amp; Meta Data',
-            'template' => KST_DIR_TEMPLATES . '/meta_boxes/kst_theme_meta_data.php',
+            'template'  => 'auto',
             'context' => 'normal',
             'priority' => 'high',
-        ));
+            'options'           => array(
+                'explanation' => array(
+                        'name'      => 'Page Title',
+                        'desc'      => '<div>If no data is entered here defaults will be used/created using the post/page content and the settings in...</div>',
+                        'type'      => 'custom',
+                        'wrap_as'   => 'subsection'
+                    ),
+                'meta_page_title' => array(
+                        'name'      => 'Page Title',
+                        'desc'      => 'If empty defaults to entry title',
+                        'type'      => 'text'
+                    ),
+                'meta_page_keywords' => array(
+                        'name'      => 'Meta Keywords',
+                        'desc'      => 'If empty defaults to GLOBAL KEYWORDS',
+                        'type'      => 'text'
+                    ),
+                'meta_page_keywords_use_tags' => array(
+                        'name'      => 'Meta Keywords',
+                        'desc'      => 'Add Post TAGS to Meta Keywords above',
+                        'type'      => 'checkbox',
+                        'default'   => TRUE
+                    ),
+                'meta_page_keywords_use_global' => array(
+                        'name'      => 'Meta Keywords',
+                        'desc'      => 'Add GLOBAL KEYWORDS to Meta Keywords above',
+                        'type'      => 'checkbox'
+                    ),
+                'meta_page_description' => array(
+                        'name'      => 'Meta Description',
+                        'desc'      => 'If empty defaults to GLOBAL DESCRIPTION',
+                        'type'      => 'text'
+                    )
+                )
+        );
+
+        $this->_appliance->load('metabox');
+        $this->_appliance->metabox->add($seo_metabox);
 
         // Set blog owner meta title segment separator if it exists
         $this->_meta_title_sep = $this->_appliance->options->get( 'meta_title_sep' );
@@ -331,14 +368,15 @@ class KST_Appliance_Seo extends KST_Appliance {
 
         global $post; // WP global post object for current post
 
-        $post_custom_field = $this->_metabox_fields->get_the_value('meta_page_description'); //get custom field via metabox class
+        $this->_appliance->metabox->the_field('meta_page_description');
+        $post_custom_field = $this->_appliance->metabox->get_the_value(); //get custom field via metabox class
 
         if ( $post_custom_field ) { /* Use post_custom_field custom field if exists */
             $content = $post_custom_field;
         } else if ( is_front_page() && $this->_appliance->options->get("meta_description_home") ) { /* home page is set to custom page */
             $content = $this->_appliance->options->get("meta_description_home"); // default set in theme options
-        } else if ( is_single() && $this->_appliance->options->get("single_post_description") ) { /* single article */
-            $content = $this->_appliance->options->get("single_post_description"); // default set in theme options
+        } else if ( is_single() && $this->_appliance->options->get("meta_description_single") ) { /* single article */
+            $content = $this->_appliance->options->get("meta_description_single"); // default set in theme options
         } else if ( is_page() && $this->_appliance->options->get("meta_description_page") ) { /* page */
             $content = $this->_appliance->options->get("meta_description_page"); // default set in theme options
         } else if ( $this->_appliance->options->get("meta_description_global") ) { /* global default description in theme options */
@@ -362,27 +400,18 @@ class KST_Appliance_Seo extends KST_Appliance {
      * @uses get_the_value() from metabox class in place of get_post_meta() get 'meta_page_keywords' if exists
      * @uses get_bloginfo()
      * @uses $this->_appliance->options->get()
-     */
+    */
     function echoMetaKeywords() {
 
         global $post, $kst_seo;
 
-        $post_custom_field = $this->_metabox_fields->get_the_value('meta_page_keywords'); //get custom field via metabox class
+        $post_custom_field = $this->_appliance->metabox->get_the_value('meta_page_keywords'); //get custom field via metabox class
 
         /* Find and use appropriate keywords */
         if ( $post_custom_field ) { /* Use meta_page_keywords custom field if exists */
             $keywords = $post_custom_field;
-            /* Should we add post tags to metabox keywords? */
-            if ( $this->_metabox_fields->get_the_value('meta_page_keywords_use_tags') ) {
-                $post_tags = get_the_tags($post->ID);
-                if ($post_tags) {
-                    foreach($post_tags as $tag) {
-                        $keywords .= ', ' . $tag->name;
-                    }
-                }
-            }
             /* Should we add global post keywords to metabox keywords */
-            if ( $this->_metabox_fields->get_the_value('meta_page_keywords_use_global') ) {
+            if ( $this->_appliance->metabox->get_the_value('meta_page_keywords_use_global') ) {
                 if ( is_page() && $this->_appliance->options->get("meta_keywords_page") ) /* page */
                     $keywords .= ', ' . $this->_appliance->options->get("meta_keywords_page"); // default set in theme options
                 else if ( is_single() && $this->_appliance->options->get("meta_keywords_single") ) /* single article */
@@ -400,6 +429,16 @@ class KST_Appliance_Seo extends KST_Appliance {
             $keywords = $this->_appliance->options->get("meta_keywords_global");
         } else {
             $keywords = '';
+        }
+
+        /* Should we add post tags to metabox keywords? */
+        if ( $this->_appliance->metabox->get_the_value('meta_page_keywords_use_tags') ) {
+            $post_tags = get_the_tags($post->ID);
+            if ($post_tags) {
+                foreach($post_tags as $tag) {
+                    $keywords .= ', ' . $tag->name;
+                }
+            }
         }
 
         echo "<meta name=\"keywords\" content=\"{$keywords}\" />\n";
@@ -429,7 +468,7 @@ class KST_Appliance_Seo extends KST_Appliance {
      * @param string $separator The separator passed to wp_title().
      * @param boolean  $is_single_title_as_wp_title format title for services like addthis
      * @return string The new title, ready for the <title> tag.
-     */
+    */
     public function filterWpTitle( $title, $separator, $is_single_title_as_wp_title = false ) {
 
         // $paged global variable contains the page number of a listing of posts.
@@ -456,7 +495,7 @@ class KST_Appliance_Seo extends KST_Appliance {
         }
 
         // Use meta_page_title custom field if exists
-        $meta_page_title = $this->_metabox_fields->get_the_value('meta_page_title'); //get from metabox class
+        $meta_page_title = $this->_appliance->metabox->get_the_value('meta_page_title'); //get from metabox class
 
         if ( $meta_page_title ) {
 
@@ -565,6 +604,8 @@ class KST_Appliance_Seo extends KST_Appliance {
      * Under consideration for deprecation
      * Has not been updated to use metabox (TODO?)
      *
+     * Or is this whole thing moot now? Just make templates? But this is a good optional...
+     *
      * @since       0.1
      * @param       required string $part   toc|entry which part do you want?
      * @return      string
@@ -586,7 +627,6 @@ class KST_Appliance_Seo extends KST_Appliance {
     */
     public static function helpSeoSeo() {
         ?>
-
             <p>
             Your theme has built-in control over the page title and meta tags throughout your site.
             BE SURE to set the GLOBAL DEFAULTS for SEO settings on the "Theme Options &gt; <a href="admin.php?page=kst_kst_seo_SEO_and_Meta">SEO</a>" page.
