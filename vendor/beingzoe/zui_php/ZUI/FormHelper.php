@@ -29,6 +29,7 @@ class ZUI_FormHelper {
     private static $blocks_of_type_all;        // Array of ALL form output block types possible; Anything is custom and we just dump the block['desc']
     /**#@-*/
 
+
     /**#@+
      * Array of block types considered sections for decision making
      * Array of ALL KNOWN block types considered sections for decision making
@@ -37,7 +38,7 @@ class ZUI_FormHelper {
      * @return      array
     */
     public static function get_blocks_of_type_section() {
-        return self::$blocks_of_type_section = array('section', 'subsection');
+        return self::$blocks_of_type_section = array('section', 'subsection', 'label');
     }
     public static function get_blocks_of_type_form() {
         return self::$blocks_of_type_all = array('text', 'radio', 'checkbox',  'textarea', 'select', 'select_wp_categories', 'select_wp_pages' );
@@ -47,17 +48,6 @@ class ZUI_FormHelper {
     }
     /**#@-*/
 
-    /**
-     * Markup dt
-     *
-     * @since       0.1
-     * @param       optional string $content
-     * @param       optional string $custom_attr any extra parameter="" to add - include a leading space
-     * @return      string
-    */
-    public static function dt( $content = NULL, $b_wrap_attr = NULL ) {
-        return "<dt{$b_wrap_attr}>{$content}</dt>";
-    }
 
     /**
      * Markup dt
@@ -67,9 +57,47 @@ class ZUI_FormHelper {
      * @param       optional string $custom_attr any extra parameter="" to add - include a leading space
      * @return      string
     */
-    public static function dd( $content = NULL, $b_wrap_attr = NULL ) {
-        return "<dd{$b_wrap_attr}>{$content}</dd>";
+    public static function dt( $content = NULL, $b_wrap_attr = NULL, $inner_wrap = NULL ) {
+        // Allow inner wrap
+        $inner_wrap_open = "";
+        $inner_wrap_close = "";
+        if ( NULL !== $inner_wrap && !is_array($inner_wrap) ) {
+            $inner_wrap_open = "<{$inner_wrap}>";
+            $inner_wrap_close = "</{$inner_wrap}>";
+        } else if ( NULL !== $inner_wrap && is_array($inner_wrap) ) {
+            // If array the first index is 'complete open tag' and second is 'complete close tag'
+            $inner_wrap_open = $inner_wrap[0];
+            $inner_wrap_close = $inner_wrap[1];
+        }
+
+        return "<dt{$b_wrap_attr}>{$inner_wrap_open}{$content}{$inner_wrap_close}</dt>";
     }
+
+
+    /**
+     * Markup dd
+     *
+     * @since       0.1
+     * @param       optional string $content
+     * @param       optional string $custom_attr any extra parameter="" to add - include a leading space
+     * @return      string
+    */
+    public static function dd( $content = NULL, $b_wrap_attr = NULL, $inner_wrap = NULL ) {
+        // Allow inner wrap
+        $inner_wrap_open = "";
+        $inner_wrap_close = "";
+        if ( NULL !== $inner_wrap && !is_array($inner_wrap) ) {
+            $inner_wrap_open = "<{$inner_wrap}>";
+            $inner_wrap_close = "</{$inner_wrap}>";
+        } else if ( NULL !== $inner_wrap && is_array($inner_wrap) ) {
+            // If array the first index is 'complete open tag' and second is 'complete close tag'
+            $inner_wrap_open = $inner_wrap[0];
+            $inner_wrap_close = $inner_wrap[1];
+        }
+
+        return "<dd{$b_wrap_attr}>{$inner_wrap_open}{$content}{$inner_wrap_close}</dd>";
+    }
+
 
     /**
      * Markup label for form element with proper id
@@ -84,6 +112,7 @@ class ZUI_FormHelper {
         return '<label for="' . $id . '"' . $custom_attr . '>' . $content . '</label>';
     }
 
+
     /**
      * Most form elements share the same
      * name="this" id="this" pattern
@@ -95,6 +124,7 @@ class ZUI_FormHelper {
     public static function same_name_id($id) {
         return " name='{$id}' id='{$id}'";
     }
+
 
     /**
      * Markup text input
@@ -115,6 +145,7 @@ class ZUI_FormHelper {
         // return
         return "<input type='text'" . $value . self::same_name_id($id) . $size . $maxlength . $b_form_attr . ' />';
     }
+
 
     /**
      * Markup radio input
@@ -139,6 +170,7 @@ class ZUI_FormHelper {
         return $output;
     }
 
+
     /**
      * Markup checkbox input
      *
@@ -153,6 +185,7 @@ class ZUI_FormHelper {
         $checked = self::checked($select_this);
         return '<input  type="checkbox"' . self::same_name_id($id) . ' value="1"' . $checked . $b_form_attr . '/> ';
     }
+
 
     /**
      * Markup textarea
@@ -172,6 +205,7 @@ class ZUI_FormHelper {
         // return
         return "<textarea" . self::same_name_id($id) . $cols . $rows . $b_form_attr . ">" . $value . "</textarea>";
     }
+
 
     /**
      * Markup select container - options are done separately
@@ -197,6 +231,7 @@ class ZUI_FormHelper {
         // Create output
         return "<select" . " name='" . $id . $multi . "' id='" . $id . "'" . $size . $b_form_attr . ">" . $options . "</select>";
     }
+
 
     /**
      * Markup option container - just one at a time
@@ -225,6 +260,7 @@ class ZUI_FormHelper {
         return "<option {$value_attr}{$selected}{$b_form_attr}>{$text}</option>";
     }
 
+
     /**
      * Return a select box with WP categories
      * Uses built-in WP wp_dropdown_categories and accepts the same arguments
@@ -240,9 +276,9 @@ class ZUI_FormHelper {
     public static function select_wp_categories( $args ) {
         // Set sensible defaults especially select NONE if we don't find a default later
         // THEY MUST PASS A NAME/ID in the arguments
+        // Removed the default of "selected"           => "-1", because it was causing problems with metabox as -1 is a value and caused otherwise empty groups to be saved - and honestly these types shouldn't be in a generic FormHelper anyway
         $defaults =  array(
             "show_option_none"   => "None",
-            "selected"           => "-1",
             "orderby"            => "name",
             "hierarchical"       => 1,
             'echo'               => 0
@@ -251,6 +287,7 @@ class ZUI_FormHelper {
 
         return wp_dropdown_categories( $args );
     }
+
 
     /**
      * Return a select box with WP pages
@@ -267,15 +304,16 @@ class ZUI_FormHelper {
     public static function select_wp_pages( $args ) {
         // Set sensible defaults especially select NONE if we don't find a default later
         // THEY MUST PASS A NAME/ID in the arguments
+        // Removed the default of "selected"           => "-1", because it was causing problems with metabox as -1 is a value and caused otherwise empty groups to be saved - and honestly these types shouldn't be in a generic FormHelper anyway
         $defaults =  array(
             "show_option_none"   => "None",
-            "selected"           => "-1",
             'echo'               => 0
         );
         $args = wp_parse_args( $args, $defaults );
 
         return wp_dropdown_pages( $args );
     }
+
 
     /**
      * Return a "typical" marked up definition list "row"
@@ -290,15 +328,21 @@ class ZUI_FormHelper {
      * @param       required string $desc description/explanation text
      * @return      string
     */
-    public static function block_form_element_typical($id, $name, $element, $desc, $b_wrap_attr = NULL, $b_label_attr = NULL) {
+    public static function block_form_element_typical($id, $name, $element, $desc, $b_wrap_attr = NULL, $b_label_attr = NULL, $dt_inner_wrap = NULL , $dd_inner_wrap = NULL) {
         // Block
-        $output = self::dt( self::label( $id, $name, $b_label_attr ), $b_wrap_attr );
-        $output .= self::dd( $element, $b_wrap_attr );
-        if ( !empty( $desc ) )
-            $output .= self::dd( $desc, " class='explanation'" );
+        $output = self::dt( self::label( $id, $name, $b_label_attr ), $b_wrap_attr, $dt_inner_wrap );
+        $output .= self::dd( $element, $b_wrap_attr, $dd_inner_wrap );
+        if ( !empty( $desc ) && !is_array( $desc ) ) {
+            $output .= self::dd( $desc, " class='explanation'", $dd_inner_wrap );
+        } else if ( !empty( $desc ) && is_array( $desc ) ) {
+            foreach ( $desc as $dd ) {
+                $output .= self::dd( $dd, " class='explanation'", $dd_inner_wrap );
+            }
+        }
         // Return
         return $output;
     }
+
 
     /**
      * Return a "radio group" marked up definition list "row"
@@ -313,10 +357,10 @@ class ZUI_FormHelper {
      * @param       required string $desc description/explanation text
      * @return      string
     */
-    public static function block_form_element_radio_group($name, $elements, $desc, $b_wrap_attr = NULL) {
+    public static function block_form_element_radio_group($name, $elements, $desc, $b_wrap_attr = NULL, $dt_inner_wrap = NULL, $dd_inner_wrap = NULL) {
         // Block
-        $output = self::dt( $name, $b_wrap_attr ); // self::label( $id, $name )
-        $output .= self::dd( $elements, $b_wrap_attr );
+        $output = self::dt( $name, $b_wrap_attr, $dt_inner_wrap ); // self::label( $id, $name )
+        $output .= self::dd( $elements, $b_wrap_attr, $dd_inner_wrap );
         if ( !empty( $desc ) )
             $output .= self::dd( $desc, " class='explanation'" );
         // Return
@@ -344,6 +388,7 @@ class ZUI_FormHelper {
         }
     }
 
+
     /**
      * block_might_close_dl
      * Close definition list </dl>
@@ -358,6 +403,7 @@ class ZUI_FormHelper {
         else
             return false;
     }
+
 
     /**
      * Outputs the html checked attribute.
@@ -374,6 +420,7 @@ class ZUI_FormHelper {
         return self::_checked_selected_helper( $checked, $current, 'checked' );
     }
 
+
     /**
      * Outputs the html selected attribute.
      *
@@ -389,6 +436,7 @@ class ZUI_FormHelper {
         return self::_checked_selected_helper( $selected, $current, 'selected' );
     }
 
+
     /**
      * Outputs the html disabled attribute.
      *
@@ -403,6 +451,7 @@ class ZUI_FormHelper {
     private function disabled( $disabled, $current = true ) {
         return self::_checked_selected_helper( $disabled, $current, 'disabled' );
     }
+
 
     /**
      * Private helper function for checked, selected, and disabled.
@@ -425,6 +474,7 @@ class ZUI_FormHelper {
         return $result;
     }
 
+
     /**
      * Simple Templating for our sections and what not
      *
@@ -441,16 +491,23 @@ class ZUI_FormHelper {
         return $replaced;
     }
 
+
     /**
-     * SELECT BOXES have optionexists still so this will be a problem to fix when we test
+     * Build form by looping over form array
      *
+     * @since       0.1
+     * @param       required array $form_array
+     *              'options' key being the most vital
+     *
+     * @return      string form output
     */
     public static function makeForm($form_array) {
 
         // Prep
-        $b_type_previous = "";
+        $b_type_previous = 'NEW';
         $output = "";
         $do_close_section = FALSE;
+
         // Templates for sections
         $section_open_template    = ( isset($form_array['section_open_template']) && !empty( $form_array['section_open_template']) )    ? $form_array['section_open_template']
                                                                                                                                         : '<fieldset class="zui_form_section"><legend>{section_name}</legend>'; // What to wrap form sections in
@@ -461,279 +518,271 @@ class ZUI_FormHelper {
         $subsection_close_template   = ( isset($form_array['subsection_close_template']) && !empty( $form_array['subsection_close_template']) )  ? $form_array['subsection_close_template']
                                                                                                                                                  : ''; // close subsection wrap
 
-        //echo "<br /><br />FORM ARRAY =<br />";
-        //print_r($form_array);
-        //echo "<br /><br /><br /><br />";
+        foreach ($form_array['options'] as $key => $block) {
 
-        // Get this pages content
-        //foreach ($form_array as $option_array) {
-          //  echo "<br /><br />OPTION ARRAY =<br />";
-            //    print_r($option_array);
+            // Loop prep
+            $b_type             = $block['type'];
+            $b_id               = $key;
+            $b_name             = $block['name'];
+            $b_desc             = $block['desc'];
+            $b_label_attr       = ( isset($block['label_attr']) && !empty($block['label_attr']) )   ? $block['label_attr']
+                                                                                                    : "";
+            $b_wrap_attr        = ( isset($block['wrap_attr']) && !empty($block['wrap_attr']) )     ? $block['wrap_attr']
+                                                                                                    : ""; // not used yet
+            $b_wrap_as          = ( isset($block['wrap_as']) )                                      ? $block['wrap_as']
+                                                                                                    : $b_type;
 
-            foreach ($form_array['options'] as $key => $block) {
+            // If we have form type of block then get the form type stuff
+            if ( in_array( $b_type, self::get_blocks_of_type_form()) ) {
 
-                //echo "<br /><br />BLOCK ARRAY =<br />";
-                //print_r($block);
-                //echo "<br /><br /><br /><br />";
+                // Kind of sucks
+                if ( isset($block['value']) && !empty($block['value']) ) // Exists and is not empty
+                    $b_value = $block['value'];
+                else if ( !isset($block['value']) && isset($block['default']) ) //passed a null value or really didn't get passed but a default was
+                    $b_value = $block['default'];
+                else // Otheriwse we are safe just returning an empty string?
+                    $b_value = "";
 
-                // Loop prep
-                $b_type             = $block['type'];
-                $b_id               = $key;
-                $b_name             = $block['name'];
-                $b_desc             = $block['desc'];
+                $b_value_default = ( isset($block['default']) && !empty( $block['default']) )    ? $block['default']
+                                                                                                 : NULL; // Value to fill/set the input with
+                $b_size          = ( isset($block['size']) && !empty( $block['size']) )          ? $block['size']
+                                                                                                 : FALSE; // can't set a default unless we know what block it is - so we'll wait
+                $b_maxlength     = ( isset($block['maxlength']) && !empty($block['maxlength']) ) ? $block['maxlength']
+                                                                                                 : 255;
+                $b_cols          = ( isset($block['cols']) && !empty($block['cols']) )           ? $block['cols']
+                                                                                                 : 30;
+                $b_rows          = ( isset($block['rows']) && !empty($block['rows']) )           ? $block['rows']
+                                                                                                 : 3;
+                $b_form_attr     = ( isset($block['form_attr']) && !empty($block['form_attr']) ) ? $block['form_attr']
+                                                                                                 : "";
+                $dt_inner_wrap   = ( isset($block['dt_inner_wrap']) && !empty($block['dt_inner_wrap']) )      ? $block['dt_inner_wrap']
+                                                                                                              : NULL;
+                $dd_inner_wrap   = ( isset($block['dd_inner_wrap']) && !empty($block['dd_inner_wrap']) )      ? $block['dd_inner_wrap']
+                                                                                                              : NULL;
+            }
 
-                // If we have form type of block then get the form type stuff
-                if ( !in_array( $b_type, self::get_blocks_of_type_section()) ) {
+            // Start new dl IF -- First time through and first block is a form block -- OR -- if next block is NOT a section AND the PREVIOUS WAS a 'section' AND the next block is a known block type
+            if ( ( 'NEW' === $b_type_previous && in_array($b_type, self::get_blocks_of_type_form()) && FALSE !== $b_wrap_as ) || ( !in_array($b_type, self::get_blocks_of_type_section()) && in_array( $b_type_previous, self::get_blocks_of_type_section() ) && in_array($b_type, self::get_blocks_of_type_all()) ) )
+                $output .= '<dl>';
 
-                    // Kind of sucks
-                    if ( isset($block['value']) && !empty($block['value']) )  { // Exists and is not empty
-                        $b_value = $block['value'];
-                    } else if ( !isset($block['value']) && isset($block['default']) ) { //passed a null value or really didn't get passed but a default was
-                        $b_value = $block['default'];
-                    } else { // Otheriwse we are safe just returning an empty string?
-                        $b_value = "";
+            switch ( $b_type ) {
+
+                case 'label':
+                    // This is a special use case when outputting unwrapped form elements i.e. custom block types or unwrapped forms
+                    // It is never put in it's own dt/dd as it is considered a 'section' block not a form block
+
+                    // Create form element && Output Block
+                    $output .= self::label( $b_id, $b_name, $b_label_attr );
+
+                break; // END text input block
+
+                case 'text':
+
+                    // set size
+                    $size = ( !empty( $b_size ) )   ? $b_size
+                                                    : 23;
+
+                    // Create form element
+                    $element = self::input_text($b_id, $b_value, $size, $b_maxlength, $b_form_attr);
+
+                    // Output Block
+                    if ( FALSE !== $b_wrap_as )
+                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr, $dt_inner_wrap, $dd_inner_wrap);
+                    else
+                        $output .= $element;
+
+                break; // END text input block
+
+                case 'textarea':
+
+                    // Create form element
+                    $element = self::textarea($b_id, $b_value, $b_cols, $b_rows, $b_form_attr);
+
+                    // Output Block
+                    if ( FALSE !== $b_wrap_as )
+                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr, $dt_inner_wrap, $dd_inner_wrap);
+                    else
+                        $output .= $element;
+
+                break;
+
+                case 'select':
+
+                    // Is it a multiple select?
+                    if ( isset($block['multi']) && $block['multi'] ) // Yup, so now prep the element
+                        $multi = TRUE;
+                    else
+                        $multi = FALSE;
+
+                    // set size
+                    if ( isset($b_size) && !empty( $b_size ) )
+                        $size = $b_size; // Use yours
+                    else if ( $multi )
+                        $size = "5";
+                    else
+                        $size = "1";
+
+                    // Create form element
+                    // Loop over the select options
+                    $options = ""; // empty options string to build
+                    foreach ($block['options'] as $key => $keyvalue) {
+
+                        // Figure out what to select
+                        if ( !isset($b_value) && !empty($b_value_default) && $keyvalue == $b_value_default  ) // If a default was sent and this value does NOT exist (!isset($b_value))
+                            $select_this = $b_value_default;
+                        else if (is_array( $b_value) && in_array($keyvalue, $b_value ) ) // If selected values stored as array it's multi so check the array and just the keyvalue if it matches
+                            $select_this = $keyvalue;
+                        else
+                            $select_this = $b_value;
+
+                        // Create and save option form element
+                        $options .= self::option($keyvalue, $select_this, $keyvalue, $b_form_attr);
+
                     }
-                    /*
-                    $b_value            = ( isset($block['value']) && !empty( $block['value']) )        ? $block['value']
-                                                                                                        : NULL; // Value to fill/set the input with
-                                                                                                        */
-                    $b_value_default    = ( isset($block['default']) && !empty( $block['default']) )    ? $block['default']
-                                                                                                        : NULL; // Value to fill/set the input with
-                    $b_size             = ( isset($block['size']) && !empty( $block['size']) )          ? $block['size']
-                                                                                                        : FALSE; // can't set a default unless we know what block it is - so we'll wait
-                    $b_maxlength        = ( isset($block['maxlength']) && !empty($block['maxlength']) ) ? $block['maxlength']
-                                                                                                        : 255;
-                    $b_cols             = ( isset($block['cols']) && !empty($block['cols']) )           ? $block['cols']
-                                                                                                        : 30;
-                    $b_rows             = ( isset($block['rows']) && !empty($block['rows']) )           ? $block['rows']
-                                                                                                        : 3;
-                    $b_form_attr        = ( isset($block['form_attr']) && !empty($block['form_attr']) ) ? $block['form_attr']
-                                                                                                        : "";
-                    $b_label_attr       = ( isset($block['label_attr']) && !empty($block['label_attr']) ) ? $block['label_attr']
-                                                                                                        : "";
-                    $b_wrap_attr        = ( isset($block['wrap_attr']) && !empty($block['wrap_attr']) ) ? $block['wrap_attr']
-                                                                                                        : ""; // not used yet
-                    $b_wrap_as          = ( isset($block['wrap_as']) && !empty($block['wrap_as']) )     ? $block['wrap_as']
-                                                                                                        : "subsection";
-                }
 
-                // Start new dl if next block is NOT a section AND the PREVIOUS WAS a 'section' AND the next block is a known block type
-                if ( !in_array( $b_type, self::get_blocks_of_type_section() ) && $b_type_previous && in_array( $b_type_previous, self::get_blocks_of_type_section() ) && in_array( $b_type, self::get_blocks_of_type_all() ) )
-                    $output .= '<dl>';
+                    $element = self::select($b_id, $options, $size, $multi, $b_form_attr);
 
-                switch ( $b_type ) {
+                    // Output Block
+                    if ( FALSE !== $b_wrap_as )
+                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr, $dt_inner_wrap, $dd_inner_wrap);
+                    else
+                        $output .= $element;
 
-                    case 'text':
+                break;
 
-                        // set size
-                        $size = ( !empty( $b_size ) )   ? $b_size
-                                                        : 23;
+                case 'select_wp_categories':
 
-                        // Create form element
-                        $element = self::input_text($b_id, $b_value, $size, $b_maxlength, $b_form_attr);
+                    // Set the current name/id and selected
+                    $args =  array(
+                        "name"      => $b_id,
+                        "selected"  => $b_value
+                    );
 
-                        // Output Block
-                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr);
+                    // Merge in their args if they exist
+                    if ( isset($block['args']) && !empty($block['args']) ) {
+                        $args = array_merge( $args, $block['args'] );
+                    }
 
-                        /* Cleanup */
-                        $b_type_previous = 'text';
+                    // Create form element
+                    $element = self::select_wp_categories( $args );
 
-                    break; // END text input block
+                    // Output Block
+                    if ( FALSE !== $b_wrap_as )
+                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr, $dt_inner_wrap, $dd_inner_wrap);
+                    else
+                        $output .= $element;
 
-                    case 'textarea':
+                break;
 
-                        // Create form element
-                        $element = self::textarea($b_id, $b_value, $b_cols, $b_rows, $b_form_attr);
+                case 'select_wp_pages':
 
-                        // Output Block
-                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr);
+                    // Set the current name/id and selected
+                    $args =  array(
+                        "name"      => $b_id,
+                        "selected"  => $b_value
+                    );
 
-                        /* Cleanup */
-                        $b_type_previous = 'textarea';
+                    // Merge in their args if they exist
+                    if ( isset($block['args']) && !empty($block['args']) ) {
+                        $args = wp_parse_args( $block['args'], $args );
+                    }
 
-                    break;
+                    // Create form element
+                    $element = self::select_wp_pages( $args );
 
-                    case 'select':
+                    // Output Block
+                    if ( FALSE !== $b_wrap_as )
+                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr, $dt_inner_wrap, $dd_inner_wrap);
+                    else
+                        $output .= $element;
 
-                        // Is it a multiple select?
-                        if ( isset($block['multi']) && $block['multi'] ) // Yup, so now prep the element
-                            $multi = TRUE;
+                break;
+
+                case 'radio':
+
+                    // Create form element
+                    // Works the same as select options
+                    // Loop over the radio options
+                    $options = ""; // empty options string to build
+                    foreach ($block['options'] as $key=>$keyvalue) {
+
+                        // Figure out what to select
+                        if ( !isset($b_value) && !empty($b_value_default) && $keyvalue == $b_value_default  ) // If a default was sent and this value does NOT exist (!isset($b_value))
+                            $select_this = $b_value_default;
                         else
-                            $multi = FALSE;
+                            $select_this = $b_value;
 
-                        // set size
-                        if ( isset($b_size) && !empty( $b_size ) )
-                            $size = $b_size; // Use yours
-                        else if ( $multi )
-                            $size = "5";
-                        else
-                            $size = "1";
+                        // Create and save option form element
+                        $options .= self::input_radio($b_id, $key, $keyvalue, $select_this, $b_form_attr, $b_label_attr);
 
-                        // Create form element
-                        // Loop over the select options
-                        $options = ""; // empty options string to build
-                        foreach ($block['options'] as $key => $keyvalue) {
+                    }
 
-                            // Figure out what to select
-                            if ( !isset($b_value) && !empty($b_value_default) && $keyvalue == $b_value_default  ) // If a default was sent and this value does NOT exist (!isset($b_value))
-                                $select_this = $b_value_default;
-                            else if (is_array( $b_value) && in_array($keyvalue, $b_value ) ) // If selected values stored as array it's multi so check the array and just the keyvalue if it matches
-                                $select_this = $keyvalue;
-                            else
-                                $select_this = $b_value;
+                    // Output Block
+                    if ( FALSE !== $b_wrap_as )
+                        $output .= self::block_form_element_radio_group($b_name, $options, $b_desc, $b_wrap_attr, $dt_inner_wrap, $dd_inner_wrap);
+                    else
+                        $output .= $options;
 
-                            // Create and save option form element
-                            $options .= self::option($keyvalue, $select_this, $keyvalue, $b_form_attr);
+                break;
 
-                        }
+                case 'checkbox':
 
-                        $element = self::select($b_id, $options, $size, $multi, $b_form_attr);
+                     // Create form element
+                    $element = self::input_checkbox($b_id, $b_value, $b_form_attr);
 
-                        // Output Block
-                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr);
+                    // Output Block
+                    if ( FALSE !== $b_wrap_as )
+                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr, $dt_inner_wrap, $dd_inner_wrap);
+                    else
+                        $output .= $element;
 
-                        // Cleanup
-                        $b_type_previous = 'select';
+                break;
 
-                    break;
+                case 'section':
 
-                    case 'select_wp_categories':
+                    // Should we close previous opened fieldset/div/etc... wrapper containers?
+                    $output .= self::block_might_close_section( $do_close_section, $b_type_previous, $section_close_template );
 
-                        // Set the current name/id and selected
-                        $args =  array(
-                            "name"      => $b_id,
-                            "selected"  => $b_value
-                        );
-
-                        // Merge in their args if they exist
-                        if ( isset($block['args']) && !empty($block['args']) ) {
-                            $args = array_merge( $args, $block['args'] );
-                        }
-
-                        // Create form element
-                        $element = self::select_wp_categories( $args );
-
-                        // Output Block
-                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr);
-
-                        // Cleanup
-                        $b_type_previous = 'select_wp_categories';
-
-                    break;
-
-                    case 'select_wp_pages':
-
-                        // Set the current name/id and selected
-                        $args =  array(
-                            "name"      => $b_id,
-                            "selected"  => $b_value
-                        );
-
-                        // Merge in their args if they exist
-                        if ( isset($block['args']) && !empty($block['args']) ) {
-                            $args = wp_parse_args( $block['args'], $args );
-                        }
-
-                        // Create form element
-                        $element = self::select_wp_pages( $args );
-
-                        // Output Block
-                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr);
-
-                        // Cleanup
-                        $b_type_previous = 'select_wp_pages';
-
-                    break;
-
-                    case 'radio':
-
-                        // Create form element
-                        // Works the same as select options
-                        // Loop over the radio options
-                        $options = ""; // empty options string to build
-                        foreach ($block['options'] as $key=>$keyvalue) {
-
-                            // Figure out what to select
-                            if ( !isset($b_value) && !empty($b_value_default) && $keyvalue == $b_value_default  ) // If a default was sent and this value does NOT exist (!isset($b_value))
-                                $select_this = $b_value_default;
-                            else
-                                $select_this = $b_value;
-
-                            // Create and save option form element
-                            $options .= self::input_radio($b_id, $key, $keyvalue, $select_this, $b_form_attr, $b_label_attr);
-
-                        }
-
-                        // Output Block
-                        $output .= self::block_form_element_radio_group($b_name, $options, $b_desc, $b_wrap_attr);
-
-                        // Cleanup
-                        $b_type_previous = 'radio';
-
-                    break;
-
-                    case 'checkbox':
-
-                         // Create form element
-                        $element = self::input_checkbox($b_id, $b_value, $b_form_attr);
-
-                        // Output Block
-                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr);
-
-                        // Cleanup
-                        $b_type_previous = 'checkbox';
-
-                    break;
-
-                    case 'section':
-
-                        // Should we close previous opened fieldset/div/etc... wrapper containers?
-                        $output .= self::block_might_close_section( $do_close_section, $b_type_previous, $section_close_template );
-
-                        // Output the block
-                        $section_open_formatted = self::simpleTemplateFilter( array('{section_name}'=> $b_name ), $section_open_template);
-                        $output .= $section_open_formatted;
-                            $output .= $b_desc;
-                            // We MIGHT close this section later on - so yeah don't include closing tags in the open_template close here
-
-                        // Cleanup
-                        $do_close_section = TRUE;
-                        $b_type_previous = 'section';
-
-                    break;
-
-                    case 'subsection':
-
-                        // Output the block
-                        $output .= self::block_might_close_dl( $b_type_previous ); // Should we close dl?
-                        $subsection_open_formatted = self::simpleTemplateFilter( array('{section_name}'=>$b_name ), $subsection_open_template);
-                        $output .= $subsection_open_formatted;
+                    // Output the block
+                    $section_open_formatted = self::simpleTemplateFilter( array('{section_name}'=> $b_name ), $section_open_template);
+                    $output .= $section_open_formatted;
                         $output .= $b_desc;
-                        $output .= $subsection_close_template;
+                        // We MIGHT close this section later on - so yeah don't include closing tags in the open_template close here
 
-                        // Cleanup
-                        $b_type_previous = 'subsection';
+                    // Cleanup
+                    $do_close_section = TRUE;
 
-                    break;
+                break;
 
-                    default:
-                        // Custom block type - tell us to wrap it as another existing block type to close containing elements properly
-                        // Section type is not allowed
-                        if ( 'section' == $b_wrap_as )
-                            $b_wrap_as = 'subsection';
+                case 'subsection':
 
-                        // Output the block
-                        $output .= self::block_might_close_dl( $b_type_previous ); // Should we close dl?
-                        $output .= $b_desc; // Just dump it - they know what they are doing
+                    // Output the block
+                    $output .= self::block_might_close_dl( $b_type_previous ); // Should we close dl?
+                    $subsection_open_formatted = self::simpleTemplateFilter( array('{section_name}'=>$b_name ), $subsection_open_template);
+                    $output .= $subsection_open_formatted;
+                    $output .= $b_desc;
+                    $output .= $subsection_close_template;
 
-                        $output .= $b_wrap_as;
-                        // Cleanup
-                        $b_type_previous = $b_wrap_as;
-                    break;
+                break;
 
-                } // End block switch
-            } // End inner foreach
-        //} // End outer foreach
+                default:
+                    // Custom block type - tell us to wrap it as another existing block type to close containing elements properly
+                    // Section type is not allowed
+                    if ( 'section' == $b_wrap_as )
+                        $b_wrap_as = 'subsection';
+
+                    // Output the block
+                    $output .= self::block_might_close_dl( $b_type_previous ); // Should we close dl?
+                    $output .= $b_desc; // Just dump it - they know what they are doing
+
+                break;
+
+            } // End block switch
+
+            // Cleanup
+            $b_type_previous = $b_wrap_as;
+
+        } // End inner foreach
 
         /* Close section if one was started */
          if ( $do_close_section ) {

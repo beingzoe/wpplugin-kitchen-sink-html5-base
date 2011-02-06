@@ -560,6 +560,135 @@ if ( class_exists('KST') ) {
     $my_theme->options->addGroup($twentyeleven_options);
     $my_theme->options->addGroup($twentyeleven_options2);
 
+    /*
+    $settings = array(
+            'property'          => 'pickle',
+            'capability'        => 'edit_posts', // defaults to 'edit_posts'
+            'template'          => 'auto',
+            'settings'          => array(
+                    // Any WPAlchemy_MetaBox settings; except 'template' if content source is 'auto' (template will be overwritten with a 'view' callback)
+                    'id' => '_kst_test_metabox',
+                    'title' => 'Just a test metabox',
+                    'template' => KST_DIR_TEMPLATES . '/meta_boxes/kst_test.php',
+                    'context' => 'normal',
+                    'priority' => 'high',
+                ),
+            'options'           => array(
+                    // Any type of block used in KST_Options and/or ZUI_WpAdminPages/ZUI_FormHelper
+                    'testpicklebox' => array(
+                            'name'      => 'Name of Pickle',
+                            'desc'      => 'Why would you name a pickle?',
+                            'default'   => 'Sam',
+                            'type'      => 'text'
+                        )
+                )
+        );
+
+    $settings2 = array(
+            'property'          => 'pickle2',
+            //'capability'        => 'edit_posts', // defaults to 'edit_posts'
+            'template'          => 'auto',
+            'settings'          => array(
+                    // Any WPAlchemy_MetaBox settings; except 'template' if content source is 'auto' (template will be overwritten with a 'view' callback)
+                    'id' => '_kst_test_metabox2',
+                    'title' => 'Number 2',
+                    'template' => KST_DIR_TEMPLATES . '/metabox/kst_test.php',
+                    'context' => 'normal',
+                    'priority' => 'low',
+                ),
+            'options'           => array(
+                    // Any type of block used in KST_Options and/or ZUI_WpAdminPages/ZUI_FormHelper
+                    'testpicklebox2' => array(
+                            'name'      => 'Name of Pickle',
+                            'desc'      => 'Why would you name a pickle?',
+                            'default'   => 'Sam',
+                            'type'      => 'text'
+                        )
+                )
+        );
+        */
+    $settings3 = array(
+            // Any WPAlchemy_MetaBox settings; except 'template' if content source is 'auto' (template will be overwritten with a 'view' callback)
+            'id' => '_kst_test_metabox2',
+            'title' => 'Number 3',
+            'template' => KST_DIR_TEMPLATES . '/metabox/kst_test.php',
+            'context' => 'normal',
+            'priority' => 'low',
+            'template'          => 'auto',
+            // Extra settings required by KST if 'template' == 'auto'
+            'options'           => array(
+                // Any type of block used in KST_Options and/or ZUI_WpAdminPages/ZUI_FormHelper
+                'testpicklebox2' => array(
+                        'name'      => 'Name of Pickle',
+                        'desc'      => 'Why would you name a pickle?',
+                        'default'   => 'Sam',
+                        'type'      => 'text'
+                    )
+                )
+        );
+    $settings4 = array(
+            // Any WPAlchemy_MetaBox settings; except 'template' if content source is 'auto' (template will be overwritten with a 'view' callback)
+            'id' => '_kst_test_metabox3',
+            'title' => 'Number 4',
+            'template' => KST_DIR_TEMPLATES . '/metabox/kst_test.php',
+            'context' => 'normal',
+            'priority' => 'low',
+            'template'          => 'auto',
+            'exclude_category'  => 'antiquarianism',
+            // Extra settings required by KST if 'template' == 'auto'
+            'options'           => array(
+                // Any type of block used in KST_Options and/or ZUI_WpAdminPages/ZUI_FormHelper
+                'testpicklebox3' => array(
+                        'name'      => 'Last Name',
+                        'desc'      => '',
+                        'type'      => 'text',
+                        'have_fields_length' => 3
+                    ),
+                'sectionmultifields' => array(
+                        'name'      => 'Add multiple links to this post',
+                        'desc'      => '',
+                        'type'      => 'subsection'
+                    ),
+                'groupopen' => array(
+                        'name'      => 'Links',
+                        'desc'      => 'Enter a complete url e.g http://example.org/',
+                        'type'      => 'group_open',
+                        'wrap_as'   => 'subsection',
+                    ),
+                'testmultihavefields' => array(
+                        'name'      => 'URL',
+                        'desc'      => 'ignored',
+                        'type'      => 'text'
+                    ),
+                 'FLOOP' => array(
+                        'name'      => 'URL',
+                        'desc'      => 'ignored',
+                        'type'      => 'text'
+                    ),
+                'testmultihavefields_selectcategories' => array(
+                        'name'      => 'URL',
+                        'desc'      => 'ignored',
+                        'type'      => 'select_wp_categories'
+                    ),
+                'group_close' => array(
+                        'name'      => '',
+                        'desc'      => '',
+                        'type'      => 'group_close',
+                        'wrap_as'   => 'subsection'
+                    ),
+                'random_text_field' => array(
+                        'name'      => 'Text to use somewhere',
+                        'desc'      => 'Just some random text',
+                        'type'      => 'text'
+                    )
+                )
+        );
+
+    $my_theme->load('metabox');
+    //$my_theme->metabox->add($settings);
+    //$my_theme->metabox->add($settings2);
+    //$my_theme->metabox->add($settings3);
+    $my_theme->metabox->add($settings4);
 
 } else {
     // Needs to check if it is in the admin section OR in the login page (login is not in the admin)

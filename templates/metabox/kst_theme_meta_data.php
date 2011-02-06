@@ -17,7 +17,7 @@
      * @global object $kst_mb_meta_data
      */
     global $kst_mb_meta_data;
-    $kst_mb_meta_data->the_meta(); //get meta data for post
+    $mb->the_meta(); //get meta data for post
 ?>
 <div class="kst_meta_box">
     <p>
@@ -36,16 +36,55 @@
                 <span><em>If empty defaults to entry title</em></span>
             </td>
         </tr>
-        <?php $mb->the_field('meta_page_keywords'); ?>
-        <tr valign="top">
-            <th scope="row">
-                <label for="<?php $mb->the_name(); ?>">Meta Keywords</label>
-            </th>
-            <td>
-                <input type="text" name="<?php $mb->the_name(); ?>" id="<?php $mb->the_name(); ?>" size="50" value="<?php $mb->the_value(); ?>"/>
-                <span><em> If empty defaults to GLOBAL KEYWORDS</em></span>
-            </td>
-        </tr>
+
+
+            <?php $mb->the_field('meta_page_keywords'); ?>
+            <tr valign="top">
+                <th scope="row">
+                    <label for="<?php $mb->the_name(); ?>">Meta Keywords</label>
+                </th>
+                <td>
+                    <input type="text" name="<?php $mb->the_name(); ?>" id="<?php $mb->the_name(); ?>" size="50" value="<?php $mb->the_value(); ?>"/>
+                    <span><em> If empty defaults to GLOBAL KEYWORDS</em></span>
+                    <a href="#" class="dodelete button">Remove</a>
+                </td>
+            </tr>
+
+             <tr valign="top">
+                <th scope="row">
+                    <label for="<?php $mb->the_name(); ?>">Meta 3 Keywords</label>
+                </th>
+                <td>
+                <?php while($metabox->have_fields('meta_page_keywords3', 3)): ?>
+                    <input type="text" name="<?php $mb->the_name(); ?>" id="<?php $mb->the_name(); ?>" size="50" value="<?php $mb->the_value(); ?>"/>
+                    <span><em> If empty defaults to GLOBAL KEYWORDS</em></span>
+                    <a href="#" class="dodelete button">Remove</a>
+                    <?php endwhile; ?>
+                </td>
+            </tr>
+
+            <tr valign="top">
+                <th scope="row">
+                    <label for="<?php $mb->the_name(); ?>">Those multi Keywords</label>
+                </th>
+                <td>
+                <?php while($metabox->have_fields_and_multi('thosekeywords')): ?>
+                <?php $mb->the_group_open(); ?>
+                    <?php $mb->the_field('somefield1'); ?>
+                    <input type="text" name="<?php $mb->the_name(); ?>" id="<?php $mb->the_name(); ?>" size="50" value="<?php $mb->the_value(); ?>"/>
+                    <span><em> If empty defaults to GLOBAL KEYWORDS</em></span>
+
+                    <?php $mb->the_field('somefield2'); ?>
+                    <input type="text" name="<?php $mb->the_name(); ?>" id="<?php $mb->the_name(); ?>" size="50" value="<?php $mb->the_value(); ?>"/>
+                    <span><em> Bonus field</em></span>
+                    <a href="#" class="dodelete button">Remove</a>
+                    <?php $mb->the_group_close(); ?>
+                    <?php endwhile; ?>
+                    <p style="margin-bottom:15px; padding-top:5px;"><a href="#" class="docopy-thosekeywords button">Add Document</a></p>
+                </td>
+            </tr>
+
+
 
         <tr valign="top">
             <th scope="row">
