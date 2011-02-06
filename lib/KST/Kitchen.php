@@ -27,6 +27,7 @@ class KST_Kitchen {
     protected $developer;
     protected $developer_url;
     protected $_local_appliances;
+    protected static $_all_kitchen_settings_array;
     /**#@-*/
 
 
@@ -69,7 +70,9 @@ class KST_Kitchen {
         $this->_setDeveloper( $options['developer'] );
         $this->_setDeveloper_url( $options['developer_url'] );
         $this->namespace = "kst_" . $this->prefix . "_";
+        self::$_all_kitchen_settings_array[] = $options; // save this for developers page and?
         $this->_local_appliances = array();
+
     }
 
 
@@ -147,7 +150,7 @@ class KST_Kitchen {
             $property = $shortname;
         }
         $this_kitchen = &$this; // Store kitchen object for new appliance objects
-        $args[] = $this_kitchen; // Add it to the $args array
+        array_unshift($args, $this_kitchen); // Add kitchen object to beginning of $args array
 
         // Find the known appliance to load
         if ( array_key_exists($shortname, self::$_appliances) ) {
@@ -376,6 +379,10 @@ class KST_Kitchen {
     */
     protected function _setDeveloper_url($value) {
         $this->developer_url = $value;
+    }
+
+    public static function getAllKitchenSettingsArrays() {
+        return self::$_all_kitchen_settings_array;
     }
 
 }
