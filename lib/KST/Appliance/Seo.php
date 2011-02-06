@@ -287,7 +287,7 @@ class KST_Appliance_Seo extends KST_Appliance {
 
         // Instantiate WPAlchemy_MetaBox class  - Replaces get_post_meta()
 
-        $seo_metabox = array(
+        $appliance_metabox = array(
             'id' => '_kst_wp_meta_data',
             'title' => 'SEO &amp; Meta Data',
             'template'  => 'auto',
@@ -330,7 +330,7 @@ class KST_Appliance_Seo extends KST_Appliance {
         );
 
         $this->_appliance->load('metabox');
-        $this->_appliance->metabox->add($seo_metabox);
+        $this->_appliance->metabox->add($appliance_metabox);
 
         // Set blog owner meta title segment separator if it exists
         $this->_meta_title_sep = $this->_appliance->options->get( 'meta_title_sep' );
@@ -725,4 +725,3 @@ class KST_Appliance_Seo extends KST_Appliance {
     }
 
 }
-
