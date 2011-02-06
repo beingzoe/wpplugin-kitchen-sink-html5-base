@@ -62,12 +62,14 @@ class KST_Widget_NavPosts extends KST_Widget {
 
             if ( get_next_posts_link() ) {
                 echo '<div class="previous" title="Browse older posts">';
-                    next_posts_link( "$next" ); /* older */
+                    echo "<a href='" . get_next_posts_page_link() . "' title='Browse OLDER posts' class='awesome'>{$next}</a>";
+                    //next_posts_link( "$next" ); /* older */
                 echo '</div>';
             }
             if ( get_previous_posts_link() ) {
                 echo '<div class="next" title="Browse newer posts">';
-                    previous_posts_link( "$previous" ); /* newer */
+                    echo "<a href='" . get_previous_posts_page_link() . "' title='Browse NEWER posts' class='awesome'>{$previous}" . "</a>";
+                    //previous_posts_link( "$previous" ); /* newer */
                 echo '</div>';
             }
             echo $after_widget;

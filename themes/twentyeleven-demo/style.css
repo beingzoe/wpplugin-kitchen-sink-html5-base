@@ -212,6 +212,39 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     .no-boxshadow textarea:invalid { background-color: #f0dddd; }
     button {  width: auto; overflow: visible; }
 
+    /* Experiment Awesome button */
+
+    .awesome, .awesome:visited {
+        position: relative;
+        display: inline-block;
+        padding: 5px 5px 6px;
+        background: #222 url(../../assets/images/buttons/awesome-overlay.png) repeat-x;
+        color: #fff;
+        border: 0 none;
+        border-bottom: 1px solid rgba(0,0,0,0.25);
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        line-height: 1;
+        -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        text-shadow: 0 -1px 1px rgba(0,0,0,0.25);
+        cursor: pointer;
+
+        font-family: Helvetica, Arial, sans-serif;
+        font-weight: normal;
+        font-size: 14px;
+        line-height: 18px;
+
+    }
+    .awesome:hover { background-color: #111; color: #fff; }
+	.awesome:active { top: 1px; }
+
+	/* Awesome exceptions */
+	.ie6 input.awesome { background-image: none; }
+    .ie6 input.awesome, .ie7 input.awesome { padding: 1px 2px;  }
+
     /* Other: text selection */
     ::-moz-selection{ background: #FF5E99; color:#fff; text-shadow: none; }
     ::selection { background:#FF5E99; color:#fff; text-shadow: none; }
@@ -786,7 +819,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
  * Begin widgetized sidebar
  */
 .wp_sidebar { /* sidebar class for WP styling irrespective of page layout markup */ }
-.sb_widget { /* widget_container */
+.widget { /* widget_container */
     clear: both;
     margin-bottom: 2em;
     list-style: none;
@@ -835,33 +868,39 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         height: 38px;
         font-size: 14px;
         line-height: 18px;
+        margin: 0;
     }
     .widget_theme_nav_post .next {
-        background: transparent url('_assets/images/buttons/sprite.next.png') 0 0 no-repeat;
+        /*background: transparent url('_assets/images/buttons/sprite.next.png') 0 0 no-repeat;*/
     }
     .widget_theme_nav_posts .next {
-        background: transparent url('_assets/images/buttons/sprite.newer.png') 0 0 no-repeat;
+        /*background: transparent url('_assets/images/buttons/sprite.newer.png') 0 0 no-repeat;*/
     }
     .widget_theme_nav_post .next:hover,
     .widget_theme_nav_posts .next:hover {
-        background-position: 0 -39px;
+        /*background-position: 0 -39px;*/
     }
     .widget_theme_nav_post .previous {
-        background: transparent url('_assets/images/buttons/sprite.previous.png') 0 0 no-repeat;
+        /*background: transparent url('_assets/images/buttons/sprite.previous.png') 0 0 no-repeat;*/
     }
     .widget_theme_nav_posts .previous {
-        background: transparent url('_assets/images/buttons/sprite.older.png') 0 0 no-repeat;
+        /*background: transparent url('_assets/images/buttons/sprite.older.png') 0 0 no-repeat;*/
     }
     .widget_theme_nav_post .previous:hover,
     .widget_theme_nav_posts .previous:hover {
-        background-position: 0 -39px;
+        /*background-position: 0 -39px;*/
     }
     .widget_theme_nav_post .previous a, .widget_theme_nav_post .next a,
     .widget_theme_nav_posts .previous a, .widget_theme_nav_posts .next a {
         display: block;
+        /*
         width: 100%;
         height: 100%;
-        padding: 5px;
+        */
+        width: 65px;
+        /*padding: 5px;*/
+        color: #fff;
+        text-align: center;
     }
 
 /*

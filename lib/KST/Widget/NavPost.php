@@ -66,13 +66,13 @@ class KST_Widget_NavPost extends KST_Widget {
                         <?php if ( get_previous_post() ) { ?>
                             <div class="previous">
                                 <?php /*previous_post_link( '%link', "$previous" );*/ ?>
-                                <?php echo "<a href='" . get_permalink( get_previous_post()->ID ) . "' title='" . get_previous_post()->post_title . "'>{$previous}" . "</a>"; ?>
+                                <?php echo "<a href='" . get_permalink( get_previous_post()->ID ) . "' title='" . get_previous_post()->post_title . "' class='awesome'>{$previous}" . "</a>"; ?>
                             </div>
                         <?php } ?>
                         <?php if ( get_next_post() ) { ?>
                             <div class="next">
                                 <?php /*next_post_link( '%link', "$next" );*/ ?>
-                                <?php echo "<a href='" . get_permalink( get_next_post()->ID ) . "' title='" . get_next_post()->post_title . "'>{$next}" . "</a>"; ?>
+                                <?php echo "<a href='" . get_permalink( get_next_post()->ID ) . "' title='" . get_next_post()->post_title . "' class='awesome'>{$next}" . "</a>"; ?>
                             </div>
                         <?php } ?>
               <?php echo $after_widget; ?>

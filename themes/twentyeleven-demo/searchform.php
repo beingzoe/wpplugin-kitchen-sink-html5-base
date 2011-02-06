@@ -18,6 +18,6 @@
 	<div>
         <!--<label for="search" class="screen-reader-text">Search</label>-->
         <input type="text" name="s" value="" size="15" />
-        <input type="submit" value="search" class="input_image_button sprite_button_search" />
+        <input type="submit" value="Search" class="awesome" />
 	</div>
 </form>
