@@ -11,7 +11,8 @@
  * @package     KitchenSinkHTML5Base
  * @subpackage  Core
  * @author      zoe somebody
- * @link        http://beingzoe.com/
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
+ * @link        https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki/Docs_appliance_core_options
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @uses        KST_Kitchen
  * @todo        is_shut and show/hide sections isn't working i.e. implement $do_collapse_section has to do with the new simple templating
