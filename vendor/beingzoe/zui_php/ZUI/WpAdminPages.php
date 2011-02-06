@@ -247,7 +247,7 @@ class ZUI_WpAdminPages {
         }
 
         // OUTPUT the actual pages
-        echo "<div class='wrap kst_options'>"; //Standard WP Admin content class plus our class to style with
+        echo "<div class='wrap kst kst_options'>"; //Standard WP Admin content class plus our class to style with
             echo "<h2>" . $this->_page_data_array['page_title'] . "</h2>";
             // If you can't manage your options then you can't have any menus - speed things up a bit
             if ( !current_user_can($this->_page_data_array['capability']) )  {
