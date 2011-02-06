@@ -79,10 +79,12 @@ add_action( 'admin_print_styles', 'kstLoadAdminLoginCss' ); // Load custom admin
 if ( !function_exists('kstEditAdminFavoriteActionsQuickLinks') ) {
     function kstEditAdminFavoriteActionsQuickLinks( $actions ) {
         //unset($actions['edit-comments.php']); // Example removing comments quick link
-        $actions["admin.php?page=theme_help"] = array('Theme Help', 'edit_posts'); // Add
+        $actions[KST::getHelpIndex()] = array('Theme Help', 'edit_posts'); // Add
+
         return $actions;
     }
 }
+
 
 /**
  * ADMIN: Remove meta boxes
@@ -169,8 +171,8 @@ if ( !function_exists('kstEditAdminDashboardWidgets') ) {
 */
 if ( !function_exists('kst_admin_dashboard_theme_support') ) {
     function kstAddAdminDashboardForThemeSupport() {
-        echo "<p>Be sure to configure your theme SEO and options in <a href='" . "#" . "'>NOT YET: Appearance &gt; Theme Options</a><br />Learn more about using WordPress and your custom theme in <a href='" . "theme_help" . "'>Appearance &gt; Theme Help</a></p>";
-        echo "<p>Need more help?<br />Contact the developer, <a href='" . "#" . "'>" . "NEED THEME DEVELOPER NAME INSTANCE" . "</a>.";
+        echo "<p>Be sure to configure your various theme and plugin options. Learn more about using WordPress and get the most out of your theme/plugins in <a href='" . KST::getHelpIndex() . "'>Theme Help</a></p>";
+        echo "<p>Need more help?<br /><a href='" . KST::getDeveloperIndex() . "'>Contact the developers</a>.";
     }
 }
 
