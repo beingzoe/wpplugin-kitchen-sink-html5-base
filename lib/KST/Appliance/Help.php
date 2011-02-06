@@ -245,6 +245,17 @@ class KST_Appliance_Help extends KST_Appliance {
             new ZUI_WpAdminPages($help_page); // We now have 'Theme Help' top level section
         }
 
+        // Then add the developer page
+        $help_page = array(
+                    'parent_slug'           => 'kst_theme_help_section',
+                    'page_title'            => "Developers",
+                    'menu_title'            => "Developers",
+                    'menu_slug'             => 'kst_theme_help_developers',
+                    'capability'            => 'edit_posts',
+                    'view_page_callback'    => array('KST_Appliance_Help','view')
+                );
+        new ZUI_WpAdminPages($help_page); // We now have 'Theme Help' top level section
+
         // And we'll move them around after we are done
         // If blog owner allows and we haven't already added this hook
         if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Help::moveHelpMenu') ) {
@@ -269,7 +280,7 @@ class KST_Appliance_Help extends KST_Appliance {
 
         $current = $_REQUEST['page'];
 
-        if ( 'kst_theme_help_section' == $current ) {
+        if ( $current == 'kst_theme_help_section' ) {
 
             $output = "";
             $output .= <<<EOD
@@ -291,6 +302,44 @@ class KST_Appliance_Help extends KST_Appliance {
             </p>
 EOD;
             $output .= self::makeToc();
+
+            echo $output;
+
+        } else if ( $current == 'kst_theme_help_developers' ) {
+
+            $output = "";
+            $output .= <<<EOD
+            <p>
+                In the near future this page will list all the developers who brought you your theme and many plugin features.
+            </p>
+            <p>
+                The following people and organizations developed your theme and many of the plugins in your WordPress install.
+                If you have questions or problems with your theme or a plugin don't hesitate to contact the developers through
+                their websites below.
+            </p>
+            <p>
+                In the future this page will also contain notes from the developers to other new developers who may one day need to
+                work on your site. But that is coming soon.
+            </p>
+EOD;
+
+            /*
+            $all = KST_Kitchen::getAllKitchenSettingsArrays();
+            $merged = array();
+
+            echo "<pre>";
+            print_r($all);
+            echo "</pre><br /><br /><br />";
+
+            foreach ( $all as $kitchen_settings ) {
+                $flipped_settings = array_flip($kitchen_settings);
+                $merged = array_merge($merged, $flipped_settings);
+            }
+
+            echo "<pre>";
+            print_r($merged);
+            echo "</pre><br /><br /><br />";
+            */
 
             echo $output;
 
