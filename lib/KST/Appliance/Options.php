@@ -123,9 +123,9 @@ class KST_Appliance_Options extends KST_Appliance {
      * @uses        add_action() WP function
      * @param       required array $options see documentation for details
      * @return      string The namespaced menu slug
-     * @todo        Could this be sped up by saving already added-addGroups as an option (i.e. save self::$_extant_options and check against that first? how would we update it?)
+     * @todo        Could this be sped up by saving already added-add()s as an option (i.e. save self::$_extant_options and check against that first? how would we update it?)
     */
-    public function addGroup($options) {
+    public function add($options) {
 
 
         $blocks_of_type_form = ZUI_FormHelper::get_blocks_of_type_form();
