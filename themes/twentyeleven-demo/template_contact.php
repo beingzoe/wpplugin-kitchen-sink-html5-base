@@ -91,6 +91,7 @@ add_shortcode('contact_form', 'kst_shortcode_contact_form');
 
         <div class="wp_entry">
             <?php
+                // h1 is generally handled in the Page content (unlike posts)
                 the_content($post->ID);
                 edit_post_link( __( 'Edit', 'twentyten' ), '<span class="wp_entry_meta wp_entry_meta_edit">', '</span>' );
             ?>

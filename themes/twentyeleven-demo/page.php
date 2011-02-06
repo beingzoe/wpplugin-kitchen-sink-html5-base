@@ -24,7 +24,10 @@ get_header();
             <?php /* the_title(); not used for most cms style installs for SEO control */ ?>
 
             <div class="wp_entry clearfix">
-                <?php the_content(); ?>
+                <?php
+                    // h1 is generally handled in the Page content (unlike posts
+                    the_content();
+                ?>
             </div><!-- .wp_entry -->
 
             <?php
