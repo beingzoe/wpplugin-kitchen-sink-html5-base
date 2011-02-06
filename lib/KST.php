@@ -23,15 +23,64 @@ class KST {
      * Hook set in init.php
      *
      * @since       0.1
-     * @access      private
+     * @access      protected
      * @see         KST::pluginsAreLoaded()
     */
     protected static $_plugins_are_loaded = false;
+
+    /**
+     * Various central urls mostly Help/support
+     * Stored centrally in KST in case it needs to change because of Kitchen settings
+     *
+     * @since       0.1
+     * @access      protected
+     * @see         KST::getHelpIndex()
+    */
+    protected static $_help_index = 'admin.php?page=kst_theme_help_section';
+    protected static $_help_developers = 'admin.php?page=kst_theme_help_developers';
 
 
     /**
      * PUBLIC STATIC HELPER METHODS
     */
+
+
+    /**
+     * Get the current help file index
+     *
+     * @since       0.1
+     * @access      public
+     * @uses        KST::$_help_index
+    */
+    public static function getDeveloperIndex() {
+        return self::$_help_developers;
+    }
+
+
+    /**
+     * Get the current help file index
+     *
+     * @since       0.1
+     * @access      public
+     * @uses        KST::$_help_index
+    */
+    public static function getHelpIndex() {
+        return self::$_help_index;
+    }
+
+
+    /**
+     * Set the current help file index
+     *
+     * @since       0.1
+     * @access      public
+     * @uses        KST::$_help_index
+     * @param       required string $path_to_file
+    */
+    public static function setHelpIndex($path_to_file) {
+        self::$_help_index = $path_to_file;
+    }
+
 
     /**
      * Set is_plugins_loaded via WP hook callback
