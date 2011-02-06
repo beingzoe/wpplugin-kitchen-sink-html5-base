@@ -65,7 +65,7 @@ class KST_Appliance {
         // Add options
         if ( NULL !== $appliance_options) {
             $this->_appliance->load('options');
-            $this->_appliance->options->addGroup($appliance_options);
+            $this->_appliance->options->add($appliance_options);
         }
 
         // Add help
