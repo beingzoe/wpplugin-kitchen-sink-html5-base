@@ -179,19 +179,27 @@ class KST_Kitchen {
         switch ($preset) {
             case 'minimum':
                 $this->load('wp_sensible_defaults');
-                $this->load('helpold');
-                //$this->load('help');
+                $this->load('help');
             break;
             case 'and_the_kitchen_sink':
                 foreach (self::$_appliances as $key => $value) {
                     $this->load($key);
                 }
             break;
+            case 'default_plus':
+                $this->load('wp_sensible_defaults');
+                $this->load('wp_sensible_defaults_admin');
+                $this->load('help');
+                $this->load('seo');
+                $this->load('wordpress');
+                $this->load('contact');
+                $this->load('widget_nav_post');
+                $this->load('widget_nav_posts');
+            break;
             default:
                 $this->load('wp_sensible_defaults');
                 $this->load('wp_sensible_defaults_admin');
-                $this->load('helpold');
-                //$this->load('help');
+                $this->load('help');
                 $this->load('seo');
                 $this->load('wordpress');
                 $this->load('contact');

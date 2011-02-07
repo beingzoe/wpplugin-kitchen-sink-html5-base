@@ -8,10 +8,12 @@ If you are going to specifically tackle anything on this list, just
 fork the project, send me a message through github letting me know,
 and send me a pull request when you are done.
 
+## High priority (v.0.1)
+-------------------------------------------------------
 
-## Misc ##
+### Misc
 
-* create new send mail class
+* create new send mail / Contact class
 
 * Theme support
   * Need to output a clean "directory" list of all developers
@@ -35,11 +37,9 @@ and send me a pull request when you are done.
 
 * update README.md and README.txt proper
 
-* add boilerplate .htaccess to package somehow (documentation?)
 
-
---
-Lower priority
+## Lower priority 0.1.1 > 0.2
+-------------------------------------------------------
 
 * cycle and scrollable both have so much bullshit still
 

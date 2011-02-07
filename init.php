@@ -116,11 +116,11 @@ $kst_bundled_appliances = array(
             'class_name'            => FALSE
         ),
     */
-    'widgetNavPost' => array(
+    'widget_nav_post' => array(
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPost.php',
             'class_name'            => FALSE
         ),
-    'widgetNavPosts' => array(
+    'widget_nav_posts' => array(
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPosts.php',
             'class_name'            => FALSE
         ),
