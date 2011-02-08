@@ -32,7 +32,7 @@
  * Load Fancybox via wphead();
  */
 wp_enqueue_style('fancybox', get_stylesheet_directory_uri() . '/_assets/stylesheets/fancybox.css');
-wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancybox-1.3.4.js' , array('jquery','application') , '1.3.4', true);
+wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancybox-1.3.4.pack.js' , array('jquery','application') , '1.3.4', true);
 
 /**
  * Force gallery thumbnails to link to the fullsize image
