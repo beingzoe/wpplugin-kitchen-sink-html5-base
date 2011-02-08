@@ -20,21 +20,6 @@
  * Likely to be included in future WP core (version 3.2 ???)
  *
  * @since       0.1
- * @uses        is_admin() WP function
-*/
-if ( is_admin() ) {
-    //require_once KST_DIR . '/help/features.php';
-    require_once KST_DIR . '/help/wordpress.php';
-    require_once KST_DIR . '/help/marketing.php';
-}
-
-
-
-/**
- * Companion classes to encapsulate access to admin menu global arrays $menu and $submenu
- * Likely to be included in future WP core (version 3.2 ???)
- *
- * @since       0.1
  * @see         WP_AdminMenuSection
  * @see         WP_AdminMenuItem
  * @uses        AdminMenu.php
@@ -463,3 +448,15 @@ EOD;
 
 }
 
+
+/**
+ * Core Help files to load if anybody load the 'help' appliance
+ *
+ * @since       0.1
+ * @uses        is_admin() WP function
+*/
+if ( is_admin() ) {
+    //require_once KST_DIR . '/help/features.php';
+    require_once KST_DIR . '/help/wordpress.php';
+    require_once KST_DIR . '/help/marketing.php';
+}
