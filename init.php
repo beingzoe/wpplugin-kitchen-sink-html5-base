@@ -94,9 +94,9 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults.php',
             'class_name'            => FALSE
         ),
-    'wp_sensible_defaults_admin'    => array(
-                'path'              => KST_DIR_LIB . '/functions/wp_sensible_defaults_admin.php',
-                'class_name'        => FALSE
+    'wp_sensible_defaults_admin' => array(
+            'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults_admin.php',
+            'class_name'            => FALSE
         ),
     'seo' => array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Seo.php',
@@ -110,12 +110,10 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/MetaBox.php',
             'class_name'            => 'KST_Appliance_MetaBox'
         ),
-    /*
-    'contact' => array(
-            'path'                  => KST_DIR_LIB . '/functions/contact.php',
-            'class_name'            => FALSE
+    'forms' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Forms.php',
+            'class_name'            => 'KST_Appliance_Forms'
         ),
-    */
     'widget_nav_post' => array(
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPost.php',
             'class_name'            => FALSE
@@ -148,7 +146,7 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/functions/jquery/cycle.php',
             'class_name'            => FALSE
         ),
-    'jqueryToolsScrollable'         => array(
+    'jqueryToolsScrollable' => array(
             'path'                  => KST_DIR_LIB . '/functions/jquery/scrollables.php',
             'class_name'            => FALSE
         ),
@@ -180,7 +178,7 @@ $kst_core_settings = array(
 */
 
 // Instantiate the core as it's own 'kitchen'
-$kst_core = new KST_Kitchen_Plugin($kst_core_settings);
+$kst_core = new KST_Kitchen_Core($kst_core_settings);
 
 // Register bundled appliances
 $kst_core->registerAppliances($kst_bundled_appliances);

@@ -479,6 +479,9 @@ class ZUI_FormHelper {
      * Simple Templating for our sections and what not
      *
      * @since       0.1
+     * @param       required array $args
+     * @param       required string $template
+     * @return      string template with values replaced
     */
     protected static function simpleTemplateFilter($args, $template) {
         $defaults = array(
