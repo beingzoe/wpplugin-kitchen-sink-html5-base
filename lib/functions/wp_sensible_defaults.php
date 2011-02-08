@@ -123,6 +123,29 @@ if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
  * @see     wp_sensible_defaults_common.php for shared functions
 */
 
+
+
+/**
+ * kstWpNavMenuFallbackCb
+ * Make a compatible default menu for wp_nav_menu() with consistent selectors
+ * Javascript that creates comment form at reply link
+ *
+ * @since       0.1
+ * @uses        wp_list_pages() WP function
+*/
+if ( !function_exists('kstWpNavMenuFallbackCb') ) {
+    function kstWpNavMenuFallbackCb(){
+        // Just a simple pages menu - no home - site/blog owner should make their menus
+        $list_args['echo'] = false;
+        $list_args['title_li'] = '';
+        $menu = str_replace( array( "\r", "\n", "\t" ), '', wp_list_pages($list_args) );
+        $menu = str_replace("page_item", "menu-item", $menu ); // to match the wp_nav_menu for styling
+        $menu = '<ul class="menu">' . $menu . '</ul>';
+        echo $menu;
+    }
+}
+
+
 /**
  * kstLoadWpThreadedCommentReplyJs
  * Load built-in WP comment-reply javascript

@@ -52,14 +52,15 @@
         }
 
         /* Output masthead menu e.g. container => false*/
-        echo "<nav class='clearfix' rel='navigation'>"; //manually creating container for ARIA landmark roles
+        echo "<nav id='hd_menu' class='clearfix' rel='navigation'>"; //manually creating container for ARIA landmark roles
         wp_nav_menu( array(
                     'theme_location'    => 'hd_menu',
                     'container'         => false,
                     'container_class'   => false,
-                    'menu_id'           => 'hd_menu',
+                    'menu_id'           => 'hd_menu_list',
                     'sort_column'       => 'menu_order',
-                    'depth'             => '3'
+                    'depth'             => '3',
+                    'fallback_cb'     => 'kstWpNavMenuFallbackCb'
                     ) );
         echo "</nav>";
         ?>

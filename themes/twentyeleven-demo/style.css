@@ -359,13 +359,13 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
             border-bottom: 1px solid #000;
             border-top: 4px solid #000;
         }
-        #hd nav {
+        #hd_menu { /* nav */
             margin: -4px 0 0; /* WTF? */
             padding: 0;
             background: #000 none;
         }
-            /* CSS drop down header nav - optimized to use WP classes instead of ul li */
-            #hd_menu {
+            /* CSS drop down header nav - tried to optimize to use WP classes instead of ul li but for compatibility with wp default functions not entirely*/
+            #hd_menu ul {
                 margin: 0 0 0 12px;
                 padding: 0;
             }
@@ -404,7 +404,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
                     padding: 0;
                     background: #333;
                 }
-                #hd_menu ul .menu-item {
+                #hd_menu .sub-menu .menu-item {
                     position: relative;
                     float: none;
                     margin: 0;
@@ -436,19 +436,19 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
                 }
 
         /* ft layout */
-        #ft nav, #ft_widgets .widget {
+        #ft_menu, #ft_widgets .widget {
             float: left;
             width: 150px;
             min-height: 100px;
             margin: 0 20px 0 0;
             font-size: 0.85em;
         }
-        #ft nav {
+        #ft_menu {
             float: left;
         }
-        #ft_menu { padding-left: 0; }
+        #ft_menu .menu { padding-left: 0; }
         #ft_menu .menu-item {
-            margin-right: 10px;
+            /*margin-right: 10px;*/
         }
         #ft_widgets .widget {
             width: 200px;
@@ -820,7 +820,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
  */
 .wp_sidebar { /* sidebar class for WP styling irrespective of page layout markup */ }
 .widget { /* widget_container */
-    clear: both;
+    /*clear: both;*/
     margin-bottom: 2em;
     list-style: none;
 }
