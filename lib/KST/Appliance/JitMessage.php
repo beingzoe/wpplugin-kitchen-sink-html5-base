@@ -4,15 +4,15 @@
  * using WordPress custom field for activation and content
  *
  * @author		zoe somebody
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
- * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
+ * @link        https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki/Docs_appliance_plugins_marketing_jit_message
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  Plugins:Marketing
  * @version     0.1
  * @since       0.1
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
- * @todo        turn the javascript into jQuery plugin
+ * @todo        turn the javascript into jQuery plugin for non-WP usage
  *
  *
  * Does nothing if not on a single post/page and custom field "jit_message" does not exist
@@ -51,7 +51,7 @@ class KST_Appliance_JitMessage extends KST_Appliance {
      * @since       0.1
      * @param       required object $kitchen
     */
-    public function __construct(&$kitchen, $args = array()) {
+    public function __construct(&$kitchen) {
 
         // Add Help
         $appliance_help = array (
