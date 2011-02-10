@@ -191,10 +191,13 @@ class KST_Kitchen {
                 $this->load('wp_sensible_defaults_admin');
                 $this->load('help');
                 $this->load('seo');
+                $this->load('forms');
                 $this->load('wordpress');
-                $this->load('contact');
+                $this->load('metabox');
                 $this->load('widget_nav_post');
                 $this->load('widget_nav_posts');
+                $this->load('widget_jit_sidebar');
+                $this->load('jit_message');
             break;
             default:
                 $this->load('wp_sensible_defaults');
@@ -202,7 +205,8 @@ class KST_Kitchen {
                 $this->load('help');
                 $this->load('seo');
                 $this->load('wordpress');
-                $this->load('contact');
+                $this->load('forms');
+                $this->load('lightbox');
             break;
         }
     }

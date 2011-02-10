@@ -51,7 +51,7 @@ $form_array = array(
         'text_template'             => $text_template,
         'html_template'             => 'This would be the email html template to parse',
         'tags_values'                => array(
-                'pickle' => 'Is Green'
+                'Sale Announcment' => '<p class="big_sale_email_announcement">Everyone on the mailing list recieves 50% off</p>'
             ) // Array of custom tags to use in templates with their corresponding value
 
     );

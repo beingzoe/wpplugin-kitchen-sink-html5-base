@@ -82,14 +82,6 @@ require_once KST_DIR_LIB . '/KST/Appliance.php';
  * @see         KST::$_appliances;
 */
 $kst_bundled_appliances = array(
-    'options' => array(
-            'path'                  => KST_DIR_LIB . '/KST/Appliance/Options.php',
-            'class_name'            => 'KST_Appliance_Options'
-        ),
-    'help' => array(
-            'path'                  => KST_DIR_LIB . '/KST/Appliance/Help.php',
-            'class_name'            => 'KST_Appliance_Help'
-        ),
     'wp_sensible_defaults' => array(
             'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults.php',
             'class_name'            => FALSE
@@ -98,21 +90,29 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults_admin.php',
             'class_name'            => FALSE
         ),
+    'help' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Help.php',
+            'class_name'            => 'KST_Appliance_Help'
+        ),
     'seo' => array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Seo.php',
             'class_name'            => 'KST_Appliance_Seo'
         ),
-    'wordpress' => array(
-            'path'                  => KST_DIR_LIB . '/KST/Wordpress.php',
-            'class_name'            => 'KST_Wordpress'
+    'forms' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Forms.php',
+            'class_name'            => 'KST_Appliance_Forms'
+        ),
+    'options' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Options.php',
+            'class_name'            => 'KST_Appliance_Options'
         ),
     'metabox' => array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/MetaBox.php',
             'class_name'            => 'KST_Appliance_MetaBox'
         ),
-    'forms' => array(
-            'path'                  => KST_DIR_LIB . '/KST/Appliance/Forms.php',
-            'class_name'            => 'KST_Appliance_Forms'
+    'wordpress' => array(
+            'path'                  => KST_DIR_LIB . '/KST/Wordpress.php',
+            'class_name'            => 'KST_Wordpress'
         ),
     'widget_nav_post' => array(
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPost.php',
@@ -122,7 +122,7 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPosts.php',
             'class_name'            => FALSE
         ),
-    'widgetJitSidebar' => array(
+    'widget_jit_sidebar' => array(
             'path'                  => KST_DIR_LIB . '/KST/Widget/JitSidebar.php',
             'class_name'            => FALSE
         ),
@@ -130,11 +130,11 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Asides.php',
             'class_name'            => 'KST_Appliance_Asides'
         ),
-    'jqueryLightbox' => array(
+    'lightbox' => array(
             'path'                  => KST_DIR_LIB . '/functions/jquery/lightbox.php',
             'class_name'            => FALSE
         ),
-    'mp3Player' => array(
+    'mp3player' => array(
             'path'                  => KST_DIR_LIB . '/functions/mp3_player.php',
             'class_name'            => FALSE
         ),
@@ -142,11 +142,11 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/JitMessage.php',
             'class_name'            => 'KST_Appliance_JitMessage',
         ),
-    'jqueryCycle' => array(
+    'slideshow_cycle' => array(
             'path'                  => KST_DIR_LIB . '/functions/jquery/cycle.php',
             'class_name'            => FALSE
         ),
-    'jqueryToolsScrollable' => array(
+    'slideshow_tools_scrollable' => array(
             'path'                  => KST_DIR_LIB . '/functions/jquery/scrollables.php',
             'class_name'            => FALSE
         ),

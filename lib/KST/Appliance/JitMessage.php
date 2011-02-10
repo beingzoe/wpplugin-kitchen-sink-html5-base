@@ -251,7 +251,7 @@ class KST_Appliance_JitMessage extends KST_Appliance {
             </div>
 EOD;
             } else {
-                echo " no image found?<br />";
+
             }//end if has_post_thumbnail
             $output_jit_box_info =
             <<<EOD

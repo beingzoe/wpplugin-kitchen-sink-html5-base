@@ -774,6 +774,10 @@ class ZUI_FormHelper {
                     if ( 'section' == $b_wrap_as )
                         $b_wrap_as = 'subsection';
 
+                    // New wants to close the the dl if custom is the first block
+                    if ( 'NEW' == $b_type_previous )
+                        $b_type_previous = FALSE;
+
                     // Output the block
                     $output .= self::block_might_close_dl( $b_type_previous ); // Should we close dl?
                     $output .= $b_desc; // Just dump it - they know what they are doing
