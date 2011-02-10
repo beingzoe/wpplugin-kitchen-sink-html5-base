@@ -107,10 +107,19 @@
                         // If we have a form element next in our group
                         if ( in_array($form_array_temp['options'][$group_field_key]['type'],$blocks_of_type_form)) {
 
-                            // Get the data from WPAlchemy_MetaBox once
+
                             $serialized_name_key = $mb->get_the_name($group_field_key);
                             $serialized_value = $mb->get_the_value($group_field_key);
+//echo "serialized value = $serialized_value <br />";
+/*
+Something went wrong on first "real" use involving "Fatal Error: Cannot use string offset as an array - line 1586 MetaBox.php for the get_the_value()"
+                            if ( $mb->is_value($group_field_key) ) {
+                                // Get the data from WPAlchemy_MetaBox once
 
+                            } else {
+                                $serialized_value = "";
+                            }
+*/
                             // Transfer the current array element to our serialized name key element
                             $group_form_array['options'][$serialized_name_key] = $form_array_temp['options'][$group_field_key];
                             $group_form_array['options'][$serialized_name_key]['wrap_as'] = FALSE; // This tells the ZUI_FormHelper we just want raw form fields
@@ -120,6 +129,10 @@
                                 $group_form_array['options'][$serialized_name_key]['value'] = $serialized_value;
 
 
+                        } else {
+                            $group_form_array['options'][$group_field_key] = $form_array_temp['options'][$group_field_key];
+                            $group_form_array['options'][$group_field_key]['type'] = 'custom';
+                            $group_form_array['options'][$group_field_key]['wrap_as'] = FALSE;
                         } // not a form element must be ignored - sorry if you didn't know that ;)
 
                         // Manually step through the $form_array['options'] until we find the end of our group
@@ -191,7 +204,7 @@
     } // End form_array loop
 ?>
 
-<div class="kst kst_meta_box clearfix">
+<div class="kst kst_metabox clearfix">
     <?php echo ZUI_FormHelper::makeForm($form_array); ?>
     <div style="clear: both;"></div>
 </div>
