@@ -14,7 +14,7 @@
 ?>
 <section id="sb" class="wp_sidebar widgets clearfix" role="complementary">
 <?php
-if ( is_home() )
+if ( is_front_page() )
     $GLOBALS["my_theme"]->wordpress->dynamicSidebar('Home Sidebar');
 else if ( is_page()  )
     $GLOBALS["my_theme"]->wordpress->dynamicSidebar('Pages Sidebar');
