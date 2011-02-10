@@ -138,6 +138,7 @@ if ( !function_exists('kstWpNavMenuFallbackCb') ) {
         // Just a simple pages menu - no home - site/blog owner should make their menus
         $list_args['echo'] = false;
         $list_args['title_li'] = '';
+        $list_args['depth'] = 1;
         $menu = str_replace( array( "\r", "\n", "\t" ), '', wp_list_pages($list_args) );
         $menu = str_replace("page_item", "menu-item", $menu ); // to match the wp_nav_menu for styling
         $menu = '<ul class="menu">' . $menu . '</ul>';
