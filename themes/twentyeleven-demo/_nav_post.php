@@ -34,8 +34,10 @@
                     $exclude = $next_post->ID . "," . $previous_post->ID;
                 else if ( $next_post )
                     $exclude = $next_post->ID;
-                else
+                else if ( $previous_post )
                     $exclude = $previous_post->ID;
+                else
+                    $exclude = NULL;
 
                 global $post, $id;
 
