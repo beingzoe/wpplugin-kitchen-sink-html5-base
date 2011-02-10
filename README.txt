@@ -6,16 +6,18 @@ Requires at least: 3.0
 Tested up to: 3.0.1
 Stable tag: 0.1
 
-Theme Framework Plugin/Library of optimized sementic HTML5 awesomeness
-and a sensible starting point for developing WordPress themes (and possibly other plugins)
+Development base of optimized sementic HTML5 awesomeness and a sensible starting
+point for developing WordPress themes/plugins like a parent theme framework.
 
 
 
 == Description ==
 
-WordPress Theme Framework Plugin/Library of optimized semantic HTML5 awesomeness
-(via HTML5 Boilerplate) and a sensible starting point for rapidly developing
-higher quality WordPress themes and plugins
+WordPress Theme and Plugin development base to use as a sensible starting point
+for developing WordPress themes (and possibly other plugins) including semantic
+HTML5 awesomeness via HTML5 Boilerplate. Various classes and methods for rapidly
+implementing admin pages, options, metaboxes, and all that stuff you put
+in every functions.php or plugin file you've ever made. ;)
 
 See the Kitchen Sink HTML5 Base wiki at github for details
 https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki

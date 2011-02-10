@@ -1,8 +1,10 @@
 # Kitchen Sink HTML5 Base #
 
-WordPress Theme Framework Plugin/Library of optimized semantic HTML5 awesomeness
-(via HTML5 Boilerplate) and a sensible starting point for rapidly developing
-higher quality WordPress themes and plugins
+WordPress Theme and Plugin development base to use as a sensible starting point
+for developing WordPress themes (and possibly other plugins) including semantic
+HTML5 awesomeness via HTML5 Boilerplate. Various classes and methods for rapidly
+implementing admin pages, options, metaboxes, and all that stuff you put
+in every functions.php or plugin file you've ever made. ;)
 
 
 ## Description ##
@@ -15,9 +17,6 @@ Download, clone, or fork at https://github.com/organizations/kitchen-sink
 
 
 ## Installation ##
-
-Woah this stuff is way out of date and useless already, but no time to update.
-
 
 1) Download, install, and activate the "Kitchen Sink HTML5 Base" plugin
 
@@ -32,14 +31,18 @@ $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
 
 2) Invoke the plugin, include the parts you want/need, make your theme
 
-2b) require_once the location of the plugin then do step 2
+//2b) require_once the location of the plugin then do step 2
+//    The current implementation makes this impossible but will be reimplemented
 
-See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage reference and checklist
+See http://beingzoe.com/zui/wordpress/kitchen_sink/ for complete usage reference and checklist
+(Well actually that just sends you back here mostly ;)
 
 # Optionally #
 
 Download, install, and activate one of the "Kitchen Sink HTML5 Base" starter themes
 to have all the awesomeness you need really actually ready-to-go
+
+COMING SOON!!!
 
 * kitchen-sink-html5-base-starter       ( Sensible defaults only )
 
