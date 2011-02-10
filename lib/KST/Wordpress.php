@@ -191,7 +191,9 @@ class KST_Wordpress extends KST_Kitchen_Theme {
 
         $i = 1;
         while ( $i <= $how_many ) {
-            dynamic_sidebar( $id . $i );
+            echo "<section class='ft_widget'>";
+                dynamic_sidebar( $id . $i );
+            echo "</section>";
             $i++;
         }
     }
