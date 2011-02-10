@@ -120,7 +120,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     table {  margin-top: 17px; /* consider borders */ margin-bottom: 0; }
     th, td {  padding: 8px 9px 9px; /* consider borders */ }
     caption { /* stupid exception */ padding: 9px; font-size: 10px; /* 10px */ line-height: 18px; /* 18px */ }
-    p:first-child, h1:first-child, h2:first-child, dt:first-child { margin-top: 0; }
+    p:first-child, h1:first-child, h2:first-child { margin-top: 0; }
 
 /**
  * GRID
