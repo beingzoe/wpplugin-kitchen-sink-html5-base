@@ -18,8 +18,8 @@ get_header();
 
 <section id="bd" class="clearfix" role="main">
     <section id="page-other" class="page error404 not-found">
-    <h1>WOOPS! We can\'t find that page!</h1>';
-    <p>Try searching or check the menu!</p>;
+    <h1>WOOPS! We can't find that page!</h1>
+    <p>Try searching or check the menu!</p>
     <?php get_search_form(); ?>
     </section><!-- #page-other -->
 </section><!-- close #bd -->
