@@ -1208,9 +1208,41 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     /**
      * Lightbox (fancybox) plugin
      *
-     * Only loaded as needed
+     * Only relevant styles are included here for appearance
+     * Drop shadow pngs and all functional css is in KST
      * /_assets/stylesheets/fancybox.css
-     */
+    */
+
+    #fancybox-loading div {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 40px;
+        height: 480px;
+        background-image: url('../../../../plugins/kitchen-sink-html5-base/assets/images/layouts/fancybox/fancybox.png');
+    }
+    #fancybox-close {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        width: 30px;
+        height: 30px;
+        background: transparent url('../../../../plugins/kitchen-sink-html5-base/assets/images/layouts/fancybox/fancybox.png') -40px 0px;
+        cursor: pointer;
+        z-index: 1103;
+        display: none;
+    }
+    #fancybox-left-ico {
+        background-image: url('../../../../plugins/kitchen-sink-html5-base/assets/images/layouts/fancybox/fancybox.png');
+        background-position: -40px -30px;
+    }
+
+    #fancybox-right-ico {
+        background-image: url('../../../../plugins/kitchen-sink-html5-base/assets/images/layouts/fancybox/fancybox.png');
+        background-position: -40px -60px;
+    }
+    /**/
+
 
     /**
      * JIT (just-in-time) message box
