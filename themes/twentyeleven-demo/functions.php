@@ -98,9 +98,10 @@ if ( class_exists('KST') ) {
     // Jit Message Settings
     $jit_message_settings = array( //array(&$this, 'callbackInit')
                 'content_source'    => 'posts', // posts|or_valid_callback; use 'or_valid_callback' where you will use separate logic to determine message and the site/blog owner can't choose per post/page/custom
-                'trigger'           => '.wp_entry_footer',
+                'trigger'           => '.wp_entry', // .wp_entry - .wp_entry_footer, #ft
                 'wrapper'           => '#jit_box',
                 'side'              => 'right',
+                'top_or_bottom'     => 'bottom',
                 'speed_in'          => 300,
                 'speed_out'         => 100
             );

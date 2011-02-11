@@ -109,6 +109,7 @@ class KST_Appliance_JitMessage extends KST_Appliance {
                 'trigger'           => '.wp_entry_footer', // ANY valid css selector found in your WP templates; defaults to '.wp_entry_footer'
                 'wrapper'           => '#jit_box', // must be an ID selector ONLY formatted #id_value defaults to '#jit_box'
                 'side'              => 'right',
+                'top_or_bottom'     => 'top',
                 'speed_in'          => 300,
                 'speed_out'         => 100
             );
@@ -184,7 +185,7 @@ class KST_Appliance_JitMessage extends KST_Appliance {
             $this->_jit_message = $this->_appliance->metabox->get_the_value('jit_message'); //get custom field via metabox class
 
             // Yay! We have one...
-            if ( FALSE != $this->_jit_message ) {
+            if ( FALSE != $this->_jit_message && !empty($this->_jit_message) ) {
                 // Enqueue js and add a hook to output it
                 //wp_enqueue_style('jit_message', KST_URI_ASSETS . '/stylesheets/jit_message.css'); // opting to have this permanently in demo/starter themes and we'll add a hook maybe for people to decide if they want to include this separate or not
                 wp_enqueue_script('jit_message', KST_URI_ASSETS . '/javascripts/jquery/jquery.kst_jit_message.js' , array('jquery') , '0.1', true);
@@ -265,11 +266,12 @@ EOD;
         }
 
         $jit_message_params = "
-            'trigger'   : '{$this->_args['trigger']}',
-            'wrapper'   : '{$this->_args['wrapper']}',
-            'side'      : '{$this->_args['side']}',
-            'speed_in'  : {$this->_args['speed_in']},
-            'speed_out' : {$this->_args['speed_out']}
+            'trigger'       : '{$this->_args['trigger']}',
+            'wrapper'       : '{$this->_args['wrapper']}',
+            'side'          : '{$this->_args['side']}',
+            'top_or_bottom' : '{$this->_args['top_or_bottom']}',
+            'speed_in'      : {$this->_args['speed_in']},
+            'speed_out'     : {$this->_args['speed_out']}
         ";
 ?>
         <div id="<?php echo str_replace('#', '', $this->_args['wrapper']); ?>" class="<?php echo $jit_box_class; ?>"><?php echo $output_jit_box_image; ?> <?php echo $output_jit_box_info; ?><div class="jit_box_close"><a>Close</a></div></div>

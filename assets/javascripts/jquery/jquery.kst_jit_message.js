@@ -21,11 +21,12 @@ $.fn.jit_message = function(options) {
 
     // Set defaults
     var params = {
-      'trigger'     : '.wp_entry_footer',
-      'wrapper'     : '#jit_box',
-      'side'        : 'right',
-      'speed_in'    : 300,
-      'speed_out'   : 100
+      'trigger'         : '#ft',
+      'wrapper'         : '#jit_box',
+      'side'            : 'right',
+      'top_or_bottom'   : 'top',
+      'speed_in'        : 300,
+      'speed_out'       : 100
     };
 
     return this.each(function() { // Allow chaining
@@ -35,14 +36,18 @@ $.fn.jit_message = function(options) {
             params = $.extend( params, options );
         }
 
-        if ( $(params.wrapper).length ) {
+        if ( $(params.wrapper).length && $(params.trigger).length ) {
 
             $(params.wrapper).addClass(params.side).css({
                 position:   'fixed',
                 display:    'block'
             });
 
-            var trigger_top = $(params.trigger).offset().top - $(window).height();
+            if ( 'bottom' == params.top_or_bottom ) {
+                var trigger_top = $(params.trigger).offset().top - ($(window).height() - $(params.trigger).height()); //
+            } else {
+                var trigger_top = $(params.trigger).offset().top - $(window).height(); //
+            }
             var jit_box_width = $(params.wrapper).outerWidth(true);
             var jit_box_height = $(params.wrapper).outerHeight(true);
 
