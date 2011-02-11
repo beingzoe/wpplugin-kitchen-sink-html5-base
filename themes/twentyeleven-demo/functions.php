@@ -196,7 +196,7 @@ add_custom_background();
 
 /* TwentyEleven: Custom Header */
 define( 'HEADER_TEXTCOLOR', '' );
-define( 'HEADER_IMAGE', '%s/_assets/images/headers/twentyten/path.jpg' ); // The %s is a placeholder for the theme template directory URI.
+define( 'HEADER_IMAGE', '%s/assets/images/headers/twentyten/path.jpg' ); // The %s is a placeholder for the theme template directory URI.
 define( 'HEADER_IMAGE_WIDTH', apply_filters( 'twentyten_header_image_width', 940 ) );
 define( 'HEADER_IMAGE_HEIGHT', apply_filters( 'twentyten_header_image_height', 198 ) );
 define( 'NO_HEADER_TEXT', true );
@@ -204,18 +204,18 @@ add_custom_image_header( 'kst_add_custom_image_header', 'kst_add_custom_image_he
 
 register_default_headers( array(
     'concave' => array(
-        'url' => '%s/_assets/images/headers/twentyten/concave.jpg',
-        'thumbnail_url' => '%s/_assets/images/headers/twentyten/concave-thumbnail.jpg',
+        'url' => '%s/assets/images/headers/twentyten/concave.jpg',
+        'thumbnail_url' => '%s/assets/images/headers/twentyten/concave-thumbnail.jpg',
         'description' => __( 'Concave', 'twentyten' )
     ),
     'forestfloor' => array(
-        'url' => '%s/_assets/images/headers/twentyten/forestfloor.jpg',
-        'thumbnail_url' => '%s/_assets/images/headers/twentyten/forestfloor-thumbnail.jpg',
+        'url' => '%s/assets/images/headers/twentyten/forestfloor.jpg',
+        'thumbnail_url' => '%s/assets/images/headers/twentyten/forestfloor-thumbnail.jpg',
         'description' => __( 'Forest Floor', 'twentyten' )
     ),
     'path' => array(
-        'url' => '%s/_assets/images/headers/twentyten/path.jpg',
-        'thumbnail_url' => '%s/_assets/images/headers/twentyten/path-thumbnail.jpg',
+        'url' => '%s/assets/images/headers/twentyten/path.jpg',
+        'thumbnail_url' => '%s/assets/images/headers/twentyten/path-thumbnail.jpg',
         'description' => __( 'Path', 'twentyten' )
     )
 ) );

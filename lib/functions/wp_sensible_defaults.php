@@ -110,8 +110,8 @@ if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
     }
 
     // Theme-wide Plugins and Application JS (HTML5 BOILERPLATE)
-    wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/_assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true);
-    wp_enqueue_script('application', get_stylesheet_directory_uri() . '/_assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true);
+    wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true);
+    wp_enqueue_script('application', get_stylesheet_directory_uri() . '/assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true);
 }
 
 

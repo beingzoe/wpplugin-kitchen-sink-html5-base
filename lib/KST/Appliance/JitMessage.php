@@ -358,7 +358,7 @@ EOD;
                 <strong>Future feature update:</strong> We will be adding friendlier controls for this down the road with a ton more options and features. For now we apologize for making you dig up post id's like this :)
             </p>
             <p>
-                <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
+                <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from assets/javascript/script.js
             </p>
         <?php
     }

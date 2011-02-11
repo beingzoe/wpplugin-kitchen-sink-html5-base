@@ -102,7 +102,7 @@ function kstHelpApplianceMediaLighbox_fancybox() {
             You may also lightbox content by adding the class ".lightbox" to any anchor.<br />
         </p>
         <p>
-            <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from _assets/javascript/script.js
+            <strong>Developer note:</strong> This is handled via a KST library in the _application directory, invoked in functions.php, and called from assets/javascript/script.js
         </p>
     <?php
 }

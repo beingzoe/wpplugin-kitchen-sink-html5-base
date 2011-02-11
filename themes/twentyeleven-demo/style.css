@@ -268,10 +268,10 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
                         cursor: pointer;
                     }
                     .input_image_button.sprite_button_button {
-                        background: transparent url('_assets/images/buttons/sprite.button.png') 0 0 no-repeat;
+                        background: transparent url('assets/images/buttons/sprite.button.png') 0 0 no-repeat;
                     }
                     .input_image_button.sprite_button_search {
-                        background: transparent url('_assets/images/buttons/sprite.search.png') 0 0 no-repeat;
+                        background: transparent url('assets/images/buttons/sprite.search.png') 0 0 no-repeat;
                     }
                     .input_image_button:hover {
                         background-position: 0 -39px;
@@ -871,20 +871,20 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         margin: 0;
     }
     .widget_theme_nav_post .next {
-        /*background: transparent url('_assets/images/buttons/sprite.next.png') 0 0 no-repeat;*/
+        /*background: transparent url('assets/images/buttons/sprite.next.png') 0 0 no-repeat;*/
     }
     .widget_theme_nav_posts .next {
-        /*background: transparent url('_assets/images/buttons/sprite.newer.png') 0 0 no-repeat;*/
+        /*background: transparent url('assets/images/buttons/sprite.newer.png') 0 0 no-repeat;*/
     }
     .widget_theme_nav_post .next:hover,
     .widget_theme_nav_posts .next:hover {
         /*background-position: 0 -39px;*/
     }
     .widget_theme_nav_post .previous {
-        /*background: transparent url('_assets/images/buttons/sprite.previous.png') 0 0 no-repeat;*/
+        /*background: transparent url('assets/images/buttons/sprite.previous.png') 0 0 no-repeat;*/
     }
     .widget_theme_nav_posts .previous {
-        /*background: transparent url('_assets/images/buttons/sprite.older.png') 0 0 no-repeat;*/
+        /*background: transparent url('assets/images/buttons/sprite.older.png') 0 0 no-repeat;*/
     }
     .widget_theme_nav_post .previous:hover,
     .widget_theme_nav_posts .previous:hover {
@@ -1210,7 +1210,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
      *
      * Only relevant styles are included here for appearance
      * Drop shadow pngs and all functional css is in KST
-     * /_assets/stylesheets/fancybox.css
+     * /assets/stylesheets/fancybox.css
     */
 
     #fancybox-loading div {
@@ -1345,7 +1345,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     /**
      * Scrollables (slideshow) plugin
      *
-     * Sample css: /_assets/stylesheets/sample_scrollables.css
+     * Sample css: /assets/stylesheets/sample_scrollables.css
      */
         .pickle {
             width: 639px;
