@@ -79,6 +79,52 @@ class KST_Appliance_Seo extends KST_Appliance {
     */
     public function __construct(&$kitchen) {
 
+        // Every kitchen needs the basic settings
+        $appliance_settings = array(
+                    'friendly_name'       => 'KST Appliance: Plugin: Marketing: SEO',
+                    'prefix'              => 'kst_seo',
+                    'developer'           => 'zoe somebody',
+                    'developer_url'       => 'http://beingzoe.com/',
+                );
+
+        // Add Help
+        $appliance_help = array (
+                array (
+                    'page' => 'Marketing',
+                    'section' => 'SEO, Meta Data, and Analytics',
+                    'title' => 'SEO',
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoSeo')
+                ),
+                array (
+                    'page' => 'Marketing',
+                    'section' => 'SEO, Meta Data, and Analytics',
+                    'title' => 'Analytics',
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoAnalytics')
+                ),
+                array (
+                    'page' => 'Marketing',
+                    'section' => 'SEO, Meta Data, and Analytics',
+                    'title' => 'Other Meta Data',
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoOtherMetaData')
+                ),
+                array (
+                    'page' => 'Marketing',
+                    'section' => 'Microformats',
+                    'title' => 'Sitewide vCard (Microformat)',
+                    'content_source' => array('KST_Appliance_Seo', 'helpSeoMicroformatVcard')
+                )
+
+            );
+
+        // Declare as core
+        $this->_is_core_appliance = TRUE;
+        // Common appliance
+        parent::_init($kitchen, $appliance_settings, NULL, $appliance_help);
+
+        // Get optional THEME meta title segment separator default
+        // This just sets the options default - we get the option later to actual use
+        $this->_meta_title_sep_default = KST_Kitchen_Theme::getThemeSeoTitleSep();
+
         // Create the seo admin options
         $options_page = '#temp';//THEME_HELP_URL;
         $appliance_options = array(
@@ -144,6 +190,25 @@ class KST_Appliance_Seo extends KST_Appliance {
                         'meta_description_home' => array(
                                             "name"  => __('Home meta description'),
                                             "desc"  => __('Default description for meta name="description" on home page<br />Used if custom field "meta_page_description" is not set on the home/front page if not the blog index and cannot be dynamically created.<br />If blank defaults to "General Meta Description" above.'),
+                                            "default"   => "",
+                                            "type"  => "text",
+                                            "size"  => "80"),
+                        // Meta tag defaults: Blog (if home is not blog index)
+                        'meta_title_blog' => array(
+                                            "name"  => __('Blog page title'),
+                                            "desc"  => __('Title to use on blog indexes (e.g. blog, archives)<br />Always used, but on archives current taxonomy is appended (e.g. Blog Title &laquo; Some tags)<br />If blank defaults to "most recent post title".'),
+                                            "default"   => "",
+                                            "type"  => "text",
+                                            "size"  => "80"),
+                        'meta_keywords_blog' => array(
+                                            "name"  => __('Blog meta keywords'),
+                                            "desc"  => __('Default keywords for meta name="keywords" on blog indexes (e.g. blog, archives)<br />Used if custom field "meta_page_keywords" is not set on the home/front page if not the blog index.<br />If blank defaults to "General Meta Keywords" above.'),
+                                            "default"   => "",
+                                            "type"  => "text",
+                                            "size"  => "80"),
+                        'meta_description_blog' => array(
+                                            "name"  => __('Blog meta description'),
+                                            "desc"  => __('Default description for meta name="description" on blog indexes (e.g. blog, archives)<br />Used if custom field "meta_page_description" is not set on the home/front page if not the blog index and cannot be dynamically created.<br />If blank defaults to "General Meta Description" above.'),
                                             "default"   => "",
                                             "type"  => "text",
                                             "size"  => "80"),
@@ -238,52 +303,8 @@ class KST_Appliance_Seo extends KST_Appliance {
                         )
                 );
 
-
-        // Every kitchen needs the basic settings
-        $appliance_settings = array(
-                    'friendly_name'       => 'KST Appliance: Plugin: Marketing: SEO',
-                    'prefix'              => 'kst_seo',
-                    'developer'           => 'zoe somebody',
-                    'developer_url'       => 'http://beingzoe.com/',
-                );
-
-        // Add Help
-        $appliance_help = array (
-                array (
-                    'page' => 'Marketing',
-                    'section' => 'SEO, Meta Data, and Analytics',
-                    'title' => 'SEO',
-                    'content_source' => array('KST_Appliance_Seo', 'helpSeoSeo')
-                ),
-                array (
-                    'page' => 'Marketing',
-                    'section' => 'SEO, Meta Data, and Analytics',
-                    'title' => 'Analytics',
-                    'content_source' => array('KST_Appliance_Seo', 'helpSeoAnalytics')
-                ),
-                array (
-                    'page' => 'Marketing',
-                    'section' => 'SEO, Meta Data, and Analytics',
-                    'title' => 'Other Meta Data',
-                    'content_source' => array('KST_Appliance_Seo', 'helpSeoOtherMetaData')
-                ),
-                array (
-                    'page' => 'Marketing',
-                    'section' => 'Microformats',
-                    'title' => 'Sitewide vCard (Microformat)',
-                    'content_source' => array('KST_Appliance_Seo', 'helpSeoMicroformatVcard')
-                )
-
-            );
-
-        // Declare as core
-        $this->_is_core_appliance = TRUE;
-        // Common appliance
-        parent::_init($kitchen, $appliance_settings, $appliance_options, $appliance_help);
-
-        // Get optional THEME meta title segment separator default
-        // This just sets the options default - we get the option later to actual use
-        $this->_meta_title_sep_default = KST_Kitchen_Theme::getThemeSeoTitleSep();
+        $this->_appliance->load('options');
+        $this->_appliance->options->add($appliance_options);
 
         // Instantiate WPAlchemy_MetaBox class  - Replaces get_post_meta()
 
@@ -373,6 +394,8 @@ class KST_Appliance_Seo extends KST_Appliance {
 
         if ( $post_custom_field ) { /* Use post_custom_field custom field if exists */
             $content = $post_custom_field;
+        } else if ( is_home() && $this->_appliance->options->get("meta_description_blog") ) { /* home page is set to custom page */
+            $content = $this->_appliance->options->get("meta_description_blog"); // default set in theme options
         } else if ( is_front_page() && $this->_appliance->options->get("meta_description_home") ) { /* home page is set to custom page */
             $content = $this->_appliance->options->get("meta_description_home"); // default set in theme options
         } else if ( is_single() && $this->_appliance->options->get("meta_description_single") ) { /* single article */
@@ -419,6 +442,8 @@ class KST_Appliance_Seo extends KST_Appliance {
                 else if ( $this->_appliance->options->get("meta_keywords_global") ) /* fallback on global */
                     $keywords .= ', ' . $this->_appliance->options->get("meta_keywords_global");
             }
+        } else if ( is_home() && $this->_appliance->options->get("meta_keywords_blog") ) { /* home page is set to custom page */
+            $keywords = $this->_appliance->options->get("meta_keywords_blog"); // default set in theme options
         } else if ( is_front_page() && $this->_appliance->options->get("meta_keywords_home") ) { /* home page is set to custom page */
             $keywords = $this->_appliance->options->get("meta_keywords_home"); // default set in theme options
         } else if ( is_single() && $this->_appliance->options->get("meta_keywords_single") ) { /* single article */
@@ -457,17 +482,18 @@ class KST_Appliance_Seo extends KST_Appliance {
      * if post_meta (custom field) "meta_page_title" DOES NOT exist
      * NOTE: tagline is used for the description zui_meta_description()
      *
-     * @uses get_the_value() from metabox class in place of get_post_meta() get 'meta_page_title' if exists
-     * @uses is_feed()
-     * @uses is_search()
-     * @uses is_home()
-     * @uses is_front_page()
-     * @uses get_search_query()
-     * @uses get_bloginfo()
-     * @param string $title Title generated by wp_title()
-     * @param string $separator The separator passed to wp_title().
-     * @param boolean  $is_single_title_as_wp_title format title for services like addthis
-     * @return string The new title, ready for the <title> tag.
+     * @uses        get_the_value() from metabox class in place of get_post_meta() get 'meta_page_title' if exists
+     * @uses        is_feed()
+     * @uses        is_search()
+     * @uses        is_home()
+     * @uses        is_front_page()
+     * @uses        get_search_query()
+     * @uses        get_bloginfo()
+     * @global      object $post
+     * @param       string $title Title generated by wp_title()
+     * @param       string $separator The separator passed to wp_title().
+     * @param       boolean  $is_single_title_as_wp_title format title for services like addthis
+     * @return      string The new title, ready for the <title> tag.
     */
     public function filterWpTitle( $title, $separator, $is_single_title_as_wp_title = false ) {
 
@@ -490,6 +516,26 @@ class KST_Appliance_Seo extends KST_Appliance {
                 $title .= " $separator " . sprintf( 'Page %s', $paged );
             // Add the site name to the end:
             $title .= " $separator " . get_bloginfo( 'name' );
+            // We're done. Let's send the new title back to wp_title():
+            return $title;
+        }
+
+        if ( is_home() && !$is_single_title_as_wp_title  ) { // is_home = blog index no matter what
+            //
+            global $post;
+
+            $meta_title_blog = $this->_appliance->options->get("meta_title_blog");
+            if ( !empty($meta_title_blog) )
+                $title = $meta_title_blog;
+            else
+                $title = $post->post_title;
+
+            // Add a page number if we're on page 2 or more:
+            if ( $paged >= 2 )
+                $title .= " $separator " . sprintf( 'Page %s', $paged );
+            // Add the site name to the end:
+            if ( $this->_appliance->options->get("meta_title_do_add_blog_name", 1) )
+                $title .= " $separator " . get_bloginfo('name'); // if do_add_blog_name EQ true
             // We're done. Let's send the new title back to wp_title():
             return $title;
         }
