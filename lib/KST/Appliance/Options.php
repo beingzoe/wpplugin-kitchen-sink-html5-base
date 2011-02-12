@@ -276,7 +276,7 @@ class KST_Appliance_Options extends KST_Appliance {
 
         // And we'll move them around after we are done
         // If blog owner allows and we haven't already added this hook
-        if (!has_action( '_admin_menu', 'KST_Appliance_Options::moveKSTMenus') ) {
+        if ( $doKSTMenus && !has_action( '_admin_menu', 'KST_Appliance_Options::moveKSTMenus') ) {
             add_action('admin_menu', array('KST_Appliance_Options', 'moveKSTMenus'), 1000);
         }
 
