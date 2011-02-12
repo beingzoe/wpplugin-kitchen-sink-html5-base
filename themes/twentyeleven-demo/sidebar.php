@@ -7,9 +7,9 @@
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Themes
  * @subpackage  TwentyEleven
- * @version     0.4
+ * @version     0.1
  * @since       0.1
- */
+*/
 
 ?>
 <section id="sb" class="wp_sidebar widgets clearfix" role="complementary">
