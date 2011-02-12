@@ -133,8 +133,9 @@ class KST_Appliance_Help extends KST_Appliance {
 
         foreach ($help_files as $value) {
             $page_slug = self::formatMenuSlug($value['page']);
-            $section_slug = str_replace(" ", "_", strtolower($value['section']) );
-            $title_slug = str_replace(" ", "_", strtolower($value['title']) );
+            $section_slug = self::formatThisAsSlug($value['section']);
+            $title_slug = self::formatThisAsSlug($value['title']); ;
+
 
             $content_source = $value['content_source'];
 
@@ -341,12 +342,13 @@ EOD;
                 //natsort($sections); // Egalitarian
 
                 foreach ($sections as $section => $titles) {
-                    echo "<h2 id='{$path['section_slug']}'>{$section}</h2>";
-
+                    $section_slug = self::formatThisAsSlug($section);
+                    echo "<h2 id='{$section_slug}'>{$section}</h2>";
                     //natcasesort($titles); // Egalitarian
                     //$titles = array_reverse($titles); // Why?
 
                     foreach ($titles as $title => $path) {
+
                         echo "<h3 id='{$path['title_slug']}'>{$title}</h3>";
 
                         if ( 'include' == $path['content_type'] ) { // include file - array_key_exists('path', $path)
@@ -434,6 +436,7 @@ EOD;
         return $output;
     }
 
+
     /**
      * DRY: format the menu slug
      *
@@ -444,6 +447,19 @@ EOD;
     */
     protected static function formatMenuSlug($page_name) {
         return str_replace(" ", "_", strtolower("kst_help_" . $page_name) );
+    }
+
+
+    /**
+     * DRY: format the menu slug
+     *
+     * @since       0.1
+     * @access      protected
+     * @param       required string $page_name
+     * @return      string lowercased_underscored_page_name
+    */
+    protected static function formatThisAsSlug($text) {
+        return str_replace(" ", "_", strtolower( $text ) );
     }
 
 }
