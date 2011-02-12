@@ -42,15 +42,6 @@
         <h2 id="hd_tag"><?php bloginfo('description'); ?></h2>
     </hgroup>
     <?php
-        /* WP custom header image ala TwentyTen */
-        if ( is_singular() && has_post_thumbnail( $post->ID )
-                && ( /* $src, $width, $height */ $image = wp_get_attachment_image_src( get_post_thumbnail_id( $post->ID ), 'post-thumbnail' ) )
-                    && $image[1] >= HEADER_IMAGE_WIDTH ) { // Use Post Thumbnail (not working yet because of my changes to featured image support)
-                    echo get_the_post_thumbnail( $post->ID, 'post-thumbnail' );
-                } else { // Use "Appearance > Background"
-                    echo '<img id="hd_image" src="' . get_header_image() . '" width="' . HEADER_IMAGE_WIDTH . '" height="' . HEADER_IMAGE_HEIGHT . '" alt="" />' . "\n";
-        }
-
         /* Output masthead menu e.g. container => false*/
         echo "<nav id='hd_menu' class='clearfix' rel='navigation'>"; //manually creating container for ARIA landmark roles
         wp_nav_menu( array(
