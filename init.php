@@ -83,72 +83,101 @@ require_once KST_DIR_LIB . '/KST/Appliance.php';
 */
 $kst_bundled_appliances = array(
     'wp_sensible_defaults' => array(
+            'friendly_name'         => 'Theme Sensible defaults',
+            'desc'                  => 'Functions and functionality that make sense for most theme functions.php',
             'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults.php',
-            'class_name'            => FALSE
+            'after_setup_theme'     => TRUE
         ),
     'wp_sensible_defaults_admin' => array(
+            'friendly_name'         => 'Theme Admin Sensible defaults',
+            'desc'                  => 'Functions and functionality to enhance the admin for site/blog owners',
             'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults_admin.php',
-            'class_name'            => FALSE
+            'after_setup_theme'     => TRUE
         ),
     'help' => array(
+            'friendly_name'         => 'Help for KST',
+            'desc'                  => 'Help for using WordPress and especially your KST based themes and plugins',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Help.php',
-            'class_name'            => 'KST_Appliance_Help'
+            'class_name'            => 'KST_Appliance_Help',
+            'can_disable'           => TRUE
         ),
     'seo' => array(
+            'friendly_name'         => 'SEO &amp; Meta',
+            'desc'                  => 'Take control of your SEO and meta data.',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Seo.php',
-            'class_name'            => 'KST_Appliance_Seo'
+            'class_name'            => 'KST_Appliance_Seo',
+            'can_disable'           => TRUE
         ),
     'forms' => array(
+            'friendly_name'         => 'Forms',
+            'desc'                  => 'Methods for creating and processing forms in KST',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Forms.php',
             'class_name'            => 'KST_Appliance_Forms'
         ),
     'options' => array(
+            'friendly_name'         => 'Options',
+            'desc'                  => 'Methods for creating and using custom options groups',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Options.php',
             'class_name'            => 'KST_Appliance_Options'
         ),
     'metabox' => array(
+            'friendly_name'         => 'Custom Field Metaboxes',
+            'desc'                  => 'Methods for creating and using post_meta data with WP metaboxes',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/MetaBox.php',
             'class_name'            => 'KST_Appliance_MetaBox'
         ),
     'wordpress' => array(
+            'friendly_name'         => 'WordPress enhancements',
+            'desc'                  => 'Methods supplementing or replacing default WordPress functions',
             'path'                  => KST_DIR_LIB . '/KST/Wordpress.php',
             'class_name'            => 'KST_Wordpress'
         ),
     'widget_nav_post' => array(
+            'friendly_name'         => 'Widget: KST: Next/Previous buttons',
+            'desc'                  => 'Post to post navigation in the sidebar',
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPost.php',
-            'class_name'            => FALSE
         ),
     'widget_nav_posts' => array(
+            'friendly_name'         => 'Widget: KST: Older/Newer buttons',
+            'desc'                  => 'Page to page navigation in the sidebar',
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPosts.php',
-            'class_name'            => FALSE
         ),
     'widget_jit_sidebar' => array(
+            'friendly_name'         => 'Widget: KST: JIT Sidebar Start',
+            'desc'                  => 'Allows floating some content in sidebar when the page is scrolled (to keep that content in view)',
             'path'                  => KST_DIR_LIB . '/KST/Widget/JitSidebar.php',
-            'class_name'            => FALSE
         ),
     'asides' => array(
+            'friendly_name'         => 'Asides and custom formatting',
+            'desc'                  => 'Methods for "unobtrusively" and dynamically adding "asides" and custom loop/single markup',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Asides.php',
             'class_name'            => 'KST_Appliance_Asides'
         ),
     'lightbox' => array(
+            'friendly_name'         => 'Lightbox (Fancybox)',
+            'desc'                  => 'Lightboxes images automatically when directly linked or in galleries',
             'path'                  => KST_DIR_LIB . '/functions/jquery/lightbox.php',
-            'class_name'            => FALSE
         ),
     'mp3player' => array(
+            'friendly_name'         => 'mp3 player',
+            'desc'                  => 'Automatically creates a media player when an mp3 is directly linked or by shortcode',
             'path'                  => KST_DIR_LIB . '/functions/mp3_player.php',
-            'class_name'            => FALSE
         ),
     'jit_message' => array(
+            'friendly_name'         => 'JIT Message',
+            'desc'                  => 'Slides a call-to-action box out',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/JitMessage.php',
             'class_name'            => 'KST_Appliance_JitMessage',
         ),
     'slideshow_cycle' => array(
+            'friendly_name'         => 'Slideshow: Malsup Cycle',
+            'desc'                  => 'Creates slideshows with shortcodes',
             'path'                  => KST_DIR_LIB . '/functions/jquery/cycle.php',
-            'class_name'            => FALSE
         ),
     'slideshow_tools_scrollable' => array(
+            'friendly_name'         => 'Slideshow: Tools Scrollable',
+            'desc'                  => 'Creates slideshows with shortcodes',
             'path'                  => KST_DIR_LIB . '/functions/jquery/scrollables.php',
-            'class_name'            => FALSE
         ),
 );
 
@@ -156,6 +185,10 @@ $kst_bundled_appliances = array(
 /**
  * Every kitchen needs the basic settings
  * The KST core acts like it's own kitchen
+ *
+ * NOTE: core options are loaded in KST_Kitchen::addLoadedApplianceCoreOptions()
+ *       but this could change in the future if there are other reasons to create
+ *       core options based on the current install
  *
  * @since       0.1
 */
@@ -179,9 +212,6 @@ $kst_core_settings = array(
 
 // Instantiate the core as it's own 'kitchen'
 $kst_core = new KST_Kitchen_Core($kst_core_settings);
-
-// Register bundled appliances
-$kst_core->registerAppliances($kst_bundled_appliances);
 /**#@-*/
 
 
@@ -191,13 +221,11 @@ $kst_core->registerAppliances($kst_bundled_appliances);
  *
  * @since       0.1
  * @uses        KST_Kitchen
+ * @uses        KST_Kitchen::registerAppliances
  * @uses        KST_Appliance_Options
  * @uses        KST_Kitchen::load()
- * @uses        KST_Kitchen::setDisabledAppliances()
- * @uses        KST_Appliance_Options::add()
- * @uses        KST_Appliance_Options::get()
-
 */
+
 $kst_core_options = array(
     'parent_slug'           => 'core', // required;
 
@@ -237,28 +265,14 @@ $kst_core_options = array(
                                         "desc"    => "Defaults to TRUE.<br /><br />Allows KST themes and plugins to reorganize admin menus.<br />Only affects menus created through KST.",
                                         "default"     => TRUE,
                                         "type"    => "checkbox",
-                                        ),
-
-                        'core_disable_these_appliances' => array(
-                                        "name"      => 'Disable appliances',
-                                        "desc"      => "Experimental feature. Use at your own risk!<br />Allow blog owner to shut off certain appliances (i.e they want a separate plugin to handle that functionality).<br />Only class objects can be disabled at this time.<br />",
-                                        "type"      => "section"
-                                        ),
-
-                        'disable_these_appliances' => array(
-                                        "name"      => 'Disable appliances',
-                                        "desc"      => "Comma separated list of appliance 'shortnames' to disable.",
-                                        "type"      => "text",
-                                        "default"   => FALSE
                                         )
                         )
         );
 
-
-// Add the core options/about page
+// Register bundled appliances
+$kst_core->registerAppliances($kst_bundled_appliances);
+// Load the options appliance - actual core options currently loaded in KST_Kitchen::addLoadedApplianceCoreOptions()
 $kst_core->load('options');
-$kst_core->options->add($kst_core_options);
-KST_Kitchen::setDisabledAppliances( $kst_core->options->get('disable_these_appliances') );
 /**#@-*/
 
 

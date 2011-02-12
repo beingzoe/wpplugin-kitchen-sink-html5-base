@@ -91,7 +91,6 @@ class KST_Appliance_Options extends KST_Appliance {
      *              required string page_title Explicit title to use on page
     */
     public function __construct(&$kitchen) {
-
         // Every kitchen needs the basic settings
         $appliance_settings = array(
                     'friendly_name'       => 'KST Appliance: Core: Options',
@@ -125,12 +124,12 @@ class KST_Appliance_Options extends KST_Appliance {
      * @return      string The namespaced menu slug
      * @todo        Could this be sped up by saving already added-add()s as an option (i.e. save self::$_extant_options and check against that first? how would we update it?)
     */
-    public function add($options) {
+    public function add(&$options) {
 
 
         $blocks_of_type_form = ZUI_FormHelper::get_blocks_of_type_form();
 
-        // Set the key to save each group of options under - useed to sort the options later
+        // Set the key to save each group of options under - used to sort the options later
         if ( 'core' == $options['parent_slug'] ) {
             $group_key = 'core';
         } else if ( 'kst' == $options['parent_slug'] && in_array($this->_type_of_kitchen, array('plugin','core')) ) {
@@ -165,12 +164,13 @@ class KST_Appliance_Options extends KST_Appliance {
         // Namespace all the options - everything beyond here is namespaced
         // AND set defaults for extant checking - speed things up later
         foreach ($options['options'] as $key => $block) {
+            //echo "<br />We mucked with $key<br /> ";
             $namespaced_key = $this->_kitchen->prefixWithNamespace( $key ); // store the key to operate with in this loop
             $options['options'][$namespaced_key] = $options['options'][$key]; // copy the key with namespace
             unset($options['options'][$key]); // delete the old key
 
             // Check to see if the option is a form element, if the value exists and set it appropriately
-            if ( in_array($options['options'][$namespaced_key]['type'],$blocks_of_type_form) && $this->_doesOptionExist($namespaced_key) ) { /**/
+            if ( in_array($options['options'][$namespaced_key]['type'],$blocks_of_type_form) && $this->_doesOptionExist($namespaced_key) ) {
                 $options['options'][$namespaced_key]['value'] = get_option($namespaced_key); // Just use WP - it's already namespaced here
             } else if ( in_array($options['options'][$namespaced_key]['type'],$blocks_of_type_form) ) {
                 $options['options'][$namespaced_key]['value'] = NULL; // Must send NULL to tell it the option doesn't exist otherwise empty() just means they chose no option
@@ -184,11 +184,10 @@ class KST_Appliance_Options extends KST_Appliance {
             }
         }
 
-
         // Now we can set the option_group safely - always match the menu_slug
         $options['option_group_name'] = $options['menu_slug'];
 
-        // If they didn't explicity request special formatting
+        // If they didn't explicity request special formatting send our "options" template(s)
         if ( !isset($options['section_open_template']) ) {
             $options['section_open_template'] = '<div class="postbox"><div title="Click to toggle" class="handlediv"><br></div><h3 class="hndle"><span>{section_name}</span></h3><div class="inside">';
             $options['section_close_template'] = '</div><!--End .inside--></div><!--End .postexcerpt-->';
@@ -197,15 +196,15 @@ class KST_Appliance_Options extends KST_Appliance {
         $options['priority'] = 999; // We like to go last-ish
 
         // Save the cleaned up array
-        self::$_option_pages[$group_key][$options['menu_slug']] = $options; //
+        self::$_option_pages[$group_key][$options['menu_slug']] =& $options; // Must be by reference for appliances to add options programatically after Options have been added
 
         if (!is_admin())
             return; // nothing to do
 
         // Add the hook to organize all the submitted pages before we send them to WP
-        //if ( !has_action( '_admin_menu', array('KST_Appliance_Options', 'create')) ) {
+        if ( !has_action( '_admin_menu', array('KST_Appliance_Options', 'create'), 999) ) { //   - Only add this once - does WP check for us when we add?
             add_action('_admin_menu', array('KST_Appliance_Options', 'create'), 999); // important for sequencing
-        //}
+        }
 
         // And return the key?
         return $options['menu_slug'];
@@ -220,7 +219,7 @@ class KST_Appliance_Options extends KST_Appliance {
      * @since       0.1
      * @uses        ZUI_WpAdminPages
     */
-    public static function create() {
+    public function create() {
 
         // Prep
         $doKSTMenus = ( (count(self::$_option_pages['kst_theme'])) || (count(self::$_option_pages['kst_plugin'])) ) ? TRUE
@@ -276,9 +275,9 @@ class KST_Appliance_Options extends KST_Appliance {
 
         // And we'll move them around after we are done
         // If blog owner allows and we haven't already added this hook
-        //if ( $GLOBALS['kst_core']->options->get('do_allow_kst_to_move_admin_menus') && !has_action( '_admin_menu', 'KST_Appliance_Options::moveKSTMenus') ) {
+        if (!has_action( '_admin_menu', 'KST_Appliance_Options::moveKSTMenus') ) {
             add_action('admin_menu', array('KST_Appliance_Options', 'moveKSTMenus'), 1000);
-        //}
+        }
 
     }
 
@@ -329,6 +328,23 @@ class KST_Appliance_Options extends KST_Appliance {
 
 
     /**
+     * Uses public static KST_Appliance_Options::doesOptionExist()
+     * Test for existence of KST theme option REGARDLESS OF TRUENESS of option value
+     * WITHIN THE CURRENT KITCHEN NAMESPACE
+     *
+     * @since       0.1
+     * @param       required string $option
+     * @return      boolean
+    */
+    protected function _doesOptionExist( $option ) {
+        return self::doesOptionExist( $option );
+    }
+
+
+    /**
+     * Public static access to KST_Appliance_Options::_doesOptionExist()
+     * If in KST context REQUIRES an already namespaced option in KST
+     *
      * Test for existence of KST theme option REGARDLESS OF TRUENESS of option value
      *
      * Returns true if option exists REGARDLESS OF TRUENESS of option value
@@ -346,14 +362,13 @@ class KST_Appliance_Options extends KST_Appliance {
      * using WP's get_option() altogether while namespacing everything for people and
      * I think simplifying the entire process of creating and using options.
      *
-     * N.B.: First request is an entire query and obviously a speed hit so use wisely
      *
      * @since       0.1
      * @global      object $wpdb This is wordpress ;)
      * @param       required string $option
      * @return      boolean
     */
-    protected function _doesOptionExist( $option ) {
+    public static function doesOptionExist( $option ) {
         // Check to see if the current key exists
         if ( !array_key_exists($option, self::$_extant_options) ) { // First request so ask WordPress...
 
@@ -380,7 +395,6 @@ class KST_Appliance_Options extends KST_Appliance {
         } else { // Checked ALREADY and DOES exist with a value
             return TRUE;
         }
-
     }
 
 
