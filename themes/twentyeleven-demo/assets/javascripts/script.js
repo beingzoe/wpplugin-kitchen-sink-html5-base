@@ -9,28 +9,6 @@ jQuery.noConflict();//WordPress compatibility best practice
 jQuery(document).ready(function($) { // noconflict wrapper to use shorthand $() for jQuery() inside of this function
 
     /*
-     * kst_jquery_lightbox
-     * using http://fancybox.net/
-     *
-     * #wp a[href$=.jpg]
-     *      select all images in a wp post/page that link to an image
-     *      is there a cleaner way to .png|.jpg|.gif ?
-     * a.lightbox
-     *      manually lightboxed image
-     *
-     * Any lightboxed image with the same "rel" will be grouped in a gallery
-     */
-    if(jQuery().fancybox) {
-        $(" a.lightbox, .wp_entry a[href$=.jpg], .wp_entry a[href$=.png], .wp_entry a[href$=.gif] ")
-            .attr({
-              rel: "galleryize"
-            })
-            .fancybox({
-                titlePosition: 'over'
-            })
-    };
-
-    /*
      * Scrollable
      */
     if(jQuery().scrollable) {
@@ -73,14 +51,4 @@ jQuery(document).ready(function($) { // noconflict wrapper to use shorthand $() 
         });
     }
 
-    /* experiments */
-
-    /* corners
-    $('#hd').corner("bottom 10px");
-    $('#sb, .next_previous, #respond').corner("10px");
-    $('#ft').corner("top 10px");
-    $('.wp_loop_date').corner("left 10px");
-    $('.jit_box_info').corner("left");
-    $('.jit_box_close').corner("bottom 5px");
-    */
 });

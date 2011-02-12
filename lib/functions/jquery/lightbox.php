@@ -30,9 +30,38 @@
 
 /*
  * Load Fancybox via wphead();
- */
+*/
 wp_enqueue_style('fancybox', KST_URI_ASSETS . '/stylesheets/fancybox.min.css');
 wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancybox-1.3.4.pack.js' , array('jquery','application') , '1.3.4', true);
+add_action('wp_footer', 'kst_lightbox_scripts');
+
+
+/**
+ * kst_lightbox_scripts
+ * auto lightbox
+ *
+*/
+if ( !function_exists('kstWpNavMenuFallbackCb') ) {
+    function kst_lightbox_scripts() {
+        //<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_message) { $(this).jit_message({<?php echo $jit_message_params; ?>}); }; });</script>
+?>
+
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                if(jQuery().fancybox) {
+                    $(" a.lightbox, .hentry a[href$=.jpg], .hentry a[href$=.png], .hentry a[href$=.gif] ")
+                        .attr({
+                          rel: "galleryize"
+                        })
+                        .fancybox({
+                            titlePosition: 'over'
+                        })
+                };
+            });
+        </script>
+<?php
+    }
+}
 
 /**
  * Force gallery thumbnails to link to the fullsize image
@@ -42,7 +71,7 @@ wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancy
  * @uses        is_admin() WP Function
  * @uses        get_post() WP Function
  * @uses        wp_get_attachment_url() WP Function
- */
+*/
 function kst_fullsize_attachment_link( $link, $id ) {
     // The lightbox doesn't function inside feeds obviously, so don't modify anything
     if ( is_feed() || is_admin() )
