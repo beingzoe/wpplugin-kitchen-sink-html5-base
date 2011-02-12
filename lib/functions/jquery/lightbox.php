@@ -5,14 +5,14 @@
  * Enqueues fancybox 1.3.4 and fixes [gallery] shortcode output
  *
  * @author		zoe somebody
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  Plugins:Media
  * @version     0.1
  * @since       0.1
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @link        http://fancybox.net/
  * @link        http://www.viper007bond.com/wordpress-plugins/jquery-lightbox-for-native-galleries/ (thank you for making sense of the attachment link)
  * @link        http://wordpress.org/support/topic/295401 (thank you)

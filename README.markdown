@@ -26,7 +26,7 @@ You can also clone the repo on github and include it directly, up to you.
 $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
 
 1b) OR download/clone and include in your theme directly
-http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+http://beingzoe.com/zui/wordpress/kitchen_sink/
 $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
 
 2) Invoke the plugin, include the parts you want/need, make your theme
@@ -61,7 +61,7 @@ as little of the libraries and functionality as you like.
 
 Enjoy and become internet famous
 
-See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage reference and checklist
+See http://beingzoe.com/zui/wordpress/kitchen_sink/ for complete usage reference and checklist
 
 
 
@@ -79,7 +79,7 @@ the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1
 
 Decline to respond.
 
-None. See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage reference and checklist
+None. See http://beingzoe.com/zui/wordpress/kitchen_sink/ for complete usage reference and checklist
 
 
 

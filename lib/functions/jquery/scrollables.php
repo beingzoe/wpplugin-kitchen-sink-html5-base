@@ -3,7 +3,7 @@
  * Scrollable slider box from shortcodes using jquery.tools
  *
  * @author		zoe somebody
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
@@ -16,7 +16,7 @@
  * @todo        figure out a way to only include the css if it is needed
  *
  * jquery.tools.scrollable examples and documentation at: http://flowplayer.org/tools/scrollable/
- * WordPress kst_jquery_scrollables library implementation documentation http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * WordPress kst_jquery_scrollables library implementation documentation http://beingzoe.com/zui/wordpress/kitchen_sink/
  *
  * N.B.: You can only have one scrollable per post/page with the shortcodes
  *       If you need more you will have to place the scrollable code manually

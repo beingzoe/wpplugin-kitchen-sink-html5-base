@@ -3,7 +3,7 @@
  * Scrollable slider box from shortcodes using Cycle
  *
  * @author		zoe somebody
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
@@ -18,7 +18,7 @@
  * cyclables cycle slider box from shortcodes
  *
  * jquery.cycle examples and documentation at: http://jquery.malsup.com/cycle/
- * WordPress kst_jquery_cycle library implementation documentation http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * WordPress kst_jquery_cycle library implementation documentation http://beingzoe.com/zui/wordpress/kitchen_sink/
  *
  * N.B.: You can only have one cyclable per post/page with the shortcodes
  *       If you need more you will have to place the cyclable code manually

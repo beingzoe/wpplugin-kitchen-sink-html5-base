@@ -7,7 +7,7 @@
  * N.B. SHORTCODE IS USED IN attachment.php and should be removed if this library is not used
  *
  * @author		zoe somebody
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base

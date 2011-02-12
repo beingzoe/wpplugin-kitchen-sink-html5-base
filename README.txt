@@ -44,7 +44,7 @@ the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1
 
 Decline to respond.
 
-None. See http://beingzoe.com/zui/wordpress/kitchen_sink_theme for complete usage reference and checklist
+None. See http://beingzoe.com/zui/wordpress/kitchen_sink/ for complete usage reference and checklist
 
 
 
