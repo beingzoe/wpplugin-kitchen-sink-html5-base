@@ -222,7 +222,7 @@ class KST_Appliance_Options extends KST_Appliance {
     public function create() {
 
         // Prep
-        $doKSTMenus = ( (count(self::$_option_pages['kst_theme'])) || (count(self::$_option_pages['kst_plugin'])) ) ? TRUE
+        $doKSTMenus = ( 0 < count(self::$_option_pages['kst_theme']) || 0 < count(self::$_option_pages['kst_plugin']) ) ? TRUE
                                                                                                                     : FALSE; // Whether to give core it's own menu
         // If we have KST Menus then get the menu/page that the section link should go to
         if ( $doKSTMenus ) {
@@ -234,6 +234,7 @@ class KST_Appliance_Options extends KST_Appliance {
             } else { // Just a plugin so first plugin in gets it? Maybe we should consider a special plugins index page if there are more than one?
                 $first_kst_menu_item        = current(self::$_option_pages['kst_plugin']);
                 $first_kst_menu_slug        = $first_kst_menu_item['menu_slug'];
+                $first_kst_menu_capability   = $first_kst_menu_item['capability'];
             }
             // Add the KST 'Theme Options' menu now so it exists to put the rest in
             $kst_managed_theme_options_array = array(
