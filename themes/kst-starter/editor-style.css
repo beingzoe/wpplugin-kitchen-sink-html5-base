@@ -1,0 +1,31 @@
+/*
+Theme Name: kitchenSink
+*/
+
+/*
+Used to style the TinyMCE editor.
+*/
+html .mceContentBody { }
+
+/**
+ * HELPER CLASSES
+ */
+.aligncenter, div.aligncenter {
+   display: block;
+   margin-left: auto;
+   margin-right: auto;
+}
+.alignleft {
+   float: left;
+   margin: 0 18px 18px 0;
+   vertical-align: bottom;
+}
+.alignright {
+   float: right;
+   margin: 0 0 18px 18px;
+   vertical-align: top;
+}
+.first { margin-top:0 !important; }
+div {
+    border: 1px dotted #ccc;
+}

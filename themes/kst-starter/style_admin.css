@@ -1,0 +1,98 @@
+@charset "UTF-8";
+
+
+/**
+ * Custom wp-login styling
+ */
+
+
+
+/**
+ * Custom admin styling
+ *
+ * This is a mess!
+ * Clean this up - how embarassing!
+ */
+
+.kst { }
+.kst.wrap { }
+.kst_options { }
+.kst_metabox { }
+
+/* Insert clearing element
+ * Just clearfix by name so we don't impose too much styling on designer/developers
+ */
+.kst:before, .kst:after,
+.kst_options form dl:before, .kst_options form dl:after,
+.kst_metabox dl:before, .kst_metabox dl:after {
+    content: "\0020"; display: block; height: 0; visibility: hidden; /* Insert clearing element */
+}
+.kst:after, .kst form dl:after, .kst_metabox dl:after  {
+    clear: both; /* Clear that */
+}
+.kst_options, form dl {
+    zoom: 1; /* IE rocks my clear */
+}
+
+/* content div - inheriting from WP post metaboxes i.e. .wrap #poststuff.metabox-holder #normal-sortables.meta-box-sortables .postbox  */
+.kst .postbox { /* padding-top: 136px; */ }
+.kst .hndle, .handlediv { margin-bottom: 0 !important; }
+.kst .inside, .kst_metabox { clear: both; padding: 30px; }
+
+.kst h4 {
+    margin: 36px -20px 20px -10px;
+    padding: 7px;
+    background: #DFDFDF url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll left top;
+    -moz-border-radius-topleft: 6px;
+    border-top-left-radius: 6px;
+}
+
+.kst form dl, .kst_metabox dl {
+    clear: both;
+    margin: 20px;
+}
+.kst form dt, .kst_metabox dt {
+    clear: both;
+    float: left;
+    width: 175px;
+    min-height: 2em;
+    margin: 0;
+    padding: 5px;
+    font-weight: bold;
+    text-align: right;
+}
+.kst form dd, .kst_metabox dd {
+    float: left;
+    margin: 0 0 0 20px;
+    padding: 0;
+}
+.kst form dd.explanation, .kst_metabox dd.explanation {
+    clear: left;
+    margin: 0 0 10px 205px;
+    padding: 0 18px 18px 7px;
+    background: transparent none;
+    font-style: italic;
+}
+
+/* span.description after form elements (after radio "group" if radio) */
+.kst .description {
+    display: block;
+    clear: right;
+}
+.kst label .description { display: inline; }
+
+
+/* MetaBox */
+.dodelete {
+    /* anchor for removing have_fields_and_multi() groups */
+    display: inline-block;
+    margin-bottom: 36px;
+}
+
+/* Help pages */
+.kst.wrap ol ol { margin-top: 5px; margin-bottom: 10px;  }
+
+/* deprecated */
+.kst .row {
+    min-width: 175px;
+}
