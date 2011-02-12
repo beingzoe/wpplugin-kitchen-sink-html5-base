@@ -1,5 +1,6 @@
 @charset "UTF-8";
 
+
 /**
  * Custom wp-login styling
  */
@@ -8,6 +9,9 @@
 
 /**
  * Custom admin styling
+ *
+ * This is a mess!
+ * Clean this up - how embarassing!
  */
 
 .kst { }
@@ -31,28 +35,43 @@
 
 /* content div - inheriting from WP post metaboxes i.e. .wrap #poststuff.metabox-holder #normal-sortables.meta-box-sortables .postbox  */
 .kst .postbox { /* padding-top: 136px; */ }
-.kst .hndle, .handlediv { margin-bottom: 0; !important }
-.kst .inside { clear: both; }
+.kst .hndle, .handlediv { margin-bottom: 0 !important; }
+.kst .inside { clear: both; padding: 30px; }
+
+.kst h4 {
+    margin: 36px -20px 20px -10px;
+    padding: 7px;
+    background: #DFDFDF url(../../../../../wp-admin/images/gray-grad.png) repeat-x scroll left top;
+    -moz-border-radius-topleft: 6px;
+    border-top-left-radius: 6px;
+}
 
 .kst form dl, .kst_metabox dl {
     clear: both;
-    margin: 20px;
+    margin: 10px 20px;
 }
 .kst form dt, .kst_metabox dt {
     clear: both;
     float: left;
     width: 175px;
     min-height: 2em;
-    margin: 0 0 20px 0;
+    margin: 20px 0 0 0;
     padding: 5px;
-    //background: #DFDFDF url("../images/gray-grad.png") repeat-x scroll left top ;
+    font-weight: bold;
     text-align: right;
 }
 .kst form dd, .kst_metabox dd {
     float: left;
-    margin: 0 0 20px 20px;
+    min-width: 50%;
+    margin: 20px 0 0 20px;
     padding: 5px;
-
+}
+.kst form dd.explanation {
+    clear: left;
+    margin: 0 0 20px 205px;
+    padding: 0 18px 18px 7px;
+    background: transparent none;
+    font-style: italic;
 }
 
 /* span.description after form elements (after radio "group" if radio) */
