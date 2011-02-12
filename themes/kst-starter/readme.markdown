@@ -1,22 +1,17 @@
-# Twenty Eleven (Kitchen Sink HTML5 demo) #
+# Kitchen Sink HTML5 Base Development Starter Theme #
 
-Demo theme showing off some of the awesomeness of the Kitchen Sink HTML5 Base
-framework plugin (and homage to TwentyTen).
+A starting point for developing custom themes with Kitchen Sink HTML5 Base.
 
 
 
 ## Description ##
 
-Looks like Twenty Ten but grooves with the awesomeness of HTML5 Boilerplate
-and the zui Kitchen Sink HTML5 Base development framework plugin for WordPress.
-
-Feature highlights to look for in this theme will be added to the README soon.
-In the meantime be aware that this demo theme is unstable for production use.
+Use this theme as a base to create your own development base
 
 See http://beingzoe.com/zui/wordpress/kitchen_sink/
 for more info about KST Kitchen Sink HTML5
 
-Download, clone, or fork at https://github.com/organizations/kitchen-sink
+Download, clone, or fork at https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base
 
 
 
@@ -30,31 +25,23 @@ Download, clone, or fork at https://github.com/organizations/kitchen-sink
     $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
 
 
-2) Download, install, and activate one of the "Kitchen Sink HTML5 Base" starter themes
+2) Activate one of the "Kitchen Sink HTML5 Base" starter themes
 
-* kitchen-sink-html5-base-starter       ( Sensible defaults only )
+    * kitchen-sink-html5-base-dev-starter
 
-*Coming soon:*
-
-* kitchen-sink-html5-base-stripped      ( Just the shell to build from )
-* kitchen-sink-html5-base-documented    ( heavily commented like a walkthrough )
-
-You can also clone the repos on github each time you start a new theme
-$ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git your_new_theme_name
-
+    OR if this is your first time, consider downloading one of the demo themes:
+    https://github.com/beingzoe/wptheme-kitchen-sink-html5-twentyeleven
 
 3) Make your theme with optimized HTML5 awesomeness and a clean functions.php
 
-Once you have invoked the plugin in your theme you can include and use as much
-as little of the libraries and functionality as you like.
+    Once you have invoked the plugin in your theme you can include and use as much
+    as little of the libraries and functionality as you like.
 
 
 4) Enjoy and become internet famous
 
 
 See http://beingzoe.com/zui/wordpress/kitchen_sink/ for complete usage reference and checklist
-
-
 
 
 

@@ -22,19 +22,43 @@ in every functions.php or plugin file you've ever made. ;)
 See the Kitchen Sink HTML5 Base wiki at github for details
 https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki
 
-Download, clone, or fork at https://github.com/organizations/kitchen-sink
+Download, clone, or fork at https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base
 
 
 
 == Installation ==
 
-Coming...
+1) Download, install, and activate the "Kitchen Sink HTML5 Base" plugin
+
+    It doesn't do anything until you ask it to in your theme ;)
+
+    You can also clone the repo on github and include it directly, up to you.
+    $ git clone git://github.com/beingzoe/wpplugin-kitchen-sink-html5-base.git
+
+
+2) Activate one of the "Kitchen Sink HTML5 Base" starter themes
+
+    * kitchen-sink-html5-base-dev-starter
+
+    OR if this is your first time, consider downloading one of the demo themes:
+    https://github.com/beingzoe/wptheme-kitchen-sink-html5-twentyeleven
+
+3) Make your theme with optimized HTML5 awesomeness and a clean functions.php
+
+    Once you have invoked the plugin in your theme you can include and use as much
+    as little of the libraries and functionality as you like.
+
+
+4) Enjoy and become internet famous
+
+
+See http://beingzoe.com/zui/wordpress/kitchen_sink/ for complete usage reference and checklist
+
+
 
 == Screenshots ==
 
-1. This screen shot description corresponds to screenshot-1.(png|jpg|jpeg|gif). Note that the screenshot is taken from
-the directory of the stable readme.txt, so in this case, `/tags/4.3/screenshot-1.png` (or jpg, jpeg, gif)
-2. This is the second screen shot
+No screenshots yet.
 
 
 
