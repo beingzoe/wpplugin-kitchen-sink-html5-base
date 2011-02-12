@@ -36,7 +36,7 @@
 /* content div - inheriting from WP post metaboxes i.e. .wrap #poststuff.metabox-holder #normal-sortables.meta-box-sortables .postbox  */
 .kst .postbox { /* padding-top: 136px; */ }
 .kst .hndle, .handlediv { margin-bottom: 0 !important; }
-.kst .inside { clear: both; padding: 30px; }
+.kst .inside, .kst_metabox { clear: both; padding: 30px; }
 
 .kst h4 {
     margin: 36px -20px 20px -10px;
@@ -48,27 +48,26 @@
 
 .kst form dl, .kst_metabox dl {
     clear: both;
-    margin: 10px 20px;
+    margin: 20px;
 }
 .kst form dt, .kst_metabox dt {
     clear: both;
     float: left;
     width: 175px;
     min-height: 2em;
-    margin: 20px 0 0 0;
+    margin: 0;
     padding: 5px;
     font-weight: bold;
     text-align: right;
 }
 .kst form dd, .kst_metabox dd {
     float: left;
-    min-width: 50%;
-    margin: 20px 0 0 20px;
-    padding: 5px;
+    margin: 0 0 0 20px;
+    padding: 0;
 }
-.kst form dd.explanation {
+.kst form dd.explanation, .kst_metabox dd.explanation {
     clear: left;
-    margin: 0 0 20px 205px;
+    margin: 0 0 10px 205px;
     padding: 0 18px 18px 7px;
     background: transparent none;
     font-style: italic;
