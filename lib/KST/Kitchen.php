@@ -252,11 +252,13 @@ class KST_Kitchen {
                 $this->load('seo');
                 $this->load('forms');
                 $this->load('wordpress');
+                $this->load('options');
                 $this->load('metabox');
                 $this->load('widget_nav_post');
                 $this->load('widget_nav_posts');
                 $this->load('widget_jit_sidebar');
                 $this->load('jit_message');
+                $this->load('lightbox');
             break;
             default:
                 $this->load('wp_sensible_defaults');

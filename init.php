@@ -1,7 +1,7 @@
 <?php
 /**
 Plugin Name:    Kitchen Sink HTML5 Base
-Plugin URI:     http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+Plugin URI:     http://beingzoe.com/zui/wordpress/kitchen_sink/
 Description:    Library of awesomeness and a "reset" to create a sensible starting point
 Version:        0.1
 Author:         zoe somebody
@@ -9,7 +9,7 @@ Author URI:     http://beingzoe.com/
 License:        MIT
  *
  * @author		zoe somebody
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  Core
@@ -147,12 +147,6 @@ $kst_bundled_appliances = array(
             'desc'                  => 'Allows floating some content in sidebar when the page is scrolled (to keep that content in view)',
             'path'                  => KST_DIR_LIB . '/KST/Widget/JitSidebar.php',
         ),
-    'asides' => array(
-            'friendly_name'         => 'Asides and custom formatting',
-            'desc'                  => 'Methods for "unobtrusively" and dynamically adding "asides" and custom loop/single markup',
-            'path'                  => KST_DIR_LIB . '/KST/Appliance/Asides.php',
-            'class_name'            => 'KST_Appliance_Asides'
-        ),
     'lightbox' => array(
             'friendly_name'         => 'Lightbox (Fancybox)',
             'desc'                  => 'Lightboxes images automatically when directly linked or in galleries',
@@ -178,6 +172,12 @@ $kst_bundled_appliances = array(
             'friendly_name'         => 'Slideshow: Tools Scrollable',
             'desc'                  => 'Creates slideshows with shortcodes',
             'path'                  => KST_DIR_LIB . '/functions/jquery/scrollables.php',
+        ),
+    'asides' => array(
+            'friendly_name'         => 'Asides and custom formatting',
+            'desc'                  => 'Methods for "unobtrusively" and dynamically adding "asides" and custom loop/single markup',
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/Asides.php',
+            'class_name'            => 'KST_Appliance_Asides'
         ),
 );
 
