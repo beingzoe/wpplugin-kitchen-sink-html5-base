@@ -42,16 +42,16 @@
  *
  * OH, and remember to save a namespace...
  * Make sure to rename the global variables used in this file!
- * e.g. $your_theme_settings, $my_theme
+ * e.g. $my_theme_settings, $my_theme, etc...
  * In fact a search and replace of the whole theme for $my_theme will hook you up!
 */
 
 // KST BASE THEME SETTINGS ARRAY
 // Various Kitchen Sink HTML5 Base settings for your theme - rename the variable!
-$your_theme_settings = array(
+$my_theme_settings = array(
     /* REQUIRED */
-    'friendly_name'             => 'Twenty Eleven',         // Friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
-    'prefix'                    => 'kst_demo',              // Prefix for namespacing libraries, classes, widgets
+    'friendly_name'             => 'My Theme',              // Friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
+    'prefix'                    => 'my_theme',              // Prefix for namespacing libraries, classes, widgets
     'developer'                 => 'zoe somebody',          // Friendly name of current developer; only used for admin display;
     'developer_url'             => 'http://beingzoe.com/',  // Full URI to developer website;
     /* REQUIRED for WP best practice */
@@ -65,7 +65,7 @@ $your_theme_settings = array(
 if ( class_exists('KST') ) {
 
     // REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE
-    $my_theme = new KST_Kitchen_Theme($twenty_eleven_settings);
+    $my_theme = new KST_Kitchen_Theme($my_theme_settings);
 
     // LOAD A PRESET CONFIGURATION - default, default_plus, minimum, and_the_kitchen_sink
     // You may alternatively pass the preset value as a 2nd argument when invoking your kitchen above and delete this method call
@@ -81,10 +81,10 @@ if ( class_exists('KST') ) {
         'page_title'            => '$my_theme Settings',
         'capability'            => 'manage_options',
         'view_page_callback'    => "auto",
-        'options'               => array( /* see wiki for syntax */ );
+        'options'               => array( /* see wiki for syntax */ )
+        );
 
     // CREATE ADMIN OPTIONS MENUS/PAGES - Don't forget to make an array
-    //$my_theme->load('options');
     //$my_theme->options->add($my_theme_options);
 
     // Use some of the nifty WordPress function replacements for a big time saver (and a cleaner kitchen)

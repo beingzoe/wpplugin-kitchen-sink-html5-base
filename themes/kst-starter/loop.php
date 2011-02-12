@@ -22,8 +22,6 @@
  * @since       0.1
 */
 
-global $twenty_eleven_options;
-
 //query_posts( "posts_per_page=10&paged={$paged}&cat=" . $cat );
 
 
@@ -42,9 +40,6 @@ if ( ! have_posts() ) { ?>
 <?php
 } //end if !have_posts
 
-/* Don't ask for this stuff every loop */
-//$asides_gallery = $twenty_eleven_options->getOption("layout_category_gallery_slug");
-//$asides_aside   = $twenty_eleven_options->getOption("layout_category_aside_slug");
 
 /* Start the Loop */
 while ( have_posts() ) {
