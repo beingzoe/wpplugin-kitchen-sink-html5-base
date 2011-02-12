@@ -259,6 +259,7 @@ class KST_Appliance_Options extends KST_Appliance {
                     }
                 }
             }
+
         } else { // Update core options to use 'settings' since no kitchen exists
             foreach (self::$_option_pages['core'] as $key => $page) {
                 $page['parent_slug'] = 'settings';
@@ -309,6 +310,18 @@ class KST_Appliance_Options extends KST_Appliance {
         } else {
             return FALSE;
         }
+        // copy widgets and menus items to our KST menu since they need to access that easily
+        copy_admin_menu_item('Theme Options','Appearance','Widgets');
+        copy_admin_menu_item('Theme Options','Appearance','Menus');
+
+        global $menu;
+            echo "<br />menu=<br /><pre>";
+            print_r($menu);
+            echo "</pre><br /><br />";
+            global $submenu;
+            echo "<br />submenu=<br /><pre>";
+            print_r($submenu);
+            echo "</pre><br /><br />";
         /*
         // Get current index of Appearance
         $menu_key_to_move_above = ZUI_WpAdminPages::findCurrentKeyOfWpMenuSection('Appearance');
