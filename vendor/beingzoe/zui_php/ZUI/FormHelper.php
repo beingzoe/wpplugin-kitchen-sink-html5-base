@@ -181,9 +181,9 @@ class ZUI_FormHelper {
      * @param       optional string $select_this
      * @return      string
     */
-    public static function input_checkbox($id, $select_this, $b_form_attr = NULL) {
+    public static function input_checkbox($id, $select_this, $checkbox_value, $b_form_attr = NULL) {
         $checked = self::checked($select_this);
-        return '<input  type="checkbox"' . self::same_name_id($id) . ' value="1"' . $checked . $b_form_attr . '/> ';
+        return '<input  type="checkbox"' . self::same_name_id($id) . ' value="'. $checkbox_value . '"' . $checked . $b_form_attr . '/> ';
     }
 
 
@@ -581,6 +581,23 @@ class ZUI_FormHelper {
 
                 case 'text':
 
+                    /**
+                     * text
+                     * prototype 'options' block array
+
+                    'id_unique' => array(
+                           'name'       => 'Label text',
+                           'desc'       => 'Explanation text',
+                           'type'       => 'text',
+                           'default'    => 'Any value',             // optional; defaults to NULL
+                           'size'       => 23,                      // optional; defaults to 23
+                           'maxlength'  => 255                      // optional; defaulst to 255
+                           'form_attr'  => 'style=""',              // optional; add attributes to radio elements
+                           'label_attr' => 'class="foo"'            // optional; add attributes to label
+                           'wrap_as'    => 'block_type'             // optional; defaults to current type; FALSE (no label/container)
+                           )
+                    */
+
                     // set size
                     $size = ( !empty( $b_size ) )   ? $b_size
                                                     : 23;
@@ -598,6 +615,23 @@ class ZUI_FormHelper {
 
                 case 'textarea':
 
+                    /**
+                     * textarea
+                     * prototype 'options' block array
+
+                    'id_unique' => array(
+                           'name'       => 'Label text',
+                           'desc'       => 'Explanation text',
+                           'type'       => 'textarea',
+                           'default'    => 'Any value',             // optional; defaults to NULL
+                           'cols'       => 30,                      // optional; defaults to 30
+                           'rows'       => 3                        // optional; defaulst to 3
+                           'form_attr'  => 'style=""',              // optional; add attributes to radio elements
+                           'label_attr' => 'class="foo"'            // optional; add attributes to label
+                           'wrap_as'    => 'block_type'             // optional; defaults to current type; FALSE (no label/container)
+                           )
+                    */
+
                     // Create form element
                     $element = self::textarea($b_id, $b_value, $b_cols, $b_rows, $b_form_attr);
 
@@ -611,6 +645,31 @@ class ZUI_FormHelper {
 
                 case 'select':
 
+                    /**
+                     * select
+                     * prototype 'options' block array
+
+                       'id_unique' => array(
+                           'name'       => 'Label name',
+                           'desc'       => 'Explanation text',
+                           'type'       => 'select',
+                           'default'    => 'checked value',                             // optional; defaults to NULL
+                           'multi'      => TRUE,                                        // optional; defaults to FALSE
+                           'size'       => 5,                                           // optional; defaults to 5 for multi
+                           'form_attr'  => 'style="min-width: 150px; height: auto;"'    // optional; add attributes to select element
+                           'label_attr' => 'class="foo"'                                // optional; add attributes to label
+                           'wrap_as'    => 'block_type'                                 // optional; defaults to current type; FALSE (no label/container)
+                           'options'    => array(
+                                        'Select 1',                                     // value of option will be 0
+                                        'Select 2',                                     // value of option will be 1
+                                        'Select 3'                                      // value of option will be 2
+                                        ...OR...
+                                        'Select 1' => 'value1',
+                                        'Select 2' => 'value2',
+                                        'Select 3' => 'value3',
+                                        )
+                            )
+                    */
                     // Is it a multiple select?
                     if ( isset($block['multi']) && $block['multi'] ) // Yup, so now prep the element
                         $multi = TRUE;
@@ -639,7 +698,7 @@ class ZUI_FormHelper {
                             $select_this = $b_value;
 
                         // Create and save option form element
-                        $options .= self::option($keyvalue, $select_this, $keyvalue, $b_form_attr);
+                        $options .= self::option($keyvalue, $select_this, $key, $b_form_attr);
 
                     }
 
@@ -654,6 +713,21 @@ class ZUI_FormHelper {
                 break;
 
                 case 'select_wp_categories':
+
+                    /**
+                     * select_wp_categories
+                     * prototype 'options' block array
+
+                       'id_unique' => array(
+                           'name'       => 'Label name',
+                           'desc'       => 'Explanation text',
+                           'type'       => 'select_wp_categories',
+                           'wrap_as'    => 'block_type'     // optional; defaults to current type; FALSE (no label/container)
+                           'args'    => array(              // optional;
+                                        any valid args for wp_dropdown_categories
+                                        )
+                            )
+                    */
 
                     // Set the current name/id and selected
                     $args =  array(
@@ -679,6 +753,21 @@ class ZUI_FormHelper {
 
                 case 'select_wp_pages':
 
+                    /**
+                     * select_wp_pages
+                     * prototype 'options' block array
+
+                       'id_unique' => array(
+                           'name'       => 'Label name',
+                           'desc'       => 'Explanation text',
+                           'type'       => 'select_wp_pages',
+                           'wrap_as'    => 'block_type'     // optional; defaults to current type; FALSE (no label/container)
+                           'args'    => array(              // optional;
+                                        any valid args for wp_dropdown_pages
+                                        )
+                            )
+                    */
+
                     // Set the current name/id and selected
                     $args =  array(
                         "name"      => $b_id,
@@ -703,11 +792,31 @@ class ZUI_FormHelper {
 
                 case 'radio':
 
+                    /**
+                     * radio
+                     * prototype 'options' block array
+
+                    'id_unique' => array(
+                           'name'       => 'Text for radio group (not a label)',
+                           'desc'       => 'Explanation text',
+                           'type'       => 'select',
+                           'default'    => 'which input to check',  // optional; defaults to NULL
+                           'form_attr'  => 'style=""',              // optional; add attributes to radio elements
+                           'label_attr' => 'class="foo"'            // optional; add attributes to label
+                           'wrap_as'    => 'block_type'             // optional; defaults to current type; FALSE (no label/container)
+                           'options'    => array(
+                                        'Radio 1',                 // explicit value
+                                        'Radio 2',                 // explicit value
+                                        'Radio 3'                  // explicit value
+                                        )
+                            )
+                    */
+
                     // Create form element
                     // Works the same as select options
                     // Loop over the radio options
                     $options = ""; // empty options string to build
-                    foreach ($block['options'] as $key=>$keyvalue) {
+                    foreach ($block['options'] as $key => $keyvalue) {
 
                         // Figure out what to select
                         if ( !isset($b_value) && !empty($b_value_default) && $keyvalue == $b_value_default  ) // If a default was sent and this value does NOT exist (!isset($b_value))
@@ -730,18 +839,54 @@ class ZUI_FormHelper {
 
                 case 'checkbox':
 
+                    /**
+                     * checkbox
+                     * prototype 'options' block array
+
+                    'id_unique' => array(
+                           'name'       => 'Label text',
+                           'desc'       => 'Explanation text',
+                           'type'       => 'checkbox',
+                           'default'    => 'which input to check',  // optional; defaults to NULL
+                           'form_attr'  => 'style=""',              // optional; add attributes to radio elements
+                           'label_attr' => 'class="foo"'            // optional; add attributes to label
+                           'wrap_as'    => 'block_type'             // optional; defaults to current type; FALSE (no label/container)
+                           'options'    => array(                   // optional; set a value other than 1
+                                        'value of checkbox',       // optional explicit value; defaults to 1
+                                        // Only one option value is allowed due to the nature of checkboxes
+                                        )
+                            )
+                    */
+
+                    // Get checkbox value
+                    if ( isset($block['options']) && is_array($block['options']) )
+                        $checkbox_value = $block['options'][0];
+                    else
+                        $checkbox_value = 1;
+
                      // Create form element
-                    $element = self::input_checkbox($b_id, $b_value, $b_form_attr);
+                    $element = self::input_checkbox($b_id, $b_value, $checkbox_value, $b_form_attr);
 
                     // Output Block
                     if ( FALSE !== $b_wrap_as )
-                        $output .= self::block_form_element_typical($b_id, $b_name, $element, $b_desc, $b_wrap_attr, $b_label_attr, $dt_inner_wrap, $dd_inner_wrap);
+                        $output .= self::block_form_element_typical($b_id, $b_name, $element, self::label( $b_id, $b_desc, $b_label_attr ), $b_wrap_attr, $b_label_attr, $dt_inner_wrap, $dd_inner_wrap);
                     else
                         $output .= $element;
 
                 break;
 
                 case 'section':
+
+                    /**
+                     * section
+                     * prototype 'options' block array
+
+                    'id_unique' => array(
+                           'name'       => 'Text for section header',
+                           'desc'       => 'Description content for this section',
+                           'type'       => 'section'
+                           )
+                    */
 
                     // Should we close previous opened fieldset/div/etc... wrapper containers?
                     $output .= self::block_might_close_section( $do_close_section, $b_type_previous, $section_close_template );
@@ -759,6 +904,17 @@ class ZUI_FormHelper {
 
                 case 'subsection':
 
+                    /**
+                     * subsection
+                     * prototype 'options' block array
+
+                    'id_unique' => array(
+                           'name'       => 'Text for subsection header',
+                           'desc'       => 'Description content for this subsection',
+                           'type'       => 'subsection'
+                           )
+                    */
+
                     // Output the block
                     $output .= self::block_might_close_dl( $b_type_previous ); // Should we close dl?
                     $subsection_open_formatted = self::simpleTemplateFilter( array('{section_name}'=>$b_name ), $subsection_open_template);
@@ -769,6 +925,19 @@ class ZUI_FormHelper {
                 break;
 
                 default:
+
+                    /**
+                     * custom
+                     * prototype 'options' block array
+
+                    'id_unique' => array(
+                           'name'       => 'leave blank', // required but ignored
+                           'desc'       => 'Any valid html content',
+                           'type'       => 'custom',
+                           'wrap_as'    => 'any valid block type' // section type is not allowed
+                           )
+                    */
+
                     // Custom block type - tell us to wrap it as another existing block type to close containing elements properly
                     // Section type is not allowed
                     if ( 'section' == $b_wrap_as )
