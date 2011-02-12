@@ -20,10 +20,8 @@ and send me a pull request when you are done.
   * Only add links to support if the 'help' appliance is loaded
 
 * Make first dev starter theme
-  * Go through TwentyEleven and make it FINAL for 0.1 stable-ish release tag
   * Finish html5 semantic stuff
     * comments (last big one) etc...
-  * attachment page and lightobxing seems funked up
   * check style on all pages (author and so on)
   * post footer margin/float problems ie6-7
     * line-height for tags and categories and such
