@@ -331,6 +331,13 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
             width: 940px;
             padding: 0;
         }
+        .attachment .wp_entry_header .wp_entry_meta { /* exceptions to main layout */
+            display: inline;
+            font-size: 1em;
+            line-height: 1em;
+        }
+        .attachment .wp_entry_meta_author { float: none;  /* exceptions to main layout */ }
+        .attachment .wp_entry_meta_date { float: none;  /* exceptions to main layout */ }
 
     /**
      * Primary layout partial layouts
@@ -519,8 +526,10 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
     .wp_entry_meta_date { float: right; margin-right: 2px; }
     .wp_entry_meta_category {  }
     .wp_entry_meta_tags {  }
-    /* See also .more-link for styling excerpts and more links */
-
+    /* See also:
+     *  .more-link for styling excerpts and more links
+     *  attachment layout for styling .wp_entry_meta et al
+    */
 
     /* posts */
     .post { }
