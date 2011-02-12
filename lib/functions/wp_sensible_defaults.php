@@ -79,17 +79,17 @@ add_theme_support( 'post-thumbnails' ); // Theme uses featured image post/page t
 */
 if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
     // LOAD CSS for theme (like parent were a child ;)
-    wp_enqueue_style( 'style', get_stylesheet_directory_uri() . '/style.css', false, '0.1', 'all' ); // WP default stylesheet
+    wp_enqueue_style( 'style', get_stylesheet_directory_uri() . '/style.css', false, '0.1', 'all' ); // WP default stylesheet "your_theme/style.css" (MUST EXIST IN YOUR THEME!!!)
 
     // HTML5 BOILERPLATE: Load Modernizr
-    wp_register_script( 'modernizr', KST_URI_ASSETS . '/javascripts/libraries/modernizr-1.6.min.js', false, '1.6', false);
+    wp_register_script( 'modernizr', KST_URI_ASSETS . '/javascripts/libraries/modernizr-1.6.min.js', false, '1.6', false); // In KST - not needed in your theme
     wp_enqueue_script( 'modernizr' );
 
     // HTML5 BOILERPLATE: Load dd_belatedpng.js
     add_action('get_footer', 'dd_belatedpng_js_hack');
     function dd_belatedpng_js_hack() {
         $output = "<!--[if lt IE 7 ]>";
-        $output .= "<script src='" . KST_URI_ASSETS . "/javascripts/libraries/dd_belatedpng.js'></script>";
+        $output .= "<script src='" . KST_URI_ASSETS . "/javascripts/libraries/dd_belatedpng.js'></script>";  // In KST - not needed in your theme
         $output .= "<script> DD_belatedPNG.fix('img, .png_bg'); </script>";
         $output .= "<![endif]-->";
         echo $output;
@@ -98,20 +98,20 @@ if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
 
     // HTML5 BOILERPLATE: Load jQuery: Register jQuery as hack but load via action hook ('get_footer') using HTML5Boilerplate with fallback; TODO: FIND A BETTER WAY
     wp_deregister_script( 'jquery' );
-    wp_register_script( 'jquery', KST_URI_ASSETS . '/javascripts/empty.js', false, 'x', true);
+    wp_register_script( 'jquery', KST_URI_ASSETS . '/javascripts/empty.js', false, 'x', true);  // In KST - not needed in your theme
     wp_enqueue_script( 'jquery' );
 
     // HTML5 BOILERPLATE: This actually loads jquery - what to do about wp_enqueue_script and jquery dependencies to this RIGHT?
     add_action('get_footer', 'html5_boiler_plate_jquery_hack');
     function html5_boiler_plate_jquery_hack() {
         $output = "<script src='//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js'></script>";
-        $output .= "<script>!window.jQuery && document.write(unescape('%3Cscript src=\"" . KST_URI_ASSETS . "/javascripts/jquery/jquery-1.4.4.min.js\"%3E%3C/script%3E'))</script>";
+        $output .= "<script>!window.jQuery && document.write(unescape('%3Cscript src=\"" . KST_URI_ASSETS . "/javascripts/jquery/jquery-1.4.4.min.js\"%3E%3C/script%3E'))</script>"; // In KST - not needed in your theme
         echo $output;
     }
 
     // Theme-wide Plugins and Application JS (HTML5 BOILERPLATE)
-    wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true);
-    wp_enqueue_script('application', get_stylesheet_directory_uri() . '/assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true);
+    wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true); // "your_theme/assets/javascripts/plugins.js" (MUST EXIST IN YOUR THEME!!!)
+    wp_enqueue_script('application', get_stylesheet_directory_uri() . '/assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true); // "your_theme/assets/javascripts/script.js" (MUST EXIST IN YOUR THEME!!!)
 }
 
 

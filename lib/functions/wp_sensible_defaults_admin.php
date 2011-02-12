@@ -53,8 +53,8 @@ add_filter( 'tiny_mce_before_init', 'kstEditAdminTinymce' );
  *
  * @since       0.1
 */
-add_action( 'admin_print_styles', 'kstLoadAdminLoginCss' ); // Load custom admin stylesheet style_admin.css
-
+add_action( 'admin_print_styles', 'kstLoadAdminLoginCss' ); // Load custom admin stylesheet "your_theme/style_admin.css" (MUST EXIST IN YOUR THEME!!!)
+add_action( 'admin_print_scripts', 'kstLoadAdminJs' ); // Load custom admin stylesheet "your_theme/assets/javascripts/script_admin.css" (MUST EXIST IN YOUR THEME!!!)
 
 /**
  * FUNCTIONS
@@ -173,6 +173,25 @@ if ( !function_exists('kst_admin_dashboard_theme_support') ) {
     function kstAddAdminDashboardForThemeSupport() {
         echo "<p>Be sure to configure your various theme and plugin options. Learn more about using WordPress and get the most out of your theme/plugins in <a href='" . KST::getHelpIndex() . "'>Theme Help</a></p>";
         echo "<p>Need more help?<br /><a href='" . KST::getDeveloperIndex() . "'>Contact the developers</a>.";
+    }
+}
+
+
+/**
+ * kstLoadAdminJs
+ * Load custom scripts_admin.js for admin and wp-login (they share a stylesheet)
+ *
+ * NOT ADMIN ONLY because wp-login is not treated as part of admin
+ *
+ * Echoes output
+ *
+ * @since       0.1
+ * @uses        get_stylesheet_directory_uri() WP function
+ * @uses        add_editor_style() WP function
+*/
+if ( !function_exists('kstLoadAdminJs') ) {
+    function kstLoadAdminJs() {
+        wp_enqueue_script('kst_script_admin', get_stylesheet_directory_uri() . '/assets/javascripts/script_admin.js' , array( 'jquery' ) , '0.1', true); // "your_theme/assets/javascripts/plugins.js" (MUST EXIST IN YOUR THEME!!!)
     }
 }
 
