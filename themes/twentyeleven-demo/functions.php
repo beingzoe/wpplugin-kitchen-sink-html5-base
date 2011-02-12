@@ -67,6 +67,23 @@ if ( class_exists('KST') ) {
                                 "is_shut"   => FALSE
                                 ),
 
+                'TEST_SELECT' => array(
+                        "name"    => __('PLUGIN Select'),
+                        "desc"    => __("There are many choices awaiting"),
+                        "default"     => "Select 2",
+                        "type"    => "select",
+                        'multi'     => TRUE,
+                        'size'      => 3,
+                        'form_attr' => 'style="height: auto;"',
+                        "options" => array(
+                                            "Select 1" => 10,
+                                            "Select 2" => 20,
+                                            "Select 3" => 30,
+                                            "Select 4" => 40,
+                                            "Select 5" => 50
+                                            )
+                        ),
+
                 'sample_wp_categories' => array(
                                 "name"      => 'Featured Category',
                                 "desc"      => 'This doesn\'t really do anything but demonstrates a select_wp_categories option block',
