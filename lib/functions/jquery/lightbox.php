@@ -27,78 +27,80 @@
     });
  */
 
+// Don't mess up people's admin
+if ( !is_admin() ) {
 
-/*
- * Load Fancybox via wphead();
-*/
-wp_enqueue_style('fancybox', KST_URI_ASSETS . '/stylesheets/fancybox.min.css');
-wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancybox-1.3.4.pack.js' , array('jquery','application') , '1.3.4', true);
-add_action('wp_footer', 'kst_lightbox_scripts');
+    /*
+     * Load Fancybox via wphead();
+    */
+    wp_enqueue_style('fancybox', KST_URI_ASSETS . '/stylesheets/fancybox.min.css');
+    wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancybox-1.3.4.pack.js' , array('jquery','application') , '1.3.4', true);
+    add_action('wp_footer', 'kst_lightbox_scripts');
 
 
-/**
- * kst_lightbox_scripts
- * auto lightbox
- *
-*/
-if ( !function_exists('kstWpNavMenuFallbackCb') ) {
-    function kst_lightbox_scripts() {
-        //<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_message) { $(this).jit_message({<?php echo $jit_message_params; ?>}); }; });</script>
-?>
+    /**
+     * kst_lightbox_scripts
+     * auto lightbox
+     *
+    */
+    if ( !function_exists('kstWpNavMenuFallbackCb') ) {
+        function kst_lightbox_scripts() {
+            //<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_message) { $(this).jit_message({<?php echo $jit_message_params; ?>}); }; });</script>
+    ?>
 
-        <script type="text/javascript">
-            jQuery(document).ready(function($) {
-                if(jQuery().fancybox) {
-                    $(" a.lightbox, .hentry a[href$=.jpg], .hentry a[href$=.png], .hentry a[href$=.gif] ")
-                        .attr({
-                          rel: "galleryize"
-                        })
-                        .fancybox({
-                            titlePosition: 'over'
-                        })
-                };
-            });
-        </script>
-<?php
+            <script type="text/javascript">
+                jQuery(document).ready(function($) {
+                    if(jQuery().fancybox) {
+                        $(" a.lightbox, .hentry a[href$=.jpg], .hentry a[href$=.png], .hentry a[href$=.gif] ")
+                            .attr({
+                              rel: "galleryize"
+                            })
+                            .fancybox({
+                                titlePosition: 'over'
+                            })
+                    };
+                });
+            </script>
+    <?php
+        }
     }
+
+    /**
+     * Force gallery thumbnails to link to the fullsize image
+     *
+     * @since       0.1
+     * @uses        is_feed() WP Function
+     * @uses        is_admin() WP Function
+     * @uses        get_post() WP Function
+     * @uses        wp_get_attachment_url() WP Function
+    */
+    function kst_fullsize_attachment_link( $link, $id ) {
+        // The lightbox doesn't function inside feeds obviously, so don't modify anything
+        if ( is_feed() || is_admin() )
+            return $link;
+
+        $post = get_post( $id );
+
+        if ( 'image/' == substr( $post->post_mime_type, 0, 6 ) )
+            return wp_get_attachment_url( $id );
+        else
+            return $link;
+    }
+    add_filter( 'attachment_link', 'kst_fullsize_attachment_link', 10, 2 );
+
+    /*
+     * Add rel="" to image attachment links for lightbox galleries
+     * Deprecated in place of javascript solution
+     */
+    /*
+    function add_lighbox_rel( $attachment_link ) {
+        if( strpos( $attachment_link , 'href') != false && strpos( $attachment_link , '<img') != false )
+            $attachment_link = str_replace( 'href' , 'rel="attachment_link" href' , $attachment_link );
+        return $attachment_link;
+    }
+    add_filter( 'wp_get_attachment_link' , 'add_lighbox_rel' );
+    */
 }
-
-/**
- * Force gallery thumbnails to link to the fullsize image
- *
- * @since       0.1
- * @uses        is_feed() WP Function
- * @uses        is_admin() WP Function
- * @uses        get_post() WP Function
- * @uses        wp_get_attachment_url() WP Function
-*/
-function kst_fullsize_attachment_link( $link, $id ) {
-    // The lightbox doesn't function inside feeds obviously, so don't modify anything
-    if ( is_feed() || is_admin() )
-        return $link;
-
-    $post = get_post( $id );
-
-    if ( 'image/' == substr( $post->post_mime_type, 0, 6 ) )
-        return wp_get_attachment_url( $id );
-    else
-        return $link;
-}
-add_filter( 'attachment_link', 'kst_fullsize_attachment_link', 10, 2 );
-
-/*
- * Add rel="" to image attachment links for lightbox galleries
- * Deprecated in place of javascript solution
- */
-/*
-function add_lighbox_rel( $attachment_link ) {
-    if( strpos( $attachment_link , 'href') != false && strpos( $attachment_link , '<img') != false )
-        $attachment_link = str_replace( 'href' , 'rel="attachment_link" href' , $attachment_link );
-    return $attachment_link;
-}
-add_filter( 'wp_get_attachment_link' , 'add_lighbox_rel' );
-*/
-
 
 // Add Help
 $kst_core_help_array = array (
