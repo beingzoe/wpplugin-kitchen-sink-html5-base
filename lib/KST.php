@@ -13,7 +13,7 @@
  * @package     KitchenSinkHTML5Base
  * @subpackage  Core
  * @version     0.1
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @todo        replace WP_PLUGIN_DIR and any of these constants per Codex?
 */
 class KST {

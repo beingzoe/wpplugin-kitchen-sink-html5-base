@@ -11,7 +11,7 @@
  * @subpackage  Plugins:Marketing
  * @version     0.1
  * @since       0.1
- * @link        http://beingzoe.com/zui/wordpress/kitchen_sink_theme
+ * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @todo        turn the javascript into jQuery plugin for non-WP usage
  *
  *
