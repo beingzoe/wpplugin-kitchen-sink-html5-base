@@ -332,13 +332,13 @@ class KST_Appliance_Seo extends KST_Appliance {
                         'type'      => 'text'
                     ),
                 'meta_page_keywords_use_tags' => array(
-                        'name'      => 'Meta Keywords',
+                        'name'      => 'Append post tags as keywords',
                         'desc'      => 'Add Post TAGS to Meta Keywords above',
                         'type'      => 'checkbox',
                         'default'   => TRUE
                     ),
                 'meta_page_keywords_use_global' => array(
-                        'name'      => 'Meta Keywords',
+                        'name'      => 'Append global keywords',
                         'desc'      => 'Add GLOBAL KEYWORDS to Meta Keywords above',
                         'type'      => 'checkbox'
                     ),
