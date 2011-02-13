@@ -87,8 +87,8 @@ if ( class_exists('KST') ) {
     // An array to create a theme options page - make one array per options page you need (u)
     $my_theme_options = array(
         'parent_slug'           => 'kst',
-        'menu_title'            => '$my_theme Settings',
-        'page_title'            => '$my_theme Settings',
+        'menu_title'            => 'my_theme Settings',
+        'page_title'            => 'my_theme Settings',
         'capability'            => 'manage_options',
         'view_page_callback'    => "auto",
         'options'               => array( /* see wiki for syntax */ )
@@ -126,7 +126,7 @@ if ( class_exists('KST') ) {
         return;
     } else {
         // Having a FUN and useful help message would be cool.
-    echo "<h1>Pretty cool!<br />You are using a Kitchen Sink based WordPress theme<br />HOWEVER...</h1><p>...you have not activated the KST Plugin in WordPress OR you haven't included it as library in your theme.<br />See the <a href='http://beingzoe.com/zui/wordpress/kitchen_sink/'>documentation</a> if you need assistance.</p><p><a href='#'>Sign in</a> to WordPress.";
+        echo "<h1>Pretty cool!<br />You are using a Kitchen Sink based WordPress theme<br />HOWEVER...</h1><p>...you have not activated the Kitchen Sink HTML5 Base plugin in WordPress OR you haven't included it as library in your theme.<br />See the <a href='http://beingzoe.com/zui/wordpress/kitchen_sink/'>documentation</a> if you need assistance.</p><p><a href='#'>Sign in</a> to WordPress.";
         exit;
     }
 }
