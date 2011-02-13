@@ -11,10 +11,20 @@
  * @version     0.1
  * @since       0.1
  *
+ * Checklist ;)
  * 1) Preset a few things
  * 2) Make a theme object with Kitchen Sink HTML5 Base (we call it a kitchen)
  * 3) Load some appliances (features/plugins/classes) for your kitchen
  * 4) Create
+ *
+ * First use:
+ *      -
+ *      -Search and replace "my_theme" with "your_namespace"
+ *      -Open style.css and edit the theme info
+ *      -Open functions.php (YOU ARE HERE)
+ *          -Edit the 'my_theme_settings' array with your custom theme info
+ *          -Initialize your theme/plugin (kitchen) object
+ *          -Load whatever features/plugins (appliances;) you want to use in your 'kitchen'
  *
  * NOTE: The 'wp_sensible_defaults' appliance loads your stylesheet,
  * adds jQuery with HTML5 flair, and does all that stuff like adding 'theme_support'
