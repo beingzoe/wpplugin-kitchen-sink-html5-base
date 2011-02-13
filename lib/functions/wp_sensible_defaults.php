@@ -35,6 +35,9 @@ require_once KST_DIR_LIB . '/functions/wp_sensible_defaults_common.php';
 $content_width                   = KST_Kitchen_Theme::getThemeContentWidth();
 
 
+if ( is_admin() )
+    return; // Front end only - Admin sensible defaults loads separately and common is required already
+
 /**#@+
  * Filters for SHORTCODES
  *
@@ -56,9 +59,10 @@ add_shortcode( 'caption', 'kstFilterShortcodeCaptionAndWpCaption' );
 */
 add_filter( 'the_title', 'kstFilterTheTitleToIncludePageNumber', 10, 2);
 add_filter( 'excerpt_length', array('KST_Kitchen_Theme', 'getThemeExcerptLength') );
+if ( is_singular() )
+    add_filter('the_content', 'kstOnlyShowContentExcerptForPagedComments'); // Only show content excerpt of 'content' on paged comments
 add_filter( 'gallery_style', 'kstRemoveGalleryInvalidCss' ); //Remove invalid gallery inline css
 add_action( 'wp_print_scripts', 'kstLoadWpThreadedCommentReplyJs' ); // Load threaded comment reply javascript if needed
-add_action( 'login_head', 'kstLoadAdminLoginCss' ); // Add style for wp-login (uses admin css: style_admin.css)
 add_theme_support( 'automatic-feed-links' ); // Add default posts and comments RSS feed links to head
 add_theme_support( 'post-thumbnails' ); // Theme uses featured image post/page thumbnails
 /**#@-*/
@@ -77,7 +81,6 @@ add_theme_support( 'post-thumbnails' ); // Theme uses featured image post/page t
  * @todo        Apparently we need to load this stuff (and what else?) via add_action('init', 'kst_init_this_shit')
  * @todo        jquery boilerplate style is a fucked up hack, fix this
 */
-if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
     // LOAD CSS for theme (like parent were a child ;)
     wp_enqueue_style( 'style', get_stylesheet_directory_uri() . '/style.css', false, '0.1', 'all' ); // WP default stylesheet "your_theme/style.css" (MUST EXIST IN YOUR THEME!!!)
 
@@ -112,7 +115,6 @@ if ( !is_admin() ) { //front end only initialize (admin handled under ADD JUNK)
     // Theme-wide Plugins and Application JS (HTML5 BOILERPLATE)
     wp_enqueue_script('plugins', get_stylesheet_directory_uri() . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true); // "your_theme/assets/javascripts/plugins.js" (MUST EXIST IN YOUR THEME!!!)
     wp_enqueue_script('application', get_stylesheet_directory_uri() . '/assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true); // "your_theme/assets/javascripts/script.js" (MUST EXIST IN YOUR THEME!!!)
-}
 
 
 /**
@@ -318,7 +320,7 @@ if ( !function_exists('kstFormatWpListCommentsEnd') ) {
  * @return      string
  * @link        http://wpengineer.com/filter-caption-shortcode-in-wordpress/
  *              Thanks wpengineer for having dealt with this already
- */
+*/
 if ( !function_exists('kstFilterShortcodeCaptionAndWpCaption') ) {
     function kstFilterShortcodeCaptionAndWpCaption($attr, $content = null) {
 
@@ -353,3 +355,28 @@ if ( !function_exists('kstFilterShortcodeCaptionAndWpCaption') ) {
         return $better;
     }
 }
+
+
+/**
+ * Only show content excerpt of 'content' on paged comments
+ *
+ * From the plugin: SEO for Paged Comments
+ * Version: 1.1 by Austin Matzko
+ * Description: Reduce SEO problems when using WordPress's paged comments.
+ * @link        http://www.pressedwords.com
+ * @link        http://pressedwords.com/solving-wordpress-seo-paged-comments-problem/
+*/
+if ( !function_exists('seo_paged_comments_content_filter') && !function_exists('seo_paged_comments_content_filter') ) {
+    function kstOnlyShowContentExcerptForPagedComments($t = '') {
+        if ( function_exists('get_query_var') ) {
+            $cpage = intval(get_query_var('cpage'));
+            if ( ! empty( $cpage ) ) {
+                remove_filter('the_content', 'seo_paged_comments_content_filter');
+                $t = get_the_excerpt();
+                $t .= sprintf('<p><a href="%1$s">%2$s</a></p>', get_permalink(), get_the_title());
+            }
+        }
+        return $t;
+    }
+}
+
