@@ -86,13 +86,15 @@ $kst_bundled_appliances = array(
             'friendly_name'         => 'Theme Sensible defaults',
             'desc'                  => 'Functions and functionality that make sense for most theme functions.php',
             'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults.php',
-            'after_setup_theme'     => TRUE
+            'after_setup_theme'     => TRUE,
+            'is_theme_only'         => TRUE
         ),
     'wp_sensible_defaults_admin' => array(
             'friendly_name'         => 'Theme Admin Sensible defaults',
             'desc'                  => 'Functions and functionality to enhance the admin for site/blog owners',
             'path'                  => KST_DIR_LIB . '/functions/wp_sensible_defaults_admin.php',
-            'after_setup_theme'     => TRUE
+            'after_setup_theme'     => TRUE,
+            'is_theme_only'         => TRUE
         ),
     'help' => array(
             'friendly_name'         => 'Help for KST',
@@ -136,21 +138,25 @@ $kst_bundled_appliances = array(
             'friendly_name'         => 'Widget: KST: Next/Previous buttons',
             'desc'                  => 'Post to post navigation in the sidebar',
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPost.php',
+            'is_theme_only'         => TRUE
         ),
     'widget_nav_posts' => array(
             'friendly_name'         => 'Widget: KST: Older/Newer buttons',
             'desc'                  => 'Page to page navigation in the sidebar',
             'path'                  => KST_DIR_LIB . '/KST/Widget/NavPosts.php',
+            'is_theme_only'         => TRUE
         ),
     'widget_jit_sidebar' => array(
             'friendly_name'         => 'Widget: KST: JIT Sidebar Start',
             'desc'                  => 'Allows floating some content in sidebar when the page is scrolled (to keep that content in view)',
             'path'                  => KST_DIR_LIB . '/KST/Widget/JitSidebar.php',
+            'is_theme_only'         => TRUE
         ),
     'lightbox' => array(
             'friendly_name'         => 'Lightbox (Fancybox)',
             'desc'                  => 'Lightboxes images automatically when directly linked or in galleries',
             'path'                  => KST_DIR_LIB . '/functions/jquery/lightbox.php',
+            'is_theme_only'         => TRUE
         ),
     'mp3player' => array(
             'friendly_name'         => 'mp3 player',
@@ -162,22 +168,26 @@ $kst_bundled_appliances = array(
             'desc'                  => 'Slides a call-to-action box out',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/JitMessage.php',
             'class_name'            => 'KST_Appliance_JitMessage',
+            'is_theme_only'         => TRUE
         ),
     'slideshow_cycle' => array(
             'friendly_name'         => 'Slideshow: Malsup Cycle',
             'desc'                  => 'Creates slideshows with shortcodes',
             'path'                  => KST_DIR_LIB . '/functions/jquery/cycle.php',
+            'is_theme_only'         => TRUE
         ),
     'slideshow_tools_scrollable' => array(
             'friendly_name'         => 'Slideshow: Tools Scrollable',
             'desc'                  => 'Creates slideshows with shortcodes',
             'path'                  => KST_DIR_LIB . '/functions/jquery/scrollables.php',
+            'is_theme_only'         => TRUE
         ),
     'asides' => array(
             'friendly_name'         => 'Asides and custom formatting',
             'desc'                  => 'Methods for "unobtrusively" and dynamically adding "asides" and custom loop/single markup',
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Asides.php',
-            'class_name'            => 'KST_Appliance_Asides'
+            'class_name'            => 'KST_Appliance_Asides',
+            'is_theme_only'         => TRUE
         ),
 );
 
