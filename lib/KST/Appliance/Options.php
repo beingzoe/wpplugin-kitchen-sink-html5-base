@@ -124,8 +124,7 @@ class KST_Appliance_Options extends KST_Appliance {
      * @return      string The namespaced menu slug
      * @todo        Could this be sped up by saving already added-add()s as an option (i.e. save self::$_extant_options and check against that first? how would we update it?)
     */
-    public function add(&$options) {
-
+    public function add($options) {
 
         $blocks_of_type_form = ZUI_FormHelper::get_blocks_of_type_form();
 
@@ -148,7 +147,7 @@ class KST_Appliance_Options extends KST_Appliance {
 
         // If parent_slug is not in the known parent_slugs it is a new top
         // Otherwise if it is kst managed menu (or core) just let it through as is and we'll deal with it during create()
-        if ( in_array($group_key, array('plugin','theme')) && !in_array($options['parent_slug'], ZUI_WpAdminPages::get_all_parent_slugs())) { // If it is a new top the menu_slug needs to match the parent slug
+        if ( in_array($group_key, array('plugin','theme')) && !in_array($options['parent_slug'], ZUI_WpAdminPages::get_all_parent_slugs()) && !array_key_exists($options['parent_slug'], ZUI_WpAdminPages::get_all_parent_slugs())) { // If it is a new top the menu_slug needs to match the parent slug
             $options['parent_slug'] = ZUI_WpAdminPages::fixParentSlug($options['parent_slug']); // now we can just rely on the array's parent_slug explicitly
             $options['menu_slug'] = $options['parent_slug'];
         // Must be a child menu then
@@ -157,14 +156,14 @@ class KST_Appliance_Options extends KST_Appliance {
             if ( !isset($options['menu_slug']) ) { // Make the menu slug if it doesn't exist
                 $options['menu_slug'] = $this->_kitchen->prefixWithNamespace( str_replace( " ", "_", $options['menu_title'] ) );
             } else { // They sent one so use it
-                $options['menu_slug'] = $this->_kitchen->prefixWithNamespace( $this->menu_slug );
+                $options['menu_slug'] = $this->_kitchen->prefixWithNamespace( $options['menu_slug'] );
             }
+
         }
 
         // Namespace all the options - everything beyond here is namespaced
         // AND set defaults for extant checking - speed things up later
         foreach ($options['options'] as $key => $block) {
-            //echo "<br />We mucked with $key<br /> ";
             $namespaced_key = $this->_kitchen->prefixWithNamespace( $key ); // store the key to operate with in this loop
             $options['options'][$namespaced_key] = $options['options'][$key]; // copy the key with namespace
             unset($options['options'][$key]); // delete the old key
@@ -196,7 +195,7 @@ class KST_Appliance_Options extends KST_Appliance {
         $options['priority'] = 999; // We like to go last-ish
 
         // Save the cleaned up array
-        self::$_option_pages[$group_key][$options['menu_slug']] =& $options; // Must be by reference for appliances to add options programatically after Options have been added
+        self::$_option_pages[$group_key][$options['menu_slug']] = $options; // Took reference out? If problems arise maybe that's why - used to be by reference for appliances to add options programatically after Options have been added
 
         if (!is_admin())
             return; // nothing to do
@@ -220,10 +219,9 @@ class KST_Appliance_Options extends KST_Appliance {
      * @uses        ZUI_WpAdminPages
     */
     public function create() {
-
         // Prep
         $doKSTMenus = ( 0 < count(self::$_option_pages['kst_theme']) || 0 < count(self::$_option_pages['kst_plugin']) ) ? TRUE
-                                                                                                                    : FALSE; // Whether to give core it's own menu
+                                                                                                                        : FALSE; // Whether to give core it's own menu
         // If we have KST Menus then get the menu/page that the section link should go to
         if ( $doKSTMenus ) {
             if ( 0 != count(self::$_option_pages['kst_theme']) ) { // It's a themes world so they go first
@@ -251,6 +249,7 @@ class KST_Appliance_Options extends KST_Appliance {
                 'position'              => self::$_custom_start_index
             );
             $kst_managed_theme_options = new ZUI_WpAdminPages($kst_managed_theme_options_array); // We now have 'Theme Options' top level section
+            KST::setKstThemeOptionsParentSlug($first_kst_menu_slug); // Tell KST core what page is the parent so we can add to it from other kitchens
 
             // Set all the KST managed menus to the new menu section
             foreach ( self::$_option_pages as $groupkey => $pages ) {
@@ -266,6 +265,7 @@ class KST_Appliance_Options extends KST_Appliance {
                 $page['parent_slug'] = 'settings';
             }
         } // Done Organizing KST/Core managed menus/pages...
+
 
         // Loop 'em all...
         foreach ( self::$_option_pages as $pages ) {
