@@ -17,7 +17,7 @@
  * @uses        KST_Kitchen
  * @todo        is_shut and show/hide sections isn't working i.e. implement $do_collapse_section has to do with the new simple templating
  * @todo        our admin pages need styling love that needs to be in the dev starter themes
- */
+*/
 
 
 /**

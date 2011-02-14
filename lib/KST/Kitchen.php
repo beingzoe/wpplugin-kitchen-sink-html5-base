@@ -309,6 +309,7 @@ class KST_Kitchen {
             $GLOBALS['kst_core_options']['options']['core_appliances']['name'] = 'KST Appliances used in your theme';
             $GLOBALS['kst_core_options']['options']['core_appliances']['desc'] = 'The following features and functionality are used by your theme or plugins.';
             $GLOBALS['kst_core_options']['options']['core_appliances']['type'] = 'section';
+            $GLOBALS['kst_core_options']['options']['core_appliances']['is_shut'] = TRUE;
             // Add loaded appliances only to that section
             foreach (self::$_appliances_loaded as $shortname) {
                 $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['name'] = self::$_appliances[$shortname]['friendly_name'];
@@ -329,6 +330,7 @@ class KST_Kitchen {
                 $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['name'] = 'KST Appliances you disabled';
                 $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['desc'] = 'Uncheck the <em>Disable this appliance</em> option to reactivate any disabled appliance';
                 $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['type'] = 'section';
+                $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['is_shut'] = TRUE;
                 // Add loaded appliances only to that section
                 foreach (self::$_appliances_disabled as $shortname) {
                     $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['name'] = self::$_appliances[$shortname]['friendly_name'];

@@ -259,7 +259,7 @@ $kst_core_options = array(
                                                         <p>KST settings generally only modify KST itself.<br />KST based themes and plugins will have their own options.<br />Only edit these settings if you experience conflicts or unwanted behavior with non-KST WordPress plugins.</p>
                                                     ",
                                         "type"      => "section",
-                                        "is_shut"   => FALSE
+                                        "is_shut"   => TRUE
                                         ),
 
                         'core_admin_interface' => array(
