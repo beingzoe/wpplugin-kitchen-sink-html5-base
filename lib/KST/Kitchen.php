@@ -246,7 +246,7 @@ class KST_Kitchen {
                     $this->load($key);
                 }
             break;
-            case 'default_plus':
+            case 'but_the_kitchen_sink':
                 $this->load('wp_sensible_defaults');
                 $this->load('wp_sensible_defaults_admin');
                 $this->load('help');
@@ -255,6 +255,7 @@ class KST_Kitchen {
                 $this->load('wordpress');
                 $this->load('options');
                 $this->load('metabox');
+                $this->load('additional_image_sizes');
                 $this->load('widget_nav_post');
                 $this->load('widget_nav_posts');
                 $this->load('widget_jit_sidebar');
