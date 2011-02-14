@@ -91,11 +91,44 @@ if ( class_exists('KST') ) {
         'page_title'            => 'my_theme Settings',
         'capability'            => 'manage_options',
         'view_page_callback'    => "auto",
-        'options'               => array( /* see wiki for syntax */ )
+        'options'               => array(
+                'misc_text_section' => array(
+                                "name"      => 'Misc text options',
+                                "desc"      => "<p><em>Edit various text in the main layout</em></p>",
+                                "type"      => "section",
+                                "is_shut"   => FALSE
+                                ),
+                'copyright_notice' => array(
+                                "name"      => 'Copyright notice',
+                                "desc"      => 'Appears at the bottom of every page.',
+                                "default"   => "Copyright © " . date('Y') . ", All Rights Reserved",
+                                "type"      => "text",
+                                "size"      => "150"
+                                ),
+                'misc_contact_section' => array(
+                                "name"      => 'Misc contact options',
+                                "desc"      => "<p><em>Various contact options for forms etc...</em></p>",
+                                "type"      => "section",
+                                "is_shut"   => FALSE
+                                ),
+                'main_contact_form_section' => array(
+                                "name"      => 'Primary site contact form',
+                                "desc"      => "<p><em>Settings for the main contact form.</em></p>",
+                                "type"      => "subsection",
+                                "is_shut"   => FALSE
+                                ),
+                'contact_primary_to_address' => array(
+                                "name"      => '"To" address',
+                                "desc"      => 'Email address to deliver mail from the main contact form',
+                                "default"   => "test@example.org",
+                                "type"      => "text",
+                                "size"      => "150"
+                                )
+                )
         );
 
     // CREATE ADMIN OPTIONS MENUS/PAGES - Don't forget to make an array
-    //$my_theme->options->add($my_theme_options);
+    $my_theme->options->add($my_theme_options);
 
     // Use some of the nifty WordPress function replacements for a big time saver (and a cleaner kitchen)
     $my_theme->wordpress->registerSidebar('Blog Sidebar', 'Sidebar content for blog articles');
