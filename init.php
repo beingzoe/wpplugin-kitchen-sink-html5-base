@@ -128,6 +128,13 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/MetaBox.php',
             'class_name'            => 'KST_Appliance_MetaBox'
         ),
+    'additional_image_sizes' => array(
+            'friendly_name'         => 'Additional Intermediate Image Sizes',
+            'desc'                  => 'Add as many extra image sizes as you need besides the predefined WordPress defaults (thumbnail, medium, large)',
+            'path'                  => KST_DIR_LIB . '/KST/Appliance/AdditionalImageSizes.php',
+            'class_name'            => 'KST_Appliance_AdditionalImageSizes',
+            'can_disable'           => TRUE
+        ),
     'wordpress' => array(
             'friendly_name'         => 'WordPress enhancements',
             'desc'                  => 'Methods supplementing or replacing default WordPress functions',
