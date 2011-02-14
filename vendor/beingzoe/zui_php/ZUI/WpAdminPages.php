@@ -225,7 +225,7 @@ class ZUI_WpAdminPages {
 
         // If options page check to see if $_REQUEST['action'] was sent for a settings 'reset'
         if ( 'options' == $this->_page_type ) {
-            if ( isset( $_REQUEST['action'] ) ) { // If we have an action to take
+            if ( isset($_REQUEST['action']) && 'reset' == $_REQUEST['action'] ) { // If we have an action to take
 
                 $nonce = $_REQUEST['reset_nonce'];
                 if ( !wp_verify_nonce($nonce, 'reset_nonce') )
