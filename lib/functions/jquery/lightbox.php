@@ -45,7 +45,6 @@ if ( !is_admin() ) {
     */
     if ( !function_exists('kstWpNavMenuFallbackCb') ) {
         function kst_lightbox_scripts() {
-            //<script type="text/javascript">jQuery(document).ready(function($) { if(jQuery().jit_message) { $(this).jit_message({<?php echo $jit_message_params; ?>}); }; });</script>
     ?>
 
             <script type="text/javascript">
@@ -58,7 +57,7 @@ if ( !is_admin() ) {
                             .fancybox({
                                 titlePosition: 'over'
                             })
-                    };
+                    }
                 });
             </script>
     <?php
