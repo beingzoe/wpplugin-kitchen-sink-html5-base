@@ -18,39 +18,33 @@
 */
 class KST {
 
-    /**
-     * Set _plugins_are_loaded to false until WP tells us that the plugins are loaded
-     * Hook set in init.php
+     /**#@+
      *
      * @since       0.1
      * @access      protected
-     * @see         KST::pluginsAreLoaded()
+     * @var         boolean
+     * @see         KST::pluginsAreLoaded();
+     * @see         KST_Kitchen_Theme::__construct()
+     * @see         KST_Kitchen_plugin::__construct()
     */
-    protected static $_plugins_are_loaded = false;
+    protected static $_plugins_are_loaded = false; // Set _plugins_are_loaded to false until WP tells us that the plugins are loaded - Hook set in init.php
+    protected static $_is_core_only = TRUE; // Set _core_only to TRUE until a plugin or theme loads - Used to minimize impact of KST when running without a KST dependent kitchen
+    /**#@-*/
 
 
-    /**
-     * Set _core_only to TRUE until a plugin or theme loads
-     * Flag set to FALSE if KST_Kitchen_Plugin or KST_Kitchen_Theme are invoked
-     * Used to minimize impact of KST when running without a KST dependent kitchen
-     *
-     * @since       0.1
-     * @access      protected
-     * @see         KST::pluginsAreLoaded()
-    */
-    protected static $_is_core_only = TRUE;
-
-
-    /**
+    /**#@+
      * Various central urls mostly Help/support
      * Stored centrally in KST in case it needs to change because of Kitchen settings
      *
      * @since       0.1
      * @access      protected
+     * @var         string
      * @see         KST::getHelpIndex()
     */
-    protected static $_help_index = 'admin.php?page=kst_theme_help_section';
-    protected static $_help_developers = 'admin.php?page=kst_theme_help_developers';
+    protected static $_kst_theme_options_parent_slug = FALSE; // Central access to help
+    protected static $_help_index = 'admin.php?page=kst_theme_help_section'; // Central access to help
+    protected static $_help_developers = 'admin.php?page=kst_theme_help_developers'; // central access to developers page
+    /**#@-*/
 
 
     /**
@@ -78,6 +72,32 @@ class KST {
     */
     public static function setIsCoreOnly($value) {
         self::$_is_core_only = $value;
+    }
+
+
+    /**
+     * Get the current KST 'Theme Options' Parent Slug
+     *
+     * @since       0.1
+     * @access      public
+     * @uses        KST::$_kst_theme_options_parent_slug
+    */
+    public static function getKstThemeOptionsParentSlug() {
+        return self::$_kst_theme_options_parent_slug;
+    }
+
+
+    /**
+     * Set/store current KST 'Theme Options' Parent Slug
+     * for use by all kitchens/appliances
+     * Should only be accessed by KST core (please ;)
+     *
+     * @since       0.1
+     * @access      public
+     * @uses        KST::$_kst_theme_options_parent_slug
+    */
+    public static function setKstThemeOptionsParentSlug($value) {
+        self::$_kst_theme_options_parent_slug = $value;
     }
 
 
