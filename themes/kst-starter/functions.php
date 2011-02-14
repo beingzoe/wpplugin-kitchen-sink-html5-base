@@ -101,7 +101,7 @@ if ( class_exists('KST') ) {
     $my_theme->wordpress->registerSidebar('Blog Sidebar', 'Sidebar content for blog articles');
     $my_theme->wordpress->registerSidebar('Pages Sidebar', 'Sidebar content for pages');
     $my_theme->wordpress->registerSidebar('Home Sidebar', 'Sidebar content for home page');
-    $my_theme->wordpress->registerSidebars(3, 'Footer Area');
+    $my_theme->wordpress->registerSidebars(4, 'Footer Area');
 
     // Jit Message Settings
     $jit_message_settings = array( //array(&$this, 'callbackInit')
@@ -152,7 +152,6 @@ remove_action('wp_head', 'wlwmanifest_link');
  * Also set default fallback menu functions
 */
 register_nav_menu('hd_menu', 'Masthead Menu'); //primary site nav
-register_nav_menu('ft_menu', 'Footer Menu'); //footer nav
 
 
 /*

@@ -17,19 +17,8 @@
 </div><!-- close #pg -->
 <footer id="ft" class="clearfix" role="contentinfo">
     <?php
-    echo "<nav id='ft_menu' class='clearfix' rel='navigation'>"; //manually creating container for ARIA landmark roles
-    wp_nav_menu( array(
-                'theme_location'    => 'ft_menu',
-                'container'         => false,
-                'container_class'   => false,
-                'menu_id'           => 'ft_menu_list',
-                'sort_column'       => 'menu_order',
-                'depth'             => '1',
-                'fallback_cb'     => 'kstWpNavMenuFallbackCb'
-                ) );
-    echo "</nav>";
     echo '<section id="ft_widgets" class="widgets clearfix">';
-    $GLOBALS["my_theme"]->wordpress->dynamicSidebars('footer_area_3');
+        $GLOBALS["my_theme"]->wordpress->dynamicSidebars('footer_area_4');
     echo '</section>';
     ?>
     <div id="ft_logo">

@@ -359,38 +359,19 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
                 }
 
         /* ft layout */
-        #ft_menu, #ft_widgets .widget {
+        .ft_widget {
             float: left;
-            width: 150px;
+            width: 215px;
             min-height: 100px;
             margin: 0 20px 0 0;
             font-size: 0.85em;
         }
-        #ft_menu {
-            float: left;
-        }
-        #ft_menu .menu { padding-left: 0; }
-        #ft_menu .menu-item {
-            /*margin-right: 10px;*/
-        }
-        #ft_widgets .widget {
-            width: 200px;
-            padding-left: 20px;
-            border-left: 1px solid #eee;
-        }
-        #ft_logo {
-            position: absolute;
-            top: -30px;
-            font-weight: bold;
-        }
-        #ft_logo a { color: #000; }
-        #ft_legal {
-            position: absolute;
-            top: -30px;
-            right: 0;
-            text-align: right;
-            font-style: italic;
-        }
+        .ft_widget .widget { padding-right: 20px; }
+        .ft_widget.last { margin-right: 0; border-right: 0 none; }
+        .ft_widget.last .widget { padding-right: 0; }
+        #ft_logo {  }
+        #ft_logo a {  }
+        #ft_legal {  }
 
 
 /**
