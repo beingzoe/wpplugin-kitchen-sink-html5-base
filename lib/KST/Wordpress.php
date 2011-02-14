@@ -191,7 +191,14 @@ class KST_Wordpress extends KST_Kitchen_Theme {
 
         $i = 1;
         while ( $i <= $how_many ) {
-            echo "<section class='ft_widget'>";
+            if ( 1 == $i )
+                $class = ' first';
+            else if ( $how_many == $i)
+                $class = ' last';
+            else
+                $class = '';
+
+            echo "<section class='ft_widget{$class}'>";
                 dynamic_sidebar( $id . $i );
             echo "</section>";
             $i++;
