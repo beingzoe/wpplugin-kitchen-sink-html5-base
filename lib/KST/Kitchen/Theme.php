@@ -39,7 +39,9 @@ class KST_Kitchen_Theme extends KST_Kitchen {
      * Theme/Plugin instance constructor
      *
      * @since       0.1
-     * @access      protected
+     * @access      public
+     * @uses        KST
+     * @uses        KST::setIsCoreOnly()
      * @param       required array $settings
      * @param       optional string $preset // As a convenience you can just pass a preset when you make your kitchen
     */

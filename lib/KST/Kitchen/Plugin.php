@@ -23,6 +23,9 @@ class KST_Kitchen_Plugin extends KST_Kitchen {
 
     /**
      * @since       0.1
+     * @access      public
+     * @uses        KST
+     * @uses        KST::setIsCoreOnly()
     */
     public function __construct($settings, $preset=null) {
         $this->type_of_kitchen = 'plugin';
