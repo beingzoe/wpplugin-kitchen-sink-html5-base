@@ -6,7 +6,10 @@
  *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
- * @copyright	Copyright (c) 2011, zoe somebody, http://beingzoe.com
+ * @author      Austin Matzko
+ * @link        http://pressedwords.com/solving-wordpress-seo-paged-comments-problem/
+ * @author      Frank Bültge
+ * @link        http://wpengineer.com/filter-caption-shortcode-in-wordpress/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
  * @package     KitchenSinkHTML5Base
  * @subpackage  Base
