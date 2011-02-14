@@ -58,7 +58,7 @@ class KST_Kitchen {
      *              required string developer
      *              required string developer_url
     */
-    protected function __construct( $options) {
+    protected function __construct( $options, $preset = NULL ) {
 
         $defaults = array(
             'friendly_name'             => '',
@@ -76,6 +76,8 @@ class KST_Kitchen {
         self::$_all_kitchen_settings_array[] = $options; // save this for developers page and?
         $this->_local_appliances = array();
 
+        if ( NULL !== $preset )
+            $this->loadPreset($preset);
     }
 
 
@@ -102,7 +104,8 @@ class KST_Kitchen {
                 'class_name'        => FALSE,
                 'require_args'      => FALSE,
                 'after_setup_theme' => FALSE,
-                'can_disable'       => FALSE
+                'can_disable'       => FALSE,
+                'is_theme_only'     => FALSE
             );
         $args = array_merge($defaults, $args);
 
@@ -135,12 +138,9 @@ class KST_Kitchen {
     */
     public function registerAppliances($appliances) {
         foreach ($appliances as $shortname => $appliance) {
-
             $args = (array) $appliance;
-
             // Register the appliance
             $this->registerAppliance($shortname, $args);
-            //$this->registerAppliance($shortname, $appliance['path'], $appliance['class_name'], $require_args);
         }
     }
 
@@ -162,14 +162,15 @@ class KST_Kitchen {
         } else {
             $property = $shortname;
         }
+
         $this_kitchen =& $this; // Store kitchen object for new appliance objects
         array_unshift($args, $this_kitchen); // Add kitchen object to beginning of $args array
 
-        // Check if appliance name/namespace already exists
-        if ( array_key_exists($shortname, self::$_appliances) ) {
+        // Get the $args for the appliance we are loading
+        $appliance = self::$_appliances[$shortname];
 
-            // Get the $args for the appliance we are loading
-            $appliance = self::$_appliances[$shortname];
+        // Check if appliance has been registered and that if it is_theme_only that this is theme kitchen
+        if ( array_key_exists($shortname, self::$_appliances) && ( !$appliance['is_theme_only'] || $appliance['is_theme_only'] && 'theme' == $this->type_of_kitchen ) ) {
 
             // Load appliances if they are not disabled by the site/blog owner
             // Options has to load no matter what - is there a more eloquent way to handle this?
@@ -283,41 +284,63 @@ class KST_Kitchen {
      * @uses        KST_Kitchen::$_appliances
     */
     public static function addLoadedApplianceCoreOptions() {
-        // Create a core appliance section
-        $GLOBALS['kst_core_options']['options']['core_appliances']['name'] = 'KST Appliances used in your theme';
-        $GLOBALS['kst_core_options']['options']['core_appliances']['desc'] = 'The following features and functionality are used by your theme or plugins.';
-        $GLOBALS['kst_core_options']['options']['core_appliances']['type'] = 'section';
-        // Add loaded appliances only to that section
-        foreach (self::$_appliances_loaded as $shortname) {
-            $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['name'] = self::$_appliances[$shortname]['friendly_name'];
-            $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['desc'] = self::$_appliances[$shortname]['desc'];
-            $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['type'] = 'subsection';
-            // Can it be disabled safely?
-            if ( TRUE == self::$_appliances[$shortname]['can_disable'] ) {
-                $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['name'] = 'Disable this appliance';
-                $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['desc'] = "({$shortname})";
-                $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['type'] = 'checkbox';
-                $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['default'] = FALSE;
-            }
 
-        }
+        // If no kitchen has loaded then simplify the 'about kst core options' and help the site/blog owner
+        if ( KST::isCoreOnly() ) {
+            unset($GLOBALS['kst_core_options']['options']);
+            $GLOBALS['kst_core_options']['options'] = array(
+                        'core_main' => array(
+                                        "name"      => 'About Kitchen Sink HTML5 Base',
+                                        "desc"      => "
+                                                        <p>Some themes and plugins rely on Kitchen Sink HTML5 Base (KST) to operate.</p>
+                                                        <p>However you current WordPress Install is not using any KST dependent functionality.<br />You should consider deactivating Kitchen Sink HTML5 Base if...</p>
+                                                        <ol> <li><small>You are 99% sure you won't be using a KST dependent theme or plugin in the near future</small></li> <li><small>You have verified all <strong>active</strong> <a href='themes.php'>themes</a> and <a href='plugins.php?plugin_status=active'>plugins</a> on your install do not use KST</small></li> <li><small>You have verified all <strong>inactive</strong> <a href='themes.php'>themes</a> and <a href='plugins.php?plugin_status=inactive'>plugins</a> on your install do not use KST</small></li> </ol>
+                                                        <p>If all of the above items are true then you should consider deactivating or uninstalling Kitchen Sink HTML5 Base.</p>
+                                                        <p style='margin-top: 36px;'>Learn more about <a href='http://beingzoe.com/zui/wordpress/kitchen_sink/'>Kitchen Sink HTML5 Base</a></p>
+                                                    ",
+                                        "type"      => "section",
+                                        "is_shut"   => FALSE
+                                        )
+                        );
+        } else {
 
-        if ( 0 < count(self::$_appliances_disabled) ) {
             // Create a core appliance section
-            $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['name'] = 'KST Appliances you disabled';
-            $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['desc'] = 'Uncheck the <em>Disable this appliance</em> option to reactivate any disabled appliance';
-            $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['type'] = 'section';
+            $GLOBALS['kst_core_options']['options']['core_appliances']['name'] = 'KST Appliances used in your theme';
+            $GLOBALS['kst_core_options']['options']['core_appliances']['desc'] = 'The following features and functionality are used by your theme or plugins.';
+            $GLOBALS['kst_core_options']['options']['core_appliances']['type'] = 'section';
             // Add loaded appliances only to that section
-            foreach (self::$_appliances_disabled as $shortname) {
+            foreach (self::$_appliances_loaded as $shortname) {
                 $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['name'] = self::$_appliances[$shortname]['friendly_name'];
                 $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['desc'] = self::$_appliances[$shortname]['desc'];
                 $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['type'] = 'subsection';
-                // Same exact as before it was disabled!
-                $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['name'] = 'Disable this appliance';
-                $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['desc'] = "({$shortname})";
-                $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['type'] = 'checkbox';
-                $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['default'] = FALSE;
+                // Can it be disabled safely?
+                if ( TRUE == self::$_appliances[$shortname]['can_disable'] ) {
+                    $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['name'] = 'Disable this appliance';
+                    $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['desc'] = "({$shortname})";
+                    $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['type'] = 'checkbox';
+                    $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['default'] = FALSE;
+                }
+
             }
+
+            if ( 0 < count(self::$_appliances_disabled) ) {
+                // Create a core appliance section
+                $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['name'] = 'KST Appliances you disabled';
+                $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['desc'] = 'Uncheck the <em>Disable this appliance</em> option to reactivate any disabled appliance';
+                $GLOBALS['kst_core_options']['options']['core_appliances_disabled']['type'] = 'section';
+                // Add loaded appliances only to that section
+                foreach (self::$_appliances_disabled as $shortname) {
+                    $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['name'] = self::$_appliances[$shortname]['friendly_name'];
+                    $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['desc'] = self::$_appliances[$shortname]['desc'];
+                    $GLOBALS['kst_core_options']['options'][$shortname . "_section"]['type'] = 'subsection';
+                    // Same exact as before it was disabled!
+                    $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['name'] = 'Disable this appliance';
+                    $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['desc'] = "({$shortname})";
+                    $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['type'] = 'checkbox';
+                    $GLOBALS['kst_core_options']['options']["disable_{$shortname}"]['default'] = FALSE;
+                }
+            }
+
         }
 
         // Load all core options here!

@@ -24,9 +24,10 @@ class KST_Kitchen_Plugin extends KST_Kitchen {
     /**
      * @since       0.1
     */
-    public function __construct($settings) {
+    public function __construct($settings, $preset=null) {
         $this->type_of_kitchen = 'plugin';
-        parent::__construct($settings);
+        KST::setIsCoreOnly(FALSE); // Tell the core it is not alone
+        parent::__construct($settings, $preset);
     }
 
 }

@@ -28,6 +28,19 @@ class KST {
     */
     protected static $_plugins_are_loaded = false;
 
+
+    /**
+     * Set _core_only to TRUE until a plugin or theme loads
+     * Flag set to FALSE if KST_Kitchen_Plugin or KST_Kitchen_Theme are invoked
+     * Used to minimize impact of KST when running without a KST dependent kitchen
+     *
+     * @since       0.1
+     * @access      protected
+     * @see         KST::pluginsAreLoaded()
+    */
+    protected static $_is_core_only = TRUE;
+
+
     /**
      * Various central urls mostly Help/support
      * Stored centrally in KST in case it needs to change because of Kitchen settings
@@ -43,6 +56,29 @@ class KST {
     /**
      * PUBLIC STATIC HELPER METHODS
     */
+
+    /**
+     * Get $_is_core_only
+     *
+     * @since       0.1
+     * @access      public
+     * @uses        KST::$_is_core_only
+    */
+    public static function isCoreOnly() {
+        return self::$_is_core_only;
+    }
+
+
+    /**
+     * Set $_is_core_only
+     *
+     * @since       0.1
+     * @access      public
+     * @uses        KST::$_is_core_only
+    */
+    public static function setIsCoreOnly($value) {
+        self::$_is_core_only = $value;
+    }
 
 
     /**

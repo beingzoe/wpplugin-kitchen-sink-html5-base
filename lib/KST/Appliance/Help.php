@@ -42,7 +42,6 @@ if ( !function_exists('add_admin_menu_section') && !class_exists('WP_AdminMenuSe
 */
 require_once KST_DIR_VENDOR . '/beingzoe/zui_php/ZUI/WpAdminPages.php';
 
-
 /**
  * Class methods for creating and accessing help files for site/blog owner
  * Creates WP admin menu/pages (not 'options' pages ;)
@@ -136,7 +135,6 @@ class KST_Appliance_Help extends KST_Appliance {
             $section_slug = self::formatThisAsSlug($value['section']);
             $title_slug = self::formatThisAsSlug($value['title']); ;
 
-
             $content_source = $value['content_source'];
 
             $temp_array[$value['page']][$value['section']][$value['title']]['page_url'] = 'admin.php?page=' . $page_slug;
@@ -155,9 +153,9 @@ class KST_Appliance_Help extends KST_Appliance {
         }
 
         // Add the hook to organize all the submitted pages before we send them to WP
-        //if ( !has_action( '_admin_menu', array('KST_Appliance_Help','create')) ) {
+        if ( !has_action( '_admin_menu', array('KST_Appliance_Help', 'create'), 1999) ) {
             add_action('_admin_menu', array('KST_Appliance_Help', 'create'), 1999); // important for sequencing - go after Options at 999
-        //}
+        }
 
     }
 
@@ -185,24 +183,8 @@ class KST_Appliance_Help extends KST_Appliance {
             }
         }
 
-        /*
-        echo "<br />Core and Theme Help<br />";
-        print_r(self::$_help_files);
-        echo "<br /><br /><br />";
-
-        echo "<br />Plugin Help<br />";
-        print_r(self::$_help_files_plugins);
-        echo "<br /><br /><br />";
-        */
-
         // Merge back in plugins so they can modify entries
         self::$_help_files = array_merge_recursive(self::$_help_files, self::$_help_files_plugins); //+= self::$_help_files_plugins
-
-        /*
-        echo "<br />MERGED <br />";
-        print_r(self::$_help_files_plugins);
-        echo "<br /><br /><br />";
-        */
 
         foreach (self::$_help_files as $page => $sections) {
             if ( !isset($did_help_section) ) { // Create the main help section first time through
