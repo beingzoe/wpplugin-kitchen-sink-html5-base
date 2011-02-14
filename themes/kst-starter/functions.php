@@ -82,7 +82,7 @@ if ( class_exists('KST') ) {
     // OR GO ALA CARTE - Not everybody likes presets so load what you want
     // e.g. $my_theme->load('wp_sensible_defaults');
     // See https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki/Docs_reference_appliance_all_load_shortname_preset_list
-    $my_theme->loadPreset('default_plus');
+    $my_theme->loadPreset('but_the_kitchen_sink');
 
     // An array to create a theme options page - make one array per options page you need (u)
     $my_theme_options = array(
