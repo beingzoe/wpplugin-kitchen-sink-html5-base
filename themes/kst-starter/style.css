@@ -883,98 +883,12 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
 
 
 
-
-
-
-
-
-
-
-
-    ol.commentlist {
-        margin: 18px 0 0;
-        padding: 0;
-    }
-    ol.children {
-        clear: both;
-        margin: 18px 0 0;
-        padding: 0;
-    }
-
-    li.comment {
-        margin-bottom: 18px;
-        padding: 18px;
-        list-style:none;
-    }
-    li.comment.odd {
-        background: #f2f2f2 none 0 0 repeat;
-    }
-    li.comment.odd:hover {
-        background: #f7f7f7 none 0 0 repeat;
-    }
-    li.comment.even {
-        background: #d9d9d9 none 0 0 repeat;
-    }
-    li.comment.even:hover {
-        background: #dedede none 0 0 repeat;
-    }
-    li.comment.depth-2 {
-        background: #e5e5e5 none 0 0 repeat;
-    }
-    li.comment.depth-2:hover {
-        background: #e5e5e5 none 0 0 repeat;
-    }
-    li.comment.depth-3 {
-        background: #d9d9d9 none 0 0 repeat;
-    }
-    li.comment.depth-3:hover {
-        background: #dedede none 0 0 repeat;
-    }
-    li.comment.depth-4 {
-        background: #cccccc none 0 0 repeat;
-    }
-    li.comment.depth-4:hover {
-        background: #d1d1d1 none 0 0 repeat;
-    }
-    li.comment.depth-5 {
-        background: #bfbfbf none 0 0 repeat;
-    }
-    li.comment.depth-5:hover {
-        background: #c4c4c4 none 0 0 repeat;
-    }
-    li.comment.bypostauthor {
-        background: #faf8cc  none 0 0 repeat;
-    }
-    li.comment.bypostauthor:hover {
-        background: #faf9e1 none 0 0 repeat;
-    }
-
-    li.comment .comment_avatar {
-        float: left;
-        width: 48px;
-        margin: 0 18px 18px 0;
-    }
-
-    li.comment.odd .wp_comment_author  {
-        border-bottom:1px solid #e5e5e6;
-    }
-    li.comment.even .wp_comment_author  {
-        border-bottom:1px solid #ccc;
-    }
-    li.comment .wp_comment_meta  {
-
-    }
-    li.comment .comment_comment  {
-        margin-top: 18px;
-    }
-
-
 /**
  * KST Appliances
 */
 
     /**
-     * JIT (Just-in-Time) Message
+     * JIT (Just-in-Time) Message Box
     */
     #jit_box { display: none; /* vital */ }
     #jit_box.top {
@@ -1037,51 +951,6 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         cursor: pointer;
     }
 
-/**
- * PLUGINS
-*/
-
-    /**
-     * Sociable
-     */
-        div.sociable { float: right; margin-top: -30px; }
-        span.sociable_tagline { position: relative; }
-        span.sociable_tagline span { display: none; }
-        .sociable span { display: block; }
-        .sociable ul {
-            display: inline;
-            margin: 0 !important;
-            padding: 0 !important;
-        }
-        .sociable ul li {
-            background: none;
-            display: inline !important;
-            list-style-type: none;
-            margin: 0;
-            padding: 1px;
-        }
-        .sociable ul li:before { content: ""; }
-        .sociable img {
-            float: none;
-            width: 16px;
-            height: 16px;
-        }
-        .sociable-hovers {
-            opacity: .4;
-            -moz-opacity: .4;
-            filter: alpha(opacity=40);
-        }
-        .sociable-hovers:hover {
-            opacity: 1;
-            -moz-opacity: 1;
-            filter: alpha(opacity=100);
-        }
-
-    /**
-     * Subscribe to Comments
-     */
-        #commentform .subscribe-to-comments { /*declared with comment form styling*/ }
-
     /**
      * Lightbox (fancybox) plugin
      *
@@ -1089,46 +958,11 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
      * Drop shadow pngs and all functional css is in KST
      * /assets/stylesheets/fancybox.css
     */
+    #fancybox-loading div {  }
+    #fancybox-close {  }
+    #fancybox-left-ico {  }
+    #fancybox-right-ico {  }
 
-    #fancybox-loading div {
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 40px;
-        height: 480px;
-        background-image: url('../../../../plugins/kitchen-sink-html5-base/assets/images/layouts/fancybox/fancybox.png');
-    }
-    #fancybox-close {
-        position: absolute;
-        top: -15px;
-        right: -15px;
-        width: 30px;
-        height: 30px;
-        background: transparent url('../../../../plugins/kitchen-sink-html5-base/assets/images/layouts/fancybox/fancybox.png') -40px 0px;
-        cursor: pointer;
-        z-index: 1103;
-        display: none;
-    }
-    #fancybox-left-ico {
-        background-image: url('../../../../plugins/kitchen-sink-html5-base/assets/images/layouts/fancybox/fancybox.png');
-        background-position: -40px -30px;
-    }
-
-    #fancybox-right-ico {
-        background-image: url('../../../../plugins/kitchen-sink-html5-base/assets/images/layouts/fancybox/fancybox.png');
-        background-position: -40px -60px;
-    }
-    /**/
-
-
-    /**
-     * JIT (just-in-time) message box
-    */
-
-    /**
-     * JIT (just-in-time) sidebar
-     *
-    */
 
     /**
      * Cycle (slideshow) plugin
@@ -1341,6 +1175,53 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         .scrollables_nav a:hover { background-position: -17px 0;  }
         /* active state (current page state) */
         .scrollables_nav a.active { background-position: -34px 0;  }
+
+
+/**
+ * PLUGINS
+*/
+
+    /**
+     * Sociable
+     */
+        div.sociable { float: right; margin-top: -30px; }
+        span.sociable_tagline { position: relative; }
+        span.sociable_tagline span { display: none; }
+        .sociable span { display: block; }
+        .sociable ul {
+            display: inline;
+            margin: 0 !important;
+            padding: 0 !important;
+        }
+        .sociable ul li {
+            background: none;
+            display: inline !important;
+            list-style-type: none;
+            margin: 0;
+            padding: 1px;
+        }
+        .sociable ul li:before { content: ""; }
+        .sociable img {
+            float: none;
+            width: 16px;
+            height: 16px;
+        }
+        .sociable-hovers {
+            opacity: .4;
+            -moz-opacity: .4;
+            filter: alpha(opacity=40);
+        }
+        .sociable-hovers:hover {
+            opacity: 1;
+            -moz-opacity: 1;
+            filter: alpha(opacity=100);
+        }
+
+    /**
+     * Subscribe to Comments
+     */
+        #commentform .subscribe-to-comments { /*declared with comment form styling*/ }
+
 
 
 
