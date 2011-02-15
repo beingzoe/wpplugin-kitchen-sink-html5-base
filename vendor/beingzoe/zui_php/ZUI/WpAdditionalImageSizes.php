@@ -157,6 +157,7 @@ class ZUI_WpAdditionalImageSizes {
     */
     public static function appendAttachmentFieldsWithAdditionalSizes($form_fields, $post) {
         $out = NULL;
+        $checked = NULL;
         $size_names = array();
         $ais_user_sizes = self::getAddtionalSizesFromWpOptions();
         if (is_array($ais_user_sizes)) {
