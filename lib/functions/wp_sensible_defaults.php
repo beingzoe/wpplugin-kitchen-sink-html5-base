@@ -67,7 +67,6 @@ if ( is_singular() )
 add_filter( 'gallery_style', 'kstRemoveGalleryInvalidCss' ); //Remove invalid gallery inline css
 add_action( 'wp_print_scripts', 'kstLoadWpThreadedCommentReplyJs' ); // Load threaded comment reply javascript if needed
 add_theme_support( 'automatic-feed-links' ); // Add default posts and comments RSS feed links to head
-add_theme_support( 'post-thumbnails' ); // Theme uses featured image post/page thumbnails
 /**#@-*/
 
 
@@ -238,7 +237,7 @@ if ( !function_exists('kstFormatWpListComments') ) {
 
         $GLOBALS['comment'] = $comment; ?>
 
-        <article id="wp_comment-<?php comment_ID(); ?>"<?php comment_class('wp_comment clearfix'); ?>>
+        <article id="comment-<?php comment_ID(); ?>"<?php comment_class('wp_comment clearfix'); ?>>
 <?php
             if ($comment->comment_approved == '0') {
                  echo "<span class='wp_comment_moderated'>" . __('Your comment is awaiting moderation.') . "</span>";

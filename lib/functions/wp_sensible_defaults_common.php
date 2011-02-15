@@ -25,6 +25,7 @@
  *
  * @since       0.1
 */
+add_theme_support( 'post-thumbnails' ); // Theme uses featured image post/page thumbnails
 add_action( 'login_head', 'kstLoadAdminLoginCss' ); // Add style for wp-login (uses admin css: style_admin.css)
 /**#@-*/
 

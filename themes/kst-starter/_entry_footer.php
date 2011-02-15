@@ -14,7 +14,7 @@
  * @since       0.1
  */
 ?>
-<footer>
+<footer class="wp_entry_footer">
 <?php
     // Author bio
     if ( ( is_single() || is_page() ) && get_the_author_meta( 'description' ) ) { // Author has a bio
