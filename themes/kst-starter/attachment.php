@@ -87,7 +87,10 @@ get_header();
                                     break;
                             }
                             $k++;
-                            // If there is more than 1 image attachment in a gallery
+
+                            $attachment_size = apply_filters( 'kst_attachment_size', 900 );
+
+                            // If there is more than 1 image attachment in a gallery, if you are not using the lightbox appliance you should link to the next image
                             if ( count( $attachments ) > 1 ) {
                                 if ( isset( $attachments[ $k ] ) )
                                     $next_attachment_url = get_attachment_link( $attachments[ $k ]->ID );  // get the URL of the next image attachment
@@ -97,20 +100,23 @@ get_header();
                                 // or, if there's only 1 image attachment, get the URL of the image
                                 $next_attachment_url = wp_get_attachment_url();
                             }
+
+                            // If you are using the lightbox appliance then you should link to the current
+                            //$this_attachment_url = wp_get_attachment_image( $post->ID, array( $attachment_size, 9999 ) )
+                            $next_attachment_url = wp_get_attachment_url( $post->ID, array( $attachment_size, 9999 ) )
 ?>
-                        <div class="wp_attachment">
-                            <a
-                                href="<?php echo $next_attachment_url; ?>"
-                                title="<?php echo esc_attr( get_the_title() ); ?>"
-                                rel="attachment"
-                                ><?php
-                                    $attachment_size = apply_filters( 'kst_attachment_size', 900 );
-                                    echo wp_get_attachment_image( $post->ID, array( $attachment_size, 9999 ) ); // filterable image width with, essentially, no limit for image height.
-                                ?></a>
-                            <?php if ( !empty( $post->post_excerpt ) ) { ?>
-                                <div class="wp_caption entry-summary"><?php the_excerpt(); ?></div>
-                            <?php } ?>
-                        </div>
+                            <div class="wp_attachment">
+                                <a
+                                    href="<?php echo $next_attachment_url; ?>"
+                                    title="<?php echo esc_attr( get_the_title() ); ?>"
+                                    rel="attachment"
+                                    ><?php
+                                        echo "<img src='$next_attachment_url' alt='' />"; // filterable image width with, essentially, no limit for image height.
+                                    ?></a>
+                                <?php if ( !empty( $post->post_excerpt ) ) { ?>
+                                    <div class="wp_caption entry-summary"><?php the_excerpt(); ?></div>
+                                <?php } ?>
+                            </div>
 
 <?php
                         } else { // non-image attachments
