@@ -55,10 +55,12 @@ class KST_Widget_NavPost extends KST_Widget {
      */
     function widget($args, $instance) {
         if ( is_single() ) {
-        extract( $args );
-        $title = apply_filters('widget_title', $instance['title']);
-        $next = $instance['next'];
-        $previous = $instance['previous'];
+            extract( $args );
+
+            $title = apply_filters('widget_title', $instance['title']);
+            $next = $instance['next'];
+            $previous = $instance['previous'];
+
         ?>
               <?php echo $before_widget; ?>
                   <?php if ( $title )
@@ -107,6 +109,13 @@ class KST_Widget_NavPost extends KST_Widget {
      * @uses _e()
      */
     function form($instance) {
+        $defaults = array(
+            'title'     => '',
+            'next'      => 'Next',
+            'previous'  => 'Previous'
+        );
+		$instance = wp_parse_args( $instance, $defaults );
+
         $title = esc_attr($instance['title']);
         $next = esc_attr($instance['next']);
         $previous = esc_attr($instance['previous']);

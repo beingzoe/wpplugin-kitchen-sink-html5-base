@@ -105,6 +105,13 @@ class KST_Widget_NavPosts extends KST_Widget {
      * @uses        _e()
      */
     function form($instance) {
+        $defaults = array(
+            'title'     => '',
+            'next'      => 'Older',
+            'previous'  => 'Newer'
+        );
+		$instance = wp_parse_args( $instance, $defaults );
+
         $title = esc_attr($instance['title']);
         $next = esc_attr($instance['next']);
         $previous = esc_attr($instance['previous']);
