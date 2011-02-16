@@ -389,8 +389,12 @@ class KST_Appliance_Seo extends KST_Appliance {
 
         global $post; // WP global post object for current post
 
-        $this->_appliance->metabox->the_field('meta_page_description');
-        $post_custom_field = $this->_appliance->metabox->get_the_value(); //get custom field via metabox class
+        if (is_singular()) {
+            $this->_appliance->metabox->the_field('meta_page_description');
+            $post_custom_field = $this->_appliance->metabox->get_the_value(); //get custom field via metabox class
+        } else {
+            $post_custom_field = FALSE;
+        }
 
         if ( $post_custom_field ) { /* Use post_custom_field custom field if exists */
             $content = $post_custom_field;
@@ -428,13 +432,16 @@ class KST_Appliance_Seo extends KST_Appliance {
 
         global $post, $kst_seo;
 
-        $post_custom_field = $this->_appliance->metabox->get_the_value('meta_page_keywords'); //get custom field via metabox class
+        if (is_singular())
+            $post_custom_field = $this->_appliance->metabox->get_the_value('meta_page_keywords'); //get custom field via metabox class
+        else
+            $post_custom_field = FALSE;
 
         /* Find and use appropriate keywords */
         if ( $post_custom_field ) { /* Use meta_page_keywords custom field if exists */
             $keywords = $post_custom_field;
             /* Should we add global post keywords to metabox keywords */
-            if ( $this->_appliance->metabox->get_the_value('meta_page_keywords_use_global') ) {
+            if ( is_singular() && $this->_appliance->metabox->get_the_value('meta_page_keywords_use_global') ) {
                 if ( is_page() && $this->_appliance->options->get("meta_keywords_page") ) /* page */
                     $keywords .= ', ' . $this->_appliance->options->get("meta_keywords_page"); // default set in theme options
                 else if ( is_single() && $this->_appliance->options->get("meta_keywords_single") ) /* single article */
@@ -457,7 +464,7 @@ class KST_Appliance_Seo extends KST_Appliance {
         }
 
         /* Should we add post tags to metabox keywords? */
-        if ( $this->_appliance->metabox->get_the_value('meta_page_keywords_use_tags') ) {
+        if ( is_singular() && $this->_appliance->metabox->get_the_value('meta_page_keywords_use_tags') ) {
             $post_tags = get_the_tags($post->ID);
             if ($post_tags) {
                 foreach($post_tags as $tag) {
@@ -541,7 +548,10 @@ class KST_Appliance_Seo extends KST_Appliance {
         }
 
         // Use meta_page_title custom field if exists
-        $meta_page_title = $this->_appliance->metabox->get_the_value('meta_page_title'); //get from metabox class
+        if ( is_singular() )
+            $meta_page_title = $this->_appliance->metabox->get_the_value('meta_page_title'); //get from metabox class
+        else
+            $meta_page_title = FALSE;
 
         if ( $meta_page_title ) {
 
