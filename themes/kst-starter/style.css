@@ -286,39 +286,37 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
         #hd_tag {  }
         #hd_image {  }
         #hd_menu { /* nav */
+            margin: -4px 0 0; /* WTF? */
+            padding: 0;
             background: #000 none;
         }
             /* CSS drop down header nav - tried to optimize to use WP classes instead of ul li but for compatibility with wp default functions not entirely*/
-            #hd_menu ul {
+            #hd_menu_list {
                 margin: 0 0 0 12px;
                 padding: 0;
+                z-index: 100;
             }
-            #hd_menu .menu-item {
+            #hd_menu_list .menu-item {
                 position: relative;
                 float: left;
                 margin: 0;
                 background: #000 none 0 0 repeat-x;
-                z-index: 100;
             }
-            #hd_menu .menu-item:hover {
+            #hd_menu_list .menu-item:hover {
                 background: #333;
-                z-index: 200;
             }
-            #hd_menu a {
+            #hd_menu_list a {
                 display: block;
                 padding: 10px 9px;
                 color: #aaa;
             }
-            #hd_menu a:hover { background: #333; color: #fff; }
+            #hd_menu_list a:hover { background: #333; color: #fff; }
 
-            #hd_menu .current_page_item a {
+            #hd_menu_list .current_page_item a {
                 color: #fff;
             }
 
-                #hd_menu .menu-item:hover .sub-menu {
-                    display: block;
-                }
-                #hd_menu .menu-item .sub-menu {
+                #hd_menu_list .menu-item .sub-menu {
                     position: absolute;
                     display: none;
                     top: 35px; /* = #hd_menu a height + padding/margin */
@@ -327,36 +325,68 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
                     margin: 0;
                     padding: 0;
                     background: #333;
+                    -webkit-box-shadow: 0 5px 10px #000;
+                    -moz-box-shadow: 0 5px 10px #000;
+                    box-shadow: 0 5px 10px #000;
+                    z-index: 201;
                 }
-                #hd_menu .sub-menu .menu-item {
+                #hd_menu_list > .menu-item:hover > .sub-menu {
+                    display: block;
+                    z-index: 251;
+                }
+                #hd_menu_list .sub-menu .menu-item {
                     position: relative;
                     float: none;
                     margin: 0;
                     background: #333;
                     font-size: 0.9em;
-                    z-index: 101;
                 }
-                #hd_menu .menu-item .sub-menu .menu-item:hover .sub-menu {
-                    display: block !important;
-                }
-                #hd_menu .menu-item .sub-menu .menu-item .sub-menu {
+                #hd_menu_list .menu-item .sub-menu .menu-item .sub-menu {
                     position: absolute;
                     display: none !important;
-                    top: 0; /* = preference but remember borders -1px */
-                    left: 200px;
+                    top: -15px; /* = preference but remember borders -1px */
+                    left: 150px;
                     width: 200px;
                     margin: 0;
                     padding: 0;
                     list-style-type: none;
+                    z-index: 302;
                 }
-                #hd_menu .sub-menu .menu-item .sub-menu .menu-item {
+                #hd_menu_list > .menu-item > .sub-menu > .menu-item:hover > .sub-menu {
+                    display: block !important;
+                    z-index: 352;
+                }
+                #hd_menu_list .sub-menu .menu-item .sub-menu .menu-item {
                     position: relative;
                     float: none;
                     border-left: 2px solid #303030;
                     margin: 0;
                     font-size: 1em;
                     background: #333;
-                    z-index: 102;
+
+                }
+                #hd_menu_list .menu-item .sub-menu .menu-item .sub-menu .menu-item .sub-menu {
+                    position: absolute;
+                    display: none !important;
+                    top: -15px; /* = preference but remember borders -1px */
+                    left: -195px;
+                    width: 200px;
+                    margin: 0;
+                    padding: 0;
+                    list-style-type: none;
+                    z-index: 403;
+                }
+                #hd_menu_list > .menu-item > .sub-menu > .menu-item > .sub-menu > .menu-item:hover > .sub-menu {
+                    display: block !important;
+                    z-index: 453;
+                }
+                #hd_menu_list .sub-menu .menu-item .sub-menu .menu-item .menu-item .sub-menu {
+                    position: relative;
+                    float: none;
+                    border-left: 2px solid #303030;
+                    margin: 0;
+                    font-size: 1em;
+                    background: #333;
                 }
 
         /* ft layout */
