@@ -157,7 +157,6 @@ class ZUI_WpAdditionalImageSizes {
     */
     public static function appendAttachmentFieldsWithAdditionalSizes($form_fields, $post) {
         $out = NULL;
-        $checked = NULL;
         $size_names = array();
         $ais_user_sizes = self::getAddtionalSizesFromWpOptions();
         if (is_array($ais_user_sizes)) {
@@ -171,9 +170,11 @@ class ZUI_WpAdditionalImageSizes {
             // is this size selectable?
             $enabled = ( $downsize[3] || 'full' == $size );
             $css_id = "image-size-{$size}-{$post->ID}";
+
             // if this size is the default but that's not available, don't select it
-            if ( $checked && !$enabled )
-                $checked = '';
+            if ( (isset($checked) && $checked && !$enabled) || !isset($checked) )
+                $checked = FALSE;
+
             // if $checked was not specified, default to the first available size that's bigger than a thumbnail
             if ( !$checked && $enabled && 'thumbnail' != $size )
                 $checked = $size;
