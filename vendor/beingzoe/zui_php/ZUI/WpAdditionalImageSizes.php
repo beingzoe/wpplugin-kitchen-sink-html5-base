@@ -2,39 +2,34 @@
 /**
  * Additional Image Sizes for WordPress Image Media
  *
- * Create additional image sizes (in addition to the thumbnail,
- * medium and large size that are default) for your WordPress site/blog
+ * Create additional image sizes (in addition to the predefined WordPress
+ * defaults thumbnail, medium and large size that are default) for your WordPress site/blog.
+ * Will also resize the predefined WordPress sizes if the size in Media > Settings has been edited.
  *
  * This plugin is a fork/rewrite of Additional image sizes created by Walter Vos
  * The last version from Walter was Version: 1.0.2 and is still available on
  * the WordPress plugin directory.
  *
- * Version 0.1 is basically the same exact code used in the orginal version 1.0.2
- * and could be considered version 1.0.3 as I've only made two minor edits so far
- * to get rid of a deprecated use of numeric user capabilities (couldn't take the
- * E_NOTICE anymore and to prevent another E_NOTICE for an undefined variable)
+ * The new version eliminiates a variety of bugs in the original
+ * and does everything the original did plus...
+ *     -resizes predefined WordPress sizes if they have been changed in the admin
  *
- * This will basically be rewritten for version 0.2 due
- * a known error that occurs when resizing existing images under certain
- * circumstances, especially after using the WP admin image editor.
- *
- * Once the package is stable at version 0.2 it will be released as it's own
- * standalone WordPress plugin. Until then it is being developed solely for the
- * the use within KST context. If you can help get this turned back into a
- * fully updated standalone plugin optimized and free of errors please contact
- * beingzoe on github.
+ * Future versions will also offer the ability to delete images when you
+ * delete a custom image size.
  *
  * @package     ZUI
  * @subpackage  WordPress
  * @version     0.1
- * @author      zoe somebody
- * @link        http://beingzoe.com/
  * @author      Walter Vos
  * @link        http://www.waltervos.com/
+ * @author      zoe somebody
+ * @link        http://beingzoe.com/
  * @link        http://www.waltervos.com/wordpress-plugins/additional-image-sizes/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
 */
 
+if ( !is_admin() )
+    return; // not needed in front end ever - speed thingsup
 
 /**
  * Companion class to quickly create WP admin menu/pages and auto build the forms if necessary
@@ -45,7 +40,7 @@
  * @uses        ZUI_WpAdminPages
  * @see         WpAdminPages.php
 */
-require_once 'WpAdminPages.php';
+//require_once 'WpAdminPages.php';
 
 
 /**
@@ -60,27 +55,14 @@ add_filter('attachment_fields_to_edit', array('ZUI_WpAdditionalImageSizes', 'app
 
 
 /**
- *
+ * Static methods for creating and maintaining additional images sizes
+ * Also resizes WordPress predefined image sizes (thumbnail, medium, large)
+ * if the size has changed.
  *
  * @version       0.1
  * @uses          ZUI_WpAdminPages
 */
 class ZUI_WpAdditionalImageSizes {
-
-    /**
-     * Constructor for ZUI_WpAdditionalImageSizes
-     *
-     * @since       0.1
-     * @uses        ZUI_WpAdditionalImageSizes::registerWpAisSettings()
-     * @uses        ZUI_WpAdditionalImageSizes::setAddtionalSizesInWpOptions()
-     * @uses        ZUI_WpAdditionalImageSizes::appendAttachmentFieldsWithAdditionalSizes()
-     * @uses        ZUI_WpAdditionalImageSizes::ZUI_WpAdditionalImageSizes()
-     * @uses        add_action() WP function
-     * @uses        add_filter() WP function
-    */
-    public function __construct() {
-        // Um, nothing to construct?
-    }
 
     /**
      * This function registers the necessary settings/options
@@ -138,7 +120,31 @@ class ZUI_WpAdditionalImageSizes {
      * @return      array
     */
     public static function getWpPredefinedImageSizes() {
-        return array('thumbnail' => 'thumbnail', 'medium' => 'medium', 'large' => 'large');
+        $wp_size_names = array('thumbnail', 'medium', 'large' );
+        $wp_preset_array = array();
+        foreach ( $wp_size_names as $size_name ) {
+            $wp_preset_array[$size_name] = array(
+                    'size_w'    => get_option("{$size_name}_size_w"),
+                    'size_h'    => get_option("{$size_name}_size_h"),
+                    'crop'      => get_option("{$size_name}_crop")
+                );
+        }
+        return $wp_preset_array;
+    }
+
+
+    /**
+     * This function returns ALL image sizes (name, size_w, size_h, crop)
+     * for all images (predefined WP and User defined)
+     *
+     * @since       0.1
+     * @return      array
+    */
+    public static function getAllImageSizes() {
+        $wp_sizes = self::getWpPredefinedImageSizes();
+        $user_sizes = self::getAddtionalSizesFromWpOptions();
+        $all_images_sizes = array_merge($wp_sizes, $user_sizes);
+        return $all_images_sizes;
     }
 
 
@@ -209,8 +215,6 @@ class ZUI_WpAdditionalImageSizes {
         $size_crop = ( isset($_POST['ais_size_crop']) ) ? $_POST['ais_size_crop']
                                                         : FALSE;
 ?>
-        <!--<div class="wrap">-->
-            <!-- <h2>Additional image sizes</h2> -->
             <?php if (isset($messages['errors'])) { ?>
             <div class="error below-h2" id="message">
                 <p><strong>Something(s) went wrong:</strong></p>
@@ -221,12 +225,8 @@ class ZUI_WpAdditionalImageSizes {
                 </ul>
             </div>
             <?php } ?>
-            <?php
-                if (isset($messages['success'])) {
-                    $fade_class = ( !isset($messages['errors']) ) ? 'fade'
-                                                               : ''
-            ?>
-            <div class="updated <?php echo $fade_class; ?> below-h2" id="message">
+            <?php if (isset($messages['success'])) { ?>
+            <div class="updated below-h2" id="message">
                 <p><strong>That went quite well:</strong></p>
                 <ul>
                     <?php foreach ($messages['success'] as $success) { ?>
@@ -238,7 +238,7 @@ class ZUI_WpAdditionalImageSizes {
             <form method="post" action="">
                     <?php settings_fields('kst_wp_ais'); ?>
                     <?php
-                    $ais_user_sizes = ZUI_WpAdditionalImageSizes::getAddtionalSizesFromWpOptions();
+                    $ais_user_sizes = self::getAddtionalSizesFromWpOptions();
                     ?>
                 <table cellspacing="0" class="widefat page fixed">
                     <thead>
@@ -299,10 +299,11 @@ class ZUI_WpAdditionalImageSizes {
                     <input type="submit" class="button-primary" value="<?php _e('Save Changes'); ?>" />
                 </p>
             </form>
-            <h3>Create missing image sizes</h3>
+            <h3>Create missing/changed image sizes</h3>
             <p>
                 When you add an additional image size that size is automatically created for all NEW images you upload.  <br />
                 After creating new image sizes above you need to create the missing image sizes.  <br />
+                This feature will also resize the <a href="options-media.php">predefined WordPress image sizes</a> (thumbnail, medium, large) if you have edited those.
             </p>
             <form method="post" action="">
                     <?php settings_fields('kst_wp_ais'); ?>
@@ -311,15 +312,6 @@ class ZUI_WpAdditionalImageSizes {
                     <input type="submit" class="button-primary" value="<?php _e('Generate copies of new sizes'); ?>" />
                 </p>
             </form>
-
-            <h4>Notes about the Additional Image Sizes plugin</h4>
-            <p>
-                <em>This plugin works great but with the current version of WordPress will incorrectly return errors while
-                resizing images. <code>error_getting_dimensions: Could not calculate resized image dimensions</code>.
-                If you see this error it simply means that the image did not need resized. The plugin is currently
-                being rewritten is there is no easy way to fix this error otherwise. Thank you for your patience.</em>
-            </p>
-        <!-- </div> -->
 <?php
     }
 
@@ -455,6 +447,8 @@ class ZUI_WpAdditionalImageSizes {
      *
      * @since       0.1
      * @uses        ZUI_WpAdditionalImageSizes::ais_get_images()
+     * @uses        ZUI_WpAdditionalImageSizes::getWpPredefinedImageSizes()
+     * @uses        getAllImageSizes()
      * @uses        apply_filters() WP function
      * @uses        wp_upload_dir() WP function
      * @uses        wp_get_attachment_metadata() WP function
@@ -480,33 +474,56 @@ class ZUI_WpAdditionalImageSizes {
         $sizes = apply_filters('intermediate_image_sizes', array('thumbnail', 'medium', 'large'));
         $basedir = wp_upload_dir();
         $basedir = $basedir['basedir'];
+
+        $wp_image_sizes = self::getWpPredefinedImageSizes();
+        $all_image_sizes = self::getAllImageSizes();
+
         if (!empty($images)) {
             foreach ($images as $image) {
                 $metadata = wp_get_attachment_metadata($image->ID);
+
                 $file = get_post_meta($image->ID, '_wp_attached_file', true);
+                // could we use the guid for this instead of another query?
+
                 foreach ($sizes as $size) {
+
+                    // Manage how long we execute this in one shot to prevent timeouts
                     $now = strtotime('now');
                     $current_execution_time = $now - $start;
                     if ($max_execution_time - $current_execution_time < 2) {
                         break;
                     }
 
-                    if (!isset($metadata['sizes'][$size])) {
+                    $size_width = $all_image_sizes[$size]['size_w'];
+                    $size_height = $all_image_sizes[$size]['size_h'];
+                    $size_crop = $all_image_sizes[$size]['crop'];
+
+                    // Check to see:
+                    //      if the size does not exist yet AND is a user defined size
+                    //      OR if the size has changed (for WP predefined sizes)
+                    // The logic goes if the image is landscape then test against the width not matching and if portrait then test against the height
+                    // Need to test this against an image that could defy this logic (or a size not created because it was too small)
+                    if ( ( !isset($metadata['sizes'][$size]) && !array_key_exists($size, $wp_image_sizes) ) ||
+                        (
+                            (isset($metadata['sizes'][$size]) && $metadata['sizes'][$size]['width'] >= $metadata['sizes'][$size]['height'] && $metadata['sizes'][$size]['width'] != $all_image_sizes[$size]['size_w'])
+                            || (isset($metadata['sizes'][$size]) && $metadata['sizes'][$size]['height'] >= $metadata['sizes'][$size]['width'] && $metadata['sizes'][$size]['height'] != $all_image_sizes[$size]['size_h'])
+                        ) )
+                        {
                         $image_path = $basedir . '/' . $file;
                         $result = image_make_intermediate_size(
-                            $image_path, get_option("{$size}_size_w"),
-                            get_option("{$size}_size_h"),
-                            get_option("{$size}_crop")
+                            $image_path,
+                            $size_width,
+                            $size_height,
+                            $size_crop
                         );
                         if ($result) {
                             $metadata['sizes'][$size] = array(
                                 'file' => $result['file'], 'width' => $result['width'], 'height' => $result['height']
                             );
                             wp_update_attachment_metadata($image->ID, $metadata);
-                            $messages['success'][] = 'Resized ' . $image->post_title . ' to size ' . $size . '.';
+                            $messages['success'][] = 'RESIZED: "' . $image->post_title . '" to size "' . $size . '"';
 
-                        }
-                        else {
+                        } else {
                             $result = image_resize(
                                 $image_path, get_option("{$size}_size_w"),
                                 get_option("{$size}_size_h"),
@@ -518,9 +535,8 @@ class ZUI_WpAdditionalImageSizes {
                                 }
                             }
                         }
-                    }
-                    else {
-                        // $messages['success'][] =  $size . ' already exists for ' . $image->post_title . '. Skipped.';
+                    } else {
+                        $messages['success'][] =  'SKIPPED: "' . $size . '" already exists for "' . $image->post_title . '"';
                         // zoe commented this out of the original when he first discovered a problem with resized images
                     }
                 }
@@ -561,47 +577,3 @@ class ZUI_WpAdditionalImageSizes {
     }
 
 }
-
-
-/**
- * This adds the admin page for the plugin. It goes under the Media tab
- * REMOVED FROM FORKED VERSION PREFERRING TO USE ZUI_WpAdminPages
-*/
-/*
-function ais_add_admin() {
-    add_submenu_page(
-        'upload.php',
-        'Additional image sizes',
-        'Additional image sizes',
-        'manage_options',
-        'ais_admin',
-        ''
-    ); // zoe changed old user level 8 to more recent "role" of 'manage_options'
-}
-*/
-//add_action('admin_menu', 'ais_add_admin', 100);
-
-//register_setting('kst_wp_ais', 'kst_wp_ais_ais_activated');
-/**
- * This function runs only when the plugin is activated and sets ais_activated to true so that
- * ais_activation_notice knows that the plugin has just been activated
-*/
-/*
-function ais_activate() {
-    update_option('ais_activated', true);
-}
-*/
-
-/**
- * Displays the activation notice
-*/
-/*
-function ais_activation_notice() {
-    if (get_option('ais_activated')) {
-        echo '<div class="updated fade" id="message">
-        <p><strong>Thank you for using Additional image sizes!</strong> <a href="' . admin_url('upload.php?page=ais_admin') . '">Go here</a> to add image sizes and to regenerate copies of previously uploaded images.</p></div>';
-        //delete_option('ais_activated');
-    }
-}
-*/
-//register_activation_hook( __FILE__, 'ais_activate' ); // Not needed again until we re-pluginify this
