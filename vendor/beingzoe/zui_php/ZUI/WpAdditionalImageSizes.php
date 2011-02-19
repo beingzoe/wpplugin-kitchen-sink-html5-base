@@ -29,7 +29,7 @@
 */
 
 if ( !is_admin() )
-    return; // not needed in front end ever - speed thingsup
+    return; // not needed in front end ever - speed things up
 
 /**
  * Companion class to quickly create WP admin menu/pages and auto build the forms if necessary
@@ -72,7 +72,7 @@ class ZUI_WpAdditionalImageSizes {
      * @uses        register_setting() WP function
     */
     public static function registerWpAisSettings() {
-        register_setting('kst_wp_ais', 'zui_wp_ais_sizes');
+        register_setting('aisz_options', 'aisz_sizes');
     }
 
 
@@ -109,7 +109,7 @@ class ZUI_WpAdditionalImageSizes {
      * @return      array
     */
     public static function getAddtionalSizesFromWpOptions() {
-        return get_option('zui_wp_ais_sizes');
+        return get_option('aisz_sizes');
     }
 
 
@@ -162,42 +162,54 @@ class ZUI_WpAdditionalImageSizes {
      * @return      string
     */
     public static function appendAttachmentFieldsWithAdditionalSizes($form_fields, $post) {
-        $out = NULL;
-        $size_names = array();
-        $ais_user_sizes = self::getAddtionalSizesFromWpOptions();
-        if (is_array($ais_user_sizes)) {
-            foreach($ais_user_sizes as $key => $value) {
-                $size_names[$key] = $key;
+/*
+        echo "<br />formfields<br /><pre>";
+        print_r($form_fields);
+        echo "</pre><br />";
+
+        echo "<br />post<br /><pre>";
+        print_r($post);
+        echo "</pre><br />";
+*/
+        // Protect from being view in Media editor where there are no sizes
+        if ( isset($form_fields['image-size']) ) {
+            $out = NULL;
+            $size_names = array();
+            $ais_user_sizes = self::getAddtionalSizesFromWpOptions();
+            if (is_array($ais_user_sizes)) {
+                foreach($ais_user_sizes as $key => $value) {
+                    $size_names[$key] = $key;
+                }
             }
-        }
-        foreach ( $size_names as $size => $name ) {
-            $downsize = image_downsize($post->ID, $size);
+            foreach ( $size_names as $size => $name ) {
+                $downsize = image_downsize($post->ID, $size);
 
-            // is this size selectable?
-            $enabled = ( $downsize[3] || 'full' == $size );
-            $css_id = "image-size-{$size}-{$post->ID}";
+                // is this size selectable?
+                $enabled = ( $downsize[3] || 'full' == $size );
+                $css_id = "image-size-{$size}-{$post->ID}";
 
-            // if this size is the default but that's not available, don't select it
-            if ( (isset($checked) && $checked && !$enabled) || !isset($checked) )
-                $checked = FALSE;
+                // if this size is the default but that's not available, don't select it
+                if ( (isset($checked) && $checked && !$enabled) || !isset($checked) )
+                    $checked = FALSE;
 
-            // if $checked was not specified, default to the first available size that's bigger than a thumbnail
-            if ( !$checked && $enabled && 'thumbnail' != $size )
-                $checked = $size;
+                // if $checked was not specified, default to the first available size that's bigger than a thumbnail
+                if ( !$checked && $enabled && 'thumbnail' != $size )
+                    $checked = $size;
 
-            $html = "<div class='image-size-item'><input type='radio' ".( $enabled ? '' : "disabled='disabled'")."name='attachments[$post->ID][image-size]' id='{$css_id}' value='{$size}'".( $checked == $size ? " checked='checked'" : '') ." />";
+                $html = "<div class='image-size-item'><input type='radio' ".( $enabled ? '' : "disabled='disabled'")."name='attachments[$post->ID][image-size]' id='{$css_id}' value='{$size}'".( $checked == $size ? " checked='checked'" : '') ." />";
 
-            $html .= "<label for='{$css_id}'>" . __($name). "</label>";
-            // only show the dimensions if that choice is available
-            if ( $enabled )
-                $html .= " <label for='{$css_id}' class='help'>" . sprintf( __("(%d&nbsp;&times;&nbsp;%d)"), $downsize[1], $downsize[2] ). "</label>";
+                $html .= "<label for='{$css_id}'>" . __($name). "</label>";
+                // only show the dimensions if that choice is available
+                if ( $enabled )
+                    $html .= " <label for='{$css_id}' class='help'>" . sprintf( __("(%d&nbsp;&times;&nbsp;%d)"), $downsize[1], $downsize[2] ). "</label>";
 
-            $html .= '</div>';
+                $html .= '</div>';
 
-            $out .= $html;
-        }
+                $out .= $html;
+            }
+            $form_fields['image-size']['html'] .= $out;
+        } // End protect from Media editor
 
-        $form_fields['image-size']['html'] .= $out;
         return $form_fields;
     }
 
@@ -310,6 +322,8 @@ class ZUI_WpAdditionalImageSizes {
                 <input type="hidden" name="regenerate_images" value="true" />
                 <p class="submit">
                     <input type="submit" class="button-primary" value="<?php _e('Generate copies of new sizes'); ?>" />
+                    <br /><br />
+                    <input type="checkbox" name="show_skipped" id="show_skipped" value="1" style="margin-left: 8px;" /> <label for="show_skipped">Show skipped image messages</label>
                 </p>
             </form>
 <?php
@@ -397,7 +411,7 @@ class ZUI_WpAdditionalImageSizes {
                         'size_h'    => $_POST['ais_size_h'],
                         'crop'      => $size_crop
                     );
-                update_option('zui_wp_ais_sizes', $ais_user_sizes);
+                update_option('aisz_sizes', $ais_user_sizes);
                 $messages['success'][] = 'An additional image size named <strong>' . $_POST['ais_size_name'] . '</strong> was added.';
             }
 
@@ -420,8 +434,8 @@ class ZUI_WpAdditionalImageSizes {
                 unset($ais_user_sizes[$delete]);
                 $messages['success'][] = "The size named <strong>$delete</strong> was deleted";
             }
-            update_option('zui_wp_ais_sizes', $ais_user_sizes);
-            $ais_user_sizes = get_option('zui_wp_ais_sizes');
+            update_option('aisz_sizes', $ais_user_sizes);
+            $ais_user_sizes = get_option('aisz_sizes');
         }
 
         // When no new size was entered and no existing size was deleted we don't have to send any
@@ -446,7 +460,7 @@ class ZUI_WpAdditionalImageSizes {
      * success messages. It only makes copies for 10 images at a time.
      *
      * @since       0.1
-     * @uses        ZUI_WpAdditionalImageSizes::ais_get_images()
+     * @uses        ZUI_WpAdditionalImageSizes::getAllImageAttachments()
      * @uses        ZUI_WpAdditionalImageSizes::getWpPredefinedImageSizes()
      * @uses        getAllImageSizes()
      * @uses        apply_filters() WP function
@@ -470,7 +484,7 @@ class ZUI_WpAdditionalImageSizes {
         $max_execution_time = $max_execution_time / 2;
 
         $messages = array();
-        $images = self::ais_get_images();
+        $images = self::getAllImageAttachments();
         $sizes = apply_filters('intermediate_image_sizes', array('thumbnail', 'medium', 'large'));
         $basedir = wp_upload_dir();
         $basedir = $basedir['basedir'];
@@ -505,8 +519,8 @@ class ZUI_WpAdditionalImageSizes {
                     // Need to test this against an image that could defy this logic (or a size not created because it was too small)
                     if ( ( !isset($metadata['sizes'][$size]) && !array_key_exists($size, $wp_image_sizes) ) ||
                         (
-                            (isset($metadata['sizes'][$size]) && $metadata['sizes'][$size]['width'] >= $metadata['sizes'][$size]['height'] && $metadata['sizes'][$size]['width'] != $all_image_sizes[$size]['size_w'])
-                            || (isset($metadata['sizes'][$size]) && $metadata['sizes'][$size]['height'] >= $metadata['sizes'][$size]['width'] && $metadata['sizes'][$size]['height'] != $all_image_sizes[$size]['size_h'])
+                            (isset($metadata['sizes'][$size]) && !empty($all_image_sizes[$size]['size_w']) && $metadata['sizes'][$size]['width'] > $metadata['sizes'][$size]['height'] && $metadata['sizes'][$size]['width'] != $all_image_sizes[$size]['size_w'])
+                            || (isset($metadata['sizes'][$size]) && !empty($all_image_sizes[$size]['size_h']) && $metadata['sizes'][$size]['height'] > $metadata['sizes'][$size]['width'] && $metadata['sizes'][$size]['height'] != $all_image_sizes[$size]['size_h'])
                         ) )
                         {
                         $image_path = $basedir . '/' . $file;
@@ -524,26 +538,23 @@ class ZUI_WpAdditionalImageSizes {
                             $messages['success'][] = 'RESIZED: "' . $image->post_title . '" to size "' . $size . '"';
 
                         } else {
-                            $result = image_resize(
-                                $image_path, get_option("{$size}_size_w"),
-                                get_option("{$size}_size_h"),
-                                get_option("{$size}_crop")
-                            );
-                            if (is_array($result->errors)) {
-                                foreach ($result->errors as $key => $value) {
-                                    $messages['errors'][] = $key . ': ' . $value[0];
-                                }
+                            // Sick of looking at the skipped messages
+                            if ( isset($_POST['show_skipped']) ) {
+                                // Assumed the image was too small to be created/resized so just send a tentative success message
+                                $messages['success'][] = 'SKIPPED: "' . $image->post_title . '" is already smaller than the requested size "' . $size . '"';
                             }
                         }
                     } else {
-                        $messages['success'][] =  'SKIPPED: "' . $size . '" already exists for "' . $image->post_title . '"';
-                        // zoe commented this out of the original when he first discovered a problem with resized images
+                        // Sick of looking at the skipped messages and we all know the predefined sizes exist anyway
+                        if ( isset($_POST['show_skipped']) && !array_key_exists($size, $wp_image_sizes) ) {
+                            $messages['success'][] =  'SKIPPED: "' . $size . '" already exists for "' . $image->post_title . '"';
+                        }
                     }
                 }
                 $now = strtotime('now');
                 $current_execution_time = $now - $start;
                 if ($max_execution_time - $current_execution_time < 2) {
-                    $messages['success'][] = '<strong>Not quite finished yet. We had to stop the script midway because it had been running for too long. Just press the button again to continue where we left off.</strong>';
+                    $messages['success'][] = '<strong>Not quite finished yet.<br />We had to stop the script midway because it had been running for too long.<br />Just press the button again to continue where we left off.</strong>';
                     break;
                 }
             }
@@ -560,8 +571,8 @@ class ZUI_WpAdditionalImageSizes {
      * @uses        get_posts() WP function
      * @return      array|boolean
     */
-    function ais_get_images() {
-                /* Get attachments */
+    function getAllImageAttachments() {
+        /* Get attachments */
         $args = array(
             'post_type' => 'attachment',
             'post_mime_type' => 'image',
@@ -571,9 +582,10 @@ class ZUI_WpAdditionalImageSizes {
         );
         $attachments = get_posts($args);
 
-        if (empty($attachments)) return false;
-
-        else return $attachments;
+        if (empty($attachments))
+            return false;
+        else
+            return $attachments;
     }
 
 }

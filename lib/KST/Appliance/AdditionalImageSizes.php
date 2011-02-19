@@ -14,6 +14,8 @@
  * @uses        KST_Appliance_Options
 */
 
+if ( class_exists('ZUI_WpAdditionalImageSizes'))
+    return;
 
 /**
  * Companion classes to encapsulate access to admin menu global arrays $menu and $submenu
