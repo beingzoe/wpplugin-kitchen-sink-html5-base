@@ -22,7 +22,7 @@
  *
  * @package     ZUI
  * @subpackage  WordPress
- * @version     0.1.3
+ * @version     0.1.4
  * @since       0.1
  * @author      Walter Vos
  * @link        http://www.waltervos.com/
@@ -107,7 +107,10 @@ class ZUI_WpAdditionalImageSizes {
      * @return      array
     */
     public static function getAddtionalSizesFromWpOptions() {
-        return get_option('aisz_sizes');
+        $aisz_sizes = get_option('aisz_sizes');
+        if (!is_array($aisz_sizes))
+            $aisz_sizes = array();
+        return $aisz_sizes;
     }
 
 
@@ -566,7 +569,7 @@ class ZUI_WpAdditionalImageSizes {
             }
         } else {
             $all_image_sizes = self::getAllImageSizes();
-            $messages['success'][] = 'Checked all custom and WordPress sizes (thumbnail, medium, large) image sizes.';
+            $messages['success'][] = 'Checked all custom and WordPress (thumbnail, medium, large) image sizes.';
         }
 
         // Get an image batch with the quantity they requested
