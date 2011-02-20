@@ -13,13 +13,16 @@
  * The new version eliminiates a variety of bugs in the original
  * and does everything the original did plus...
  *     -resizes predefined WordPress sizes if they have been changed in the admin
+ *     -choose which sizes to do
+ *     -choose an extended time limit for the script to run
+ *     -optionally show a list of images that are skipped during image creation
  *
  * Future versions will also offer the ability to delete images when you
  * delete a custom image size.
  *
  * @package     ZUI
  * @subpackage  WordPress
- * @version     0.1.2
+ * @version     0.1.3
  * @since       0.1
  * @author      Walter Vos
  * @link        http://www.waltervos.com/
@@ -315,6 +318,10 @@ class ZUI_WpAdditionalImageSizes {
                                                                                 : 50;
                         $set_time_limit = ( isset($_POST['set_time_limit']))    ? $_POST['set_time_limit']
                                                                                 : 30;
+                        $all_image_sizes = self::getAllImageSizes();
+                        $sizes_to_check = ( isset($_POST['sizes_to_check']))    ? $_POST['sizes_to_check']
+                                                                                : 'all';
+
                     ?>
                     <input type="hidden" name="regenerate_images" value="true" />
                     <input type="hidden" name="offset" id="offset" value="<?php echo self::$_images_regenerate_from_offset; ?>" />
@@ -324,6 +331,19 @@ class ZUI_WpAdditionalImageSizes {
                     <?php } ?>
                 </p>
                 <div style="margin: 18px 8px;">
+                    <p> Choose what size(s) to check
+                        <select name="sizes_to_check" id="sizes_to_check">
+                            <option value='all'<?php if ('all' == $sizes_to_check) echo " selected='selected'"; ?>>All</option>
+                            <option value="custom_only"<?php if ('custom_only' == $sizes_to_check) echo " selected='selected'"; ?>>Custom sizes only</option>
+                            <option value="wordpress_only"<?php if ('wordpress_only' == $sizes_to_check) echo " selected='selected'"; ?>>WordPress sizes only</option>
+                            <?php foreach ($all_image_sizes as $size => $values) {
+                                echo "{$size} == {$sizes_to_check}<br />";
+                                $selected = ($size == $sizes_to_check)  ? " selected='selected'"
+                                                                        : "";
+                                echo "<option value='{$size}'{$selected}>{$size}</option>";
+                            } ?>
+                        </select>
+                    </p>
                     <p>
                         <label for="numberposts">How many images to attempt per batch?</label>
                         <input type="text" name="numberposts" id="numberposts" value="<?php echo $numberposts; ?>" size="3" /> <br />
@@ -331,8 +351,7 @@ class ZUI_WpAdditionalImageSizes {
                             We will attempt to process as many images as you think your sytem can handle in a single page load.
                             You should increase this number until you start seeing the friendly 'we had to stop the script message'
                             (or something bad happens like the world ends and you have a blank screen ;). Note that the number your
-                            system can handle varies greatly depending on how many new sizes you are asking it to do at once and
-                            if you've also edited the predefined WordPress sizes as well.
+                            system can handle varies greatly depending on how many sizes you are asking it to do at once.
                         </em>
                     </p>
                     <p>
@@ -465,6 +484,9 @@ class ZUI_WpAdditionalImageSizes {
             foreach ($_POST['ais_size_delete'] as $delete) {
                 // $delete holds the size name
                 unset($ais_user_sizes[$delete]);
+                delete_option("{$delete}_size_w");
+                delete_option("{$delete}_size_h");
+                delete_option("{$delete}_crop");
                 $messages['success'][] = "The size named <strong>$delete</strong> was deleted";
             }
             update_option('aisz_sizes', $ais_user_sizes);
@@ -490,30 +512,31 @@ class ZUI_WpAdditionalImageSizes {
     /**
      * This function looks for images that don't have copies of the sizes defined by this plugin, and
      * then tries to make those copies. It returns an array of messages divided into error messages and
-     * success messages. It only makes copies for 10 images at a time.
+     * success messages. It only makes copies for X images at a time based on form selection.
      *
      * @since       0.1
      * @uses        ZUI_WpAdditionalImageSizes::getAllImageAttachments()
      * @uses        ZUI_WpAdditionalImageSizes::getWpPredefinedImageSizes()
-     * @uses        ZUI_WpAdditionalImageSizes::getAllImageSizes()
-     * @uses        apply_filters() WP function
+     * @uses        ZUI_WpAdditionalImageSizes::getAddtionalSizesFromWpOptions()  since 0.1.3
+     * @uses        ZUI_WpAdditionalImageSizes::getAllImageSizes() since 0.1.3
+     * @uses        ZUI_WpAdditionalImageSizes::mightBreakScriptToAvoidTimeout()
      * @uses        wp_upload_dir() WP function
      * @uses        wp_get_attachment_metadata() WP function
      * @uses        wp_update_attachment_metadata() WP function
      * @uses        get_post_meta() WP function
      * @uses        image_make_intermediate_size() WP function
-     * @uses        image_resize() WP function
      * @uses        get_option() WP function
      * @return      array
     */
     function regenerateImages() {
 
-        // This can take a while, so keep track of execution time to exit prematurely when it gets too high.
+        // Set it up
         $start = strtotime('now');
         $max_execution_time = ini_get('max_execution_time');
         $max_execution_time = round($max_execution_time / 1.25); // Let's divide that max_execution_time by 1.25 just to play it a little bit safe (we don't know when WordPress started to run so $now is off as well)
         $did_increase_time_limit = FALSE; // Flag to be able to let them know we had to increase the time limit and still tell them we succeeded - clumsy as hell
         $did_finish_batch = TRUE; // Flag to know if we finished the batch or aborted - set to FALSE if we break the processing loop
+        $did_resize_an_image = FALSE; // Flag to know if we actually resized anything to customize success message in conjunction with $did_finish_all
         $did_finish_all = FALSE; // Flag to know if we finished them ALL - set to TRUE if a query for images comes up empty
         $messages = array(); // Sent back to managePost() and viewOptionsPage() to print results
         $i = 0; // How many images we managed to process before we stopped the script to prevent a timeout
@@ -521,13 +544,30 @@ class ZUI_WpAdditionalImageSizes {
                                                                         : 0; // Where we should start from; for get_post() in getAllImageAttachments()
         $numberposts = ( isset($_POST['numberposts']) && 0 < $_POST['numberposts'] )    ? $_POST['numberposts'] // Back up one in case we didn't get to all the sizes for that one
                                                                                         : 50; // Where we should start from; for get_post() in getAllImageAttachments()
-
-        $sizes = apply_filters('intermediate_image_sizes', array('thumbnail', 'medium', 'large'));
         $basedir = wp_upload_dir();
         $basedir = $basedir['basedir'];
-
         $wp_image_sizes = self::getWpPredefinedImageSizes();
-        $all_image_sizes = self::getAllImageSizes();
+
+        // Set the sizes we are going to do based on site/blog owner choice
+        if ( isset($_POST['sizes_to_check']) && 'all' != $_POST['sizes_to_check'] ) {
+            switch ($_POST['sizes_to_check']) {
+                case "custom_only":
+                    $all_image_sizes = self::getAddtionalSizesFromWpOptions();
+                    $messages['success'][] = 'Checked custom image sizes only.';
+                break;
+                case "wordpress_only":
+                    $all_image_sizes = $wp_image_sizes;
+                    $messages['success'][] = 'Checked WordPress sizes (thumbnail, medium, large) only.';
+                break;
+                default:
+                    $all_image_sizes = array_intersect_key(self::getAddtionalSizesFromWpOptions(), array($_POST['sizes_to_check'] => array())); // This is super sloppy but for now there can be only one
+                    $messages['success'][] = "Checked <strong>{$_POST['sizes_to_check']}</strong> image size only.";
+                break;
+            }
+        } else {
+            $all_image_sizes = self::getAllImageSizes();
+            $messages['success'][] = 'Checked all custom and WordPress sizes (thumbnail, medium, large) image sizes.';
+        }
 
         // Get an image batch with the quantity they requested
         $images = self::getAllImageAttachments( array('offset' => $offset, 'numberposts' => $numberposts) ); // Get image attachements starting at the offset
@@ -539,7 +579,7 @@ class ZUI_WpAdditionalImageSizes {
                 $metadata = wp_get_attachment_metadata($image->ID);
                 $file = get_post_meta($image->ID, '_wp_attached_file', true); // could we use the guid for this instead of another query?
 
-                foreach ($sizes as $size) {
+                foreach ($all_image_sizes as $size => $values) {
 
                     // Check to see if we are close to timing out
                     $do_break_script = self::mightBreakScriptToAvoidTimeout($start, $max_execution_time);
@@ -575,8 +615,8 @@ class ZUI_WpAdditionalImageSizes {
                                 'file' => $result['file'], 'width' => $result['width'], 'height' => $result['height']
                             );
                             wp_update_attachment_metadata($image->ID, $metadata);
-                            $messages['success'][] = 'RESIZED: "' . $image->post_title . '" to size "' . $size . '"';
-
+                            $messages['success'][] = '<strong>RESIZED:</strong> "' . $image->post_title . '" to size "' . $size . '"';
+                            $did_resize_an_image = TRUE;
                         } else {
                             // Sick of looking at the skipped messages
                             if ( isset($_POST['show_skipped']) ) {
@@ -586,7 +626,7 @@ class ZUI_WpAdditionalImageSizes {
                         }
                     } else {
                         // Sick of looking at the skipped messages and we all know the predefined sizes exist anyway
-                        if ( isset($_POST['show_skipped']) && !array_key_exists($size, $wp_image_sizes) ) {
+                        if ( isset($_POST['show_skipped']) ) {
                             $messages['success'][] =  'SKIPPED: "' . $size . '" already exists for "' . $image->post_title . '"';
                         }
                     } // End if we resized or not
@@ -608,7 +648,7 @@ class ZUI_WpAdditionalImageSizes {
         // Set the number of images we got to this attempt
         self::$_images_regenerated_this_attempt = $i;
 
-        if ( (empty($messages) || ( 1 == count($messages['success']) && $did_increase_time_limit)) && $did_finish_all ) {
+        if ( !$did_resize_an_image && $did_finish_all ) {
             $messages['success'][] = 'All is well, no new copies needed to be created.';
             $i = 0; // Reset because we are good!
         } else if ( $did_finish_all ) {
