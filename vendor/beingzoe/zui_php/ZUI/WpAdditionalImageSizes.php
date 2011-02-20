@@ -19,7 +19,8 @@
  *
  * @package     ZUI
  * @subpackage  WordPress
- * @version     0.1
+ * @version     0.1.1
+ * @since       0.1
  * @author      Walter Vos
  * @link        http://www.waltervos.com/
  * @author      zoe somebody
@@ -30,17 +31,6 @@
 
 if ( !is_admin() )
     return; // not needed in front end ever - speed things up
-
-/**
- * Companion class to quickly create WP admin menu/pages and auto build the forms if necessary
- *
- * Uses an array to manage all information pertaining to menu/page creation and the settings to register/manage
- *
- * @since       0.1
- * @uses        ZUI_WpAdminPages
- * @see         WpAdminPages.php
-*/
-//require_once 'WpAdminPages.php';
 
 
 /**
@@ -118,6 +108,7 @@ class ZUI_WpAdditionalImageSizes {
      *
      * @since       0.1
      * @return      array
+     * @uses        get_option() WP function
     */
     public static function getWpPredefinedImageSizes() {
         $wp_size_names = array('thumbnail', 'medium', 'large' );
@@ -139,6 +130,8 @@ class ZUI_WpAdditionalImageSizes {
      *
      * @since       0.1
      * @return      array
+     * @uses        ZUI_WpAdditionalImageSizes::getWpPredefinedImageSizes()
+     * @uses        ZUI_WpAdditionalImageSizes::getAddtionalSizesFromWpOptions()
     */
     public static function getAllImageSizes() {
         $wp_sizes = self::getWpPredefinedImageSizes();
@@ -162,15 +155,7 @@ class ZUI_WpAdditionalImageSizes {
      * @return      string
     */
     public static function appendAttachmentFieldsWithAdditionalSizes($form_fields, $post) {
-/*
-        echo "<br />formfields<br /><pre>";
-        print_r($form_fields);
-        echo "</pre><br />";
 
-        echo "<br />post<br /><pre>";
-        print_r($post);
-        echo "</pre><br />";
-*/
         // Protect from being view in Media editor where there are no sizes
         if ( isset($form_fields['image-size']) ) {
             $out = NULL;
@@ -248,7 +233,7 @@ class ZUI_WpAdditionalImageSizes {
             </div>
             <?php } ?>
             <form method="post" action="">
-                    <?php settings_fields('kst_wp_ais'); ?>
+                    <?php settings_fields('aisz_sizes'); ?>
                     <?php
                     $ais_user_sizes = self::getAddtionalSizesFromWpOptions();
                     ?>
@@ -318,7 +303,7 @@ class ZUI_WpAdditionalImageSizes {
                 This feature will also resize the <a href="options-media.php">predefined WordPress image sizes</a> (thumbnail, medium, large) if you have edited those.
             </p>
             <form method="post" action="">
-                    <?php settings_fields('kst_wp_ais'); ?>
+                    <?php settings_fields('aisz_sizes'); ?>
                 <input type="hidden" name="regenerate_images" value="true" />
                 <p class="submit">
                     <input type="submit" class="button-primary" value="<?php _e('Generate copies of new sizes'); ?>" />
@@ -346,7 +331,7 @@ class ZUI_WpAdditionalImageSizes {
     */
     public static function managePost() {
 
-        if ( isset($_POST['option_page']) && $_POST['option_page'] != 'kst_wp_ais' )
+        if ( isset($_POST['option_page']) && $_POST['option_page'] != 'aisz_sizes' )
             return false; // Without this, I'm not doing anything!
 
         // The request appears valid, let's see what the user wanted. There are two possibilities:
