@@ -2,7 +2,7 @@
 /**
  * Additional Image Sizes for WordPress Image Media
  *
- * Create additional image sizes (in addition to the predefined WordPress
+ * Create and delete additional image sizes (in addition to the predefined WordPress
  * defaults thumbnail, medium and large size that are default) for your WordPress site/blog.
  * Will also resize the predefined WordPress sizes if the size in Media > Settings has been edited.
  *
@@ -20,7 +20,7 @@
  *
  * @package     ZUI
  * @subpackage  WordPress
- * @version     0.1.5
+ * @version     0.1.6
  * @since       0.1
  * @author      Walter Vos
  * @link        http://www.waltervos.com/
@@ -35,6 +35,7 @@
  * @todo        Attempt to auto continue (via ajax) creating new image sizes after a delay
  * @todo        While functional some of this code is not very elegant - optimize and cleanup
  * @todo        There are already too many variables - attempt to simplify logic
+ * @todo        Get in on the core 3.2 image size discussion and talk to filosofo
 */
 
 if ( !is_admin() )
@@ -581,19 +582,30 @@ class ZUI_WpAdditionalImageSizes {
                         </em>
                     </p>
                     <p>
-                            <label for="numberposts">How many images to attempt per batch?</label>
-                            <input type="text" name="numberposts" id="numberposts" value="<?php echo $numberposts; ?>" size="3" /> <br />
-                            <em>
-                                Works the same as the "how many" in create images. If you are just checking you could turn this up pretty high.
-                            </em>
-                        </p>
-                        <p>
-                            <label for="set_time_limit_delete">Attempt to increase the max execution time?</label>
-                            <input type="text" name="set_time_limit" id="set_time_limit_delete" value="<?php echo $set_time_limit; ?>" size="2" /> <br />
-                            <em>
-                                Works the same as the time limit in create images.
-                            </em>
-                        </p>
+                        <label for="numberposts">How many images to attempt per batch?</label>
+                        <input type="text" name="numberposts" id="numberposts" value="<?php echo $numberposts; ?>" size="3" /> <br />
+                        <em>
+                            Works the same as the "how many" in create images. If you are just checking you could turn this up pretty high.
+                        </em>
+                    </p>
+                    <p>
+                        <label for="set_time_limit_delete">Attempt to increase the max execution time?</label>
+                        <input type="text" name="set_time_limit" id="set_time_limit_delete" value="<?php echo $set_time_limit; ?>" size="2" /> <br />
+                        <em>
+                            Works the same as the time limit in create images.
+                        </em>
+                    </p>
+                    <p>
+                        <strong>N.B.:</strong>
+                        <em>
+                            If you were using a theme that used <code>set_post_thumbnail_size()</code> or <code>add_image_size()</code> to create new image sizes but have
+                            since switched to a theme that does not or uses different sizes via <code>add_image_size()</code> you will see a lot of images
+                            that will be deleted the first time you run "Delete images of deleted sizes" even though you have not created any custom sizes yet.
+                            If you plan on switching back to another theme that used those sizes we recommend not using the delete feature of this tool as we have
+                            no way of determining (at this point) what sizes belonged to your deleted custom sizes and belonged to an old theme or plugins custom
+                            sizes added via <code>add_image_size()</code>. There is a workaround to this found in the FAQ in readme.txt.
+                        </em>
+                    </p>
                 </div>
             </form>
 <?php
@@ -760,7 +772,8 @@ class ZUI_WpAdditionalImageSizes {
         $max_execution_time = round($max_execution_time / 1.25); // Let's divide that max_execution_time by 1.25 just to play it a little bit safe (we don't know when WordPress started to run so $now is off as well)
         $did_increase_time_limit = FALSE; // Flag to be able to let them know we had to increase the time limit and still tell them we succeeded - clumsy as hell
         $did_finish_batch = TRUE; // Flag to know if we finished the batch or aborted - set to FALSE if we break the processing loop
-        $did_resize_an_image = FALSE; // Flag to know if we actually resized anything to customize success message in conjunction with $did_finish_all
+        $did_delete_an_image = FALSE; // Flag to know if we deleted (or would have) any images or attacment metadata
+        $did_resize_an_image = FALSE; // Flag to know if we resized (or would have) any images to customize success message in conjunction with $did_finish_all
         $did_finish_all = FALSE; // Flag to know if we finished them ALL - set to TRUE if a query for images comes up empty
         $messages = array(); // Sent back to managePost() and viewOptionsPage() to print results
         $i = 0; // How many images we managed to process before we stopped the script to prevent a timeout
@@ -899,8 +912,12 @@ class ZUI_WpAdditionalImageSizes {
                     } // End sizes loop
                 }
 
-                $sizes_to_check_plus_additional = array_merge(array_keys($sizes_to_check), array_keys($_wp_additional_image_sizes));
 
+                if ( !empty($_wp_additional_image_sizes)) {
+                    $sizes_to_check_plus_additional = array_merge(array_keys($sizes_to_check), array_keys($_wp_additional_image_sizes));
+                } else {
+                    $sizes_to_check_plus_additional = array_keys($sizes_to_check);
+                }
                 $metadata_sizes_not_in_current_all_sizes = array_diff( array_keys($metadata['sizes']), $sizes_to_check_plus_additional ); //sizes_to_check
 
 
@@ -918,13 +935,16 @@ class ZUI_WpAdditionalImageSizes {
                     if ( 0 < count($metadata_sizes_not_in_current_all_sizes) ) {
                         foreach ($metadata_sizes_not_in_current_all_sizes as $defunct_size) {
 
+                            if ( 'post-thumbnail' == $defunct_size)
+                                continue; // kludge to protect known named size created by set_post_thumbnail_size()
+
                                 $path_parts = pathinfo($basedir . '/' . $file);
                                 $delete_current_file = $path_parts['dirname'] . "/" . $metadata_after['sizes'][$defunct_size]['file'];
                                 $delete_current_file = str_replace("\\", "/", $delete_current_file);
                                 if ( isset($_POST['simulate_delete']) ) {
                                     $image = wp_load_image( $delete_current_file );
                                     if ( is_resource( $image ) ) {
-                                        $messages['success'][] =  "<strong>WOULD DELETE:</strong> {$delete_current_file}";
+                                        $messages['success'][] =  "<strong>WOULD DELETE:</strong> {$defunct_size} {$delete_current_file}";
                                         imagedestroy( $image ); // Free up memory
                                     } else {
                                         $messages['errors'][] =  "<strong>Can't find:</strong> {$delete_current_file}<br /><em>The attachment metadata would be deleted</em>";
@@ -932,13 +952,14 @@ class ZUI_WpAdditionalImageSizes {
                                     }
                                 } else {
                                     if ( @unlink($delete_current_file) ) {
-                                        $messages['success'][] =  "<strong>DELETED:</strong>{$delete_current_file}";
+                                        $messages['success'][] =  "<strong>DELETED:</strong> {$defunct_size} {$delete_current_file}";
                                          unset($metadata_after['sizes'][$defunct_size]); // We unset this in a copy of the metadata array to be sure (and for testing)
                                     } else {
-                                        $messages['success'][] =  "Deleted metadata only: {$delete_current_file}";
+                                        $messages['success'][] =  "Deleted metadata only:  {$defunct_size} {$delete_current_file}";
                                         unset($metadata_after['sizes'][$defunct_size]); // We unset this in a copy of the metadata array to be sure (and for testing)
                                     }
                                 }
+                                $did_delete_an_image = TRUE;
 
                                 // Check to see if we are close to timing out - GRRR redundancy - we have to check this in the size loop as well
                                 $do_break_script = self::mightBreakScriptToAvoidTimeout($start, $max_execution_time);
@@ -994,7 +1015,10 @@ class ZUI_WpAdditionalImageSizes {
         // Give them a final status message for this batch
         if ( !$did_resize_an_image && $did_finish_all && !isset($_POST['delete_images_for_deleted_sizes']) ) {
             $messages['success'][] = 'All is well, no new copies created.';
-            $i = 0; // Reset because we are good!
+            $i = 0; // Reset because we are done!
+        } else if (!$did_delete_an_image && $did_finish_all && isset($_POST['delete_images_for_deleted_sizes']) ) {
+            $messages['success'][] = 'All is well, no images to delete.';
+            $i = 0; // Reset because we are done!
         } else if ( $did_finish_all ) {
             $messages['success'][] = '<strong>All done!</strong>';
             $i = 0; // Reset because we finished!
