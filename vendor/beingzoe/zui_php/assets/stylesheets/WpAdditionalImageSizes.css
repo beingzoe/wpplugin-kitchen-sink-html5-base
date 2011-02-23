@@ -1,0 +1,22 @@
+
+#form_sizes, #form_create_sizes, #form_delete {
+    margin: 0 0 36px;
+}
+.aisz_settings {
+    margin: 18px 8px 36px;
+    padding: 9px 18px;
+    background-color: #fff;
+    border: 1px solid #dfdfdf;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
+.show_hide_advanced, #continue_creating, #continue_deleting {
+    cursor: pointer;
+}
+.aisz_advanced_settings {
+    padding: 9px 18px;
+    background-color: #f9f9f9;
+    border: 1px solid #dfdfdf;
+    -moz-border-radius: 6px;
+    border-radius: 6px;
+}
