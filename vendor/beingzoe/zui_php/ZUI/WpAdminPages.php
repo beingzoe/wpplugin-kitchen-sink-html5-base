@@ -204,13 +204,51 @@ class ZUI_WpAdminPages {
             $hookname = add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, array($this, 'viewPage'), $icon_url, $position ); //, $icon_url, $position       $view_page_callback
 
         // Save the hookname to use later
-        self::$_all_page_hooknames[] = $hookname; // This might go away as unnecessary
+        self::$_all_page_hooknames[$menu_slug] = $hookname; // This might go away as unnecessary
         self::$_all_parent_slugs[] = $this->_page_data_array['parent_slug'];
+
+        // If they need to enqueue javascripts give them a hook
+        if ( isset($javascripts)) {
+            add_action("admin_print_scripts-{$hookname}", array(&$this, 'printScripts'));
+        }
+
+        // If they need to enqueue stylesheets give them a hook
+        if ( isset($stylesheets)) {
+            add_action("admin_print_styles-{$hookname}", array(&$this, 'printStyles'));
+        }
 
         // Return the hookname that WP will use to view the page
         return $hookname;
     }
 
+
+    /**
+     * Print Scripts for just this page
+     *
+     * @since       0.1
+     * @uses        ZUI_WpAdminPages::$_page_data_array
+     * @uses        wp_enqueue_script() WP funciton
+    */
+    public function printScripts() {
+        foreach ($this->_page_data_array['javascripts'] as $handle => $values) {
+            wp_enqueue_script($handle, $values['src'], $values['deps'], $values['ver'], $values['in_footer']);
+        }
+    }
+
+    /**
+     * Print Scripts for just this page
+     *
+     * @since       0.1
+     * @uses        ZUI_WpAdminPages::$_page_data_array
+     * @uses        wp_enqueue_style() WP funciton
+    */
+    public function printStyles() {
+        foreach ($this->_page_data_array['stylesheets'] as $handle => $values) {
+            //echo $values['src'];
+            echo "<link id='$handle' rel='stylesheet' href='{$values['src']}' type='text/css' />\n";
+            //wp_enqueue_style($handle); //, , $values['deps'], $values['ver'], $values['media']
+        }
+    }
 
     /**
      *  Callback method to display ALL types of admin pages
