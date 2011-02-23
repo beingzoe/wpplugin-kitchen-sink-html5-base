@@ -128,13 +128,29 @@ class KST_Appliance_AdditionalImageSizes extends KST_Appliance {
             foreach ($parent_slug as $slug) {
                 $appliance_options = array(
                     'parent_slug'           => $slug,
-                    'menu_slug'             => "wp_ais",
+                    'menu_slug'             => "aisz_admin",
                     'menu_title'            => 'Image Sizes',
                     'page_title'            => 'Create and Manage Additional Image Sizes',
                     'capability'            => 'manage_options',
                     'view_page_callback'    => array('ZUI_WpAdditionalImageSizes','viewOptionsPage'),
                     'icon_url'              => NULL,
                     'position'              => NULL,
+                    'javascripts'           => array(
+                            'wpadditionalimagesizes'  => array(
+                                    'src'       => KST_URI_VENDOR . "/beingzoe/zui_php/assets/javascripts/WpAdditionalImageSizes.js",
+                                    'deps'      => array( 'jquery' ),
+                                    'ver'       => '0.1',
+                                    'in_footer' => TRUE
+                                )
+                        ),
+                    'stylesheets'           => array(
+                            'wpadditionalimagesizes'  => array(
+                                    'src'       => KST_URI_VENDOR . "/beingzoe/zui_php/assets/stylesheets/WpAdditionalImageSizes.css",
+                                    'deps'      => array( 'jquery' ),
+                                    'ver'       => '0.1',
+                                    'media'     => NULL
+                                )
+                        ),
                     'options'               => array(
                             // NOTE: While this is a good example of using the Options appliance with a callback
                             // instead of auto if you want it to manage your options for you you would need a
@@ -143,7 +159,6 @@ class KST_Appliance_AdditionalImageSizes extends KST_Appliance {
                         )
                     );
                 $this->_appliance->options->add($appliance_options);
-                self::$_menu_is_loaded = TRUE;
             }
         }
 
