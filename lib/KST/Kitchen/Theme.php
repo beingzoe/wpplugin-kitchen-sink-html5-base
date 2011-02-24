@@ -13,6 +13,7 @@
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
 */
 
+if (!class_exists('KST_Kitchen_Theme')) {
 
 /**
  *
@@ -149,3 +150,4 @@ class KST_Kitchen_Theme extends KST_Kitchen {
 
 }
 
+}

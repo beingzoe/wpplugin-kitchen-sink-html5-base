@@ -14,6 +14,8 @@
 */
 
 
+if (!class_exists('KST_Kitchen_Plugin')) {
+
 /**
  *
  *
@@ -32,5 +34,7 @@ class KST_Kitchen_Plugin extends KST_Kitchen {
         KST::setIsCoreOnly(FALSE); // Tell the core it is not alone
         parent::__construct($settings, $preset);
     }
+
+}
 
 }
