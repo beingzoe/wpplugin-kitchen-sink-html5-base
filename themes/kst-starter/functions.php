@@ -55,6 +55,7 @@
  * e.g. $my_theme_settings, $my_theme, etc...
  * In fact a search and replace of the whole theme for $my_theme will hook you up!
 */
+include "_kst_bootstrap_theme.php"; // Protects theme from Kitchen Sink HTML5 not being installed and activated
 
 // KST BASE THEME SETTINGS ARRAY
 // Various Kitchen Sink HTML5 Base settings for your theme - rename the variable!
@@ -70,9 +71,6 @@ $my_theme_settings = array(
     /* OPTIONAL */
     'theme_seo_title_sep'       => '&laquo;',               // Separator between title bar title segments
 );
-
-// NEED TO PROTECT YOUR THEME FROM KST BEING UNINSTALLED
-if ( class_exists('KST') ) {
 
     // REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE
     $my_theme = new KST_Kitchen_Theme($my_theme_settings);
@@ -149,20 +147,6 @@ if ( class_exists('KST') ) {
 
     $my_theme->jit_message->add($jit_message_settings);
 
-    // Any other KST dependent code should be here to protect it in case the "KST plugin framework" is removed
-
-
-
-} else {
-    // Needs to check if it is in the admin section OR in the login page (login is not in the admin)
-    if ( is_admin() ) {
-        return;
-    } else {
-        // Having a FUN and useful help message would be cool.
-        echo "<h1>Pretty cool!<br />You are using a Kitchen Sink based WordPress theme<br />HOWEVER...</h1><p>...you have not activated the Kitchen Sink HTML5 Base plugin in WordPress OR you haven't included it as library in your theme.<br />See the <a href='http://beingzoe.com/zui/wordpress/kitchen_sink/'>documentation</a> if you need assistance.</p><p><a href='#'>Sign in</a> to WordPress.";
-        exit;
-    }
-}
 
 /*
  * Now just do whatever normal WordPress themey things you would do
