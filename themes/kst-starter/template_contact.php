@@ -41,6 +41,8 @@ Name: {contact_name}
 Email: {contact_email}
 Phone Number: {contact_phone_number}
 
+{some tag}
+
 {contact_message}
 
 EOD;
@@ -50,18 +52,18 @@ $form_array = array(
         'form_template'             => $contact_form, // 'auto','<form>...</form>'|valid_callback|'form_id' - The actual form to be display/processed/sent/returned - if not sent then they will handle that themselves - if they did we make a shortcode for it as well as a varialbe they can retrieve from the ojbect
         //'redirect_to'               => 'http://beingzoedev/zui/wordpress/3_0/test/', // no query strings
 
-        'to'                        => $my_theme->options->get('contact_primary_to_address'),
-        'reply_to'                  => $my_theme->options->get('contact_primary_to_address'),
-        'from'                      => $my_theme->options->get('contact_primary_to_address'),
+        'to'                        => $GLOBALS['my_theme']->options->get('contact_primary_to_address'),
+        'reply_to'                  => $GLOBALS['my_theme']->options->get('contact_primary_to_address'),
+        'from'                      => $GLOBALS['my_theme']->options->get('contact_primary_to_address'),
         'subject'                   => 'New message from your website',
 
         'success_template'          => '<p>Thank you {contact_name}. Your message was sent .<br />We will get back to you shortly</p>',
         'failure_template'          => '<p>We could not send your form for some reason {contact_name}.</p>',
-        'revalidate_template'       => '<p>Please check the form and try again {contact_name}</p>',
+        'revalidate_template'       => '<p>Please check the form and try again {contact_name}</p>{some tag}',
         'text_template'             => $text_template,
         'html_template'             => 'This would be the email html template to parse',
         'tags_values'                => array(
-                'Sale Announcment' => '<p class="big_sale_email_announcement">Everyone on the mailing list recieves 50% off</p>'
+                'some tag' => '<p>Some output</p>'
             ) // Array of custom tags to use in templates with their corresponding value
 
     );
