@@ -62,14 +62,29 @@ include "_kst_bootstrap_theme.php"; // Protects theme from Kitchen Sink HTML5 no
 $my_theme_settings = array(
     /* REQUIRED */
     'friendly_name'             => 'My Theme',              // Friendly name used by all widgets, libraries, and classes; can be different than the registered theme name
-    'prefix'                    => 'my_theme',              // Prefix for namespacing libraries, classes, widgets
-    'developer'                 => 'zoe somebody',          // Friendly name of current developer; only used for admin display;
-    'developer_url'             => 'http://beingzoe.com/',  // Full URI to developer website;
-    /* REQUIRED for WP best practice */
+    'prefix'                    => 'my_theme' ,             // Prefix for namespacing libraries, classes, widgets
+    'developer'                 => 'Me',                    // Friendly name of current developer; only used for admin display;
+    'developer_url'             => 'http://example.org/',   // Full URI to developer website;
+    // REQUIRED for WP best practice
     'content_width'             => 500,                     // maximum width of images in posts
     'theme_excerpt_length'      => 100,                     // Default auto excerpt length
-    /* OPTIONAL */
+    // OPTIONAL
     'theme_seo_title_sep'       => '&laquo;',               // Separator between title bar title segments
+    // OPTIONAL: load any scripts or stylesheets - see wiki documentation for more info
+    'javascripts' => array(
+            'jquery',
+            'modernizr',
+            'dd_belatedpng',
+            'plugins',
+            'script',
+            'script_admin'
+            //'example_custom_js' => array('src'=>'path/to/file.js', 'context'=>'is_admin')
+        ),
+    'stylesheets' => array(
+            'style',
+            'style_admin'
+            //'example_custom_css' => array('src'=>'path/to/file.css', 'context'=>'is_singular')
+        )
 );
 
     // REGISTER YOUR THEME WITH KITCHEN SINK HTML5 BASE
@@ -101,7 +116,7 @@ $my_theme_settings = array(
                                 "desc"      => 'Appears at the bottom of every page.',
                                 "default"   => "Copyright © " . date('Y') . ", All Rights Reserved",
                                 "type"      => "text",
-                                "size"      => "150"
+                                "size"      => "75"
                                 ),
                 'misc_contact_section' => array(
                                 "name"      => 'Misc contact options',
@@ -120,7 +135,7 @@ $my_theme_settings = array(
                                 "desc"      => 'Email address to deliver mail from the main contact form',
                                 "default"   => "test@example.org",
                                 "type"      => "text",
-                                "size"      => "150"
+                                "size"      => "75"
                                 )
                 )
         );
