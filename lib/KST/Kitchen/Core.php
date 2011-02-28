@@ -25,7 +25,7 @@ class KST_Kitchen_Core extends KST_Kitchen {
      * @since       0.1
     */
     public function __construct($settings) {
-        $this->type_of_kitchen = 'core';
+        $this->_type_of_kitchen = 'core';
         parent::__construct($settings);
     }
 

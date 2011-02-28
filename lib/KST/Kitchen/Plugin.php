@@ -30,7 +30,7 @@ class KST_Kitchen_Plugin extends KST_Kitchen {
      * @uses        KST::setIsCoreOnly()
     */
     public function __construct($settings, $preset=null) {
-        $this->type_of_kitchen = 'plugin';
+        $this->_type_of_kitchen = 'plugin';
         KST::setIsCoreOnly(FALSE); // Tell the core it is not alone
         parent::__construct($settings, $preset);
     }
