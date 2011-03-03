@@ -1,14 +1,12 @@
 <?php
 /**
- * jQuery jit_message (just-in-time message) box
- * using WordPress custom field for activation and content
+ * DEPRECATED and slated to be delete prior to official Version 0.1.0
+ * DO NOT USE!!!!!
  *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @link        https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki/Docs_appliance_core_forms
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     KitchenSinkHTML5Base
- * @subpackage  Plugins:Marketing
  * @version     0.1
  * @since       0.1
 */
