@@ -82,7 +82,8 @@ $my_theme_settings = array(
         ),
     'stylesheets' => array(
             'style',
-            'style_admin'
+            'style_admin',
+            'style_editor'
             //'example_custom_css' => array('src'=>'path/to/file.css', 'context'=>'is_singular')
         )
 );

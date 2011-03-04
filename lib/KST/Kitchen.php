@@ -464,6 +464,9 @@ class KST_Kitchen {
                     case 'style':
                         wp_register_style( 'style', get_stylesheet_directory_uri() . '/style.css', $values['deps'], $values['ver'], $values['media'] ); // WP default stylesheet "your_theme/style.css" (MUST EXIST IN YOUR THEME!!!)
                     break;
+                    case 'style_editor':
+                        add_editor_style('style_editor.css');
+                    break;
                     case 'style_admin':
                         $values['context'] = 'is_admin';
                         //add_editor_style(); // Style the TinyMCE editor a little bit in editor-style.css
