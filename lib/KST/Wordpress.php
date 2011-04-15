@@ -54,7 +54,7 @@ class KST_Wordpress extends KST_Kitchen_Theme {
 
         $defaults = array(
             'name'          => $name,
-            'id'            => $name,
+            'id'            => self::formatSidebarId($name),
             'description'   => $description,
             'before_widget' => '<aside id="%1$s" class="widget %2$s">',
             'after_widget'  => '</aside>',
@@ -81,7 +81,7 @@ class KST_Wordpress extends KST_Kitchen_Theme {
      * @todo        consider not having any default or a flag to turn that shit off
     */
     public function dynamicSidebar($name) {
-        if ( ! dynamic_sidebar( $name ) ) {
+        if ( ! dynamic_sidebar( self::formatSidebarId($name) ) ) {
             echo "<aside class='widget widget_search'>";
                 get_search_form();
             echo "</aside>";
@@ -139,7 +139,7 @@ class KST_Wordpress extends KST_Kitchen_Theme {
     */
     public function registerSidebars($how_many, $name, $args = NULL) {
 
-        $id = trim(str_replace(" ", "_", strtolower($name)));
+        $id = self::formatSidebarId($name);
 
         $defaults = array(
             'description'   => "1 of {$how_many} consecutive widget areas. Does not appear if no widgets added.",
@@ -183,7 +183,7 @@ class KST_Wordpress extends KST_Kitchen_Theme {
     */
     public function dynamicSidebars($id) {
 
-        $id = trim(str_replace(" ", "_", strtolower($id))); // Do it again in case they don't quite get it but are close i.e. use the name with the number
+        $id = self::formatSidebarId($id); // Do it again in case they don't quite get it but are close i.e. use the name with the number
 
         $segments = explode('_', $id);
         $how_many = end($segments);
@@ -203,5 +203,16 @@ class KST_Wordpress extends KST_Kitchen_Theme {
             echo "</section>";
             $i++;
         }
+    }
+
+
+    /**
+     * Common formatting for registered id
+     * Ensures lowercase, no spaces, underscored
+     *
+     * @since       0.1
+    */
+    public function formatSidebarId($id) {
+        return trim(str_replace(" ", "_", strtolower($id)));
     }
 }
