@@ -346,6 +346,11 @@ class KST_Appliance_Seo extends KST_Appliance {
                         'name'      => 'Meta Description',
                         'desc'      => 'If empty defaults to GLOBAL DESCRIPTION',
                         'type'      => 'text'
+                    ),
+                'meta_body_class' => array(
+                        'name'      => 'Body class(es)',
+                        'desc'      => 'Advanced.<br />Add css classes for custom styling/layouts',
+                        'type'      => 'text'
                     )
                 )
         );
@@ -669,7 +674,11 @@ class KST_Appliance_Seo extends KST_Appliance {
     public function filterBodyClass($classes, $class) {
         if ( is_single() || is_page() ) {
             global $post;
-            $classes[] = get_post_meta($post->ID, 'meta_body_class', true);
+            $meta_body_class = $this->_appliance->metabox->get_the_value('meta_body_class'); //get from metabox class
+            if ( is_string($meta_body_class) ) {
+                $classes[] = $meta_body_class;
+            }
+            $classes[] = get_post_meta($post->ID, 'meta_body_class', true); // deprecated
         }
         return $classes;
     }
