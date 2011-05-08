@@ -324,12 +324,14 @@ class KST_Appliance_Seo extends KST_Appliance {
                 'meta_page_title' => array(
                         'name'      => 'Page Title',
                         'desc'      => 'If empty defaults to entry title',
-                        'type'      => 'text'
+                        'type'      => 'text',
+                        "size"  => "80"
                     ),
                 'meta_page_keywords' => array(
                         'name'      => 'Meta Keywords',
                         'desc'      => 'If empty defaults to GLOBAL KEYWORDS',
-                        'type'      => 'text'
+                        'type'      => 'text',
+                        "size"  => "80"
                     ),
                 'meta_page_keywords_use_tags' => array(
                         'name'      => 'Append post tags as keywords',
@@ -345,7 +347,8 @@ class KST_Appliance_Seo extends KST_Appliance {
                 'meta_page_description' => array(
                         'name'      => 'Meta Description',
                         'desc'      => 'If empty defaults to GLOBAL DESCRIPTION',
-                        'type'      => 'text'
+                        'type'      => 'text',
+                        "size"  => "80"
                     ),
                 'meta_body_class' => array(
                         'name'      => 'Body class(es)',
