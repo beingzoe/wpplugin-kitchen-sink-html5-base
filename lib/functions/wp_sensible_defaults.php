@@ -41,6 +41,16 @@ $content_width                   = KST_Kitchen_Theme::getThemeContentWidth();
 if ( is_admin() )
     return; // Front end only - Admin sensible defaults loads separately and common is required already
 
+
+/**
+ * Load Text Domain
+ *
+ * @since       0.1
+ * @uses        load_theme_textdomain() WP function
+*/
+//load_theme_textdomain( THEMETEXTDOMAIN, STYLESHEETPATH . '/languages' );
+
+
 /**#@+
  * Filters for SHORTCODES
  *
