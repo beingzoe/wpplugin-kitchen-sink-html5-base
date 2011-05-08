@@ -20,14 +20,8 @@ class KST_Kitchen {
      * @since       0.1
      * @access      protected
     */
-    protected $type_of_kitchen;
-    protected $friendly_name;
-    protected $prefix;
-    protected $namespace;
-    protected $developer;
-    protected $developer_url;
-    protected $_local_appliances;
-    protected static $_all_kitchen_settings_array;
+    protected $_type_of_kitchen;
+    protected $_kitchen_settings = array(); // settings array passed in by kitchen
     /**#@-*/
 
 
@@ -37,7 +31,9 @@ class KST_Kitchen {
      * @since       0.1
      * @access      protected
     */
-    protected static $_extant_options; // ??? I think we are only using this in the new Options class - check and delete Array of options that exist IF they were checked with $this->option_exists();
+    protected static $_all_kitchen_settings_array = array();
+    protected static $_enqueue_javascripts = array(); // array of handle names to enqueue
+    protected static $_enqueue_stylesheets = array(); // array of handle names to enqueue
     protected static $_appliances = array(); // Array of registered appliances (classes, functions/helper libraries)
     protected static $_appliances_loaded = array();
     protected static $_appliances_disabled = array();
@@ -45,7 +41,6 @@ class KST_Kitchen {
     protected static $_appliances_can_disable = array(); // site/blog owner disabled
     /**#@-*/
 
-    protected static $_admin_pages; // Store all menus/pages from all registered kst kitchens
 
     /**
      * Theme/Plugin instance constructor
@@ -58,26 +53,33 @@ class KST_Kitchen {
      *              required string developer
      *              required string developer_url
     */
-    protected function __construct( $options, $preset = NULL ) {
+    protected function __construct( $settings, $preset = NULL ) {
 
+        // Store settings for this (and all) kitchen(s)
         $defaults = array(
             'friendly_name'             => '',
             'prefix'                    => '',
             'developer'                 => '',
             'developer_url'             => ''
         );
-        $options += $defaults;
+        $settings += $defaults;
+        $this->_kitchen_settings = $settings;
+        $this->_kitchen_settings['namespace'] = "kst_" . $settings['prefix'] . "_";
+        self::$_all_kitchen_settings_array[] =& $this->_kitchen_settings; // Save so KST can get at all kitchens
 
-        $this->_setFriendlyName( $options['friendly_name'] );
-        $this->_setPrefix( $options['prefix'] );
-        $this->_setDeveloper( $options['developer'] );
-        $this->_setDeveloper_url( $options['developer_url'] );
-        $this->namespace = "kst_" . $this->prefix . "_";
-        self::$_all_kitchen_settings_array[] = $options; // save this for developers page and?
-        $this->_local_appliances = array();
-
+        // Load a preset if they sent when creating kitchen
         if ( NULL !== $preset )
             $this->loadPreset($preset);
+
+        // Register/Enqueue javascripts
+        if ( array_key_exists('javascripts', $settings)) {
+            $this->enqueueScripts($settings['javascripts']);
+        }
+
+        // Register/Enqueue stylesheets
+        if ( array_key_exists('stylesheets', $settings)) {
+            $this->enqueueStyles($settings['stylesheets']);
+        }
     }
 
 
@@ -170,7 +172,7 @@ class KST_Kitchen {
         $appliance = self::$_appliances[$shortname];
 
         // Check if appliance has been registered and that if it is_theme_only that this is theme kitchen
-        if ( array_key_exists($shortname, self::$_appliances) && ( !$appliance['is_theme_only'] || $appliance['is_theme_only'] && 'theme' == $this->type_of_kitchen ) ) {
+        if ( array_key_exists($shortname, self::$_appliances) && ( !$appliance['is_theme_only'] || $appliance['is_theme_only'] && 'theme' == $this->_type_of_kitchen ) ) {
 
             // Load appliances if they are not disabled by the site/blog owner
             // Options has to load no matter what - is there a more eloquent way to handle this?
@@ -230,6 +232,7 @@ class KST_Kitchen {
         }
     }
 
+
     /**
      * KST presets
      *
@@ -273,6 +276,239 @@ class KST_Kitchen {
             break;
         }
     }
+
+
+    /**
+     * Enqueue javascripts and stylesheets through WordPress
+     * This should be called registerScripts but I thought would be misleading since
+     * in KST context this IS ultimately enqueuing them
+     *
+     * Registers the styles and enqueues them in context from KST_Kitchen::enqueueScriptsCallback()
+     *
+     * @since       0.1
+     * @uses        KST_Kitchen::enqueueScriptsCallback()
+     * @uses        wp_register_script() WP function
+     * @uses        add_action() WP function
+     * @uses        get_stylesheet_directory_uri() WP function
+     * @param       required array $args
+     *                  -javascripts
+     *                      -handle
+     *                          -optional wp_enqueue_script parameters
+     *                          -optional 'context' parameter defaults to 'is_public' - any valid callback works - typically use WP conditional function names e.g. 'is_admin'
+    */
+    public function enqueueScripts($args) {
+
+        foreach ($args as $handle => $values) {
+
+            $defaults = array(
+                'deps'      => FALSE,
+                'ver'       => FALSE,
+                'in_footer' => FALSE,
+                'context'   => 'is_public'
+                );
+
+            // Normalize the handles to be a consistent array structure
+            if (is_array($values)) {
+                $temp_handle = $handle;
+                $values += $defaults;
+            } else {
+                $temp_handle = $values;
+                $values = $defaults;
+            }
+
+            if ( isset($values['src']) ) {
+                // They want to register something specific
+                wp_register_script( $temp_handle, $values['src'], $values['deps'], $values['ver'], $values['in_footer'] );
+            } else {
+                // Test for KST KNOWN (exceptional) to register
+                switch ($temp_handle) {
+                    case 'jquery':
+                        // HTML5 BOILERPLATE: Fake Load jQuery: Register jQuery as hack but load via action hook ('get_footer') using HTML5Boilerplate with fallback; TODO: FIND A BETTER WAY
+                        if (!is_admin()) { // You can check is_admin() before the init action however
+                            wp_deregister_script( 'jquery' );
+                            wp_register_script( 'jquery', KST_URI_ASSETS . '/javascripts/empty.js', false, '1.4.4', true);  // In KST - not needed in your theme
+                            // HTML5 BOILERPLATE: Loads jquery boilerplate style with fallback - what to do about wp_enqueue_script and jquery dependencies to this RIGHT?
+                            // Executed on get_footer to ensure that jQuery is loaded before the enqueued scripts in wp_footer
+                            add_action('get_footer', array('KST_Kitchen', 'html5_boiler_plate_jquery_hack'));
+                        }
+                    break;
+                    case 'modernizr':
+                        // HTML5 BOILERPLATE: Load Modernizr
+                        wp_register_script( 'modernizr', KST_URI_ASSETS . '/javascripts/libraries/modernizr-1.6.min.js', false, '1.5', false); // In KST - not needed in your theme
+                    break;
+                    case 'dd_belatedpng':
+                        // HTML5 BOILERPLATE: Load dd_belatedpng.js
+                        // Executed on get_footer like jquery
+                        add_action('get_footer', array('KST_Kitchen', 'dd_belatedpng_js_hack'));
+                    break;
+                    case 'plugins':
+                        // Theme-wide Plugins and Application Script JS (HTML5 BOILERPLATE)
+                        // "your_theme/assets/javascripts/plugins.js" (MUST EXIST IN YOUR THEME!!!)
+                        wp_register_script( 'plugins', get_stylesheet_directory_uri() . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true ); // "your_theme/assets/javascripts/plugins.js" (MUST EXIST IN YOUR THEME!!!)
+                    break;
+                    case 'script':
+                        // Theme-wide Plugins and Application Script JS (HTML5 BOILERPLATE)
+                        // "your_theme/assets/javascripts/script.js" (MUST EXIST IN YOUR THEME!!!)
+                        wp_register_script( 'script', get_stylesheet_directory_uri() . '/assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true );
+                    break;
+                    case 'script_admin':
+                        wp_register_script('kst_script_admin', get_stylesheet_directory_uri() . '/assets/javascripts/script_admin.js' , array( 'jquery' ) , '0.1', true); // "your_theme/assets/javascripts/script_admin.js" (MUST EXIST IN YOUR THEME!!!)
+                    break;
+                    default:
+                        // Otherwise it must be a registered WordPress script
+                    break;
+                }
+            }
+            // Add it to the list - we can't check current page conditions yet
+            KST_Kitchen::$_enqueue_javascripts[$temp_handle] = $values;
+        }
+
+        // Enqueue for front end
+        if ( !has_action( 'wp_enqueue_scripts', array('KST_Kitchen', 'enqueueScriptsCallback')) ) // Only add this once - does WP check for us when we add?
+            add_action('wp_enqueue_scripts', array('KST_Kitchen', 'enqueueScriptsCallback'));
+
+        // Enqueue for Admin - why is there no common hook?
+        if ( !has_action( 'admin_enqueue_scripts', array('KST_Kitchen', 'enqueueScriptsCallback')) ) // Only add this once - does WP check for us when we add?
+            add_action('admin_enqueue_scripts', array('KST_Kitchen', 'enqueueScriptsCallback'));
+    }
+
+
+    /**
+     * Callback to enqueue scripts for both public (front end) and admin
+     *
+     * @since       0.1
+     * @uses        wp_enqueue_script() WP function
+    */
+    public static function enqueueScriptsCallback() {
+        foreach (KST_Kitchen::$_enqueue_javascripts as $handle => $values) {
+            if ('all' == $values['context']) {
+                $is_in_context = TRUE;
+            } else {
+                $callback = $values['context'];
+                $is_in_context = call_user_func($callback); // return their callback;
+            }
+            if ( $is_in_context )
+                wp_enqueue_script($handle);
+        }
+    }
+
+    /**
+     * Hack to implement jQuery inclusion from CDN with fallback HTML5 Boilerplate style
+     * Probably shouldn't be in the kitchen class
+     *
+     * @since       0.1
+     * @todo        Find a better home for this function
+     * @todo        Figure out if it is safe to manually modify the output enqueued list to get rid of empty.js hack
+    */
+    public static function html5_boiler_plate_jquery_hack() {
+        $output = "<script src='//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js'></script>";
+        $output .= "<script>!window.jQuery && document.write(unescape('%3Cscript src=\"" . KST_URI_ASSETS . "/javascripts/jquery/jquery-1.4.4.min.js\"%3E%3C/script%3E'))</script>"; // In KST - not needed in your theme
+        echo $output;
+    }
+
+    /**
+     * Hack to implement dd_belatedpng_js_hack for ie6 HTML5 Boilerplate
+     * I want to not support IE6 at all. Need consensus
+     *
+     * @since       0.1
+     * @todo        Can we just quit supporting IE6 altogether?
+    */
+    public static function dd_belatedpng_js_hack() {
+        $output = "<!--[if lt IE 7 ]>";
+        $output .= "<script src='" . KST_URI_ASSETS . "/javascripts/libraries/dd_belatedpng.js'></script>";  // In KST - not needed in your theme
+        $output .= "<script> DD_belatedPNG.fix('img, .png_bg'); </script>";
+        $output .= "<![endif]-->";
+        echo $output;
+    }
+
+    /**
+     * Enqueue styles
+     * Registers the styles and enqueues them in context from KST_Kitchen::enqueueStylesCallback()
+     *
+     * @since       0.1
+     * @uses        KST_Kitchen::enqueueScriptsCallback()
+     * @uses        wp_register_script() WP function
+     * @uses        add_action() WP function
+     * @uses        get_stylesheet_directory_uri() WP function
+     * @param       required array $args
+     *                  -stylesheets
+     *                      -handle
+     *                          -optional wp_enqueue_style paramters
+     *                          -optional 'context' parameter defaults to 'is_public' - use WP conditional function names e.g. 'is_admin'
+    */
+    public function enqueueStyles($args) {
+        foreach ($args as $handle => $values) {
+
+            $defaults = array(
+                'deps'      => FALSE,
+                'ver'       => FALSE,
+                'media'     => FALSE,
+                'context'   => 'is_public'
+                );
+
+            // Normalize the handles to be a consistent array structure
+            if (is_array($values)) {
+                $temp_handle = $handle;
+                $values += $defaults;
+            } else {
+                $temp_handle = $values;
+                $values = $defaults;
+            }
+
+            if ( isset($values['src']) ) {
+                // They want to register something specific
+                wp_register_style( $temp_handle, $values['src'], $values['deps'], $values['ver'], $values['media'] );
+            } else {
+                // Test for KST KNOWN (exceptional) to register
+                switch ($temp_handle) {
+                    case 'style':
+                        wp_register_style( 'style', get_stylesheet_directory_uri() . '/style.css', $values['deps'], $values['ver'], $values['media'] ); // WP default stylesheet "your_theme/style.css" (MUST EXIST IN YOUR THEME!!!)
+                    break;
+                    case 'style_editor':
+                        add_editor_style('style_editor.css');
+                    break;
+                    case 'style_admin':
+                        $values['context'] = 'is_admin';
+                        //add_editor_style(); // Style the TinyMCE editor a little bit in editor-style.css
+                        wp_register_style( 'style_admin', get_stylesheet_directory_uri() . '/style_admin.css', $values['deps'], $values['ver'], $values['media'] ); // WP default stylesheet "your_theme/style.css" (MUST EXIST IN YOUR THEME!!!
+                        //echo '<link rel="stylesheet" href="'. get_stylesheet_directory_uri() . '/style_admin.css" type="text/css" />'."\n"; // Must exist in your theme!
+                    break;
+                    default:
+                    break;
+                }
+            }
+        // Add it to the list - we can't check current page conditions yet
+            KST_Kitchen::$_enqueue_stylesheets[$temp_handle] = $values;
+        }
+
+        // Enqueue for front end - using same hook as scripts for now
+        if ( !has_action( 'wp_enqueue_scripts', array('KST_Kitchen', 'enqueueStylesCallback')) ) // Only add this once - does WP check for us when we add?
+            add_action('wp_enqueue_scripts', array('KST_Kitchen', 'enqueueStylesCallback'));
+
+        // Enqueue for Admin - why is there no common hook? - using same hook as scripts for now
+        if ( !has_action( 'admin_print_styles', array('KST_Kitchen', 'enqueueStylesCallback')) ) // Only add this once - does WP check for us when we add?
+            add_action('admin_print_styles', array('KST_Kitchen', 'enqueueStylesCallback'));
+    }
+
+
+    /**
+     * Callback to enqueue styles for both public (front end) and admin
+     *
+     * @since       0.1
+    */
+    public static function enqueueStylesCallback() {
+        foreach (KST_Kitchen::$_enqueue_stylesheets as $handle => $values) {
+            if ('all' == $values['context']) {
+                $is_in_context = TRUE;
+            } else {
+                $callback = $values['context'];
+                $is_in_context = call_user_func($callback); // return their callback;
+            }
+            if ( $is_in_context )
+                wp_enqueue_style($handle);
+        }
+    }
+
 
     /**
      * Add loaded appliances to core options group
@@ -352,17 +588,14 @@ class KST_Kitchen {
 
 
     /**
-     * Everything involving options is namespaced "namespace_"
-     * e.g. options, option_group, menu_slugs
-     * Still try to be unique to avoid collisions with other KST developers
+     * Get this _type_of_kitchen
      *
      * @since       0.1
-     * @param       required string $item    unnamespaced option name
-     * @uses        KST_AdminPage_OptionsGroup::namespace
+     * @access      public
      * @return      string
     */
-    public function prefixWithNamespace( $item ) {
-        return $this->namespace . $item;
+    public function getTypeOfKitchen() {
+        return $this->_type_of_kitchen;
     }
 
 
@@ -379,7 +612,7 @@ class KST_Kitchen {
      * @return      string
     */
     public function getFriendlyName() {
-        return $this->friendly_name;
+        return $this->_kitchen_settings['friendly_name'];
     }
 
 
@@ -390,19 +623,7 @@ class KST_Kitchen {
      * @access      protected
     */
     protected function _setFriendlyName($value) {
-        $this->friendly_name = $value;
-    }
-
-
-    /**
-     * Get this type_of_kitchen
-     *
-     * @since       0.1
-     * @access      public
-     * @return      string
-    */
-    public function getTypeOfKitchen() {
-        return $this->type_of_kitchen;
+        $this->_kitchen_settings['friendly_name'] = $value;
     }
 
 
@@ -414,7 +635,7 @@ class KST_Kitchen {
      * @return      string
     */
     public function getPrefix() {
-        return $this->prefix;
+        return $this->_kitchen_settings['prefix'];
     }
 
 
@@ -425,7 +646,7 @@ class KST_Kitchen {
      * @access      protected
     */
     protected function _setPrefix($value) {
-        $this->prefix = $value;
+        $this->_kitchen_settings['prefix'] = $value;
     }
 
 
@@ -437,7 +658,22 @@ class KST_Kitchen {
      * @return      string
     */
     public function getNamespace() {
-        return $this->namespace;
+        return $this->_kitchen_settings['namespace'];
+    }
+
+
+    /**
+     * Everything involving options is namespaced "namespace_"
+     * e.g. options, option_group, menu_slugs
+     * Still try to be unique to avoid collisions with other KST developers
+     *
+     * @since       0.1
+     * @param       required string $item    unnamespaced option name
+     * @uses        KST_AdminPage_OptionsGroup::namespace
+     * @return      string
+    */
+    public function prefixWithNamespace( $item ) {
+        return $this->_kitchen_settings['namespace'] . $item;
     }
 
 
@@ -449,7 +685,7 @@ class KST_Kitchen {
      * @return      string
     */
     public function getDeveloper() {
-        return $this->developer;
+        return $this->_kitchen_settings['developer'];
     }
 
 
@@ -460,7 +696,7 @@ class KST_Kitchen {
      * @access      protected
     */
     protected function _setDeveloper($value) {
-        $this->developer = $value;
+        $this->_kitchen_settings['developer'] = $value;
     }
 
 
@@ -472,7 +708,7 @@ class KST_Kitchen {
      * @return      string
     */
     public function getDeveloper_url() {
-        return $this->developer_url;
+        return $this->_kitchen_settings['developer_url'];
     }
 
 
@@ -483,9 +719,16 @@ class KST_Kitchen {
      * @access      protected
     */
     protected function _setDeveloper_url($value) {
-        $this->developer_url = $value;
+        $this->_kitchen_settings['developer_url'] = $value;
     }
 
+
+    /**
+     * Get all kitchen settings
+     *
+     * @since       0.1
+     * @access      public
+    */
     public static function getAllKitchenSettingsArrays() {
         return self::$_all_kitchen_settings_array;
     }
@@ -522,4 +765,17 @@ class KST_Disabled {
      public function __call($name, $arguments) {
         return false;
     }
+}
+
+/**
+ * WordPress enhancement function is_public()
+ * !is_admin() = all front end pages
+ *
+ * @since       0.1
+*/
+function is_public() {
+    if (!is_admin())
+        return TRUE;
+    else
+        return FALSE;
 }

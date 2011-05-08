@@ -324,12 +324,14 @@ class KST_Appliance_Seo extends KST_Appliance {
                 'meta_page_title' => array(
                         'name'      => 'Page Title',
                         'desc'      => 'If empty defaults to entry title',
-                        'type'      => 'text'
+                        'type'      => 'text',
+                        "size"  => "80"
                     ),
                 'meta_page_keywords' => array(
                         'name'      => 'Meta Keywords',
                         'desc'      => 'If empty defaults to GLOBAL KEYWORDS',
-                        'type'      => 'text'
+                        'type'      => 'text',
+                        "size"  => "80"
                     ),
                 'meta_page_keywords_use_tags' => array(
                         'name'      => 'Append post tags as keywords',
@@ -345,6 +347,12 @@ class KST_Appliance_Seo extends KST_Appliance {
                 'meta_page_description' => array(
                         'name'      => 'Meta Description',
                         'desc'      => 'If empty defaults to GLOBAL DESCRIPTION',
+                        'type'      => 'text',
+                        "size"  => "80"
+                    ),
+                'meta_body_class' => array(
+                        'name'      => 'Body class(es)',
+                        'desc'      => 'Advanced.<br />Add css classes for custom styling/layouts',
                         'type'      => 'text'
                     )
                 )
@@ -669,7 +677,11 @@ class KST_Appliance_Seo extends KST_Appliance {
     public function filterBodyClass($classes, $class) {
         if ( is_single() || is_page() ) {
             global $post;
-            $classes[] = get_post_meta($post->ID, 'meta_body_class', true);
+            $meta_body_class = $this->_appliance->metabox->get_the_value('meta_body_class'); //get from metabox class
+            if ( is_string($meta_body_class) ) {
+                $classes[] = $meta_body_class;
+            }
+            $classes[] = get_post_meta($post->ID, 'meta_body_class', true); // deprecated
         }
         return $classes;
     }

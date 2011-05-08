@@ -757,7 +757,7 @@ Tags:           widgets, theme options, threaded comments, highlight author comm
  */
 
     /* WP Widgets: searchform.php */
-    .widget input#search { width: 110px;  }
+    .widget input[type="text"] { width: 110px;  }
 
     /* WP widget: calendar */
     #wp-calendar {

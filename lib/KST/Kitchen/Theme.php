@@ -66,7 +66,7 @@ class KST_Kitchen_Theme extends KST_Kitchen {
          *
          * @since 0.1
         */
-        $this->type_of_kitchen = 'theme';
+        $this->_type_of_kitchen = 'theme';
         KST::setIsCoreOnly(FALSE); // Tell the core it is not alone
         self::setThemeContentWidth( $settings['content_width'] );
         self::setThemeExcerptLength( $settings['theme_excerpt_length'] );

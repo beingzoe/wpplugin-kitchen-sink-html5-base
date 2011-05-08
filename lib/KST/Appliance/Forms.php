@@ -1,14 +1,12 @@
 <?php
 /**
- * jQuery jit_message (just-in-time message) box
- * using WordPress custom field for activation and content
+ * DEPRECATED and slated to be delete prior to official Version 0.1.0
+ * DO NOT USE!!!!!
  *
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @link        https://github.com/beingzoe/wpplugin-kitchen-sink-html5-base/wiki/Docs_appliance_core_forms
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
- * @package     KitchenSinkHTML5Base
- * @subpackage  Plugins:Marketing
  * @version     0.1
  * @since       0.1
 */
@@ -73,6 +71,12 @@ class KST_Appliance_Forms extends KST_Appliance {
         // Merge with defaults to set this form's values
         $args = array_merge(self::$_form_defaults, $args);
 
+        // And merge in anything missing that we must have
+        $defaults = array(
+                'form_id'                   => 'contact_form'
+            );
+        $args = array_merge($defaults, $args);
+
         // Use form_id to name shortcode and property object
         $property = $args['form_id'];
         $this->{$property} =& new KST_Appliance_Forms($this->_kitchen); // Simulate the initial load();
@@ -80,6 +84,7 @@ class KST_Appliance_Forms extends KST_Appliance {
         // Store these form settings in this form
         $this->$property->_form_settings = $args;
         self::$_all_form_ids[$property] =& $this->$property->_form_settings; // Do we really need this?
+
 
         // Merge our form tags_values with the $_POST for the template
         if ( 0 < count($_POST) ) { // There wouldn't be a post on a failure (redirected)
@@ -95,7 +100,7 @@ class KST_Appliance_Forms extends KST_Appliance {
         }
 
         // Make optional shortcode
-        $this->$property->_addOutputHookForFormProperty($args);
+        $this->$property->_addOutputHookForFormProperty($property);
 
     }
 
@@ -110,9 +115,9 @@ class KST_Appliance_Forms extends KST_Appliance {
      * @since       0.1
      * @param       required array $args All the required settings to build a from (defaults should already be merged in during add() )
     */
-    protected function _addOutputHookForFormProperty($args) {
+    protected function _addOutputHookForFormProperty($property = 'contact_form') {
         // Make a shortcode and object member to display the form
-        add_shortcode('contact_form', array(&$this, 'output'));
+        add_shortcode($property, array(&$this, 'output'));
     }
 
 
@@ -241,6 +246,10 @@ class KST_Appliance_Forms extends KST_Appliance {
     */
     public function send() {
 
+//echo "<pre>";
+//print_r($this->_form_settings);
+//echo "<pre><br />";
+
         $to = $this->_form_settings['to'];
         $cc = (isset($this->_form_settings['cc']))      ? $this->_form_settings['cc']
                                                         : NULL;
@@ -254,6 +263,8 @@ class KST_Appliance_Forms extends KST_Appliance {
         $message = $text_output;
         $this->_form_settings['message'] = $message; //esc_attr();
         //$headers = "From: $this->_form_settings['from']\r\nReply-To: $this->_form_settings['reply_to']";
+
+        //echo "To = $to <br /> CC = $cc <br /> bcc = $bcc <br /> subject = $subject <br /><pre> $message";
 
         //send the email
         $mail_sent = mail( $to, $subject, $message, NULL );

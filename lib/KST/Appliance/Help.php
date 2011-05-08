@@ -291,24 +291,6 @@ EOD;
             </p>
 EOD;
 
-            /*
-            $all = KST_Kitchen::getAllKitchenSettingsArrays();
-            $merged = array();
-
-            echo "<pre>";
-            print_r($all);
-            echo "</pre><br /><br /><br />";
-
-            foreach ( $all as $kitchen_settings ) {
-                $flipped_settings = array_flip($kitchen_settings);
-                $merged = array_merge($merged, $flipped_settings);
-            }
-
-            echo "<pre>";
-            print_r($merged);
-            echo "</pre><br /><br /><br />";
-            */
-
             echo $output;
 
         } else { // Any other help page
