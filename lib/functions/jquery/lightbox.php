@@ -34,7 +34,7 @@ if ( !is_admin() ) {
      * Load Fancybox via wphead();
     */
     wp_enqueue_style('fancybox', KST_URI_ASSETS . '/stylesheets/fancybox.min.css');
-    wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancybox-1.3.4.pack.js' , array('jquery','application') , '1.3.4', true);
+    wp_enqueue_script('fancybox', KST_URI_ASSETS . '/javascripts/jquery/jquery.fancybox-1.3.4.pack.js' , array('jquery') , '1.3.4', true);
     add_action('wp_footer', 'kst_lightbox_scripts');
 
 
@@ -50,7 +50,7 @@ if ( !is_admin() ) {
             <script type="text/javascript">
                 jQuery(document).ready(function($) {
                     if(jQuery().fancybox) {
-                        $(" a.lightbox, .hentry a[href$=.jpg], .hentry a[href$=.png], .hentry a[href$=.gif] ")
+                        $('a.lightbox, .hentry a[href$=".jpg"], .hentry a[href$=".png"], .hentry a[href$=".gif"]')
                             .attr({
                               rel: "galleryize"
                             })
