@@ -85,7 +85,7 @@
 
 
 //wp_register_script('jquery-tools', KST_URI_ASSETS . '/javascripts/jquery/jquery.tools.min.js' , array('jquery') , '1.2.3', true);
-wp_register_script('jquery-cycle', KST_URI_ASSETS . '/javascripts/jquery/jquery.cycle.all.min.js' , array('jquery','application') , '1.2.3', true);
+wp_register_script('jquery-cycle', KST_URI_ASSETS . '/javascripts/jquery/jquery.cycle.all.min.js' , array('jquery') , '1.2.3', true);
 /* Register shortcodes */
 add_shortcode('cycle_class', 'kst_shortcode_cycle_class'); //Add shortcode handler
 add_shortcode('cycle_header', 'kst_shortcode_cycle_header'); //Add shortcode handler
@@ -369,7 +369,7 @@ EOD;
     $content = str_replace( 'cyclable_placeholder' , $ha , $content );
 
     /* Ah, done */
-    return $content;
+    return do_shortcode($content);
 }
 
 

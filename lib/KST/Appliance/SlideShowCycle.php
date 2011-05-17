@@ -129,17 +129,17 @@ class KST_Appliance_SlideShowCycle extends KST_Appliance {
         parent::_init($kitchen, $appliance_settings, NULL, $appliance_help);
 
         // Manually hook to print scripts
-        wp_register_script('jquery-cycle', KST_URI_ASSETS . '/javascripts/jquery/jquery.cycle.all.min.js' , array('jquery','application') , '1.2.3', true);
+        wp_register_script('jquery-cycle', KST_URI_ASSETS . '/javascripts/jquery/jquery.cycle.all.min.js' , array('jquery') , '1.2.3', true);
 
         // Register shortcodes
-        add_shortcode('cycle_class', 'kst_shortcode_cycle_class'); //Add shortcode handler
-        add_shortcode('cycle_header', 'kst_shortcode_cycle_header'); //Add shortcode handler
-        add_shortcode('cycle_footer', 'kst_shortcode_cycle_footer'); //Add shortcode handler
-        add_shortcode('cycle_slide', 'kst_shortcode_cycle_slide'); //Add shortcode handler
-        add_shortcode('cycle_pager', 'kst_shortcode_cycle_pager'); //Add shortcode handler
+        add_shortcode('cycle_class', array('KST_Appliance_SlideShowCycle', 'kst_shortcode_cycle_class')); //Add shortcode handler
+        add_shortcode('cycle_header', array('KST_Appliance_SlideShowCycle', 'kst_shortcode_cycle_header')); //Add shortcode handler
+        add_shortcode('cycle_footer', array('KST_Appliance_SlideShowCycle', 'kst_shortcode_cycle_footer')); //Add shortcode handler
+        add_shortcode('cycle_slide', array('KST_Appliance_SlideShowCycle', 'kst_shortcode_cycle_slide')); //Add shortcode handler
+        add_shortcode('cycle_pager', array('KST_Appliance_SlideShowCycle', 'kst_shortcode_cycle_pager')); //Add shortcode handler
 
         // Add filter to replace our shortcode placeholder with the cyclable output
-        add_filter('the_content', 'kst_shortcode_cyclabes_output', 11);
+        add_filter('the_content', array('KST_Appliance_SlideShowCycle', 'kst_shortcode_cyclabes_output'), 11);
 
     }
 
@@ -180,7 +180,7 @@ class KST_Appliance_SlideShowCycle extends KST_Appliance {
 
         if ( !isset(${"$this_set"}) ) {
             ${"$this_set"}["class"][] = $content;
-            add_action('wp_footer', 'print_cycle_scripts');
+            add_action('wp_footer', array('KST_Appliance_SlideShowCycle', 'print_cycle_scripts'));
             return "cyclable_placeholder";
         }
 
@@ -214,7 +214,7 @@ class KST_Appliance_SlideShowCycle extends KST_Appliance {
 
         if ( !isset(${"$this_set"}) ) {
             ${"$this_set"}["header"][] = $content;
-            add_action('wp_footer', 'print_cycle_scripts');
+            add_action('wp_footer', array('KST_Appliance_SlideShowCycle', 'print_cycle_scripts'));
             return "cyclable_placeholder";
         }
 
@@ -248,7 +248,7 @@ class KST_Appliance_SlideShowCycle extends KST_Appliance {
 
         if ( !isset(${"$this_set"}) ) {
             ${"$this_set"}["footer"][] = $content;
-            add_action('wp_footer', 'print_cycle_scripts');
+            add_action('wp_footer', array('KST_Appliance_SlideShowCycle', 'print_cycle_scripts'));
             return "cyclable_placeholder";
         }
 
@@ -279,7 +279,7 @@ class KST_Appliance_SlideShowCycle extends KST_Appliance {
 
         if ( !isset(${"$this_set"}) ) {
             ${"$this_set"}["pager"][] = true;
-            add_action('wp_footer', 'print_cycle_scripts');
+            add_action('wp_footer', array('KST_Appliance_SlideShowCycle', 'print_cycle_scripts'));
             return "cyclable_placeholder";
         }
 
@@ -313,7 +313,7 @@ class KST_Appliance_SlideShowCycle extends KST_Appliance {
 
         if ( !isset(${"$this_set"}) ) {
             ${"$this_set"}["slides"][] = $content; //add the content to the end of the array
-            add_action('wp_footer', 'print_cycle_scripts');
+            add_action('wp_footer', array('KST_Appliance_SlideShowCycle', 'print_cycle_scripts'));
             return "cyclable_placeholder";
         }
 
@@ -426,7 +426,7 @@ EOD;
         $content = str_replace( 'cyclable_placeholder' , $ha , $content );
 
         /* Ah, done */
-        return $content;
+        return do_shortcode($content);
     }
 
 
