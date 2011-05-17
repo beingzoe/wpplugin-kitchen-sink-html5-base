@@ -326,7 +326,7 @@ class KST_Kitchen {
                         // HTML5 BOILERPLATE: Fake Load jQuery: Register jQuery as hack but load via action hook ('get_footer') using HTML5Boilerplate with fallback; TODO: FIND A BETTER WAY
                         if (!is_admin()) { // You can check is_admin() before the init action however
                             wp_deregister_script( 'jquery' );
-                            wp_register_script( 'jquery', KST_URI_ASSETS . '/javascripts/empty.js', false, '1.4.4', true);  // In KST - not needed in your theme
+                            wp_register_script( 'jquery', KST_URI_ASSETS . '/javascripts/empty.js', false, '1.6.0', true);  // In KST - not needed in your theme
                             // HTML5 BOILERPLATE: Loads jquery boilerplate style with fallback - what to do about wp_enqueue_script and jquery dependencies to this RIGHT?
                             // Executed on get_footer to ensure that jQuery is loaded before the enqueued scripts in wp_footer
                             add_action('get_footer', array('KST_Kitchen', 'html5_boiler_plate_jquery_hack'));
@@ -385,10 +385,11 @@ class KST_Kitchen {
                 $is_in_context = TRUE;
             } else {
                 $callback = $values['context'];
-                $is_in_context = call_user_func($callback); // return their callback;
+                $is_in_context = call_user_func($callback); // return their callback typically is_public or is_admin;
             }
-            if ( $is_in_context )
+            if ( $is_in_context ) {
                 wp_enqueue_script($handle);
+            }
         }
     }
 
@@ -401,8 +402,8 @@ class KST_Kitchen {
      * @todo        Figure out if it is safe to manually modify the output enqueued list to get rid of empty.js hack
     */
     public static function html5_boiler_plate_jquery_hack() {
-        $output = "<script src='//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js'></script>";
-        $output .= "<script>!window.jQuery && document.write(unescape('%3Cscript src=\"" . KST_URI_ASSETS . "/javascripts/jquery/jquery-1.4.4.min.js\"%3E%3C/script%3E'))</script>"; // In KST - not needed in your theme
+        $output = "<script src='//ajax.googleapis.com/ajax/libs/jquery/1.6.0/jquery.min.js'></script>";
+        $output .= "<script>!window.jQuery && document.write(unescape('%3Cscript src=\"" . KST_URI_ASSETS . "/javascripts/jquery/jquery-1.6.0.min.js\"%3E%3C/script%3E'))</script>"; // In KST - not needed in your theme
         echo $output;
     }
 
@@ -442,7 +443,7 @@ class KST_Kitchen {
             $defaults = array(
                 'deps'      => FALSE,
                 'ver'       => FALSE,
-                'media'     => FALSE,
+                'media'     => 'all',
                 'context'   => 'is_public'
                 );
 
