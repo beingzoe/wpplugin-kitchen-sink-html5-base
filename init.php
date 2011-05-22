@@ -7,7 +7,7 @@ Version:        0.1
 Author:         zoe somebody
 Author URI:     http://beingzoe.com/
 License:        MIT
- *
+ **
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
