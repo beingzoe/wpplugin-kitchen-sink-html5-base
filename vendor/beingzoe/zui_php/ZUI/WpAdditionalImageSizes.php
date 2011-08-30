@@ -20,7 +20,7 @@
  *
  * @package     ZUI
  * @subpackage  WordPress
- * @version     0.1.6
+ * @version     0.1.7
  * @since       0.1
  * @author      Walter Vos
  * @link        http://www.waltervos.com/
@@ -331,10 +331,12 @@ class ZUI_WpAdditionalImageSizes {
         // Delete images for deleted sizes
         // No cookies for delete form
 
-        // Save those settings
-        $serialized_variables = serialize($variables);
-        $expiry = 60 * 60 * 24 * 60 + time();
-        setcookie('aisz_generate_form', $serialized_variables, $expiry);
+        // Save those settings - must check to see if headers have been sent since 0.1.7
+        if ( !headers_sent() ) {
+            $serialized_variables = serialize($variables);
+            $expiry = 60 * 60 * 24 * 60 + time();
+            setcookie('aisz_generate_form', $serialized_variables, $expiry);
+        }
         // Add a couple more things we don't want to save for Delete images for deleted sizes
         $variables['simulate_delete'] = ( !isset($_POST['delete_images_for_deleted_sizes']))    ? 1
                                                                                                 : (( isset($_POST['simulate_delete']) ) ? 1 : 0);
