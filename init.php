@@ -7,7 +7,7 @@ Version:        0.1
 Author:         zoe somebody
 Author URI:     http://beingzoe.com/
 License:        MIT
- *
+ **
  * @author		zoe somebody
  * @link        http://beingzoe.com/zui/wordpress/kitchen_sink/
  * @license		http://en.wikipedia.org/wiki/MIT_License The MIT License
@@ -30,6 +30,7 @@ License:        MIT
  * @uses        get_current_theme() WP function
  * @uses        WP_PLUGIN_URL WP constant
 */
+define( 'KST_PLUGIN_BASENAME',          plugin_basename( __FILE__ ) );
 define( 'KST_DIR',                      dirname(__FILE__) );                                            // Absolute path to KST
 define( 'KST_DIR_LIB',                  KST_DIR . '/lib' );
 define( 'KST_DIR_VENDOR',               KST_DIR . '/vendor' );
@@ -195,7 +196,7 @@ $kst_bundled_appliances = array(
             'path'                  => KST_DIR_LIB . '/KST/Appliance/Asides.php',
             'class_name'            => 'KST_Appliance_Asides',
             'is_theme_only'         => TRUE
-        ),
+        )
 );
 
 
