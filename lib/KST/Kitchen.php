@@ -202,7 +202,6 @@ class KST_Kitchen {
                         add_action('after_setup_theme', array('KST_Kitchen', 'loadAppliancesAfterThemeSetup')); // important for sequencing
                     }
                 }
-
                 // Auto instantiate if is a class (has class_name), and does NOT require args (or it does and it has more than 1 - we always send the kitchen object)
                 if ( $appliance['class_name'] && ( !$appliance['require_args'] || 1 < count($args) ) ) { // FALSE if appliance is not a class && it can't require args || the args are greater than 1 because we are inserting the kitchen object
                     $_reflection = new ReflectionClass($appliance['class_name']);
@@ -289,12 +288,13 @@ class KST_Kitchen {
      * @uses        KST_Kitchen::enqueueScriptsCallback()
      * @uses        wp_register_script() WP function
      * @uses        add_action() WP function
-     * @uses        get_stylesheet_directory_uri() WP function
+     * @uses        KST_THEME_PARENT_URI constant
      * @param       required array $args
      *                  -javascripts
      *                      -handle
      *                          -optional wp_enqueue_script parameters
      *                          -optional 'context' parameter defaults to 'is_public' - any valid callback works - typically use WP conditional function names e.g. 'is_admin'
+     * @todo        auto registering jquery boilerplate style is all kludged and causing problems
     */
     public function enqueueScripts($args) {
 
@@ -344,15 +344,15 @@ class KST_Kitchen {
                     case 'plugins':
                         // Theme-wide Plugins and Application Script JS (HTML5 BOILERPLATE)
                         // "your_theme/assets/javascripts/plugins.js" (MUST EXIST IN YOUR THEME!!!)
-                        wp_register_script( 'plugins', get_stylesheet_directory_uri() . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true ); // "your_theme/assets/javascripts/plugins.js" (MUST EXIST IN YOUR THEME!!!)
+                        wp_register_script( 'plugins', KST_THEME_PARENT_URI . '/assets/javascripts/plugins.js' , array( 'jquery' ) , '0.1', true ); // "your_theme/assets/javascripts/plugins.js" (MUST EXIST IN YOUR THEME!!!)
                     break;
                     case 'script':
                         // Theme-wide Plugins and Application Script JS (HTML5 BOILERPLATE)
                         // "your_theme/assets/javascripts/script.js" (MUST EXIST IN YOUR THEME!!!)
-                        wp_register_script( 'script', get_stylesheet_directory_uri() . '/assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true );
+                        wp_register_script( 'script', KST_THEME_PARENT_URI . '/assets/javascripts/script.js' , array( 'jquery' ) , '0.1', true );
                     break;
                     case 'script_admin':
-                        wp_register_script('kst_script_admin', get_stylesheet_directory_uri() . '/assets/javascripts/script_admin.js' , array( 'jquery' ) , '0.1', true); // "your_theme/assets/javascripts/script_admin.js" (MUST EXIST IN YOUR THEME!!!)
+                        wp_register_script('kst_script_admin', KST_THEME_PARENT_URI . '/assets/javascripts/script_admin.js' , array( 'jquery' ) , '0.1', true); // "your_theme/assets/javascripts/script_admin.js" (MUST EXIST IN YOUR THEME!!!)
                     break;
                     default:
                         // Otherwise it must be a registered WordPress script

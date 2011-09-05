@@ -37,7 +37,7 @@ class KST_Wordpress extends KST_Kitchen_Theme {
      *
      * @since       0.1
      * @access      public
-     * @see         KST_Wordpress::dynamicSidebar
+     * @see         KST_Wordpress::dynamicSidebar()
      * @uses        register_sidebar() WP function
      * @param       required string $name
      * @param       required string $description
@@ -74,9 +74,14 @@ class KST_Wordpress extends KST_Kitchen_Theme {
      * Echoes output
      *
      * @since       0.1
-     * @see         KST_Wordpress::registerSidebar
+     * @see         KST_Wordpress::registerSidebar()
      * @access      public
-     * @uses        register_sidebar() WP function
+     * @uses        KST_Wordpress::formatSidebarId()
+     * @uses        dynamic_sidebar() WP function
+     * @uses        get_search_form() WP function
+     * @uses        wp_register() WP function
+     * @uses        wp_loginout() WP function
+     * @uses        wp_meta() WP function
      * @param       required string $name
      * @todo        consider not having any default or a flag to turn that shit off
     */
@@ -97,6 +102,29 @@ class KST_Wordpress extends KST_Kitchen_Theme {
             echo "</aside>";
         };
     }
+
+
+    /**
+     * GET (return html output) of   dynamic_sidebar
+     *
+     * Does not actually get our method, simply gets the sidebar with WP function
+     *
+     * @since       0.1
+     * @see         Using patch request by w3prodigy http://core.trac.wordpress.org/ticket/13169
+     * @access      public
+     * @uses        KST_Wordpress::formatSidebarId()
+     * @uses        dynamic_sidebar() WP function
+     * @param       required string $name
+    */
+    public function getDynamicSidebar($name) {
+        $sidebar_contents = "";
+        ob_start();
+        dynamic_sidebar( $name );
+        $sidebar_contents = ob_get_clean();
+
+        return $sidebar_contents;
+    }
+
 
 
     /**

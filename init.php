@@ -19,6 +19,8 @@ License:        MIT
  * @uses        KST_Kitchen_Plugin
  * @uses        KST_Appliance_Options class
  * @todo        replace WP_PLUGIN_DIR and any of these constants per Codex?
+ * @todo        Eliminate the KST_HELP_SECTION_SEPARATOR constant and finish a functional help/about system
+ * @todo        There are parent-theme-centric issues e.g. registering predefined javascript/stylesheets. Address child theme issues.
 */
 
 
@@ -28,6 +30,8 @@ License:        MIT
  * @since       0.1
  * @uses        get_site_url() WP function
  * @uses        get_current_theme() WP function
+ * @uses        get_template_directory_uri() WP function
+ * @uses        get_stylesheet_directory_uri() WP function
  * @uses        WP_PLUGIN_URL WP constant
 */
 define( 'KST_PLUGIN_BASENAME',          plugin_basename( __FILE__ ) );
@@ -42,7 +46,9 @@ define( 'KST_URI_VENDOR',               KST_URI . '/vendor' );
 define( 'KST_URI_TEMPLATES',            KST_URI . '/templates' );
 define( 'KST_URI_ASSETS',               KST_URI . '/assets' );
 define( 'KST_THEME_NAME_CURRENT',       get_current_theme() );
-define( 'KST_HELP_SECTION_SEPARATOR',   '<br /><br /><a href="#wphead">Top</a><br /><br /><br />' );    // For separating sections and creating a back to top link
+define( 'KST_THEME_PARENT_URI',         get_template_directory_uri() );
+define( 'KST_THEME_CHILD_URI',          get_stylesheet_directory_uri() );
+define( 'KST_HELP_SECTION_SEPARATOR',   '<br /><br /><a href="#wphead">Top</a><br /><br /><br />' );    // For separating sections and creating a back to top link; This is dumb and that whole system needs to be unkluged and finished
 /**#@-*/
 
 

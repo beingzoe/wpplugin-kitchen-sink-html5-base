@@ -43,7 +43,7 @@
     </hgroup>
     <?php
         /* Output masthead menu e.g. container => false*/
-        echo "<nav id='hd_menu' class='clearfix' rel='navigation'>"; //manually creating container for ARIA landmark roles
+        echo "<nav id='hd_menu' class='clearfix'>"; //manually creating container for ARIA landmark roles
         wp_nav_menu( array(
                     'theme_location'    => 'hd_menu',
                     'container'         => false,

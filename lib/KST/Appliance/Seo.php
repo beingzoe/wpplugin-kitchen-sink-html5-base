@@ -62,6 +62,14 @@ class KST_Appliance_Seo extends KST_Appliance {
     /**#@+
      * @since       0.1
      * @access      protected
+     * @var         array
+    */
+    protected $_body_class = array(); // stores page/template level additions to WP body_class() filter
+    /**#@-*/
+
+    /**#@+
+     * @since       0.1
+     * @access      protected
      * @var         string
     */
     protected $_meta_title_sep; // meta segment separator
@@ -661,17 +669,28 @@ class KST_Appliance_Seo extends KST_Appliance {
     }
 
 
+    /**
+     * Add classes for the body tag via the WP body_class() call
+     * Added to body_class() via filterBodyClass() filter
+     *
+     * Allows a template to add styling/scripting options per template/page/view
+     * while still using the same header.php
+     *
+     * @since 0.1
+     * @param       required string $classes whatever you would normally put in a class="";
+     * @return      void
+    */
+    public function addBodyClass($classes) {
+        $this->_body_class[] = $classes;
+    }
+
 
     /**
      * Add custom classes from posts and pages to WP body_class()
      *
-     * Under consideration for deprecation
-     * Has not been updated to use metabox (TODO?)
-     *
-     * Or is this whole thing moot now? Just make templates? But this is a good optional...
-     *
      * @since       0.1
-     * @param       required string $part   toc|entry which part do you want?
+     * @param       required array $classes WP body classes to be appended/filtered
+     * @param       required string $class class explicity passed in body_class('') in header.php
      * @return      string
     */
     public function filterBodyClass($classes, $class) {
@@ -682,6 +701,11 @@ class KST_Appliance_Seo extends KST_Appliance {
                 $classes[] = $meta_body_class;
             }
             $classes[] = get_post_meta($post->ID, 'meta_body_class', true); // deprecated
+        }
+        if ( !empty($this->_body_class) ) {
+            foreach($this->_body_class as $this_class) {
+            $classes[] = $this_class;
+            }
         }
         return $classes;
     }

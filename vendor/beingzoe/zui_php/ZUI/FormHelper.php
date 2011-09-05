@@ -273,7 +273,7 @@ class ZUI_FormHelper {
      * @param       required string|array $selected_values selected values to match for selected=""
      * @return      string
     */
-    public static function select_wp_categories( $args ) {
+    public static function select_wp_categories( $args, $multi=FALSE ) {
         // Set sensible defaults especially select NONE if we don't find a default later
         // THEY MUST PASS A NAME/ID in the arguments
         // Removed the default of "selected"           => "-1", because it was causing problems with metabox as -1 is a value and caused otherwise empty groups to be saved - and honestly these types shouldn't be in a generic FormHelper anyway
@@ -285,7 +285,7 @@ class ZUI_FormHelper {
         );
         $args = array_merge( $defaults, $args );
 
-        return wp_dropdown_categories( $args );
+        return  wp_dropdown_categories( $args );
     }
 
 

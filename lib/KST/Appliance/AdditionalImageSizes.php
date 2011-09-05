@@ -86,6 +86,7 @@ class KST_Appliance_AdditionalImageSizes extends KST_Appliance {
 
     /**
      * @since       0.1
+     * @todo        menu_slug had to be unique otherwise the view page callback happened twice because we added two menu items; This needs handled more gracefully all around, probably in the "options/adminpages" classes
     */
     public function __construct(&$kitchen) {
 
@@ -121,14 +122,14 @@ class KST_Appliance_AdditionalImageSizes extends KST_Appliance {
         // Common appliance
         parent::_init($kitchen, $appliance_settings, NULL, $appliance_help); // $appliance_options not being sent because we are adding two menu items
 
-        $parent_slug = array('kst','media'); //upload.php
+        $parent_slug = array('kst', 'media'); //'kst', 'media'
 
         if ( !self::$_menu_is_loaded ) {
             $this->_appliance->load('options');
             foreach ($parent_slug as $slug) {
                 $appliance_options = array(
                     'parent_slug'           => $slug,
-                    'menu_slug'             => "aisz_admin",
+                    'menu_slug'             => "{$slug}_aisz_admin", //2011-08-17 had to make this unique otherwise callback called twice; review and revise all this
                     'menu_title'            => 'Image Sizes',
                     'page_title'            => 'Create and Manage Additional Image Sizes',
                     'capability'            => 'manage_options',
@@ -159,6 +160,7 @@ class KST_Appliance_AdditionalImageSizes extends KST_Appliance {
                         )
                     );
                 $this->_appliance->options->add($appliance_options);
+
             }
         }
 
