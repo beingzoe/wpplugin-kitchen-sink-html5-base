@@ -190,4 +190,91 @@ class KST {
         }
     }
 
+
+    /**
+     * Hide KST from update checks from WordPress.org repository
+     *
+     * Check to see if a developer wants to stop update checks
+     * Enables the use of KST without developers or KST worrying
+     * if it is going to break things in future development.
+     *
+     * Wherever possible we will remain backwards compatible
+     * If we plan to get rid of functionality it will be deprecated.
+     *
+     * How the version number is tracked:
+     * Version 1.2.3 = upgrade.update.patch
+     *
+     * Only a change in the upgrade number guarantees code needs updated to stay stable
+     * i.e. Updating from Version 1.2.3 to 2.0 means you will need to update your code
+     *
+     * A change in the update number could require an update to your code to use the new functionality
+     * i.e. Updating from Version 1.2.3 to 1.3.0 means significant new features have been added
+     *
+     * A change in the patch number should not require an update to your code
+     * i.e. Updating from Version 1.2.3 to 1.2.4 means something was fixed or optimized
+     *
+     * Your initial settings array allows you to choose for your installation and implementation
+     * of KST what, if any, updates should be checked for from the WP repository. This is controlled
+     * using the 'limit_update_check' setting in your kitchen settings array.
+     *
+     * Possible values for 'limit_update_check':
+     *      -none
+     *      -patch (default)
+     *      -update
+     *      -upgrade
+     *
+     * @since       0.1
+    */
+    /*
+    public static function limitUpdateCheck( $r = NULL, $url = NULL) {
+        echo "limitUpdateCheck happened<br />";
+
+
+        if ( 0 !== strpos( $url, 'http://api.wordpress.org/plugins/update-check' ) ) {
+            return $r; // Not a plugin update request. Bail immediately.
+        }
+        echo "It is a plugin update check!<br /><br />";
+        return $r;
+        $kst_update_limit = get_option('kst_update_limit', 'patch');
+        if ( 'none' == $kst_update_limit ) {
+            return $r;
+        } else if ( 'patch' == $kst_update_limit ) {
+
+        }
+
+    }
+
+    public static function checkUpdateCheck($value) {
+
+        $kst_updates = get_option('_kst_site_transient_update_plugins');
+
+        if (empty($kst_updates)) {
+
+        }
+
+
+        echo "<br />pre_set_site_transient_update_plugins value<pre>";
+        print_r($value);
+        echo "</pre><br />";
+
+            // Check to see if KST has a potential update
+            if ( isset($value->response['theme-check/theme-check.php']) ) {
+
+        echo "We have a pre_set_... match...<br />";
+                // Check to see
+                if (current_version_upgrade)
+
+                $value->response_deferred_patch['theme-check/theme-check.php'] = $value->response['theme-check/theme-check.php'];
+                unset($value->response['theme-check/theme-check.php']);
+
+        echo "<br />pre_set_site_transient_update_plugins updated value<pre>";
+        print_r($value);
+        echo "</pre><br />";
+
+            }
+
+            return $value;
+        }
+        */
+
 }

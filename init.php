@@ -308,6 +308,11 @@ $kst_core->load('options');
 */
 add_action('activated_plugin', array('KST', 'loadAsFirstPlugin'));
 add_action('plugins_loaded', array('KST', 'pluginsAreLoaded')); // Set whether the plugins are loaded so we can treat plugins and the active theme differently
+
+// Handle version checking and updating
+//add_filter('pre_set_site_transient_update_plugins', array('KST', 'checkUpdateCheck'), 10, 1); // Determine if an update is allowed to be applied per developer 'limit_update_check' setting
+//add_filter('http_request_args', array('KST', 'limitUpdateCheck'), 5, 2 ); // Prevent checking again for WordPress.org updates per developer 'limit_update_check' setting
+
 /**#@-*/
 
 // Now we wait for a plugin or theme to initialize...
